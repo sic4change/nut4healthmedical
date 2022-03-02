@@ -46,7 +46,7 @@ fun Login() {
         val screenHeight = configuration.screenHeightDp.dp
         val screenWidth = configuration.screenWidthDp.dp
 
-        TopView(height = screenHeight/2)
+        TopView(height = (screenHeight/3) + 75.dp)
 
 
         Box(
@@ -66,7 +66,8 @@ fun Login() {
                     modifier = Modifier
                         .size(150.dp)
                         .clip(CircleShape)
-                        .border(0.dp, colorResource(R.color.colorPrimary), CircleShape)
+                        .background(color = colorResource(R.color.colorPrimary))
+                        .border(8.dp, colorResource(R.color.white), CircleShape)
                 )
                 Card {
                     Column(
@@ -76,16 +77,6 @@ fun Login() {
                             .wrapContentSize()
                             .padding(16.dp)
                     ) {
-                        /*Image(
-                            painter = painterResource(R.mipmap.icon),
-                            contentDescription = "nut4health",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(120.dp)
-                                .clip(CircleShape)
-                                .border(0.dp, colorResource(R.color.colorPrimary), CircleShape)
-                        )*/
-
                         UserTextField(
                             value = email,
                             onValueChange = { email = it }
@@ -145,11 +136,13 @@ fun TopView(height: Dp) {
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(0.dp, 0.dp, 100.dp, 100.dp))
+                .clip(RoundedCornerShape(0.dp, 0.dp, 300.dp, 100.dp))
                 .background(colorResource(R.color.colorPrimary))
                 .padding(8.dp)
         ) {
+
             Spacer(modifier = Modifier.height(height))
+
         }
 
     }
