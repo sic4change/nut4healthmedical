@@ -20,6 +20,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,7 +45,7 @@ fun Login() {
         val configuration = LocalConfiguration.current
 
         val screenHeight = configuration.screenHeightDp.dp
-        val screenWidth = configuration.screenWidthDp.dp
+
 
         TopView(height = (screenHeight/3) + 75.dp)
 
@@ -151,6 +152,7 @@ fun TopView(height: Dp) {
 
 @Composable
 fun BottomView() {
+    val uriHandler = LocalUriHandler.current
     Box(
         contentAlignment = Alignment.BottomCenter,
 
@@ -167,7 +169,10 @@ fun BottomView() {
             Text(
                 text = stringResource(R.string.terms_and_conditions),
                 style = MaterialTheme.typography.caption,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier.clickable {
+                    uriHandler.openUri("https://www.sic4change.org/politica-de-privacidad")
+                }
             )
             Text(
                 text = "Version ${BuildConfig.VERSION_NAME}",
