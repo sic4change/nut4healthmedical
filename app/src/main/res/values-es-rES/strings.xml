@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NUT4Health Centro Tratamiento</string>
+    <string name="reveal_password">Mostrar contraseña</string>
+    <string name="hide_password">Ocultar contraseña</string>
+    <string name="email">Correo electrónico</string>
+    <string name="best_email">Usa tu correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="forgot_password">¿Has olvidado la contraseña?</string>
+    <string name="login">ENTRAR</string>
+    <string name="terms_and_conditions">Términos y condiciones</string>
+</resources>
