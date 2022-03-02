@@ -35,6 +35,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.Login
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
@@ -46,90 +47,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalAnimationApi
-@Composable
-fun Login() {
-    Screen {
-        var email by remember { mutableStateOf("") }
-        var pass by remember { mutableStateOf("") }
 
-        val loginEnabled = email.isNotEmpty() && pass.isNotEmpty()
-        val forgotPasswordEnabled = email.isNotEmpty()
-
-        val configuration = LocalConfiguration.current
-
-        val screenHeight = configuration.screenHeightDp.dp
-        val screenWidth = configuration.screenWidthDp.dp
-
-
-
-
-        BottomView()
-
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-            Card {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(R.mipmap.icon),
-                        contentDescription = "nut4health",
-                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                        modifier = Modifier
-                            .size(120.dp)
-                            .clip(CircleShape)                       // clip to the circle shape
-                            .border(0.dp, colorResource(R.color.colorPrimary), CircleShape)   // add a border (optional)
-                    )
-
-                    UserTextField(
-                        value = email,
-                        onValueChange = { email = it }
-                    )
-                    PassTextField(
-                        value = pass,
-                        onValueChange = { pass = it }
-                    )
-
-                    AnimatedVisibility(visible = forgotPasswordEnabled) {
-                        Text(
-                            text = stringResource(R.string.forgot_password),
-                            style = MaterialTheme.typography.caption,
-                            color = Color.LightGray,
-                            modifier = Modifier.padding(8.dp).clickable {
-                            })
-                    }
-
-                    AnimatedVisibility(visible = loginEnabled) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                            onClick = {
-
-                            }
-                        ) {
-                            Text(text = stringResource(R.string.login), color = colorResource(R.color.white))
-                        }
-                    }
-
-                }
-            }
-
-        }
-
-    }
-
-}
-
-fun validateLogin(user: String, pass: String): String = when {
-    !user.contains('@') -> "User must be a valid email"
-    pass.length < 5 -> "Password must have at least 5 characters"
-    else -> ""
-}
 
 @Composable
 fun Screen(content: @Composable () -> Unit) {
@@ -143,35 +61,7 @@ fun Screen(content: @Composable () -> Unit) {
     }
 }
 
-@Composable
-fun BottomView() {
-    Box(
-        contentAlignment = Alignment.BottomCenter,
 
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(100.dp, 100.dp, 0.dp, 0.dp))
-                .background(colorResource(R.color.colorPrimary))
-                .padding(8.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.terms_and_conditions),
-                style = MaterialTheme.typography.caption,
-                color = Color.White
-                )
-            Text(
-                text = "Version ${BuildConfig.VERSION_NAME}",
-                style = MaterialTheme.typography.caption,
-                color = Color.White
-                )
-        }
-
-    }
-}
 
 
 
