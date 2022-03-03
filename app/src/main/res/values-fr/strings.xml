@@ -8,4 +8,10 @@
     <string name="forgot_password">¿Has olvidado la contraseña?</string>
     <string name="login">ENTRAR</string>
     <string name="terms_and_conditions">Términos y condiciones</string>
+    <string name="nut4health">NUT4Health</string>
+    <string name="forgot_password_question">Si aceptas enviaremos a tu correo las intrucciones para recuperar tu contraseña</string>
+    <string name="send_email">Enviar correo</string>
+    <string name="valid_email">Debe ser un correo válido</string>
+    <string name="valid_pass">La contraseña debe tener al menos 5 caracteres</string>
+    <string name="congratulations">congratulations</string>
 </resources>
