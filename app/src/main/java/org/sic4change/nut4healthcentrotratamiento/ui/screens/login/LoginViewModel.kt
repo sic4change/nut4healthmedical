@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel  : ViewModel() {
 
     private var _state = MutableStateFlow(UiState())
 
@@ -16,16 +17,36 @@ class LoginViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-
+            _state.value = UiState(loading = true)
+            _state.value = UiState(loggedUser = FirebaseDataSource.isLogged())
+            print("Aqui ${_state.value}")
+            _state.value = UiState(loading = false)
         }
     }
 
     data class UiState(
         val loading: Boolean = false,
-        val loggedUser: Boolean = false
+        val loggedUser: Boolean = false,
+        val forgotPass: Boolean = false,
+        val errorLogin: String = "",
+        val errorForgotPass: String = ""
     )
 
-    fun loginUser() {
-        _state.value = UiState(loggedUser = true)
+    fun loginUser(email: String, pass: String) {
+        viewModelScope.launch {
+            _state.value = UiState(errorLogin = "")
+            _state.value = UiState(loggedUser = FirebaseDataSource.login(email, pass))
+            if (!_state.value.loggedUser) {
+                _state.value = UiState(errorLogin = "Email o pass invalid")
+            }
+        }
+    }
+
+    fun forgotPassword(email: String) {
+        viewModelScope.launch {
+            _state.value = UiState(forgotPass = FirebaseDataSource.forgotPassword(email))
+        }
+
+
     }
 }

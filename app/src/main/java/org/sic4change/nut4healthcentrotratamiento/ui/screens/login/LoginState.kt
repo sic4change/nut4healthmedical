@@ -18,6 +18,7 @@ fun rememberLoginState(
     isError: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     errorType: MutableState<ErrorType> = remember { mutableStateOf(ErrorType.NONE) },
     logIn: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    forgotPass: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ LoginState(
     scrollState,
     focusRequester,
@@ -26,7 +27,8 @@ fun rememberLoginState(
     showPass,
     isError,
     errorType,
-    logIn) }
+    logIn,
+    forgotPass) }
 
 class LoginState(
     val scrollState: ScrollState,
@@ -36,7 +38,8 @@ class LoginState(
     val showPass: MutableState<Boolean>,
     val isError: MutableState<Boolean>,
     val errorType: MutableState<ErrorType>,
-    val logIn: MutableState<Boolean>
+    val logIn: MutableState<Boolean>,
+    val forgotPass: MutableState<Boolean>
 ) {
 
 
@@ -45,7 +48,7 @@ class LoginState(
             isError.value = true
             errorType.value = ErrorType.EMAIL
         }
-        pass.value.length < 6 -> {
+        pass.value.length < 3 -> {
             isError.value = true
             errorType.value = ErrorType.PASSWORD
         }
@@ -56,10 +59,23 @@ class LoginState(
         }
     }
 
+    fun forgotPasswordClicked() = when {
+        email.value.length < 3 || !email.value.contains('@') -> {
+            isError.value = true
+            errorType.value = ErrorType.EMAIL
+        }
+        else -> {
+            isError.value = false
+            forgotPass.value = true
+            errorType.value = ErrorType.NONE
+        }
+    }
+
 }
 
 enum class ErrorType(val message: Int) {
     NONE(-1),
     EMAIL(R.string.valid_email),
     PASSWORD(R.string.valid_pass),
+    EMAILORPASS(R.string.email_or_pass_incorrect),
 }

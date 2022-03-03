@@ -35,31 +35,34 @@ import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 @ExperimentalAnimationApi
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel(), onLogin: () -> Unit) {
+    val loginState = rememberLoginState()
     val viewModelState by viewModel.state.collectAsState()
     LaunchedEffect(viewModelState.loggedUser) {
         if (viewModelState.loggedUser) {
             onLogin()
         }
     }
+    LaunchedEffect(viewModelState.errorLogin) {
+        if (viewModelState.errorLogin.isNotEmpty()) {
+            loginState.isError.value = true
+            loginState.errorType.value = ErrorType.EMAILORPASS
+        }
+    }
 
-    val loginState = rememberLoginState()
-    LoginForm(loginState, viewModel::loginUser)
+
+
+    LoginForm(loginState, viewModel::loginUser, viewModel::forgotPassword)
 
 }
 
 @ExperimentalComposeUiApi
 @Composable
-private fun LoginForm(loginState: LoginState,
-                         onSubmit: () -> Unit) {
+private fun LoginForm(loginState: LoginState, onLogin: (String, String) -> Unit, onForgotPass: (String) -> Unit) {
     NUT4HealthScreen {
 
-        val configuration = LocalConfiguration.current
+        TopView()
 
-        val screenHeight = configuration.screenHeightDp.dp
-
-        TopView(height = (screenHeight/3) + 75.dp)
-
-        MainView()
+        MainView(loginState, onLogin, onForgotPass)
 
         BottomView()
 
@@ -78,13 +81,8 @@ fun validateForgotPassword(user: String): String = when {
 }
 
 @Composable
-fun MainView() {
-    var email by remember { mutableStateOf("") }
-    var pass by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf("") }
-    val loginEnabled = email.isNotEmpty() && pass.isNotEmpty()
-    val forgotPasswordEnabled = email.isNotEmpty()
-    val errorVisible= error.isNotEmpty()
+fun MainView(loginState: LoginState,
+             onLogin: (String, String) -> Unit, onForgotPass: (String) -> Unit) {
 
     Box(
         contentAlignment = Alignment.Center
@@ -115,37 +113,39 @@ fun MainView() {
                         .padding(16.dp)
                 ) {
                     UserTextField(
-                        value = email,
-                        onValueChange = { email = it }
+                        value = loginState.email.value,
+                        onValueChange = { loginState.email.value = it }
                     )
                     PassTextField(
-                        value = pass,
-                        onValueChange = { pass = it }
+                        value = loginState.pass.value,
+                        onValueChange = { loginState.pass.value = it }
                     )
 
-                    AnimatedVisibility(visible = forgotPasswordEnabled) {
+                    AnimatedVisibility(visible = (loginState.email.value.length > 3 && loginState.email.value.contains('@'))) {
                         Text(
                             text = stringResource(R.string.forgot_password),
                             style = MaterialTheme.typography.caption,
                             color = Color.LightGray,
                             modifier = Modifier.padding(8.dp).clickable {
-                                error = validateForgotPassword(user = email)
+                                loginState.forgotPasswordClicked()
+                                onForgotPass(loginState.email.value)
                             })
                     }
 
-                    AnimatedVisibility(visible = errorVisible) {
+                    AnimatedVisibility(visible = loginState.isError.value) {
                         Text(
-                            text = error,
+                            text = stringResource(loginState.errorType.value.message),
                             style = MaterialTheme.typography.caption,
                             color = Color.Red,
                             modifier = Modifier.padding(8.dp))
                     }
 
-                    AnimatedVisibility(visible = loginEnabled) {
+                    AnimatedVisibility(visible = (loginState.email.value.length > 3 && loginState.email.value.contains('@') && loginState.pass.value.length > 3)) {
                         Button(
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = {
-                                error = validateLogin(user = email, pass = pass)
+                                loginState.loginClicked()
+                                onLogin(loginState.email.value, loginState.pass.value)
                             }
                         ) {
                             Text(text = stringResource(R.string.login), color = colorResource(R.color.white))
@@ -160,7 +160,10 @@ fun MainView() {
 }
 
 @Composable
-fun TopView(height: Dp) {
+fun TopView() {
+    val configuration = LocalConfiguration.current
+    val screenHeight = (configuration.screenHeightDp.dp / 3) + 75.dp
+
     Box(
         contentAlignment = Alignment.TopCenter,
 
@@ -174,11 +177,8 @@ fun TopView(height: Dp) {
                 .background(colorResource(R.color.colorPrimary))
                 .padding(8.dp)
         ) {
-
-            Spacer(modifier = Modifier.height(height))
-
+            Spacer(modifier = Modifier.height(screenHeight))
         }
-
     }
 
 }

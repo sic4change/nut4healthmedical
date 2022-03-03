@@ -12,6 +12,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import dagger.hilt.android.AndroidEntryPoint
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthApp
 
 @ExperimentalComposeUiApi
