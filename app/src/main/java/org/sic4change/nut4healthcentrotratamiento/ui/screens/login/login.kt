@@ -2,13 +2,11 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.login
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.*
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,8 +44,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(), onLogin: () -> Unit) {
             loginState.errorType.value = ErrorType.EMAILORPASS
         }
     }
-
-
 
     LoginForm(loginState, viewModel::loginUser, viewModel::forgotPassword)
 
@@ -80,9 +74,12 @@ fun validateForgotPassword(user: String): String = when {
     else -> ""
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainView(loginState: LoginState,
              onLogin: (String, String) -> Unit, onForgotPass: (String) -> Unit) {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
         contentAlignment = Alignment.Center
@@ -92,6 +89,7 @@ fun MainView(loginState: LoginState,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             modifier = Modifier
                 .wrapContentSize()
+                .verticalScroll(loginState.scrollState)
                 .padding(16.dp)
         ) {
             Image(
@@ -114,11 +112,19 @@ fun MainView(loginState: LoginState,
                 ) {
                     UserTextField(
                         value = loginState.email.value,
-                        onValueChange = { loginState.email.value = it }
+                        onValueChange = { loginState.email.value = it },
+                        focusRequester = loginState.focusRequester,
+                        keyboardActions = KeyboardActions() {loginState.focusRequester.requestFocus()}
                     )
                     PassTextField(
                         value = loginState.pass.value,
-                        onValueChange = { loginState.pass.value = it }
+                        onValueChange = { loginState.pass.value = it },
+                        focusRequester = loginState.focusRequester,
+                        keyboardActions = KeyboardActions(onDone = {
+                            keyboardController?.hide()
+                            loginState.loginClicked()
+                            onLogin(loginState.email.value, loginState.pass.value)
+                        })
                     )
 
                     AnimatedVisibility(visible = (loginState.email.value.length > 3 && loginState.email.value.contains('@'))) {
