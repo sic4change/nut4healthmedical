@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 
 @ExperimentalComposeUiApi
@@ -51,7 +51,7 @@ private fun NavGraphBuilder.registerNav(navController: NavController) {
             )
         }
         composable(NavCommand.ContentTypeDetail(Feature.LOGIN)) {
-            LoginDetailScreen()
+            MainScreen()
         }
 
     }

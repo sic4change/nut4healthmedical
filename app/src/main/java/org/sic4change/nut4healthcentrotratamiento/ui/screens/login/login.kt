@@ -19,13 +19,11 @@ import androidx.compose.ui.platform.*
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.*
 import org.sic4change.nut4healthcentrotratamiento.R
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -258,10 +256,59 @@ fun MessageForgotPassword(showDialog: Boolean, setShowDialog: () -> Unit, email:
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun LoginDetailScreen(viewModel: LoginDetailViewModel = viewModel()) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "Congratulations!!", style = MaterialTheme.typography.h3)
+fun MainScreen(viewModel: MainViewModel = viewModel()) {
+    val mainState = rememberMainState()
+    val viewModelState by viewModel.state.collectAsState()
+    LaunchedEffect(viewModelState.user) {
+        if (viewModelState.user != null) {
+            mainState.id.value = viewModelState.user!!.id
+            mainState.role.value = viewModelState.user!!.role
+            mainState.email.value = viewModelState.user!!.email
+            mainState.username.value = viewModelState.user!!.username
+        }
     }
+
+    Box(
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(16.dp)
+        ) {
+
+            Card {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(16.dp)
+                ) {
+
+                    AnimatedVisibility(visible = (mainState.email.value!= null)) {
+                        Text(mainState.username.value, color = colorResource(R.color.colorPrimary))
+                    }
+
+                    Button(
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                        onClick = {
+
+                        },
+                    ) {
+                        Text(stringResource(R.string.logout),color = colorResource(R.color.white))
+                    }
+
+
+
+                }
+            }
+        }
+
+    }
+
 }
 
 

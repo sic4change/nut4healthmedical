@@ -7,12 +7,28 @@ import org.sic4change.nut4healthcentrotratamiento.data.*
 import timber.log.Timber
 
 
-object FirebaseDataSource  {
+object FirebaseDataSource {
 
     suspend fun isLogged(): Boolean = withContext(Dispatchers.IO) {
         val firestoreAuth = NUT4HealthFirebaseService.fbAuth
         firestoreAuth.currentUser != null
     }
+
+    suspend fun getLoggedUser(): org.sic4change.nut4healthcentrotratamiento.data.entitities.User =
+        withContext(Dispatchers.IO) {
+            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+            val firestore = NUT4HealthFirebaseService.mFirestore
+            val userRef = firestore.collection("users")
+            val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val result = query.get().await()
+            val networkUserContainer = NetworkUserContainer(result.toObjects(User::class.java))
+            networkUserContainer.results[0].let {
+                it.toDomainUser()
+            }
+        }
+
+
+
 
     suspend fun getUser(email: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.User = withContext(Dispatchers.IO) {
         val firestore = NUT4HealthFirebaseService.mFirestore
@@ -21,9 +37,10 @@ object FirebaseDataSource  {
         val result = query.get().await()
         val networkUserContainer = NetworkUserContainer(result.toObjects(User::class.java))
         networkUserContainer.results[0].let {
-            it.toDomainUser()
+                it.toDomainUser()
         }
     }
+
 
     suspend fun login(email: String, password: String): Boolean {
         var result = false

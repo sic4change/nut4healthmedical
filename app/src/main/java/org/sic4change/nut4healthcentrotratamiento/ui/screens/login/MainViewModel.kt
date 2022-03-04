@@ -6,8 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
+import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 
-class LoginDetailViewModel() : ViewModel() {
+class MainViewModel() : ViewModel() {
 
 
     private var _state = MutableStateFlow(UiState())
@@ -15,12 +17,13 @@ class LoginDetailViewModel() : ViewModel() {
 
     init {
         viewModelScope.launch {
-
+            _state.value = MainViewModel.UiState(user = FirebaseDataSource.getLoggedUser())
+            print("Aqui")
         }
     }
 
     data class  UiState(
         val loading: Boolean = false,
-        val character: Character? = null
+        val user: User? = null
     )
 }
