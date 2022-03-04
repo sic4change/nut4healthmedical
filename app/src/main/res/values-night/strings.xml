@@ -20,4 +20,6 @@
     <string name="accept">Aceptar</string>
     <string name="close">Cerrar</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="logout_question">¿Estás seguro que quieres cerrar sesión?</string>
+    <string name="cancel">Cancelar</string>
 </resources>

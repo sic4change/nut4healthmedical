@@ -18,7 +18,6 @@ class MainViewModel() : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = MainViewModel.UiState(user = FirebaseDataSource.getLoggedUser())
-            print("Aqui")
         }
     }
 
@@ -26,4 +25,11 @@ class MainViewModel() : ViewModel() {
         val loading: Boolean = false,
         val user: User? = null
     )
+
+    fun logout() {
+        viewModelScope.launch {
+            FirebaseDataSource.logout()
+            _state.value = MainViewModel.UiState(user = null)
+        }
+    }
 }

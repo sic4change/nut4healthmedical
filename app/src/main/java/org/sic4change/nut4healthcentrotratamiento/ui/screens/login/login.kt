@@ -145,7 +145,7 @@ fun MainView(loginState: LoginState,
                             Text(text = stringResource(R.string.login), color = colorResource(R.color.white))
                         }
                     }
-                    MessageForgotPassword(loginState.forgotPass.value, loginState::showForgotPassQuestion,loginState.email.value, onForgotPass)
+                    MessageForgotPassword(loginState.forgotPass.value, loginState::showForgotPassQuestion, loginState.email.value, onForgotPass)
                 }
             }
         }
@@ -250,13 +250,50 @@ fun MessageForgotPassword(showDialog: Boolean, setShowDialog: () -> Unit, email:
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onLogout()
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.logout_question))
+            },
+        )
+    }
 
+}
 
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen(viewModel: MainViewModel = viewModel()) {
+fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     LaunchedEffect(viewModelState.user) {
@@ -295,7 +332,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                     Button(
                         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                         onClick = {
-
+                            mainState.showLogoutQuestion()
                         },
                     ) {
                         Text(stringResource(R.string.logout),color = colorResource(R.color.white))
@@ -308,6 +345,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         }
 
     }
+    MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout)
 
 }
 

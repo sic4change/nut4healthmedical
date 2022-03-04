@@ -12,9 +12,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import coil.annotation.ExperimentalCoilApi
-import com.aaronat1.hackaton.ui.navigation.Navigation
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Navigation
 import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 
 @ExperimentalComposeUiApi

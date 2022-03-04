@@ -1,4 +1,4 @@
-package com.aaronat1.hackaton.ui.navigation
+package org.sic4change.nut4healthcentrotratamiento.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -13,7 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
-import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
+import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 
@@ -51,7 +51,11 @@ private fun NavGraphBuilder.registerNav(navController: NavController) {
             )
         }
         composable(NavCommand.ContentTypeDetail(Feature.LOGIN)) {
-            MainScreen()
+            MainScreen(onLogout = {
+                navController.navigate(
+                    NavCommand.ContentType(Feature.LOGIN).route
+                )
+            })
         }
 
     }

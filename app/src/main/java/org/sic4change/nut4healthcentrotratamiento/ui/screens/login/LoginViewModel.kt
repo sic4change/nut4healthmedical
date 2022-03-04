@@ -44,7 +44,5 @@ class LoginViewModel  : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(forgotPass = FirebaseDataSource.forgotPassword(email.filter { !it.isWhitespace() }))
         }
-
-
     }
 }
