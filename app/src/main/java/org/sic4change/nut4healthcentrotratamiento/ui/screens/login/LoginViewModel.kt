@@ -17,9 +17,8 @@ class LoginViewModel  : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _state.value = UiState(loading = true)
+            _state.value = UiState(errorLogin = "")
             _state.value = UiState(loggedUser = FirebaseDataSource.isLogged())
-            _state.value = UiState(loading = false)
         }
     }
 
@@ -34,7 +33,7 @@ class LoginViewModel  : ViewModel() {
     fun loginUser(email: String, pass: String) {
         viewModelScope.launch {
             _state.value = UiState(errorLogin = "")
-            _state.value = UiState(loggedUser = FirebaseDataSource.login(email, pass))
+            _state.value = UiState(loggedUser = FirebaseDataSource.login(email.filter { !it.isWhitespace() }, pass.filter { !it.isWhitespace() }))
             if (!_state.value.loggedUser) {
                 _state.value = UiState(errorLogin = "Email o pass invalid")
             }
@@ -43,7 +42,7 @@ class LoginViewModel  : ViewModel() {
 
     fun forgotPassword(email: String) {
         viewModelScope.launch {
-            _state.value = UiState(forgotPass = FirebaseDataSource.forgotPassword(email))
+            _state.value = UiState(forgotPass = FirebaseDataSource.forgotPassword(email.filter { !it.isWhitespace() }))
         }
 
 

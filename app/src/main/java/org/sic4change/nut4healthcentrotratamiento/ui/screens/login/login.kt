@@ -54,13 +54,9 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(), onLogin: () -> Unit) {
 @Composable
 private fun LoginForm(loginState: LoginState, onLogin: (String, String) -> Unit, onForgotPass: (String) -> Unit) {
     NUT4HealthScreen {
-
         TopView()
-
         MainView(loginState, onLogin, onForgotPass)
-
         BottomView()
-
     }
 }
 
@@ -253,34 +249,6 @@ fun MessageForgotPassword(showDialog: Boolean, setShowDialog: () -> Unit, email:
             },
         )
     }
-    /*if (showDialog) {
-        ModalBottomSheetLayout(sheetContent = {
-
-        }) {
-            Row(
-                modifier = Modifier.padding(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(text = stringResource(R.string.nut4health), style = MaterialTheme.typography.h6)
-                    Text(text = stringResource(R.string.forgot_password_question))
-                    Button(
-                        onClick = {
-                            setShowDialog()
-                        },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text(text = stringResource(R.string.send_email))
-                    }
-                }
-            }
-            Text(text = stringResource(R.string.nut4health))
-        }
-
-    }*/
 
 }
 
@@ -291,7 +259,6 @@ fun MessageForgotPassword(showDialog: Boolean, setShowDialog: () -> Unit, email:
 @ExperimentalMaterialApi
 @Composable
 fun LoginDetailScreen(viewModel: LoginDetailViewModel = viewModel()) {
-    val state by viewModel.state.collectAsState()
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Congratulations!!", style = MaterialTheme.typography.h3)
     }
