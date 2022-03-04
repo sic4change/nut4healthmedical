@@ -112,13 +112,17 @@ fun MainView(loginState: LoginState,
                 ) {
                     UserTextField(
                         value = loginState.email.value,
-                        onValueChange = { loginState.email.value = it },
+                        onValueChange = {
+                            loginState.email.value = it
+                            loginState.isError.value = false},
                         focusRequester = loginState.focusRequester,
                         keyboardActions = KeyboardActions() {loginState.focusRequester.requestFocus()}
                     )
                     PassTextField(
                         value = loginState.pass.value,
-                        onValueChange = { loginState.pass.value = it },
+                        onValueChange = {
+                            loginState.pass.value = it
+                            loginState.isError.value = false },
                         focusRequester = loginState.focusRequester,
                         keyboardActions = KeyboardActions(onDone = {
                             keyboardController?.hide()
@@ -138,7 +142,7 @@ fun MainView(loginState: LoginState,
                             })
                     }
 
-                    AnimatedVisibility(visible = loginState.isError.value) {
+                    AnimatedVisibility(visible = (loginState.isError.value)) {
                         Text(
                             text = stringResource(loginState.errorType.value.message),
                             style = MaterialTheme.typography.caption,

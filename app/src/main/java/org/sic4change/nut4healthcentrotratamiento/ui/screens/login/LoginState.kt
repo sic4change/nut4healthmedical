@@ -39,6 +39,11 @@ class LoginState(
     val forgotPass: MutableState<Boolean>
 ) {
 
+    fun resetError() {
+        isError.value = false
+        errorType.value = ErrorType.NONE
+    }
+
 
     fun loginClicked() = when {
         email.value.length < 3 || !email.value.contains('@') -> {

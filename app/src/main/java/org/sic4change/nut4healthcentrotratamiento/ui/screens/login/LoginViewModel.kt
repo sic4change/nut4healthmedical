@@ -19,7 +19,6 @@ class LoginViewModel  : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             _state.value = UiState(loggedUser = FirebaseDataSource.isLogged())
-            print("Aqui ${_state.value}")
             _state.value = UiState(loading = false)
         }
     }
