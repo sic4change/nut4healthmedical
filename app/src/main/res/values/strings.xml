@@ -15,4 +15,7 @@
     <string name="valid_pass">La contraseña debe tener al menos 5 caracteres</string>
     <string name="congratulations">congratulations</string>
     <string name="email_or_pass_incorrect">Correo electrónico o contraseña incorrecta</string>
+    <string name="no_error" />
+    <string name="accept">Aceptar</string>
+    <string name="close">Cerrar</string>
 </resources>

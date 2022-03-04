@@ -73,10 +73,14 @@ class LoginState(
         }
     }
 
+    fun showForgotPassQuestion() {
+        forgotPass.value = !forgotPass.value
+    }
+
 }
 
 enum class ErrorType(val message: Int) {
-    NONE(-1),
+    NONE(R.string.no_error),
     EMAIL(R.string.valid_email),
     PASSWORD(R.string.valid_pass),
     EMAILORPASS(R.string.email_or_pass_incorrect),

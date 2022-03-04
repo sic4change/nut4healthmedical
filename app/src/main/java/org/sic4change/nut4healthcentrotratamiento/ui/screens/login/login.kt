@@ -25,6 +25,7 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.*
 import org.sic4change.nut4healthcentrotratamiento.R
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -63,16 +64,6 @@ private fun LoginForm(loginState: LoginState, onLogin: (String, String) -> Unit,
     }
 }
 
-fun validateLogin(user: String, pass: String): String = when {
-    !user.contains('@') -> "User must be a valid email"
-    pass.length < 5 -> "Pass must be a valid pass"
-    else -> ""
-}
-
-fun validateForgotPassword(user: String): String = when {
-    !user.contains('@') -> "User must be a valid email"
-    else -> ""
-}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -138,7 +129,6 @@ fun MainView(loginState: LoginState,
                             color = Color.LightGray,
                             modifier = Modifier.padding(8.dp).clickable {
                                 loginState.forgotPasswordClicked()
-                                onForgotPass(loginState.email.value)
                             })
                     }
 
@@ -161,7 +151,7 @@ fun MainView(loginState: LoginState,
                             Text(text = stringResource(R.string.login), color = colorResource(R.color.white))
                         }
                     }
-
+                    MessageForgotPassword(loginState.forgotPass.value, loginState::showForgotPassQuestion,loginState.email.value, onForgotPass)
                 }
             }
         }
@@ -227,32 +217,74 @@ fun BottomView() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun showMessageForgotPassword() {
-        Row(
-            modifier = Modifier.padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = stringResource(R.string.nut4health), style = MaterialTheme.typography.h6)
-                Text(text = stringResource(R.string.forgot_password_question))
+fun MessageForgotPassword(showDialog: Boolean, setShowDialog: () -> Unit, email: String, onForgotPass: (String) -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
                 Button(
-                    onClick = { executeForgotPassword() },
-                    modifier = Modifier.align(Alignment.End)
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onForgotPass(email)
+                    },
                 ) {
-                    Text(text = stringResource(R.string.send_email))
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.close),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.forgot_password_question))
+            },
+        )
+    }
+    /*if (showDialog) {
+        ModalBottomSheetLayout(sheetContent = {
+
+        }) {
+            Row(
+                modifier = Modifier.padding(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(text = stringResource(R.string.nut4health), style = MaterialTheme.typography.h6)
+                    Text(text = stringResource(R.string.forgot_password_question))
+                    Button(
+                        onClick = {
+                            setShowDialog()
+                        },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text(text = stringResource(R.string.send_email))
+                    }
                 }
             }
+            Text(text = stringResource(R.string.nut4health))
         }
-        Text(text = stringResource(R.string.nut4health))
-    }
 
-fun executeForgotPassword() {
-    TODO("Not yet implemented")
+    }*/
+
 }
+
+
 
 
 @ExperimentalCoilApi
