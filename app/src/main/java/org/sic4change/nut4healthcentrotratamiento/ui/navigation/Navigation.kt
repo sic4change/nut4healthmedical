@@ -59,6 +59,7 @@ private fun NavGraphBuilder.registerNav(navController: NavController) {
         }
 
     }
+
 }
 
 private fun NavGraphBuilder.composable(

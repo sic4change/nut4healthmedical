@@ -24,7 +24,12 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.*
 import org.sic4change.nut4healthcentrotratamiento.R
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 
 @OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalAnimationApi
@@ -252,7 +257,7 @@ fun MessageForgotPassword(showDialog: Boolean, setShowDialog: () -> Unit, email:
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit) {
+fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit, onLogoutSelected: () -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -266,6 +271,7 @@ fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -
                     onClick = {
                         setShowDialog()
                         onLogout()
+                        onLogoutSelected()
                     },
                 ) {
                     Text(stringResource(R.string.accept), color = colorResource(R.color.white))
@@ -290,12 +296,15 @@ fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -
 }
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
+
+
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
             mainState.id.value = viewModelState.user!!.id
@@ -345,7 +354,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
         }
 
     }
-    MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout)
+    MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout, onLogout)
 
 }
 

@@ -2,6 +2,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,19 +18,21 @@ class MainViewModel() : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _state.value = MainViewModel.UiState(user = FirebaseDataSource.getLoggedUser())
+            _state.value = UiState(user = FirebaseDataSource.getLoggedUser())
         }
     }
 
     data class  UiState(
         val loading: Boolean = false,
-        val user: User? = null
+        val user: User? = null,
+        val logout: Boolean = false
     )
 
     fun logout() {
         viewModelScope.launch {
             FirebaseDataSource.logout()
-            _state.value = MainViewModel.UiState(user = null)
+            _state.value = UiState(user = null)
+            _state.value = UiState(logout = false)
         }
     }
 }
