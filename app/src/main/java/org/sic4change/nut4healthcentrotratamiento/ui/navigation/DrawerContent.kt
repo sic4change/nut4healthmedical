@@ -12,10 +12,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aaronat1.hackaton.ui.navigation.NavItem
+import org.sic4change.nut4healthcentrotratamiento.R
 
 @Composable
 fun DrawerContent(
@@ -28,14 +29,16 @@ fun DrawerContent(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        MaterialTheme.colors.primaryVariant,
-                        MaterialTheme.colors.secondary
+                        colorResource(R.color.colorPrimary),
+                        colorResource(R.color.white)
                     )
                 )
             )
             .height(200.dp)
             .fillMaxWidth()
-    )
+    ) {
+
+    }
     Spacer(modifier = Modifier.height(16.dp))
     drawerOptions.forEachIndexed { index, navItem ->
         val selected = selectedIndex == index

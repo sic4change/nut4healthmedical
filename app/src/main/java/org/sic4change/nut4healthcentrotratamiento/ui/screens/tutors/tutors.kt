@@ -1,4 +1,5 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.main
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
+
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -30,7 +31,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
+fun TutorsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -73,8 +74,8 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
                             .padding(16.dp)
                     ) {
 
-                       Text("Bienvenido")
 
+                        Text("Tutors")
 
 
                     }

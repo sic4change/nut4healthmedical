@@ -1,4 +1,5 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.main
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.settings
+
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -30,7 +31,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
+fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -73,7 +74,18 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
                             .padding(16.dp)
                     ) {
 
-                       Text("Bienvenido")
+                        AnimatedVisibility(visible = (mainState.email.value!= null)) {
+                            Text(mainState.username.value, color = colorResource(R.color.colorPrimary))
+                        }
+
+                        Button(
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                            onClick = {
+                                mainState.showLogoutQuestion()
+                            },
+                        ) {
+                            Text(stringResource(R.string.logout),color = colorResource(R.color.white))
+                        }
 
 
 
@@ -82,9 +94,50 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
             }
 
         }
+        MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout, onLogout)
     }
 
 
 
 }
 
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit, onLogoutSelected: () -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onLogout()
+                        onLogoutSelected()
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.logout_question))
+            },
+        )
+    }
+
+}

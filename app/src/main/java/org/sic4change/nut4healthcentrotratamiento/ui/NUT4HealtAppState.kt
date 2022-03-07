@@ -8,9 +8,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.aaronat1.hackaton.ui.navigation.NavCommand
 import com.aaronat1.hackaton.ui.navigation.NavItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.navigatePopingUpToStartDestination
+import java.lang.Exception
 
 @Composable
 fun rememberNUT4HealthAppState(
@@ -29,8 +33,8 @@ class NUT4HealthAppState(
 ) {
 
     companion object {
-        val DRAWER_OPTIONS = listOf(NavItem.HOME, NavItem.SETTINGS)
-        val BOTTOM_NAV_OPTIONS = listOf(NavItem.HOME, NavItem.SETTINGS)
+        val DRAWER_OPTIONS = listOf(NavItem.TUTORS, NavItem.SETTINGS)
+        val BOTTOM_NAV_OPTIONS = listOf(NavItem.TUTORS, NavItem.SETTINGS)
     }
 
     val currentRoute: String
@@ -44,11 +48,13 @@ class NUT4HealthAppState(
         @Composable get() = BOTTOM_NAV_OPTIONS.any { currentRoute.contains(it.navCommand.feature.route) }
 
     val drawerSelectedIndex: Int
-        @Composable get() =  if (showBottomNavigation) {
+        /*@Composable get() =  if (showBottomNavigation) {
             DRAWER_OPTIONS.indexOf(NavItem.HOME)
         } else {
             DRAWER_OPTIONS.indexOfFirst { it.navCommand.route == currentRoute }
-        }
+        }*/
+        @Composable get() =
+            DRAWER_OPTIONS.indexOfFirst { it.navCommand.route == currentRoute }
 
     fun onUpClick() {
         navController.popBackStack()
@@ -59,7 +65,15 @@ class NUT4HealthAppState(
     }
 
     fun onNavItemClick(navItem: NavItem) {
-        //navController.navigatePopingUpToStartDestination(navItem.navCommand.route)
+        try {
+            navController.navigatePopingUpToStartDestination(navItem.navCommand.route)
+        } catch (e: Exception) {
+//            navController.navigate(
+//                NavCommand.ContentType(Feature.LOGIN).route
+
+            //)
+        }
+
     }
 
     fun onDrawerOptionClick(navItem: NavItem) {
