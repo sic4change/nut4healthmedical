@@ -22,10 +22,9 @@ class MainState(
     val logout: MutableState<Boolean>
 ) {
 
-
-
     fun showLogoutQuestion() {
         logout.value = !logout.value
     }
+
 
 }

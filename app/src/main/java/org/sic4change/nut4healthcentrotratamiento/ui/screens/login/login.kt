@@ -1,5 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.login
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
@@ -303,7 +305,7 @@ fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -
 fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
-
+    val activity = (LocalContext.current as? Activity)
 
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
@@ -312,6 +314,10 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
         }
+    }
+
+    BackHandler {
+        activity?.finish()
     }
 
     Box(

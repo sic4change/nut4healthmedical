@@ -25,14 +25,16 @@ class MainViewModel() : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val user: User? = null,
-        val logout: Boolean = false
+        val logout: Boolean = false,
+        val exit: Boolean = false
     )
 
     fun logout() {
         viewModelScope.launch {
             FirebaseDataSource.logout()
             _state.value = UiState(user = null)
-            _state.value = UiState(logout = false)
+            _state.value = UiState(logout = true)
         }
     }
+
 }
