@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 
@@ -88,4 +89,18 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
 
 
 }
+
+
+//@ExperimentalMaterialApi
+//@ExperimentalCoilApi
+//@ExperimentalFoundationApi
+//@Composable
+//fun TutorsScreen(onClick: (Tutor) -> Unit, viewModel: TutorsViewModel = viewModel()) {
+//    val state by viewModel.state.collectAsState()
+//    TutorItemsListScreen(
+//        loading = state.loading,
+//        items = state.items,
+//        onClick = onClick
+//    )
+//}
 
