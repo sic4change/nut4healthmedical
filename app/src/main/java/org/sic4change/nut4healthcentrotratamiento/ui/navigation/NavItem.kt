@@ -15,7 +15,8 @@ enum class NavItem(
     @StringRes val title: Int
 ) {
     LOGIN(NavCommand.ContentType(Feature.LOGIN), Icons.Default.Home, R.string.login),
-    HOME(NavCommand.ContentType(Feature.HOME), Icons.Default.Settings, R.string.congratulations),
+    HOME(NavCommand.ContentType(Feature.HOME), Icons.Default.Home, R.string.congratulations),
+    SETTINGS(NavCommand.ContentType(Feature.SETTINGS), Icons.Default.Settings, R.string.congratulations),
 }
 
 sealed class NavCommand(

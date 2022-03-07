@@ -7,13 +7,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.annotation.ExperimentalCoilApi
+import com.aaronat1.hackaton.ui.navigation.NavCommand
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.DrawerContent
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Navigation
 import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 
@@ -24,19 +35,53 @@ import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 @Composable
 fun NUT4HealthApp() {
     val appState =  rememberNUT4HealthAppState()
-
+    val scope = rememberCoroutineScope()
+    val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
     NUT4HealthScreen {
-        Scaffold (
-            /*topBar = {
-                TopAppBar(
-                    title = { Text(stringResource(R.string.app_name)) },
-                    navigationIcon = { AppBarIcon(Icons.Default.AccountCircle, {}) },
-                )
-            },*/
-            scaffoldState = appState.scaffoldState
-        ) {
-            Navigation(appState.navController)
+        if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
+            Scaffold (
+                topBar = {
+                    if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
+                        TopAppBar(
+                            backgroundColor = colorResource(R.color.colorPrimary),
+                            title = { Text(
+                                text = stringResource(R.string.app_name),
+                                color = colorResource(R.color.white)
+                            ) },
+                            navigationIcon = { AppBarIcon(Icons.Default.Menu, onClick =   {
+                                scope.launch {
+                                    if (appState.scaffoldState.drawerState.isClosed) appState.scaffoldState.drawerState.open()
+                                    else appState.scaffoldState.drawerState.close()
+                                }
+                            }) },
+                        )
+                    }
+
+                },
+                drawerContent = {
+                    if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
+                        DrawerContent(
+                            drawerOptions = NUT4HealthAppState.DRAWER_OPTIONS,
+                            selectedIndex = appState.drawerSelectedIndex,
+                            onOptionClick = { navItem ->
+                                appState.onDrawerOptionClick(navItem)
+                            }
+                        ) }
+                },
+                scaffoldState = appState.scaffoldState
+            ) {
+                Navigation(appState.navController)
+            }
+        } else {
+            Scaffold (
+
+                scaffoldState = appState.scaffoldState
+            ) {
+                Navigation(appState.navController)
+            }
         }
+
+
     }
 }
 

@@ -14,8 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
