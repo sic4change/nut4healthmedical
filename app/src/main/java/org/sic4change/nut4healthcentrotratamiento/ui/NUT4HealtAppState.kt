@@ -42,7 +42,9 @@ class NUT4HealthAppState(
             ?: ""
 
     val showUpNavigation: Boolean
-        @Composable get() = currentRoute !in NavItem.values().map { it.navCommand.route}
+        @Composable get() = currentRoute !in NavItem.values().map {
+            it.navCommand.route
+        }
 
     val showBottomNavigation: Boolean
         @Composable get() = BOTTOM_NAV_OPTIONS.any { currentRoute.contains(it.navCommand.feature.route) }
@@ -65,14 +67,7 @@ class NUT4HealthAppState(
     }
 
     fun onNavItemClick(navItem: NavItem) {
-        try {
-            navController.navigatePopingUpToStartDestination(navItem.navCommand.route)
-        } catch (e: Exception) {
-//            navController.navigate(
-//                NavCommand.ContentType(Feature.LOGIN).route
-
-            //)
-        }
+        navController.navigatePopingUpToStartDestination(navItem.navCommand.route)
 
     }
 

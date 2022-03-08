@@ -45,7 +45,7 @@ fun TutorItemDetailScreen(loading: Boolean = false, tutorItem: Tutor? ) {
                     }*/
                 }
             }
-        } 
+        }
 
     }
 

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +42,29 @@ fun NUT4HealthApp() {
         if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
             Scaffold (
                 topBar = {
+                    TopAppBar(
+                        backgroundColor = colorResource(R.color.colorPrimary),
+                        title = { Text(stringResource(R.string.app_name), color = colorResource(R.color.white)) },
+                        navigationIcon = {
+                            if (!appState.currentRoute.contains("login/detail") &&
+                                !appState.currentRoute.contains("settings/home") &&
+                                !appState.currentRoute.contains("tutors/home")    ) {
+                                AppBarIcon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    onClick = { appState.onUpClick() })
+                            } else {
+                                AppBarIcon(
+                                    imageVector = Icons.Default.Menu,
+                                    onClick = { appState.onMenuClick()}
+                                )
+                            }
+
+                        },
+
+                        )
+                },
+
+                /*topBar = {
                     if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
                         TopAppBar(
                             backgroundColor = colorResource(R.color.colorPrimary),
@@ -57,7 +81,7 @@ fun NUT4HealthApp() {
                         )
                     }
 
-                },
+                },*/
                 drawerContent = {
                     if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
                         DrawerContent(
