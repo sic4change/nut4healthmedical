@@ -28,7 +28,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainSt
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorsScreen(viewModel: MainViewModel = viewModel()) {
+fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -47,7 +47,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel()) {
     }
 
     NUT4HealthScreen {
-        TutorsScreen(onClick = {})
+        TutorsScreen(onItemClick = onClick)
     }
 
 }
@@ -57,12 +57,23 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel()) {
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun TutorsScreen(onClick: (Tutor) -> Unit, viewModel: TutorsViewModel = viewModel()) {
+fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
     TutorItemsListScreen(
         loading = state.loading,
         items = state.tutors,
-        onClick = onClick
+        onClick = onItemClick
+    )
+}
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel()) {
+    val state by viewModel.state.collectAsState()
+    TutorItemDetailScreen(
+        loading = state.loading,
+        tutorItem = state.tutor
     )
 }
 

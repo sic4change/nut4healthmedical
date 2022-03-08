@@ -5,4 +5,5 @@ enum class Feature(val route: String) {
     HOME("home"),
     SETTINGS("settings"),
     TUTORS("tutors"),
+    TUTORS_DETAIL("tutorsdetail"),
 }

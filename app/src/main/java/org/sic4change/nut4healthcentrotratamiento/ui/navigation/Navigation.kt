@@ -20,9 +20,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
+import com.aaronat1.hackaton.ui.navigation.NavItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorsScreen
 
 @ExperimentalComposeUiApi
@@ -38,18 +40,6 @@ fun Navigation(navController: NavHostController) {
     ) {
         loginNav(navController)
         mainNav(navController)
-
-        composable(NavCommand.ContentType(Feature.SETTINGS)) {
-            SettingsScreen(onLogout = {
-                navController.navigate(
-                    NavCommand.ContentType(Feature.LOGIN).route
-                )
-            })
-        }
-
-        composable(NavCommand.ContentType(Feature.TUTORS)) {
-            TutorsScreen ()
-        }
     }
 }
 
@@ -66,7 +56,7 @@ private fun NavGraphBuilder.loginNav(navController: NavController) {
         composable(NavCommand.ContentType(Feature.LOGIN)) {
             LoginScreen(onLogin = {
                 navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.LOGIN).createRoute(0)
+                    NavCommand.ContentTypeDetail(Feature.LOGIN).createRoute("0")
                 )
                 }
             )
@@ -99,6 +89,29 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentType(Feature.HOME).route
                 )
             })
+        }
+
+        composable(NavCommand.ContentType(Feature.SETTINGS)) {
+            SettingsScreen(onLogout = {
+                navController.navigate(
+                    NavCommand.ContentType(Feature.LOGIN).route
+                )
+            })
+        }
+
+        composable(NavCommand.ContentType(Feature.TUTORS)) {
+            TutorsScreen(
+                onClick = { tutor ->
+
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
+                    )
+                }
+            )
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.TUTORS)) {
+            TutorDetailScreen()
         }
 
     }

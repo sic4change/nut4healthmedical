@@ -29,7 +29,10 @@ sealed class NavCommand(
 
     class ContentTypeDetail(feature: Feature) :
         NavCommand(feature, "detail", listOf(NavArg.ItemId)) {
-        fun createRoute(itemId: Int) = "${feature.route}/$subRoute/$itemId"
+
+        fun createRoute(itemId: String) : String {
+            return "${feature.route}/$subRoute/$itemId"
+        }
     }
 
     val route = run {
@@ -47,5 +50,5 @@ sealed class NavCommand(
 }
 
 enum class NavArg(val key: String, val navType: NavType<*>) {
-    ItemId("itemId", NavType.IntType)
+    ItemId("itemId", NavType.StringType)
 }

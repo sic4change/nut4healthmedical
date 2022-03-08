@@ -86,6 +86,17 @@ object FirebaseDataSource {
         networkTutorsContainer.results.map { it.toDomainTutor() }
     }
 
+    suspend fun getTutor(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val tutorsRef = firestore.collection("tutors")
+        val query = tutorsRef.whereEqualTo("id", id)
+        val result = query.get().await()
+        val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+        networkTutorsContainer.results[0].let {
+            it.toDomainTutor()
+        }
+    }
+
 
 }
 
