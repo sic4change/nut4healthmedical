@@ -37,7 +37,7 @@ fun TutorItemBottomPreview(item: Tutor?, onGoToDetail: (Tutor) -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(text = item.name, style = MaterialTheme.typography.h6)
-                Text(text = item.surnames)
+                Text(text = item.name)
                 Button(
                     onClick = { onGoToDetail(item) },
                     modifier = Modifier.align(Alignment.End)

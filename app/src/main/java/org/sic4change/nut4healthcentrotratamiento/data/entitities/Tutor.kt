@@ -15,5 +15,6 @@ data class Tutor(
     val lastDate: Date,
     val pregnant: Boolean,
     val observations: String,
-    val fingerprint: Byte
+    val fingerprint: Byte,
+    val active: Boolean,
     ) : Item

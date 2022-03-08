@@ -6,7 +6,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Item
 import java.util.*
 
 @JsonClass(generateAdapter = true)
-data class NetworkUserContainer(val results: List<User>)
+data class NetworkUsersContainer(val results: List<User>)
 
 @JsonClass(generateAdapter = true)
 data class User(
@@ -16,6 +16,8 @@ data class User(
     @Exclude val username: String = "",
     @Exclude val photo: String = "")
 
+@JsonClass(generateAdapter = true)
+data class NetworkTutorsContainer(val results: List<Tutor>)
 
 @JsonClass(generateAdapter = true)
 data class Tutor(
@@ -25,11 +27,12 @@ data class Tutor(
     @Exclude val sex: String = "",
     @Exclude val ethnicity: String = "",
     @Exclude val birthdate: Date = Date(),
-    @Exclude val phone: String,
+    @Exclude val phone: String = "",
     @Exclude val address: String = "",
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
     @Exclude val pregnant: Boolean = false,
     @Exclude val observations: String = "",
-    @Exclude val fingerprint: Byte = Byte.MIN_VALUE
-)
+    @Exclude val fingerprint: Byte = Byte.MIN_VALUE,
+    @Exclude val active: Boolean = false
+    )

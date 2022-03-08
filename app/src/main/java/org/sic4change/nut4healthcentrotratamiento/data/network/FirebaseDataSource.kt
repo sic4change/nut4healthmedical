@@ -21,26 +21,22 @@ object FirebaseDataSource {
             val userRef = firestore.collection("users")
             val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val result = query.get().await()
-            val networkUserContainer = NetworkUserContainer(result.toObjects(User::class.java))
+            val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
             networkUserContainer.results[0].let {
                 it.toDomainUser()
             }
         }
-
-
-
 
     suspend fun getUser(email: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.User = withContext(Dispatchers.IO) {
         val firestore = NUT4HealthFirebaseService.mFirestore
         val userRef = firestore.collection("users")
         val query = userRef.whereEqualTo("email", email).limit(1)
         val result = query.get().await()
-        val networkUserContainer = NetworkUserContainer(result.toObjects(User::class.java))
+        val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
         networkUserContainer.results[0].let {
                 it.toDomainUser()
         }
     }
-
 
     suspend fun login(email: String, password: String): Boolean {
         var result = false
@@ -79,6 +75,15 @@ object FirebaseDataSource {
             }
         }
         return result
+    }
+
+    suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val tutorsRef = firestore.collection("tutors")
+        val query = tutorsRef.whereEqualTo("active", true)
+        val result = query.get().await()
+        val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+        networkTutorsContainer.results.map { it.toDomainTutor() }
     }
 
 

@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.ErrorMessage
-import org.sic4change.nut4healthcentrotratamiento.data.entities.Result
 
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
@@ -29,11 +27,9 @@ import org.sic4change.nut4healthcentrotratamiento.data.entities.Result
 @Composable
 fun TutorItemsListScreen(
     loading: Boolean = false,
-    items: Result<List<Tutor>>,
+    items: List<Tutor>,
     onClick: (Tutor) -> Unit
 ) {
-    items.fold( { ErrorMessage(it)}) { tutors ->
-
         var bottomSheetItem by remember { mutableStateOf<Tutor?>(null) }
         val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
         val scope = rememberCoroutineScope()
@@ -57,7 +53,7 @@ fun TutorItemsListScreen(
         }, sheetState = sheetState) {
             TutorItemsList(
                 loading = loading,
-                items = tutors,
+                items = items,
                 onItemClick = onClick,
                 onItemMore = {
                     bottomSheetItem = it
@@ -67,7 +63,6 @@ fun TutorItemsListScreen(
                 }
             )
         }
-    }
 }
 
 @Composable

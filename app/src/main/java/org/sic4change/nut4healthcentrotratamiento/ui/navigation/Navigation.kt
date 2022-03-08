@@ -48,11 +48,7 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
-            TutorsScreen (onLogout = {
-                navController.navigate(
-                    NavCommand.ContentType(Feature.LOGIN).route
-                )
-            })
+            TutorsScreen ()
         }
     }
 }

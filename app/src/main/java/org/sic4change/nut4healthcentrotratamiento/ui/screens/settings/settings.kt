@@ -8,8 +8,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +23,8 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 
 @ExperimentalFoundationApi
 @OptIn(ExperimentalAnimationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)

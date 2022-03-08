@@ -1,4 +1,4 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.login
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
