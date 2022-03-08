@@ -108,7 +108,7 @@ fun  TutorItemsList(
         }
         if (items.isNotEmpty()) {
             LazyVerticalGrid(
-                cells = GridCells.Adaptive(180.dp),
+                cells = GridCells.Adaptive(4000.dp),
                 contentPadding = PaddingValues(4.dp),
                 modifier = modifier
             ) {
