@@ -30,10 +30,7 @@ fun TutorItemDetailScaffold(
                 onClick = {  },
                 shape = MaterialTheme.shapes.small
             ) {
-                Column {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = colorResource(R.color.white))
-                    Text(text = stringResource(R.string.child), color = colorResource(R.color.white))
-                }
+                Icon(imageVector = Icons.Default.ChildCare, contentDescription = null, tint = colorResource(R.color.white))
 
             }
         },

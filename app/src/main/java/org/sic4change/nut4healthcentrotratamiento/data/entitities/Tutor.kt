@@ -13,7 +13,7 @@ data class Tutor(
     val address: String,
     val createDate: Date,
     val lastDate: Date,
-    val pregnant: Boolean,
+    val pregnant: String,
     val observations: String,
     val fingerprint: Byte,
     val active: Boolean,

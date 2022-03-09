@@ -31,7 +31,7 @@ data class Tutor(
     @Exclude val address: String = "",
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
-    @Exclude val pregnant: Boolean = false,
+    @Exclude val pregnant: String = "",
     @Exclude val observations: String = "",
     @Exclude val fingerprint: Byte = Byte.MIN_VALUE,
     @Exclude val active: Boolean = false

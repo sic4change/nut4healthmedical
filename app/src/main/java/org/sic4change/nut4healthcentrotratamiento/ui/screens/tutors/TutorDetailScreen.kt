@@ -14,17 +14,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemDetailScreen(loading: Boolean = false, tutorItem: Tutor? ) {
+fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false, tutorItem: Tutor? ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -42,7 +42,7 @@ fun TutorItemDetailScreen(loading: Boolean = false, tutorItem: Tutor? ) {
                         .padding(padding)
                 ) {
                     item {
-                        Header(tutorItem = tutorItem)
+                        Header(tutorState = tutorState)
                     }
                     /*item.references.forEach {
                         val (icon, @StringRes stringRes) = it.type.createUiData()
@@ -59,28 +59,24 @@ fun TutorItemDetailScreen(loading: Boolean = false, tutorItem: Tutor? ) {
 @OptIn(ExperimentalMaterialApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(tutorItem: Tutor) {
-    val options = listOf(stringResource(R.string.female), stringResource(R.string.Male), stringResource(
+private fun Header(tutorState: TutorState) {
+
+    val sexs = listOf(
+        stringResource(R.string.female), stringResource(R.string.Male), stringResource(
             R.string.Undefined),)
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
 
-    val options2 = listOf(stringResource(R.string.white), stringResource(R.string.black), stringResource(
-        R.string.mestizo),)
-    var expanded2 by remember { mutableStateOf(false) }
-    var selectedOptionText2 by remember { mutableStateOf(options2[0]) }
+    val etnicians = listOf(
+        stringResource(R.string.white), stringResource(R.string.black), stringResource(
+            R.string.mestizo),)
 
-    val options3 = listOf(stringResource(R.string.pregnant), stringResource(R.string.no_pregnant),)
-    var expanded3 by remember { mutableStateOf(false) }
-    var selectedOptionText3 by remember { mutableStateOf(options3[0]) }
-
+    val pregnants = listOf(stringResource(R.string.pregnant), stringResource(R.string.no_pregnant),)
 
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = tutorItem.name, onValueChange = {},
+        TextField(value = tutorState.name.value,
+            onValueChange = {tutorState.name.value = it},
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -96,7 +92,8 @@ private fun Header(tutorItem: Tutor) {
             leadingIcon = {
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = tutorItem.surnames, onValueChange = {},
+        TextField(value = tutorState.surnames.value,
+            onValueChange = {tutorState.surnames.value = it},
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -112,7 +109,8 @@ private fun Header(tutorItem: Tutor) {
             leadingIcon = {
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = tutorItem.address, onValueChange = {},
+        TextField(value = tutorState.address.value,
+            onValueChange = {tutorState.address.value = it},
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -128,7 +126,8 @@ private fun Header(tutorItem: Tutor) {
             leadingIcon = {
                 Icon(Icons.Filled.Place, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = tutorItem.phone, onValueChange = {},
+        TextField(value = tutorState.phone.value,
+            onValueChange = {tutorState.phone.value = it},
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -146,26 +145,28 @@ private fun Header(tutorItem: Tutor) {
         Spacer(modifier = Modifier.height(16.dp))
         DatePickerView(
             context = LocalContext.current,
-            value = SimpleDateFormat("dd/MM/yyyy").format(tutorItem.birthdate),
-            setValue = { }
+            value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
+            setValue = { tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
         )
         Spacer(modifier = Modifier.height(16.dp))
         ExposedDropdownMenuBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
-            expanded = expanded,
+            expanded = tutorState.expandedSex.value,
             onExpandedChange = {
-                expanded = !expanded
+                tutorState.expandedSex.value = !tutorState.expandedSex.value
             }
         ) {
             TextField(
                 readOnly = true,
-                value = selectedOptionText,
-                onValueChange = { },
+                value = tutorState.selectedOptionSex.value,
+                onValueChange = { tutorState.selectedOptionSex.value = it
+                                    tutorState.sex.value = it
+                                },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expanded
+                        expanded = tutorState.expandedSex.value
                     )
                 },
                 textStyle = MaterialTheme.typography.h5,
@@ -180,19 +181,19 @@ private fun Header(tutorItem: Tutor) {
                 modifier = Modifier
                         .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                    Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
             )
             ExposedDropdownMenu(
-                expanded = expanded,
+                expanded = tutorState.expandedSex.value,
                 onDismissRequest = {
-                    expanded = false
+                    tutorState.expandedSex.value = false
                 }
             ) {
-                options.forEach { selectionOption ->
+                sexs.forEach { selectionOption ->
                     DropdownMenuItem(
                         onClick = {
-                            selectedOptionText = selectionOption
-                            expanded = false
+                            tutorState.selectedOptionSex.value = selectionOption
+                            tutorState.expandedSex.value = false
                         }
                     ) {
                         Text(text = selectionOption, color = colorResource(R.color.colorPrimary))
@@ -205,18 +206,19 @@ private fun Header(tutorItem: Tutor) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
-            expanded = expanded2,
+            expanded = tutorState.expandedEtnician.value,
             onExpandedChange = {
-                expanded2 = !expanded2
+                tutorState.expandedEtnician.value = !tutorState.expandedEtnician.value
             }
         ) {
             TextField(
                 readOnly = true,
-                value = selectedOptionText2,
-                onValueChange = { },
+                value = tutorState.selectedOptionEtnician.value,
+                onValueChange = { tutorState.selectedOptionEtnician.value = it
+                    tutorState.etnician.value = it },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expanded2
+                        expanded = tutorState.expandedEtnician.value
                     )
                 },
                 textStyle = MaterialTheme.typography.h5,
@@ -231,19 +233,19 @@ private fun Header(tutorItem: Tutor) {
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
             )
             ExposedDropdownMenu(
-                expanded = expanded2,
+                expanded = tutorState.expandedEtnician.value,
                 onDismissRequest = {
-                    expanded2 = false
+                    tutorState.expandedEtnician.value = false
                 }
             ) {
-                options2.forEach { selectionOption2 ->
+                etnicians.forEach { selectionOption2 ->
                     DropdownMenuItem(
                         onClick = {
-                            selectedOptionText2 = selectionOption2
-                            expanded2 = false
+                            tutorState.selectedOptionEtnician.value = selectionOption2
+                            tutorState.expandedEtnician.value = false
                         }
                     ) {
                         Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
@@ -256,18 +258,19 @@ private fun Header(tutorItem: Tutor) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
-            expanded = expanded3,
+            expanded = tutorState.expandedPregnant.value,
             onExpandedChange = {
-                expanded3 = !expanded3
+                tutorState.expandedPregnant.value = !tutorState.expandedPregnant.value
             }
         ) {
             TextField(
                 readOnly = true,
-                value = selectedOptionText3,
-                onValueChange = { },
+                value = tutorState.selectedOptionPregnant.value,
+                onValueChange = {tutorState.selectedOptionPregnant.value = it
+                    tutorState.selectedOptionPregnant.value = it },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expanded3
+                        expanded = tutorState.expandedPregnant.value
                     )
                 },
                 textStyle = MaterialTheme.typography.h5,
@@ -282,19 +285,19 @@ private fun Header(tutorItem: Tutor) {
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                    Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
             )
             ExposedDropdownMenu(
-                expanded = expanded3,
+                expanded = tutorState.expandedPregnant.value,
                 onDismissRequest = {
-                    expanded3 = false
+                    tutorState.expandedPregnant.value = false
                 }
             ) {
-                options3.forEach { selectionOption3 ->
+                pregnants.forEach { selectionOption3 ->
                     DropdownMenuItem(
                         onClick = {
-                            selectedOptionText3 = selectionOption3
-                            expanded2 = false
+                            tutorState.selectedOptionPregnant.value = selectionOption3
+                            tutorState.expandedPregnant.value = false
                         }
                     ) {
                         Text(text = selectionOption3, color = colorResource(R.color.colorPrimary))
@@ -303,7 +306,8 @@ private fun Header(tutorItem: Tutor) {
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = tutorItem.observations, onValueChange = {},
+        TextField(value = tutorState.observations.value,
+            onValueChange = {tutorState.observations.value = it},
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -325,31 +329,5 @@ private fun Header(tutorItem: Tutor) {
 
     }
 }
-/*
 
-@ExperimentalMaterialApi
-private fun LazyListScope.section(icon: ImageVector, @StringRes name: Int, items: List<Reference>) {
-    if (items.isEmpty()) return
 
-    item {
-        Text(
-            text = stringResource(name),
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-    items(items) {
-        ListItem(
-            icon = { Icon(icon, contentDescription = null) },
-            text = { Text(it.name) }
-        )
-    }
-}
-
-private fun ReferenceList.Type.createUiData(): Pair<ImageVector, Int> = when (this) {
-    ReferenceList.Type.CHARACTER -> Icons.Default.Person to R.string.characters
-    ReferenceList.Type.COMIC -> Icons.Default.Book to R.string.comics
-    ReferenceList.Type.STORY -> Icons.Default.Bookmark to R.string.stories
-    ReferenceList.Type.EVENT -> Icons.Default.Event to R.string.events
-    ReferenceList.Type.SERIES -> Icons.Default.Collections to R.string.series
-}*/

@@ -70,10 +70,32 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = view
 @ExperimentalMaterialApi
 @Composable
 fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel()) {
-    val state by viewModel.state.collectAsState()
+    val tutorDetailState = rememberTutorState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.tutor) {
+        if (viewModelState.tutor != null) {
+            tutorDetailState.id.value = viewModelState.tutor!!.id
+            tutorDetailState.name.value = viewModelState.tutor!!.name
+            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
+            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
+            tutorDetailState.address.value = viewModelState.tutor!!.address
+            tutorDetailState.phone.value = viewModelState.tutor!!.phone
+            tutorDetailState.birthday.value = viewModelState.tutor!!.birthdate
+            tutorDetailState.sex.value = viewModelState.tutor!!.sex
+            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
+            tutorDetailState.observations.value = viewModelState.tutor!!.observations
+            tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+        }
+    }
+
     TutorItemDetailScreen(
-        loading = state.loading,
-        tutorItem = state.tutor
+        loading = viewModelState.loading,
+        tutorItem = viewModelState.tutor,
+        tutorState = tutorDetailState
     )
 }
 
