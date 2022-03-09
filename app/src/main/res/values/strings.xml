@@ -25,4 +25,14 @@
     <string name="more_actions">Más acciones</string>
     <string name="go_to_detail">Ver detalle</string>
     <string name="birthdate">"Fecha de nacimiento: "</string>
+    <string name="date">Fecha</string>
+    <string name="female">Femenino</string>
+    <string name="Male">Masculino</string>
+    <string name="Undefined">Indefinido</string>
+    <string name="white">Blanca</string>
+    <string name="black">Negra</string>
+    <string name="mestizo">Mestiza</string>
+    <string name="pregnant">Embarazada</string>
+    <string name="no_pregnant">No embarazada</string>
+    <string name="child">Niñ@</string>
 </resources>

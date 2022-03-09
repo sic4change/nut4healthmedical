@@ -1,7 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.login
 
-import android.app.Activity
-import androidx.activity.compose.BackHandler
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
@@ -22,7 +21,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.*
 import org.sic4change.nut4healthcentrotratamiento.R
 import androidx.lifecycle.viewmodel.compose.viewModel
