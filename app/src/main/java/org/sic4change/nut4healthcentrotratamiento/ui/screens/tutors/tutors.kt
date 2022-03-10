@@ -92,10 +92,11 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel()) {
         }
     }
 
+
     TutorItemDetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
-        tutorState = tutorDetailState
+        tutorState = tutorDetailState,
     )
 }
 

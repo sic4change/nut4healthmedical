@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,12 +18,11 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false, tutorItem: Tutor? ) {
+fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false, tutorItem: Tutor?) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -34,7 +32,7 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false, tuto
         }
         if (tutorItem != null) {
             TutorItemDetailScaffold(
-                tutorItem = tutorItem
+                tutorItem = tutorItem,
             ) { padding ->
                 LazyColumn(
                     modifier = Modifier
@@ -76,15 +74,15 @@ private fun Header(tutorState: TutorState) {
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.name.value,
-            onValueChange = {tutorState.name.value = it},
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
+                cursorColor = colorResource(R.color.full_transparent),
                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
+            onValueChange = {}, readOnly = true,
             textStyle = MaterialTheme.typography.h5,
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,14 +91,14 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.surnames.value,
-            onValueChange = {tutorState.surnames.value = it},
+            onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
+                cursorColor = colorResource(R.color.full_transparent),
                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
             textStyle = MaterialTheme.typography.h5,
             modifier = Modifier
@@ -110,14 +108,14 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.address.value,
-            onValueChange = {tutorState.address.value = it},
+            onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
+                cursorColor = colorResource(R.color.full_transparent),
                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
             textStyle = MaterialTheme.typography.h5,
             modifier = Modifier
@@ -127,14 +125,14 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Filled.Place, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.phone.value,
-            onValueChange = {tutorState.phone.value = it},
+            onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
+                cursorColor = colorResource(R.color.full_transparent),
                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
             textStyle = MaterialTheme.typography.h5,
             modifier = Modifier
@@ -143,13 +141,29 @@ private fun Header(tutorState: TutorState) {
             leadingIcon = {
                 Icon(Icons.Default.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        DatePickerView(
+        /*DatePickerView(
             context = LocalContext.current,
             value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
             setValue = { tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
-        )
+        )*/
+        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Default.Cake, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        ExposedDropdownMenuBox(
+        /*ExposedDropdownMenuBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -200,9 +214,25 @@ private fun Header(tutorState: TutorState) {
                     }
                 }
             }
-        }
+        }*/
+        TextField(value = tutorState.sex.value,
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        ExposedDropdownMenuBox(
+        /*ExposedDropdownMenuBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -252,9 +282,25 @@ private fun Header(tutorState: TutorState) {
                     }
                 }
             }
-        }
+        }*/
+        TextField(value = tutorState.etnician.value,
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
-        ExposedDropdownMenuBox(
+        /*ExposedDropdownMenuBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -304,17 +350,33 @@ private fun Header(tutorState: TutorState) {
                     }
                 }
             }
-        }
+        }*/
+        TextField(value = tutorState.pregnant.value,
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.observations.value,
-            onValueChange = {tutorState.observations.value = it},
+            onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                 cursorColor = colorResource(R.color.colorAccent),
                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
             maxLines = 5,
             singleLine = false,

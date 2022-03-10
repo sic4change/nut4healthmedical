@@ -97,6 +97,21 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun updateTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to update tutor from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val personRef = firestore.collection("tutors")
+                personRef.document(tutor.id).set(tutor).await()
+                Timber.d("update tutor result: ok")
+                //uploadPersonFile(personToUpdate)
+            } catch (ex: Exception) {
+                Timber.d("update tutor result: false ${ex.message}")
+            }
+        }
+    }
+
 
 }
 

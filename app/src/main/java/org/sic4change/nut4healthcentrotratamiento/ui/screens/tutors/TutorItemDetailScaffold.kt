@@ -1,7 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.*
@@ -9,9 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -41,7 +38,9 @@ fun TutorItemDetailScaffold(
                 backgroundColor = colorResource(R.color.colorPrimary),
                 cutoutShape = MaterialTheme.shapes.small
             ) {
-                AppBarIcon(imageVector = Icons.Default.Edit, onClick = { })
+                AppBarIcon(imageVector = Icons.Default.Edit, onClick = {
+
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 AppBarIcon(imageVector = Icons.Default.Delete, onClick = { })
             }

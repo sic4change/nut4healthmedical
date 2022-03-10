@@ -4,7 +4,7 @@ import java.util.*
 
 data class Tutor(
     override val id: String,
-    val name: String,
+    var name: String,
     val surnames: String,
     val sex: String,
     val ethnicity: String,
