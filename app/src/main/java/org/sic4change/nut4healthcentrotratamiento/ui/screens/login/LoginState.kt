@@ -18,6 +18,7 @@ fun rememberLoginState(
     errorType: MutableState<ErrorType> = remember { mutableStateOf(ErrorType.NONE) },
     logIn: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     forgotPass: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    showLoginView: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ LoginState(
     scrollState,
     focusRequester,
@@ -26,7 +27,8 @@ fun rememberLoginState(
     isError,
     errorType,
     logIn,
-    forgotPass) }
+    forgotPass,
+    showLoginView) }
 
 class LoginState(
     val scrollState: ScrollState,
@@ -36,7 +38,8 @@ class LoginState(
     val isError: MutableState<Boolean>,
     val errorType: MutableState<ErrorType>,
     val logIn: MutableState<Boolean>,
-    val forgotPass: MutableState<Boolean>
+    val forgotPass: MutableState<Boolean>,
+    val showLoginView: MutableState<Boolean>
 ) {
 
     fun loginClicked() = when {

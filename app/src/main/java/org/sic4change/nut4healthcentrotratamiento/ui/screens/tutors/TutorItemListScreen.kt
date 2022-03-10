@@ -1,8 +1,10 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
+import android.os.Build
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,6 +23,7 @@ import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi

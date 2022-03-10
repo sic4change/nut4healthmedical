@@ -17,8 +17,13 @@ class LoginViewModel  : ViewModel() {
 
     init {
         viewModelScope.launch {
+            _state.value = UiState(loading = true)
             _state.value = UiState(errorLogin = "")
             _state.value = UiState(loggedUser = FirebaseDataSource.isLogged())
+            if (!_state.value.loggedUser) {
+                _state.value = UiState(loading = false)
+            }
+
         }
     }
 

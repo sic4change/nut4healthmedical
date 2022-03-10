@@ -44,7 +44,16 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(), onLogin: () -> Unit) {
         }
     }
 
+    LaunchedEffect(viewModelState.loading) {
+        if (viewModelState.loading) {
+            loginState.showLoginView.value = false
+        } else {
+            loginState.showLoginView.value = true
+        }
+    }
+
     LoginForm(loginState, viewModel::loginUser, viewModel::forgotPassword)
+
 
 }
 
@@ -52,9 +61,12 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(), onLogin: () -> Unit) {
 @Composable
 private fun LoginForm(loginState: LoginState, onLogin: (String, String) -> Unit, onForgotPass: (String) -> Unit) {
     NUT4HealthScreen {
-        TopView()
-        MainView(loginState, onLogin, onForgotPass)
-        BottomView()
+        if (loginState.showLoginView.value) {
+            TopView()
+            MainView(loginState, onLogin, onForgotPass)
+            BottomView()
+        }
+
     }
 }
 
