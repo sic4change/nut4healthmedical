@@ -1,14 +1,13 @@
 package org.sic4change.nut4healthcentrotratamiento.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,25 +62,20 @@ fun NUT4HealthApp() {
 
                         )
                 },
+                floatingActionButton = {
+                    if (appState.currentRoute.contains("tutors/home")    ) {
 
-                /*topBar = {
-                    if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
-                        TopAppBar(
-                            backgroundColor = colorResource(R.color.colorPrimary),
-                            title = { Text(
-                                text = stringResource(R.string.app_name),
-                                color = colorResource(R.color.white)
-                            ) },
-                            navigationIcon = { AppBarIcon(Icons.Default.Menu, onClick =   {
-                                scope.launch {
-                                    if (appState.scaffoldState.drawerState.isClosed) appState.scaffoldState.drawerState.open()
-                                    else appState.scaffoldState.drawerState.close()
-                                }
-                            }) },
-                        )
+                        Button(
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                            onClick = {}
+                        ) {
+                            Icon(Icons.Filled.Add, null, tint = colorResource(R.color.white),  modifier = Modifier.clickable { /* .. */})
+                        }
                     }
 
-                },*/
+
+                },
+
                 drawerContent = {
                     if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
                         DrawerContent(

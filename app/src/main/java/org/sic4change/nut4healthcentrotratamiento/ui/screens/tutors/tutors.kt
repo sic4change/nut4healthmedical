@@ -2,7 +2,9 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 
 import android.app.Activity
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -23,6 +25,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
 @OptIn(ExperimentalAnimationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @ExperimentalCoilApi
@@ -53,6 +56,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
