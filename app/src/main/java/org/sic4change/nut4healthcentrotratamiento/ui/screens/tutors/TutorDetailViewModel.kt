@@ -33,10 +33,4 @@ class TutorDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val updateTutor: Boolean = false,
     )
 
-    fun updateTutor(tutor: Tutor) {
-        print("Aqui")
-        viewModelScope.launch {
-            FirebaseDataSource.updateTutor(tutor)
-        }
-    }
 }

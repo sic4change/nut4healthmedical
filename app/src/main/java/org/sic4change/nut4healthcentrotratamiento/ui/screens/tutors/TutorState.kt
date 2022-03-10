@@ -16,9 +16,12 @@ fun rememberTutorState(
     address: MutableState<String> = rememberSaveable { mutableStateOf("") },
     phone: MutableState<String> = rememberSaveable { mutableStateOf("") },
     birthday: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     sex: MutableState<String> = rememberSaveable { mutableStateOf("") },
     etnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
     pregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    weeks: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedSex: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionSex: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -28,8 +31,8 @@ fun rememberTutorState(
     selectedOptionPregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
 
 ) = remember{ TutorState(
-    id, name, surnames, address, phone, birthday, sex, etnician, pregnant, observations,
-    expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
+    id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, etnician, pregnant, weeks,
+    observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
     expandedPregnant, selectedOptionPregnant) }
 
 class TutorState(
@@ -39,9 +42,12 @@ class TutorState(
     val address: MutableState<String>,
     val phone: MutableState<String>,
     val birthday: MutableState<Date>,
+    val lastDate: MutableState<Date>,
+    val createdDate: MutableState<Date>,
     val sex: MutableState<String>,
     val etnician: MutableState<String>,
     val pregnant: MutableState<String>,
+    val weeks: MutableState<Int>,
     val observations: MutableState<String>,
     val expandedSex: MutableState<Boolean>,
     val selectedOptionSex: MutableState<String>,

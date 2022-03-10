@@ -24,7 +24,7 @@
     <string name="settings">Configuración</string>
     <string name="more_actions">Más acciones</string>
     <string name="go_to_detail">Ver detalle</string>
-    <string name="birthdate">"Fecha de nacimiento: "</string>
+    <string name="birthdate">"Fecha de nacimiento "</string>
     <string name="date">Fecha</string>
     <string name="female">Femenino</string>
     <string name="Male">Masculino</string>
@@ -35,4 +35,14 @@
     <string name="pregnant">Embarazada</string>
     <string name="no_pregnant">No embarazada</string>
     <string name="child">Niñ@</string>
+    <string name="observations">Observaciones</string>
+    <string name="etnician">Étnia</string>
+    <string name="sex">Sexo</string>
+    <string name="phone">Teléfono</string>
+    <string name="address">Domicilio</string>
+    <string name="surnames">Apellidos</string>
+    <string name="name">Nombre</string>
+    <string name="creation_date">Fecha alta</string>
+    <string name="last_date">Última visita</string>
+    <string name="weeks">Semanas</string>
 </resources>
