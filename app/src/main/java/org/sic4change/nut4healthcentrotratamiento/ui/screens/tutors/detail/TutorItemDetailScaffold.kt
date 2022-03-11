@@ -17,14 +17,17 @@ import org.sic4change.nut4healthcentrotratamiento.R
 @Composable
 fun TutorItemDetailScaffold(
     tutorItem: Tutor,
-    content: @Composable (PaddingValues) -> Unit
+    onClickEdit: (Tutor) -> Unit,
+    onChildClick: () -> Unit,
+    content: @Composable (PaddingValues) -> Unit,
+
 ) {
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 backgroundColor = colorResource(R.color.colorAccent),
-                onClick = {  },
+                onClick = { onChildClick() },
                 shape = MaterialTheme.shapes.small
             ) {
                 Icon(imageVector = Icons.Default.ChildCare, contentDescription = null, tint = colorResource(R.color.white))
@@ -39,7 +42,7 @@ fun TutorItemDetailScaffold(
                 cutoutShape = MaterialTheme.shapes.small
             ) {
                 AppBarIcon(imageVector = Icons.Default.Edit, onClick = {
-
+                    onClickEdit(tutorItem)
                 })
                 Spacer(modifier = Modifier.weight(1f))
                 AppBarIcon(imageVector = Icons.Default.Delete, onClick = { })

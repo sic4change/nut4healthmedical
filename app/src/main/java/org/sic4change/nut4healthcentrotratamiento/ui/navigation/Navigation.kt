@@ -19,9 +19,7 @@ import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorCreateScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorDetailScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -109,22 +107,68 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
                     )
+                },
+            )
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL)) {
+            TutorDetailScreen(
+                onEditTutorClick = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
+                },
+                onChildClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.CHILDS).route
+                    )
                 }
             )
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.TUTORS)) {
-            TutorDetailScreen()
+            TutorDetailScreen(
+                onEditTutorClick = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeEdit(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
+                },
+                onChildClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.CHILDS).route
+                    )
+                })
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.HOME)) {
+            TutorDetailScreen(
+                onEditTutorClick = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeEdit(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
+                },
+                onChildClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.CHILDS).route
+                    )
+                })
         }
 
         composable(NavCommand.ContentType(Feature.CREATETUTOR)) {
             TutorCreateScreen()
         }
 
+        composable(NavCommand.ContentType(Feature.EDITTUTOR)) {
+            TutorEditScreen()
+        }
+
+        composable(NavCommand.ContentType(Feature.CHILDS)) {
+            ChildScreen()
+        }
+
     }
 
 }
-
 
 private fun NavGraphBuilder.composable(
     navItem: NavCommand,

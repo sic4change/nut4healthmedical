@@ -22,11 +22,15 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorItemEditScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
@@ -87,13 +91,15 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = view
         loading = state.loading,
         items = state.tutors,
         onClick = onItemClick
+
     )
 }
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel()) {
+fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
+                      onEditTutorClick: (Tutor) -> Unit, onChildClick: () -> Unit) {
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -124,6 +130,8 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel()) {
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         tutorState = tutorDetailState,
+        onEditClick = onEditTutorClick,
+        onClickChild = onChildClick
     )
 }
 
@@ -160,5 +168,75 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel()) {
         loading = viewModelState.loading,
         tutorState = tutorCreateState,
     )
+}
+
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel()) {
+    val tutorDetailState = rememberTutorState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.tutor) {
+        if (viewModelState.tutor != null) {
+            tutorDetailState.id.value = viewModelState.tutor!!.id
+            tutorDetailState.name.value = viewModelState.tutor!!.name
+            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
+            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
+            tutorDetailState.address.value = viewModelState.tutor!!.address
+            tutorDetailState.phone.value = viewModelState.tutor!!.phone
+            tutorDetailState.birthday.value = viewModelState.tutor!!.birthdate
+            tutorDetailState.lastDate.value = viewModelState.tutor!!.lastDate
+            tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
+            tutorDetailState.sex.value = viewModelState.tutor!!.sex
+            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
+            tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
+            tutorDetailState.observations.value = viewModelState.tutor!!.observations
+            tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+        }
+    }
+
+
+    TutorItemEditScreen(
+        loading = viewModelState.loading,
+        tutorState = tutorDetailState
+    )
+}
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun ChildScreen(viewModel: ChildsViewModel = viewModel()) {
+    val tutorDetailState = rememberTutorState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.tutor) {
+        if (viewModelState.tutor != null) {
+            tutorDetailState.id.value = viewModelState.tutor!!.id
+            tutorDetailState.name.value = viewModelState.tutor!!.name
+            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
+            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
+            tutorDetailState.address.value = viewModelState.tutor!!.address
+            tutorDetailState.phone.value = viewModelState.tutor!!.phone
+            tutorDetailState.birthday.value = viewModelState.tutor!!.birthdate
+            tutorDetailState.lastDate.value = viewModelState.tutor!!.lastDate
+            tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
+            tutorDetailState.sex.value = viewModelState.tutor!!.sex
+            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
+            tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
+            tutorDetailState.observations.value = viewModelState.tutor!!.observations
+            tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+        }
+    }
+
+
+    ChildsScreen()
 }
 

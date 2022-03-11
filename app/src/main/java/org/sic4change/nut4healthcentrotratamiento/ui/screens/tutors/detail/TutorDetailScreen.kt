@@ -21,7 +21,9 @@ import java.text.SimpleDateFormat
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false, tutorItem: Tutor?) {
+fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
+                          tutorItem: Tutor?, onEditClick: (Tutor) -> Unit,
+onClickChild: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -32,6 +34,8 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false, tuto
         if (tutorItem != null) {
             TutorItemDetailScaffold(
                 tutorItem = tutorItem,
+                onClickEdit = onEditClick,
+                onChildClick = onClickChild
             ) { padding ->
                 LazyColumn(
                     modifier = Modifier

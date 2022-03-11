@@ -1,4 +1,4 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit
 
 import DatePickerView
 import androidx.compose.animation.AnimatedVisibility
@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false) {
+fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -68,7 +68,7 @@ private fun Header(tutorState: TutorState) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text("Create")
+        Text("Edit")
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.name.value,
             colors = TextFieldDefaults.textFieldColors(
