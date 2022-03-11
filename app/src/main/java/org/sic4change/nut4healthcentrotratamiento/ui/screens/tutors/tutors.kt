@@ -7,23 +7,26 @@ import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorItemCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
@@ -31,7 +34,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainSt
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit) {
+fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit,
+    onCreateTutorClick: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -50,7 +54,23 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
     }
 
     NUT4HealthScreen {
-        TutorsScreen(onItemClick = onClick)
+
+        Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        onCreateTutorClick()
+                              },
+                    backgroundColor = colorResource(R.color.colorPrimary),
+                    content = {
+                        Icon(Icons.Filled.Add,"", tint = Color.White)
+                    }
+                )
+            },
+        ) {
+            TutorsScreen(onItemClick = onClick)
+        }
+
     }
 
 }
@@ -104,6 +124,41 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel()) {
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         tutorState = tutorDetailState,
+    )
+}
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel()) {
+    val tutorCreateState = rememberTutorState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.tutor) {
+        if (viewModelState.tutor != null) {
+            tutorCreateState.id.value = viewModelState.tutor!!.id
+            tutorCreateState.name.value = viewModelState.tutor!!.name
+            tutorCreateState.surnames.value = viewModelState.tutor!!.surnames
+            tutorCreateState.surnames.value = viewModelState.tutor!!.surnames
+            tutorCreateState.address.value = viewModelState.tutor!!.address
+            tutorCreateState.phone.value = viewModelState.tutor!!.phone
+            tutorCreateState.birthday.value = viewModelState.tutor!!.birthdate
+            tutorCreateState.lastDate.value = viewModelState.tutor!!.lastDate
+            tutorCreateState.createdDate.value = viewModelState.tutor!!.createDate
+            tutorCreateState.sex.value = viewModelState.tutor!!.sex
+            tutorCreateState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorCreateState.pregnant.value = viewModelState.tutor!!.pregnant
+            tutorCreateState.weeks.value = viewModelState.tutor!!.weeks
+            tutorCreateState.observations.value = viewModelState.tutor!!.observations
+            tutorCreateState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorCreateState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            tutorCreateState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+        }
+    }
+
+    TutorItemCreateScreen(
+        loading = viewModelState.loading,
+        tutorState = tutorCreateState,
     )
 }
 

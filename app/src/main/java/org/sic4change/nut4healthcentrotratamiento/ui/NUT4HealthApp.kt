@@ -1,5 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,6 +30,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Navigation
 import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
@@ -61,19 +64,6 @@ fun NUT4HealthApp() {
                         },
 
                         )
-                },
-                floatingActionButton = {
-                    if (appState.currentRoute.contains("tutors/home")    ) {
-
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                            onClick = {}
-                        ) {
-                            Icon(Icons.Filled.Add, null, tint = colorResource(R.color.white),  modifier = Modifier.clickable { /* .. */})
-                        }
-                    }
-
-
                 },
 
                 drawerContent = {

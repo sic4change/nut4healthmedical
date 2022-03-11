@@ -1,16 +1,12 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -20,13 +16,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
-import com.aaronat1.hackaton.ui.navigation.NavItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorsScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
@@ -73,6 +70,7 @@ private fun NavGraphBuilder.loginNav(navController: NavController) {
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalAnimationApi::class)
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
@@ -101,6 +99,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
             TutorsScreen(
+                onCreateTutorClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.CREATETUTOR).route
+                    )
+                },
                 onClick = { tutor ->
 
                     navController.navigate(
@@ -114,9 +117,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             TutorDetailScreen()
         }
 
+        composable(NavCommand.ContentType(Feature.CREATETUTOR)) {
+            TutorCreateScreen()
+        }
+
     }
 
 }
+
 
 private fun NavGraphBuilder.composable(
     navItem: NavCommand,
