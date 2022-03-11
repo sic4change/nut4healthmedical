@@ -91,7 +91,6 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = view
         loading = state.loading,
         items = state.tutors,
         onClick = onItemClick
-
     )
 }
 
@@ -99,7 +98,8 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = view
 @ExperimentalMaterialApi
 @Composable
 fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
-                      onEditTutorClick: (Tutor) -> Unit, onChildClick: () -> Unit) {
+                      onEditTutorClick: (Tutor) -> Unit, onChildClick: () -> Unit,
+                      onDeleteTutorClick: (Tutor) -> Unit) {
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -125,14 +125,16 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         }
     }
 
-
     TutorItemDetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         tutorState = tutorDetailState,
         onEditClick = onEditTutorClick,
-        onClickChild = onChildClick
+        onClickChild = onChildClick,
+        onDeleteClick = onDeleteTutorClick
     )
+    //MessageDeleteTutor(tutorState.deleteTutor.value, tutorState::showDeleteQuestion, viewModel::deleteTutor, onDeleteTutor)
+    MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion)
 }
 
 @ExperimentalCoilApi

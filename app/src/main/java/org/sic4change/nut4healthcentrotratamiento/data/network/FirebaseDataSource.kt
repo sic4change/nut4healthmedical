@@ -111,6 +111,20 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun deleteTutor(id: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to delete tutor from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val personRef = firestore.collection("tutors")
+                personRef.document(id).delete().await()
+                Timber.d("Delete tutor result: ok")
+            } catch (ex: Exception) {
+                Timber.d("Delete tutor result: false ${ex.message}")
+            }
+        }
+    }
+
     suspend fun updateTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) {
         withContext(Dispatchers.IO) {
             Timber.d("try to update tutor from firebase")

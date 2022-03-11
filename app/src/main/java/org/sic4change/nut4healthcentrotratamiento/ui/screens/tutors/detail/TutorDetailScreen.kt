@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.MessageLogout
 import java.text.SimpleDateFormat
 
 @ExperimentalCoilApi
@@ -23,7 +24,8 @@ import java.text.SimpleDateFormat
 @Composable
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                           tutorItem: Tutor?, onEditClick: (Tutor) -> Unit,
-onClickChild: () -> Unit) {
+                          onDeleteClick: (Tutor) -> Unit,
+                          onClickChild: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -33,9 +35,11 @@ onClickChild: () -> Unit) {
         }
         if (tutorItem != null) {
             TutorItemDetailScaffold(
+                tutorState = tutorState,
                 tutorItem = tutorItem,
                 onClickEdit = onEditClick,
-                onChildClick = onClickChild
+                onChildClick = onClickChild,
+                onClickDelete = onDeleteClick
             ) { padding ->
                 LazyColumn(
                     modifier = Modifier
@@ -51,7 +55,10 @@ onClickChild: () -> Unit) {
                     }*/
                 }
             }
+
         }
+
+
 
     }
 
@@ -61,16 +68,6 @@ onClickChild: () -> Unit) {
 @ExperimentalCoilApi
 @Composable
 private fun Header(tutorState: TutorState) {
-
-    val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male), stringResource(
-            R.string.Undefined),)
-
-    val etnicians = listOf(
-        stringResource(R.string.white), stringResource(R.string.black), stringResource(
-            R.string.mestizo),)
-
-    val pregnants = listOf(stringResource(R.string.pregnant), stringResource(R.string.no_pregnant),)
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -148,11 +145,6 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Default.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        /*DatePickerView(
-            context = LocalContext.current,
-            value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
-            setValue = { tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
-        )*/
         TextField(value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -243,57 +235,6 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        /*ExposedDropdownMenuBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            expanded = tutorState.expandedEtnician.value,
-            onExpandedChange = {
-                tutorState.expandedEtnician.value = !tutorState.expandedEtnician.value
-            }
-        ) {
-            TextField(
-                readOnly = true,
-                value = tutorState.selectedOptionEtnician.value,
-                onValueChange = { tutorState.selectedOptionEtnician.value = it
-                    tutorState.etnician.value = it },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = tutorState.expandedEtnician.value
-                    )
-                },
-                textStyle = MaterialTheme.typography.h5,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                ),
-                modifier = Modifier
-                    .fillMaxWidth(),
-                leadingIcon = {
-                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-            )
-            ExposedDropdownMenu(
-                expanded = tutorState.expandedEtnician.value,
-                onDismissRequest = {
-                    tutorState.expandedEtnician.value = false
-                }
-            ) {
-                etnicians.forEach { selectionOption2 ->
-                    DropdownMenuItem(
-                        onClick = {
-                            tutorState.selectedOptionEtnician.value = selectionOption2
-                            tutorState.expandedEtnician.value = false
-                        }
-                    ) {
-                        Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
-                    }
-                }
-            }
-        }*/
         AnimatedVisibility(visible = (tutorState.sex.value.equals(stringResource(R.string.female)))) {
             TextField(value = tutorState.pregnant.value,
                 onValueChange = {}, readOnly = true,
@@ -362,6 +303,47 @@ private fun Header(tutorState: TutorState) {
         Spacer(modifier = Modifier.height(16.dp))
 
     }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+//fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, onDeleteTutor: () -> Unit, onDeleteTutorSelected: () -> Unit) {
+fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        //onDeleteTutor()
+                        //onDeleteTutorSelected()
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.delete_tutor_question))
+            },
+        )
+    }
+
 }
 
 

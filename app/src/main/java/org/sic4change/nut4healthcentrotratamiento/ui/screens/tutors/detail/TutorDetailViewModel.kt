@@ -31,4 +31,10 @@ class TutorDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val updateTutor: Boolean = false,
     )
 
+    fun deleteTutor(id: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.deleteTutor(id)
+        }
+    }
+
 }

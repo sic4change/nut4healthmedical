@@ -122,6 +122,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentType(Feature.CHILDS).route
                     )
+                },
+                onDeleteTutorClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
+                    )
                 }
             )
         }
@@ -130,12 +135,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             TutorDetailScreen(
                 onEditTutorClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentTypeEdit(Feature.EDITTUTOR).createRoute(tutor.id)
+                        NavCommand.ContentType(Feature.CREATETUTOR).route
                     )
                 },
                 onChildClick = {
                     navController.navigate(
                         NavCommand.ContentType(Feature.CHILDS).route
+                    )
+                },
+                onDeleteTutorClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
                     )
                 })
         }
@@ -144,14 +154,20 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             TutorDetailScreen(
                 onEditTutorClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentTypeEdit(Feature.EDITTUTOR).createRoute(tutor.id)
+                        NavCommand.ContentType(Feature.CREATETUTOR).route
                     )
                 },
                 onChildClick = {
                     navController.navigate(
                         NavCommand.ContentType(Feature.CHILDS).route
                     )
-                })
+                },
+                onDeleteTutorClick = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
+                    )
+                }
+            )
         }
 
         composable(NavCommand.ContentType(Feature.CREATETUTOR)) {

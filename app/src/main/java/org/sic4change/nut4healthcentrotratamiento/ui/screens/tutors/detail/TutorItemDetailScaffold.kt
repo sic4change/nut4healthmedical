@@ -16,9 +16,11 @@ import org.sic4change.nut4healthcentrotratamiento.R
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemDetailScaffold(
+    tutorState: TutorState,
     tutorItem: Tutor,
     onClickEdit: (Tutor) -> Unit,
     onChildClick: () -> Unit,
+    onClickDelete: (Tutor) -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 
 ) {
@@ -45,7 +47,10 @@ fun TutorItemDetailScaffold(
                     onClickEdit(tutorItem)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                AppBarIcon(imageVector = Icons.Default.Delete, onClick = { })
+                AppBarIcon(imageVector = Icons.Default.Delete, onClick = {
+                    tutorState.showDeleteQuestion()
+                    //onClickDelete(tutorItem)
+                })
             }
         },
         content = content
