@@ -33,7 +33,6 @@ data class Tutor(
     @Exclude val lastDate: Date = Date(),
     @Exclude val pregnant: String = "",
     @Exclude val observations: String = "",
-    @Exclude val fingerprint: Byte = Byte.MIN_VALUE,
     @Exclude val weeks: Int = 0,
     @Exclude val active: Boolean = false
     )

@@ -13,7 +13,7 @@ fun ServerUser.toDomainUser() : User = User(
 )
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
-    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, pregnant, observations, fingerprint, weeks, active
+    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, pregnant, observations, weeks, active
 )
 
 

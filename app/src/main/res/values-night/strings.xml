@@ -46,4 +46,6 @@
     <string name="last_date">Última visita</string>
     <string name="weeks">Semanas</string>
     <string name="etnician">Étnia</string>
+    <string name="create_tutor">Crear tutor/a</string>
+    <string name="save">Guardar</string>
 </resources>

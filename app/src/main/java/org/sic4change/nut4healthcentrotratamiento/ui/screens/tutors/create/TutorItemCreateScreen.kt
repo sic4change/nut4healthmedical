@@ -5,27 +5,31 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
+import java.util.*
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false) {
+fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false,
+onCreateTutor: (String, String, String, String, Date, String, String, String, Int, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -38,7 +42,7 @@ fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false) {
                 .fillMaxWidth()
         ) {
             item {
-                Header(tutorState = tutorState)
+                Header(tutorState = tutorState, onCreateTutor = onCreateTutor)
             }
             /*item.references.forEach {
                 val (icon, @StringRes stringRes) = it.type.createUiData()
@@ -53,7 +57,8 @@ fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false) {
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(tutorState: TutorState) {
+private fun Header(tutorState: TutorState,
+                   onCreateTutor: (String, String, String, String, Date, String, String, String, Int, String) -> Unit) {
 
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
@@ -68,7 +73,13 @@ private fun Header(tutorState: TutorState) {
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text("Create")
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(stringResource(R.string.create_tutor),
+            color = colorResource(R.color.colorPrimary),
+            style = MaterialTheme.typography.h4,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.name.value,
             colors = TextFieldDefaults.textFieldColors(
@@ -81,6 +92,8 @@ private fun Header(tutorState: TutorState) {
             ),
             onValueChange = {tutorState.name.value = it},
             textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -99,6 +112,8 @@ private fun Header(tutorState: TutorState) {
             ),
             onValueChange = {tutorState.surnames.value = it},
             textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -117,6 +132,8 @@ private fun Header(tutorState: TutorState) {
             ),
             onValueChange = {tutorState.address.value = it},
             textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -135,6 +152,9 @@ private fun Header(tutorState: TutorState) {
             ),
             onValueChange = {tutorState.phone.value = it},
             textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -322,7 +342,13 @@ private fun Header(tutorState: TutorState) {
                     focusedIndicatorColor = colorResource(R.color.colorAccent),
                     unfocusedIndicatorColor = colorResource(R.color.colorAccent),
                 ),
-                onValueChange = {tutorState.weeks.value = it.toInt()},
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                onValueChange = {
+                    try {
+                        tutorState.weeks.value = it.toInt()
+                    } catch (e: Exception) { } },
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -345,12 +371,36 @@ private fun Header(tutorState: TutorState) {
             ),
             onValueChange = {tutorState.observations.value = it},
             textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
             leadingIcon = {
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
+        AnimatedVisibility(visible = (tutorState.name.value.isNotEmpty() &&
+                tutorState.surnames.value.isNotEmpty() &&
+                tutorState.phone.value.isNotEmpty() &&
+                tutorState.address.value.isNotEmpty())) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                onClick = {
+                    onCreateTutor(tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
+                        tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
+                        tutorState.selectedOptionSex.value, tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
+                        tutorState.observations.value)
+
+                },
+            ) {
+                Text(stringResource(R.string.save), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+            }
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
     }
 }

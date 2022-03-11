@@ -29,11 +29,12 @@ fun rememberTutorState(
     selectedOptionEtnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedPregnant: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionPregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    createdTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 
 ) = remember{ TutorState(
     id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, etnician, pregnant, weeks,
     observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
-    expandedPregnant, selectedOptionPregnant) }
+    expandedPregnant, selectedOptionPregnant, createdTutor) }
 
 class TutorState(
     val id: MutableState<String>,
@@ -55,6 +56,7 @@ class TutorState(
     val selectedOptionEtnician: MutableState<String>,
     val expandedPregnant: MutableState<Boolean>,
     val selectedOptionPregnant: MutableState<String>,
+    val createdTutor: MutableState<Boolean>,
 ) {
 
 

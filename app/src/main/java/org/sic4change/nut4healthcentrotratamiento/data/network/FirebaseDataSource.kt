@@ -97,6 +97,20 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to create tutor with firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val personsRef = firestore.collection("tutors")
+                personsRef.add(tutor).await()
+                Timber.d("Create tutor result: ok")
+            } catch (ex : Exception) {
+                Timber.d("Create tutor result: false ${ex.message}")
+            }
+        }
+    }
+
     suspend fun updateTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) {
         withContext(Dispatchers.IO) {
             Timber.d("try to update tutor from firebase")
