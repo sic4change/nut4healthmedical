@@ -7,10 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -135,7 +132,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             TutorDetailScreen(
                 onEditTutorClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentType(Feature.CREATETUTOR).route
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
                 onChildClick = {
@@ -149,6 +146,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     )
                 })
         }
+
 
         composable(NavCommand.ContentTypeDetail(Feature.HOME)) {
             TutorDetailScreen(
@@ -178,7 +176,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             })
         }
 
-        composable(NavCommand.ContentType(Feature.EDITTUTOR)) {
+        composable(NavCommand.ContentTypeDetail(Feature.EDITTUTOR)) {
             TutorEditScreen()
         }
 
@@ -189,6 +187,8 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
     }
 
 }
+
+
 
 private fun NavGraphBuilder.composable(
     navItem: NavCommand,
