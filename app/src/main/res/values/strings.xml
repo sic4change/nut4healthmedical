@@ -48,4 +48,5 @@
     <string name="create_tutor">Crear tutor/a</string>
     <string name="save">Guardar</string>
     <string name="delete_tutor_question">¿Estás seguro que quieres eliminar ese tutor/a? Se perderá toda la información asociada</string>
+    <string name="editar_tutor">Editar tut@r</string>
 </resources>

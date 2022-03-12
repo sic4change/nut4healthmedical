@@ -135,7 +135,6 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         onClickChild = onChildClick,
         onDeleteClick = onDeleteTutorClick
     )
-    //MessageDeleteTutor(tutorState.deleteTutor.value, tutorState::showDeleteQuestion, viewModel::deleteTutor, onDeleteTutor)
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
 }
@@ -187,35 +186,35 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
 @ExperimentalMaterialApi
 @Composable
 fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel()) {
-    val tutorDetailState = rememberTutorState()
+    val tutorEditState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
     LaunchedEffect(viewModelState.tutor) {
         if (viewModelState.tutor != null) {
-            tutorDetailState.id.value = viewModelState.tutor!!.id
-            tutorDetailState.name.value = viewModelState.tutor!!.name
-            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
-            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
-            tutorDetailState.address.value = viewModelState.tutor!!.address
-            tutorDetailState.phone.value = viewModelState.tutor!!.phone
-            tutorDetailState.birthday.value = viewModelState.tutor!!.birthdate
-            tutorDetailState.lastDate.value = viewModelState.tutor!!.lastDate
-            tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
-            tutorDetailState.sex.value = viewModelState.tutor!!.sex
-            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
-            tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
-            tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
-            tutorDetailState.observations.value = viewModelState.tutor!!.observations
-            tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
-            tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
-            tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+            tutorEditState.id.value = viewModelState.tutor!!.id
+            tutorEditState.name.value = viewModelState.tutor!!.name
+            tutorEditState.surnames.value = viewModelState.tutor!!.surnames
+            tutorEditState.surnames.value = viewModelState.tutor!!.surnames
+            tutorEditState.address.value = viewModelState.tutor!!.address
+            tutorEditState.phone.value = viewModelState.tutor!!.phone
+            tutorEditState.birthday.value = viewModelState.tutor!!.birthdate
+            tutorEditState.lastDate.value = viewModelState.tutor!!.lastDate
+            tutorEditState.createdDate.value = viewModelState.tutor!!.createDate
+            tutorEditState.sex.value = viewModelState.tutor!!.sex
+            tutorEditState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorEditState.pregnant.value = viewModelState.tutor!!.pregnant
+            tutorEditState.weeks.value = viewModelState.tutor!!.weeks
+            tutorEditState.observations.value = viewModelState.tutor!!.observations
+            tutorEditState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorEditState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            tutorEditState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
         }
     }
 
 
     TutorItemEditScreen(
         loading = viewModelState.loading,
-        tutorState = tutorDetailState
+        tutorState = tutorEditState
     )
 }
 
