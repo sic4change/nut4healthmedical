@@ -322,7 +322,7 @@ private fun Header(tutorState: TutorState) {
                     focusedIndicatorColor = colorResource(R.color.colorAccent),
                     unfocusedIndicatorColor = colorResource(R.color.colorAccent),
                 ),
-                onValueChange = {tutorState.weeks.value = it.toInt()},
+                onValueChange = {tutorState.weeks.value = it},
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier
                     .fillMaxWidth()

@@ -28,7 +28,9 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorItemCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorItemEditScreen
 
@@ -99,7 +101,7 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = view
 @Composable
 fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
                       onEditTutorClick: (Tutor) -> Unit, onChildClick: () -> Unit,
-                      onDeleteTutorClick: (Tutor) -> Unit) {
+                      onDeleteTutorClick: () -> Unit) {
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -134,7 +136,8 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         onDeleteClick = onDeleteTutorClick
     )
     //MessageDeleteTutor(tutorState.deleteTutor.value, tutorState::showDeleteQuestion, viewModel::deleteTutor, onDeleteTutor)
-    MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion)
+    MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
+        tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
 }
 
 @ExperimentalCoilApi

@@ -29,7 +29,7 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false,
-onCreateTutor: (String, String, String, String, Date, String, String, String, Int, String) -> Unit) {
+onCreateTutor: (String, String, String, String, Date, String, String, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -58,7 +58,7 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, In
 @ExperimentalCoilApi
 @Composable
 private fun Header(tutorState: TutorState,
-                   onCreateTutor: (String, String, String, String, Date, String, String, String, Int, String) -> Unit) {
+                   onCreateTutor: (String, String, String, String, Date, String, String, String, String, String) -> Unit) {
 
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
@@ -347,7 +347,7 @@ private fun Header(tutorState: TutorState,
                 ),
                 onValueChange = {
                     try {
-                        tutorState.weeks.value = it.toInt()
+                        tutorState.weeks.value = it
                     } catch (e: Exception) { } },
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier

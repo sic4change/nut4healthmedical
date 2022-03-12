@@ -103,7 +103,7 @@ object FirebaseDataSource {
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
                 val personsRef = firestore.collection("tutors")
-                personsRef.add(tutor).await()
+                personsRef.add(tutor.toServerTutor()).await()
                 Timber.d("Create tutor result: ok")
             } catch (ex : Exception) {
                 Timber.d("Create tutor result: false ${ex.message}")

@@ -1,4 +1,4 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail
 
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +12,7 @@ import androidx.compose.ui.res.colorResource
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 
 @ExperimentalMaterialApi
 @Composable
@@ -20,10 +21,10 @@ fun TutorItemDetailScaffold(
     tutorItem: Tutor,
     onClickEdit: (Tutor) -> Unit,
     onChildClick: () -> Unit,
-    onClickDelete: (Tutor) -> Unit,
+    onClickDelete: () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 
-) {
+    ) {
 
     Scaffold(
         floatingActionButton = {

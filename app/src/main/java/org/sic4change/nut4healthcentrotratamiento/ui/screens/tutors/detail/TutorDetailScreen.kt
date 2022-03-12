@@ -1,4 +1,4 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.MessageLogout
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 
 @ExperimentalCoilApi
@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat
 @Composable
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                           tutorItem: Tutor?, onEditClick: (Tutor) -> Unit,
-                          onDeleteClick: (Tutor) -> Unit,
+                          onDeleteClick: () -> Unit,
                           onClickChild: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -307,8 +307,8 @@ private fun Header(tutorState: TutorState) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-//fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, onDeleteTutor: () -> Unit, onDeleteTutorSelected: () -> Unit) {
-fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit) {
+fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, tutorId: String, onDeleteTutor: (String) -> Unit, onDeleteTutorSelected: () -> Unit) {
+//fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -321,8 +321,8 @@ fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit) {
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
                         setShowDialog()
-                        //onDeleteTutor()
-                        //onDeleteTutorSelected()
+                        onDeleteTutor(tutorId)
+                        onDeleteTutorSelected()
                     },
                 ) {
                     Text(stringResource(R.string.accept), color = colorResource(R.color.white))

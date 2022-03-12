@@ -29,7 +29,7 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun createTutor(name: String, surnames: String, address: String, phone: String,
-                    birthdate: Date, ethnician: String, sex: String, pregnang: String, weks: Int,
+                    birthdate: Date, ethnician: String, sex: String, pregnang: String, weks: String,
                     observations: String) {
         viewModelScope.launch {
             val tutor = Tutor(phone,
