@@ -20,7 +20,7 @@ fun TutorItemDetailScaffold(
     tutorState: TutorState,
     tutorItem: Tutor,
     onClickEdit: (Tutor) -> Unit,
-    onChildClick: () -> Unit,
+    onChildClick: (Tutor) -> Unit,
     onClickDelete: () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 
@@ -30,7 +30,7 @@ fun TutorItemDetailScaffold(
         floatingActionButton = {
             FloatingActionButton(
                 backgroundColor = colorResource(R.color.colorAccent),
-                onClick = { onChildClick() },
+                onClick = { onChildClick(tutorItem) },
                 shape = MaterialTheme.shapes.small
             ) {
                 Icon(imageVector = Icons.Default.ChildCare, contentDescription = null, tint = colorResource(R.color.white))

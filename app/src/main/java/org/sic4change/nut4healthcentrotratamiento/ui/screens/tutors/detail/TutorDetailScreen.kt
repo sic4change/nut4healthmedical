@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                           tutorItem: Tutor?, onEditClick: (Tutor) -> Unit,
                           onDeleteClick: () -> Unit,
-                          onClickChild: () -> Unit) {
+                          onClickChild: (Tutor) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

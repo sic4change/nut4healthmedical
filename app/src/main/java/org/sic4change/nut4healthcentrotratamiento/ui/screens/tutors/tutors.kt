@@ -100,7 +100,7 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = view
 @ExperimentalMaterialApi
 @Composable
 fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
-                      onEditTutorClick: (Tutor) -> Unit, onChildClick: () -> Unit,
+                      onEditTutorClick: (Tutor) -> Unit, onChildClick: (Tutor) -> Unit,
                       onDeleteTutorClick: () -> Unit) {
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
@@ -225,36 +225,4 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
     )
 }
 
-@ExperimentalCoilApi
-@ExperimentalMaterialApi
-@Composable
-fun ChildScreen(viewModel: ChildsViewModel = viewModel()) {
-    val tutorDetailState = rememberTutorState()
-    val viewModelState by viewModel.state.collectAsState()
-
-    LaunchedEffect(viewModelState.tutor) {
-        if (viewModelState.tutor != null) {
-            tutorDetailState.id.value = viewModelState.tutor!!.id
-            tutorDetailState.name.value = viewModelState.tutor!!.name
-            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
-            tutorDetailState.surnames.value = viewModelState.tutor!!.surnames
-            tutorDetailState.address.value = viewModelState.tutor!!.address
-            tutorDetailState.phone.value = viewModelState.tutor!!.phone
-            tutorDetailState.birthday.value = viewModelState.tutor!!.birthdate
-            tutorDetailState.lastDate.value = viewModelState.tutor!!.lastDate
-            tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
-            tutorDetailState.sex.value = viewModelState.tutor!!.sex
-            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
-            tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
-            tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
-            tutorDetailState.observations.value = viewModelState.tutor!!.observations
-            tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
-            tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
-            tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
-        }
-    }
-
-
-    ChildsScreen()
-}
 

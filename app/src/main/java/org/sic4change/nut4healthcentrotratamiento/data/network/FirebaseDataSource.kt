@@ -149,7 +149,5 @@ object FirebaseDataSource {
         networkChildsContainer.results.map { it.toDomainChild() }
     }
 
-
-
 }
 
