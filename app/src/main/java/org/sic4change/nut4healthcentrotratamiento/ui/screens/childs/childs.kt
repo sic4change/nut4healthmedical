@@ -16,10 +16,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
@@ -32,7 +30,6 @@ fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> U
                  onCreateChildClick: () -> Unit) {
     val childsState = rememberChildsState()
     val viewModelState by viewModel.state.collectAsState()
-    val activity = (LocalContext.current as? Activity)
 
     LaunchedEffect(viewModelState.childs) {
         if (viewModelState.childs != null) {
@@ -40,9 +37,6 @@ fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> U
         }
     }
 
-    BackHandler {
-        activity?.finish()
-    }
 
     NUT4HealthScreen {
 
