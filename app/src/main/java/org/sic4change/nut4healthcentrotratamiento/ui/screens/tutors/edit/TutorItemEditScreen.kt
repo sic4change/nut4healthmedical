@@ -22,11 +22,13 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
+import java.util.*
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false) {
+fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
+                        onEditTutor: (String, String, String, String, String, Date, String, String, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -39,7 +41,7 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false) {
                 .fillMaxWidth()
         ) {
             item {
-                Header(tutorState = tutorState)
+                Header(tutorState = tutorState, onEditTutor = onEditTutor)
             }
             /*item.references.forEach {
                 val (icon, @StringRes stringRes) = it.type.createUiData()
@@ -54,7 +56,7 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false) {
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(tutorState: TutorState) {
+private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String, String, String, Date, String, String, String, String, String) -> Unit) {
 
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
@@ -358,6 +360,28 @@ private fun Header(tutorState: TutorState) {
             leadingIcon = {
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
+        AnimatedVisibility(visible = (tutorState.name.value.isNotEmpty() &&
+                tutorState.surnames.value.isNotEmpty() &&
+                tutorState.phone.value.isNotEmpty() &&
+                tutorState.address.value.isNotEmpty())) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                onClick = {
+                    onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
+                        tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
+                        tutorState.selectedOptionSex.value, tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
+                        tutorState.observations.value)
+
+                },
+            ) {
+                Text(stringResource(R.string.save), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+            }
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
     }
 }

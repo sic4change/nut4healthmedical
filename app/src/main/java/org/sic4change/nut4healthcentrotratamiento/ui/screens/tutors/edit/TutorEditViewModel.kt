@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
+import java.util.*
 
 class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -30,7 +32,20 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val tutor: Tutor? = null,
-        val createTutor: Boolean = false,
+        val editTutor: Boolean = false,
     )
+
+    fun editTutor(id: String, name: String, surnames: String, address: String, phone: String,
+                    birthdate: Date, ethnician: String, sex: String, pregnang: String, weks: String,
+                    observations: String) {
+        viewModelScope.launch {
+            val tutor = Tutor(id,
+                name, surnames, sex, ethnician, birthdate, phone, address,
+                Date(), Date(), pregnang, observations, weks, true)
+            _state.value= UiState(tutor = tutor)
+            FirebaseDataSource.updateTutor(tutor)
+            _state.value = UiState(editTutor = true)
+        }
+    }
 
 }

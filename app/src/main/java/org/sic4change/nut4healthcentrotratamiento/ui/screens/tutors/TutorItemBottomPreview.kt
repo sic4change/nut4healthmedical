@@ -89,7 +89,7 @@ fun TutorItemBottomPreview(item: Tutor?, onGoToDetail: (Tutor) -> Unit) {
 
                 Button(
                     onClick = { onGoToDetail(item) },
-                    modifier = Modifier.align(Alignment.End),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary))
                 ) {
                     Text(color = colorResource(R.color.white), text = stringResource(id = R.string.go_to_detail))

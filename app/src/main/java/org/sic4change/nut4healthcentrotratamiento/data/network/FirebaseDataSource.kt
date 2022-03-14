@@ -102,8 +102,8 @@ object FirebaseDataSource {
             Timber.d("try to create tutor with firebase")
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
-                val personsRef = firestore.collection("tutors")
-                personsRef.add(tutor.toServerTutor()).await()
+                val tutorsRef = firestore.collection("tutors")
+                tutorsRef.add(tutor.toServerTutor()).await()
                 Timber.d("Create tutor result: ok")
             } catch (ex : Exception) {
                 Timber.d("Create tutor result: false ${ex.message}")
@@ -116,8 +116,8 @@ object FirebaseDataSource {
             Timber.d("try to delete tutor from firebase")
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
-                val personRef = firestore.collection("tutors")
-                personRef.document(id).delete().await()
+                val tutorRef = firestore.collection("tutors")
+                tutorRef.document(id).delete().await()
                 Timber.d("Delete tutor result: ok")
             } catch (ex: Exception) {
                 Timber.d("Delete tutor result: false ${ex.message}")
@@ -130,8 +130,8 @@ object FirebaseDataSource {
             Timber.d("try to update tutor from firebase")
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
-                val personRef = firestore.collection("tutors")
-                personRef.document(tutor.id).set(tutor).await()
+                val tutorsRef = firestore.collection("tutors")
+                tutorsRef.document(tutor.id).set(tutor.toServerTutor()).await()
                 Timber.d("update tutor result: ok")
                 //uploadPersonFile(personToUpdate)
             } catch (ex: Exception) {

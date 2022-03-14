@@ -185,7 +185,7 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel()) {
+fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: () -> Unit) {
     val tutorEditState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -211,10 +211,17 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel()) {
         }
     }
 
+    LaunchedEffect(viewModelState.editTutor) {
+        if (viewModelState.editTutor) {
+            onEditTutor()
+        }
+    }
+
 
     TutorItemEditScreen(
         loading = viewModelState.loading,
-        tutorState = tutorEditState
+        tutorState = tutorEditState,
+        onEditTutor = viewModel::editTutor
     )
 }
 

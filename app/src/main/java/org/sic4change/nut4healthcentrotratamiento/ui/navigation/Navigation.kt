@@ -152,7 +152,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             TutorDetailScreen(
                 onEditTutorClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentType(Feature.CREATETUTOR).route
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
                 onChildClick = {
@@ -164,8 +164,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
-                }
-            )
+                })
         }
 
         composable(NavCommand.ContentType(Feature.CREATETUTOR)) {
@@ -177,7 +176,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.EDITTUTOR)) {
-            TutorEditScreen()
+            TutorEditScreen(onEditTutor = {
+                navController.navigate(
+                    NavCommand.ContentType(Feature.TUTORS).route
+                )
+            })
         }
 
         composable(NavCommand.ContentType(Feature.CHILDS)) {
