@@ -13,9 +13,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
@@ -192,8 +192,10 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
                 )
             },
-            onCreateChildClick = {
-
+            onCreateChildClick = { tutorId ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutorId)
+                )
             })
         }
 
@@ -206,6 +208,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             },
             onDeleteChildClick = {
 
+            })
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.CREATECHILD)) {
+            ChildCreateScreen( onCreateChild = { tutorId ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
+                )
             })
         }
 

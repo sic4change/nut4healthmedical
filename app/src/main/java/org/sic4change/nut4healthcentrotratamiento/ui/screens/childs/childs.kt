@@ -1,10 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.childs
 
-import android.app.Activity
 import android.os.Build
-import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -23,19 +20,17 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildItemDetailScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.rememberTutorState
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> Unit,
-                 onCreateChildClick: () -> Unit) {
+                 onCreateChildClick: (String) -> Unit) {
     val childsState = rememberChildsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -52,7 +47,7 @@ fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> U
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        onCreateChildClick()
+                        onCreateChildClick(viewModelState.tutorId)
                     },
                     backgroundColor = colorResource(R.color.colorPrimary),
                     content = {
@@ -109,5 +104,45 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
     )
     /*MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)*/
+}
+
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun ChildCreateScreen(viewModel: ChildCreateViewModel = viewModel(), onCreateChild: (String) -> Unit) {
+    val childCreateState = rememberChildsState()
+    val viewModelState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(viewModelState.child) {
+        if (viewModelState.child != null) {
+            childCreateState.id.value = viewModelState.child!!.id
+            childCreateState.tutorId.value = viewModelState.child!!.tutorId
+            childCreateState.name.value = viewModelState.child!!.name
+            childCreateState.surnames.value = viewModelState.child!!.surnames
+            childCreateState.birthday.value = viewModelState.child!!.birthdate
+            childCreateState.lastDate.value = viewModelState.child!!.lastDate
+            childCreateState.createdDate.value = viewModelState.child!!.createDate
+            childCreateState.sex.value = viewModelState.child!!.sex
+            childCreateState.etnician.value = viewModelState.child!!.ethnicity
+            childCreateState.observations.value = viewModelState.child!!.observations
+            childCreateState.selectedOptionSex.value = viewModelState.child!!.sex
+            childCreateState.selectedOptionEtnician.value = viewModelState.child!!.ethnicity
+        }
+    }
+
+    //El problema es que siempre entra Aqui
+    LaunchedEffect(viewModelState.created) {
+        if (viewModelState.created) {
+            onCreateChild(childCreateState.tutorId.value)
+        }
+    }
+
+    ChildItemCreateScreen(
+        loading = viewModelState.loading,
+        childState = childCreateState,
+        onCreateChild = viewModel::createChild
+    )
 }
 

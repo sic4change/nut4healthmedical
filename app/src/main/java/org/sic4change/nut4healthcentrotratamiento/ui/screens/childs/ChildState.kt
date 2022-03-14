@@ -9,6 +9,7 @@ import java.util.*
 @Composable
 fun rememberChildsState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    tutorId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     surnames: MutableState<String> = rememberSaveable { mutableStateOf("") },
     birthday: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
@@ -24,11 +25,12 @@ fun rememberChildsState(
     childsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     createdChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ ChildState(id, name, surnames, birthday, lastDate, createdDate, sex, etnician,
+) = remember{ ChildState(id, tutorId, name, surnames, birthday, lastDate, createdDate, sex, etnician,
     observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild) }
 
 class ChildState(
     val id: MutableState<String>,
+    val tutorId: MutableState<String>,
     val name: MutableState<String>,
     val surnames: MutableState<String>,
     val birthday: MutableState<Date>,

@@ -22,17 +22,18 @@ class ChildsViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     init {
         viewModelScope.launch {
+            _state.value = UiState(createChild = false)
             _state.value = UiState(loading = true)
-            _state.value = UiState(childs = FirebaseDataSource.getChilds(id))
-            print("Aqui")
+            _state.value = UiState(childs = FirebaseDataSource.getChilds(id), tutorId = id)
         }
     }
 
 
     data class  UiState(
         val loading: Boolean = false,
+        val tutorId: String = "",
         val childs: List<Child> = emptyList(),
-        val createTutor: Boolean = false,
+        val createChild: Boolean = false,
     )
 
 }

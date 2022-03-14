@@ -160,6 +160,20 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun createChild(child: org.sic4change.nut4healthcentrotratamiento.data.entitities.Child) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to create child with firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val childsRef = firestore.collection("childs")
+                childsRef.add(child.toServerChild()).await()
+                Timber.d("Create child result: ok")
+            } catch (ex : Exception) {
+                Timber.d("Create child result: false ${ex.message}")
+            }
+        }
+    }
+
     suspend fun deleteChild(id: String) {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete child from firebase")
