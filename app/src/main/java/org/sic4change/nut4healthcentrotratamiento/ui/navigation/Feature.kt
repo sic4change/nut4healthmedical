@@ -9,4 +9,5 @@ enum class Feature(val route: String) {
     EDITTUTOR("edittutor"),
     TUTORS_DETAIL("tutorsdetail"),
     CHILDS("childs"),
+    CHILD_DETAIL ("childdetail")
 }

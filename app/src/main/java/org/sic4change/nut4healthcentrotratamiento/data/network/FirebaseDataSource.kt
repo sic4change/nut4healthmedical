@@ -149,5 +149,30 @@ object FirebaseDataSource {
         networkChildsContainer.results.map { it.toDomainChild() }
     }
 
+    suspend fun getChild(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Child = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val childRef = firestore.collection("childs")
+        val query = childRef.whereEqualTo("id", id)
+        val result = query.get().await()
+        val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
+        networkChildsContainer.results[0].let {
+            it.toDomainChild()
+        }
+    }
+
+    suspend fun deleteChild(id: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to delete child from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val childRef = firestore.collection("childs")
+                childRef.document(id).delete().await()
+                Timber.d("Delete child result: ok")
+            } catch (ex: Exception) {
+                Timber.d("Delete tutor child: false ${ex.message}")
+            }
+        }
+    }
+
 }
 

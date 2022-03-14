@@ -13,7 +13,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
@@ -185,10 +187,24 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CHILDS)) {
-            ChildsScreen(onClick = {
-
+            ChildsScreen(onClick =  { child ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                )
             },
             onCreateChildClick = {
+
+            })
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL)) {
+            ChildDetailScreen(onEditChildClick = {
+
+            },
+            onCasesClick = {
+
+            },
+            onDeleteChildClick = {
 
             })
         }
@@ -196,6 +212,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
     }
 
 }
+
 
 
 
