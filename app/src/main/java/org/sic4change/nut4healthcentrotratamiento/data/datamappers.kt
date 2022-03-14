@@ -1,11 +1,13 @@
 package org.sic4change.nut4healthcentrotratamiento.data
 
 
-import io.grpc.Server
+
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
+import org.sic4change.nut4healthcentrotratamiento.data.network.Child as ServerChild
 
 
 
@@ -21,4 +23,10 @@ fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, pregnant, observations, weeks.toInt(), active
 )
 
+fun ServerChild.toDomainChild() : Child = Child(
+    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations
+)
 
+fun Child.toServerChild() : ServerChild = ServerChild(
+    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations
+)

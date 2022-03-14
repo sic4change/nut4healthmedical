@@ -36,3 +36,20 @@ data class Tutor(
     @Exclude val weeks: Int = 0,
     @Exclude val active: Boolean = false
     )
+
+@JsonClass(generateAdapter = true)
+data class NetworkChildsContainer(val results: List<Child>)
+
+@JsonClass(generateAdapter = true)
+data class Child(
+    @Exclude val id: String = "",
+    @Exclude val tutorId: String = "",
+    @Exclude val name: String = "",
+    @Exclude val surnames: String = "",
+    @Exclude val sex: String = "",
+    @Exclude val ethnicity: String = "",
+    @Exclude val birthdate: Date = Date(),
+    @Exclude val createDate: Date = Date(),
+    @Exclude val lastDate: Date = Date(),
+    @Exclude val observations: String = "",
+)
