@@ -21,7 +21,7 @@ fun ChildItemDetailScaffold(
     childItem: Child,
     onClickEdit: (Child) -> Unit,
     onCasesClick: (Child) -> Unit,
-    onClickDelete: () -> Unit,
+    onClickDelete: (String) -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 
     ) {

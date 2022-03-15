@@ -206,8 +206,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             onCasesClick = {
 
             },
-            onDeleteChildClick = {
-
+            onDeleteChildClick = { tutorId ->
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
+                )
             })
         }
 

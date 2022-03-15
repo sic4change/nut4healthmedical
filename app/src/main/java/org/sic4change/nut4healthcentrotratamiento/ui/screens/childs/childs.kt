@@ -18,12 +18,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.MessageDeleteChild
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -73,13 +73,14 @@ fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> U
 @Composable
 fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onEditChildClick: (Child) -> Unit, onCasesClick: (Child) -> Unit,
-                      onDeleteChildClick: () -> Unit) {
+                      onDeleteChildClick: (String) -> Unit) {
     val childDetailState = rememberChildsState()
     val viewModelState by viewModel.state.collectAsState()
 
     LaunchedEffect(viewModelState.child) {
         if (viewModelState.child != null) {
             childDetailState.id.value = viewModelState.child!!.id
+            childDetailState.tutorId.value = viewModelState.child!!.tutorId
             childDetailState.name.value = viewModelState.child!!.name
             childDetailState.surnames.value = viewModelState.child!!.surnames
             childDetailState.surnames.value = viewModelState.child!!.surnames
@@ -102,8 +103,8 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
         onCasesClick = onCasesClick,
         onDeleteClick = onDeleteChildClick
     )
-    /*MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
-        tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)*/
+    MessageDeleteChild(childDetailState.deleteChild.value, childDetailState::showDeleteQuestion,
+        childDetailState.id.value, childDetailState.tutorId.value, viewModel::deleteChild, onDeleteChildClick)
 }
 
 
@@ -132,7 +133,6 @@ fun ChildCreateScreen(viewModel: ChildCreateViewModel = viewModel(), onCreateChi
         }
     }
 
-    //El problema es que siempre entra Aqui
     LaunchedEffect(viewModelState.created) {
         if (viewModelState.created) {
             onCreateChild(childCreateState.tutorId.value)

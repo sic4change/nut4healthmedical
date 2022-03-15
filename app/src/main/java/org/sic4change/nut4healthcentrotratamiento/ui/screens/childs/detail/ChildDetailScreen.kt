@@ -22,10 +22,11 @@ import java.text.SimpleDateFormat
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun ChildItemDetailScreen(childState: ChildState, loading: Boolean = false,
-                          childItem: Child?, onEditClick: (Child) -> Unit,
-                          onDeleteClick: () -> Unit,
-                          onCasesClick: (Child) -> Unit) {
+fun ChildItemDetailScreen(
+    childState: ChildState, loading: Boolean = false,
+    childItem: Child?, onEditClick: (Child) -> Unit,
+    onDeleteClick: (String) -> Unit,
+    onCasesClick: (Child) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -226,7 +227,7 @@ private fun Header(childState: ChildState) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: String, onDeleteChild: (String) -> Unit, onDeleteChildSelected: () -> Unit) {
+fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: String, tutorId: String, onDeleteChild: (String) -> Unit, onDeleteChildSelected: (String) -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -240,7 +241,7 @@ fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: 
                     onClick = {
                         setShowDialog()
                         onDeleteChild(childId)
-                        onDeleteChildSelected()
+                        onDeleteChildSelected(tutorId)
                     },
                 ) {
                     Text(stringResource(R.string.accept), color = colorResource(R.color.white))
@@ -257,7 +258,7 @@ fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: 
                 }
             },
             text = {
-                Text(stringResource(R.string.delete_tutor_question))
+                Text(stringResource(R.string.delete_child_question))
             },
         )
     }
