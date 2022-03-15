@@ -213,6 +213,8 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.CREATECHILD)) {
             ChildCreateScreen( onCreateChild = { tutorId ->
+                navController.popBackStack()
+                navController.popBackStack()
                 navController.navigate(
                     NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
                 )

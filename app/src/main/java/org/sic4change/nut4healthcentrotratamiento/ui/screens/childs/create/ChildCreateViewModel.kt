@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import java.util.*
 
 class ChildCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -22,7 +23,7 @@ class ChildCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _state.value = UiState(created = false)
+            _state.value = UiState(loading = true)
         }
     }
 
@@ -40,8 +41,6 @@ class ChildCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value= UiState(child = child)
             FirebaseDataSource.createChild(child)
             _state.value = UiState(created = true)
-            //Tras esto hay que cambiarlo a created false para poder volver atras
-            //_state.value = UiState(created = false)
         }
     }
 

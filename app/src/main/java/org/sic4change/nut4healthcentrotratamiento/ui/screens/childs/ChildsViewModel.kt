@@ -24,7 +24,7 @@ class ChildsViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(createChild = false)
             _state.value = UiState(loading = true)
-            _state.value = UiState(childs = FirebaseDataSource.getChilds(id), tutorId = id)
+            _state.value = UiState(childs = FirebaseDataSource.getChilds(id), tutorId = id, createChild = false)
         }
     }
 
