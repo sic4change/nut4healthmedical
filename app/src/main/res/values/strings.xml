@@ -52,4 +52,5 @@
     <string name="create_child">Crear niño/a</string>
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar niñ@</string>
+    <string name="tutors">Tutores</string>
 </resources>

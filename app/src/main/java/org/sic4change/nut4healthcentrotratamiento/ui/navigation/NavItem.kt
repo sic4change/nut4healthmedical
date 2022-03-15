@@ -16,7 +16,7 @@ enum class NavItem(
 ) {
     LOGIN(NavCommand.ContentType(Feature.LOGIN), Icons.Default.Home, R.string.login),
     //HOME(NavCommand.ContentType(Feature.HOME), Icons.Default.Home, R.string.congratulations),
-    TUTORS(NavCommand.ContentType(Feature.TUTORS), Icons.Default.BedroomParent, R.string.congratulations),
+    TUTORS(NavCommand.ContentType(Feature.TUTORS), Icons.Default.People, R.string.tutors),
     SETTINGS(NavCommand.ContentType(Feature.SETTINGS), Icons.Default.Settings, R.string.settings),
 }
 

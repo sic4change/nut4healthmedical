@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.aaronat1.hackaton.ui.navigation.NavItem
@@ -65,7 +66,7 @@ fun DrawerContent(
                     )
                     Spacer(modifier = Modifier.width(24.dp))
                     Text(
-                        text = navItem.name,
+                        text = stringResource(navItem.title),
                     )
                 }
             }

@@ -5,6 +5,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -12,6 +13,7 @@ import com.aaronat1.hackaton.ui.navigation.NavCommand
 import com.aaronat1.hackaton.ui.navigation.NavItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.navigatePopingUpToStartDestination
 import java.lang.Exception

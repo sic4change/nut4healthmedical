@@ -244,16 +244,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CASES)) {
-            CasesScreen(onClick =  { child ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
-                )
+            CasesScreen(onClick =  {
+
             },
-                onCreateCaseClick = { childId ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(childId)
-                    )
-                })
+                onCreateCaseClick = {
+
+            })
         }
 
     }
