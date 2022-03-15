@@ -233,7 +233,24 @@ private fun Header(childState: ChildState,
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-
+        TextField(value = childState.observations.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {childState.observations.value = it},
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
 
 
         AnimatedVisibility(visible = (childState.name.value.isNotEmpty() &&
