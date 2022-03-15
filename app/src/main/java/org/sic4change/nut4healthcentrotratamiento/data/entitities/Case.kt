@@ -6,9 +6,9 @@ data class Case(
     override val id: String,
     val childId: String,
     val tutorId: String,
-    var state: String,
-    val createDate: Date,
-    val lastDate: Date,
+    var status: String,
+    val createdate: Date,
+    val lastdate: Date,
     var visits: String,
     val observations: String,
     ) : Item

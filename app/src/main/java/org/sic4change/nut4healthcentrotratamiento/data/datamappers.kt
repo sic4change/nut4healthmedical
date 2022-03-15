@@ -4,7 +4,6 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
-import java.util.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.Child as ServerChild
@@ -33,10 +32,10 @@ fun Child.toServerChild() : ServerChild = ServerChild(
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, tutorId, state, createDate, lastDate, visits.toString(), observations
+    id, childId, tutorId, status, createdate, lastdate, visits.toString(), observations
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, tutorId, state, createDate, lastDate, visits.toInt(), observations
+    id, childId, tutorId, status, createdate, lastdate, visits.toInt(), observations
 )
 

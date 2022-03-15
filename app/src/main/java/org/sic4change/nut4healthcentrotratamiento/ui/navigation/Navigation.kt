@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CasesScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildEditScreen
@@ -207,7 +208,10 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
                 )
             },
-            onCasesClick = {
+            onCasesClick = { child ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CASES).createRoute(child.id)
+                )
 
             },
             onDeleteChildClick = { tutorId ->
@@ -237,6 +241,19 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(id)
                 )
             })
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.CASES)) {
+            CasesScreen(onClick =  { child ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                )
+            },
+                onCreateCaseClick = { childId ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(childId)
+                    )
+                })
         }
 
     }
