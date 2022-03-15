@@ -15,7 +15,9 @@ import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildItemEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
@@ -200,8 +202,10 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL)) {
-            ChildDetailScreen(onEditChildClick = {
-
+            ChildDetailScreen(onEditChildClick = { child ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
+                )
             },
             onCasesClick = {
 
@@ -221,6 +225,16 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 navController.popBackStack()
                 navController.navigate(
                     NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
+                )
+            })
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.EDITCHILD)) {
+            ChildEditScreen( onEditChild = { id ->
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(id)
                 )
             })
         }

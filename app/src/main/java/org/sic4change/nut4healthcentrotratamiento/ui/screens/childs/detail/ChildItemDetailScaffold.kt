@@ -50,7 +50,6 @@ fun ChildItemDetailScaffold(
                 Spacer(modifier = Modifier.weight(1f))
                 AppBarIcon(imageVector = Icons.Default.Delete, onClick = {
                     childState.showDeleteQuestion()
-                    //onClickDelete(tutorItem)
                 })
             }
         },

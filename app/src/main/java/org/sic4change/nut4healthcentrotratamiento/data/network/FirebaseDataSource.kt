@@ -133,7 +133,6 @@ object FirebaseDataSource {
                 val tutorsRef = firestore.collection("tutors")
                 tutorsRef.document(tutor.id).set(tutor.toServerTutor()).await()
                 Timber.d("update tutor result: ok")
-                //uploadPersonFile(personToUpdate)
             } catch (ex: Exception) {
                 Timber.d("update tutor result: false ${ex.message}")
             }
@@ -184,6 +183,20 @@ object FirebaseDataSource {
                 Timber.d("Delete child result: ok")
             } catch (ex: Exception) {
                 Timber.d("Delete tutor child: false ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun updateChild(child: org.sic4change.nut4healthcentrotratamiento.data.entitities.Child) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to update child from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val childsRef = firestore.collection("childs")
+                childsRef.document(child.id).set(child.toServerChild()).await()
+                Timber.d("update child result: ok")
+            } catch (ex: Exception) {
+                Timber.d("update child result: false ${ex.message}")
             }
         }
     }

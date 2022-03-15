@@ -24,6 +24,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.Child
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.MessageDeleteChild
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildEditViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildItemEditScreen
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -146,3 +148,42 @@ fun ChildCreateScreen(viewModel: ChildCreateViewModel = viewModel(), onCreateChi
     )
 }
 
+
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun ChildEditScreen(viewModel: ChildEditViewModel = viewModel(), onEditChild: (String) -> Unit) {
+    val childEditState = rememberChildsState()
+    val viewModelState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(viewModelState.child) {
+        if (viewModelState.child != null) {
+            childEditState.id.value = viewModelState.child!!.id
+            childEditState.tutorId.value = viewModelState.child!!.tutorId
+            childEditState.name.value = viewModelState.child!!.name
+            childEditState.surnames.value = viewModelState.child!!.surnames
+            childEditState.birthday.value = viewModelState.child!!.birthdate
+            childEditState.lastDate.value = viewModelState.child!!.lastDate
+            childEditState.createdDate.value = viewModelState.child!!.createDate
+            childEditState.sex.value = viewModelState.child!!.sex
+            childEditState.etnician.value = viewModelState.child!!.ethnicity
+            childEditState.observations.value = viewModelState.child!!.observations
+            childEditState.selectedOptionSex.value = viewModelState.child!!.sex
+            childEditState.selectedOptionEtnician.value = viewModelState.child!!.ethnicity
+        }
+    }
+
+    LaunchedEffect(viewModelState.editChild) {
+        if (viewModelState.editChild) {
+            onEditChild(childEditState.id.value)
+        }
+    }
+
+    ChildItemEditScreen(
+        loading = viewModelState.loading,
+        childState = childEditState,
+        onEditChild = viewModel::editChild
+    )
+}
