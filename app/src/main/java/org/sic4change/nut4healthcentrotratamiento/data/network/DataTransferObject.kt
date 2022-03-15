@@ -53,3 +53,18 @@ data class Child(
     @Exclude val lastDate: Date = Date(),
     @Exclude val observations: String = "",
 )
+
+@JsonClass(generateAdapter = true)
+data class NetworkCasesContainer(val results: List<Case>)
+
+@JsonClass(generateAdapter = true)
+data class Case(
+    @Exclude val id: String = "",
+    @Exclude val childId: String = "",
+    @Exclude val tutorId: String = "",
+    @Exclude val state: String = "",
+    @Exclude val createDate: Date = Date(),
+    @Exclude val lastDate: Date = Date(),
+    @Exclude val visits: Int = 0,
+    @Exclude val observations: String = "",
+)

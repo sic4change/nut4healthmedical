@@ -201,5 +201,14 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun getCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val casesRef = firestore.collection("cases")
+        val query = casesRef.whereEqualTo("childId", childId)
+        val result = query.get().await()
+        val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+        networkCasesContainer.results.map { it.toDomainCase() }
+    }
+
 }
 
