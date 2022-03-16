@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -80,7 +81,7 @@ object FirebaseDataSource {
     suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
         val firestore = NUT4HealthFirebaseService.mFirestore
         val tutorsRef = firestore.collection("tutors")
-        val query = tutorsRef.whereEqualTo("active", true)
+        val query = tutorsRef.whereEqualTo("active", true).orderBy("name", Query.Direction.ASCENDING )
         val result = query.get().await()
         val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
         networkTutorsContainer.results.map { it.toDomainTutor() }
@@ -142,7 +143,7 @@ object FirebaseDataSource {
     suspend fun getChilds(tutorId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Child> = withContext(Dispatchers.IO) {
         val firestore = NUT4HealthFirebaseService.mFirestore
         val childsRef = firestore.collection("childs")
-        val query = childsRef.whereEqualTo("tutorId", tutorId)
+        val query = childsRef.whereEqualTo("tutorId", tutorId).orderBy("name", Query.Direction.ASCENDING )
         val result = query.get().await()
         val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
         networkChildsContainer.results.map { it.toDomainChild() }
