@@ -207,7 +207,7 @@ fun MessageDeleteCase(showDialog: Boolean, setShowDialog: () -> Unit, caseId: St
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
                         setShowDialog()
-                        onDeleteCase(childId)
+                        onDeleteCase(caseId)
                         onDeleteCaseSelected(childId)
                     },
                 ) {

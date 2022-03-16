@@ -24,6 +24,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCr
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
@@ -86,6 +87,7 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             caseDetailState.id.value = viewModelState.case!!.id
+            caseDetailState.childId.value = viewModelState.case!!.childId
             caseDetailState.name.value = viewModelState.case!!.name
             caseDetailState.status.value = viewModelState.case!!.status
             caseDetailState.visits.value = viewModelState.case!!.visits
@@ -101,7 +103,7 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
         onVisitsClick = onVisitsClick,
         onDeleteClick = onDeleteCaseClick
     )
-    MessageDeleteChild(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
+    MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
         caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)
 }
 
