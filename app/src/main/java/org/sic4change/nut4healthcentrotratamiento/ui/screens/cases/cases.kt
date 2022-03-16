@@ -20,6 +20,8 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
@@ -68,6 +70,37 @@ fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit
 
     }
 
+}
+
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun CaseCreateScreen(viewModel: CaseCreateViewModel = viewModel(), onCreateCase: (String) -> Unit) {
+    val caseCreateState = rememberCasesState()
+    val viewModelState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(viewModelState.case) {
+        if (viewModelState.case != null) {
+            caseCreateState.id.value = viewModelState.case!!.id
+            caseCreateState.childId.value = viewModelState.case!!.childId
+            caseCreateState.name.value = viewModelState.case!!.name
+            caseCreateState.observations.value = viewModelState.case!!.observations
+        }
+    }
+
+    LaunchedEffect(viewModelState.created) {
+        if (viewModelState.created) {
+            onCreateCase(caseCreateState.childId.value)
+        }
+    }
+
+    CaseItemCreateScreen(
+        loading = viewModelState.loading,
+        caseState = caseCreateState,
+        onCreateCase = viewModel::createCase
+    )
 }
 
 

@@ -216,9 +216,21 @@ object FirebaseDataSource {
             Timber.d("try to create case with firebase")
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
-                val casesRef = firestore.collection("cases")
-                casesRef.add(case.toServerCase()).await()
-                Timber.d("Create case result: ok")
+                val childsRef = firestore.collection("childs")
+                val query = childsRef.whereEqualTo("id", case.childId)
+                val result = query.get().await()
+                val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
+                networkChildsContainer.results[0].let {
+                    val tutorId = it.toDomainChild().tutorId
+                    val caseToUpload = org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(case.id, case.childId, tutorId, case.name, case.status,
+                    case.createdate, case.lastdate, case.visits, case.observations)
+                    val casesRef = firestore.collection("cases")
+                    casesRef.add(caseToUpload.toServerCase()).await()
+                    Timber.d("Create case result: ok")
+                }
+
+
+
             } catch (ex : Exception) {
                 Timber.d("Create case result: false ${ex.message}")
             }

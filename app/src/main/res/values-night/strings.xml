@@ -62,4 +62,5 @@
     <string name="childs">Niñ@s</string>
     <string name="casos">Casos</string>
     <string name="no_cases">Sin casos todavía</string>
+    <string name="create_case">Crear caso</string>
 </resources>
