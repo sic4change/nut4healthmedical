@@ -65,4 +65,5 @@
     <string name="delete_case_question">¿Seguro que quiere eliminar ese caso? Se perderán los datos asociados</string>
     <string name="status">Estado</string>
     <string name="open">Abierta</string>
+    <string name="rosa_desierto">Rosa del Desierto</string>
 </resources>
