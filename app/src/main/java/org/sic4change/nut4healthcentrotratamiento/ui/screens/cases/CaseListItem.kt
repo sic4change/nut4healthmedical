@@ -28,22 +28,43 @@ fun  CaseListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    color = colorResource(R.color.colorPrimary),
-                    text = "${item.status}"  ,
-                    style = MaterialTheme.typography.h5,
-                    maxLines = 2,
-                    modifier = Modifier
-                        .padding(8.dp, 16.dp)
-                        .weight(1f)
-                )
-                IconButton(onClick = { onItemMore(item) }) {
-                    Icon(
-                        tint = colorResource(R.color.colorPrimary),
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = stringResource(R.string.more_actions)
+                if (item.status == "open") {
+                    Text(
+                        color = colorResource(R.color.colorAccent),
+                        text = "${item.status}".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
                     )
+                    IconButton(onClick = { onItemMore(item) }) {
+                        Icon(
+                            tint = colorResource(R.color.colorAccent),
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.more_actions)
+                        )
+                    }
+                } else {
+                    Text(
+                        color = colorResource(R.color.colorPrimary),
+                        text = "${item.status}".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    IconButton(onClick = { onItemMore(item) }) {
+                        Icon(
+                            tint = colorResource(R.color.colorPrimary),
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.more_actions)
+                        )
+                    }
                 }
+
+
             }
         }
 

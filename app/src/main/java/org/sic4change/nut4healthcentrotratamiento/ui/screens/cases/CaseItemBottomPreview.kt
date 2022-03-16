@@ -13,9 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
+import java.text.SimpleDateFormat
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -29,7 +31,37 @@ fun CaseItemBottomPreview(item: Case?, onGoToDetail: (Case) -> Unit) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                TextField(value = "${item.status}", onValueChange = {}, readOnly = true,
+                if (item.status == "open") {
+                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorAccent),
+                            backgroundColor = colorResource(R.color.white),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(R.color.full_transparent),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        leadingIcon = {
+                            Icon(Icons.Filled.Folder, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})})
+
+                } else {
+                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.white),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(R.color.full_transparent),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        leadingIcon = {
+                            Icon(Icons.Filled.Folder, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
+
+                }
+
+                TextField(value = "${stringResource(R.string.visits)} ${item.visits} ", onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorResource(R.color.colorPrimary),
                         backgroundColor = colorResource(R.color.white),
@@ -40,9 +72,8 @@ fun CaseItemBottomPreview(item: Case?, onGoToDetail: (Case) -> Unit) {
                     ),
                     textStyle = MaterialTheme.typography.h5,
                     leadingIcon = {
-                    Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
-
-                TextField(value = "${item.visits}", onValueChange = {}, readOnly = true,
+                        Icon(Icons.Filled.EditCalendar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
+                TextField(value = "${stringResource(R.string.last_visits)} ${SimpleDateFormat("dd/MM/yyyy").format(item.lastdate)}", onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorResource(R.color.colorPrimary),
                         backgroundColor = colorResource(R.color.white),

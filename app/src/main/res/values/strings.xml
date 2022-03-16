@@ -53,4 +53,12 @@
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar niñ@</string>
     <string name="tutors">Tutores</string>
+    <string name="visits">"Visitas: "</string>
+    <string name="last_visits">Última visita:</string>
+    <string name="tutors_title">Tutores/as</string>
+    <string name="no_tutors">Sin tutores/as todavía</string>
+    <string name="no_childs">Si niñ@s todavía</string>
+    <string name="childs">Niñ@s</string>
+    <string name="casos">Casos</string>
+    <string name="no_cases">Sin casos todavía</string>
 </resources>

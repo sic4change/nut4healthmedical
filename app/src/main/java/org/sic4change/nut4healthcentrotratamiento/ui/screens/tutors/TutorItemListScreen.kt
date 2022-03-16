@@ -7,9 +7,7 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -18,9 +16,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -102,28 +104,49 @@ fun  TutorItemsList(
     onItemMore: (Tutor) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        if (loading) {
-            CircularProgressIndicator()
-        }
-        if (items.isNotEmpty()) {
-            LazyVerticalGrid(
-                cells = GridCells.Adaptive(4000.dp),
-                contentPadding = PaddingValues(4.dp),
-                modifier = modifier
-            ) {
-                items(items) {
-                    TutorListItem(
-                        item = it,
-                        modifier = Modifier.clickable { onItemClick(it) },
-                        onItemMore = onItemMore
-                    )
+        Text(
+            text = stringResource(R.string.tutors_title),
+            color = colorResource(R.color.colorPrimary),
+            style = MaterialTheme.typography.h4,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            if (loading) {
+                CircularProgressIndicator()
+            }
+
+            if (items.isNotEmpty()) {
+                LazyVerticalGrid(
+                    cells = GridCells.Adaptive(4000.dp),
+                    contentPadding = PaddingValues(4.dp),
+                    modifier = modifier
+                ) {
+                    items(items) {
+                        TutorListItem(
+                            item = it,
+                            modifier = Modifier.clickable { onItemClick(it) },
+                            onItemMore = onItemMore
+                        )
+                    }
                 }
+            } else {
+                Text(
+                    text = stringResource(R.string.no_tutors),
+                    color = colorResource(R.color.disabled_color),
+                    style = MaterialTheme.typography.caption,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
+
 
 }
