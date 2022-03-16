@@ -62,6 +62,7 @@ data class Case(
     @Exclude val id: String = "",
     @Exclude val childId: String = "",
     @Exclude val tutorId: String = "",
+    @Exclude val name: String = "",
     @Exclude val status: String = "",
     @Exclude val createdate: Date = Date(),
     @Exclude val lastdate: Date = Date(),

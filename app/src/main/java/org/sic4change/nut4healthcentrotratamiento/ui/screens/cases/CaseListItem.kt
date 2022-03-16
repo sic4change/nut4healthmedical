@@ -31,7 +31,7 @@ fun  CaseListItem(
                 if (item.status == "open") {
                     Text(
                         color = colorResource(R.color.colorAccent),
-                        text = "${item.status}".toString().capitalize()  ,
+                        text = "${item.name}".toString().capitalize()  ,
                         style = MaterialTheme.typography.h5,
                         maxLines = 2,
                         modifier = Modifier
@@ -48,7 +48,7 @@ fun  CaseListItem(
                 } else {
                     Text(
                         color = colorResource(R.color.colorPrimary),
-                        text = "${item.status}".toString().capitalize()  ,
+                        text = "${item.name}".toString().capitalize()  ,
                         style = MaterialTheme.typography.h5,
                         maxLines = 2,
                         modifier = Modifier

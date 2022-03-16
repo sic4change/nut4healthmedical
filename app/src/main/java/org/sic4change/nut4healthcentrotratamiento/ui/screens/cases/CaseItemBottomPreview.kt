@@ -31,6 +31,18 @@ fun CaseItemBottomPreview(item: Case?, onGoToDetail: (Case) -> Unit) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                TextField(value = "${item.name}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(R.color.white),
+                        cursorColor = colorResource(R.color.full_transparent),
+                        disabledLabelColor =  colorResource(R.color.full_transparent),
+                        focusedIndicatorColor = colorResource(R.color.full_transparent),
+                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                    ),
+                    textStyle = MaterialTheme.typography.h5,
+                    leadingIcon = {
+                        Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
                 if (item.status == "open") {
                     TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(

@@ -211,5 +211,19 @@ object FirebaseDataSource {
         networkCasesContainer.results.map { it.toDomainCase() }
     }
 
+    suspend fun createCase(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to create case with firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val casesRef = firestore.collection("cases")
+                casesRef.add(case.toServerCase()).await()
+                Timber.d("Create case result: ok")
+            } catch (ex : Exception) {
+                Timber.d("Create case result: false ${ex.message}")
+            }
+        }
+    }
+
 }
 

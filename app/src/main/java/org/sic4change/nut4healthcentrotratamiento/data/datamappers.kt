@@ -32,10 +32,10 @@ fun Child.toServerChild() : ServerChild = ServerChild(
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, tutorId, status, createdate, lastdate, visits.toString(), observations
+    id, childId, tutorId, name, status, createdate, lastdate, visits.toString(), observations
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, tutorId, status, createdate, lastdate, visits.toInt(), observations
+    id, childId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations
 )
 
