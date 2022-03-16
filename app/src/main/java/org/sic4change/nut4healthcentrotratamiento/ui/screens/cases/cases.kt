@@ -22,6 +22,8 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
@@ -72,6 +74,37 @@ fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit
 
 }
 
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
+                     onEditCaseClick: (Case) -> Unit, onVisitsClick: (Case) -> Unit,
+                     onDeleteCaseClick: (String) -> Unit) {
+    val caseDetailState = rememberCasesState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.case) {
+        if (viewModelState.case != null) {
+            caseDetailState.id.value = viewModelState.case!!.id
+            caseDetailState.name.value = viewModelState.case!!.name
+            caseDetailState.status.value = viewModelState.case!!.status
+            caseDetailState.visits.value = viewModelState.case!!.visits
+            caseDetailState.observations.value = viewModelState.case!!.observations
+        }
+    }
+
+    CaseItemDetailScreen(
+        loading = viewModelState.loading,
+        caseItem = viewModelState.case,
+        caseState = caseDetailState,
+        onEditClick = onEditCaseClick,
+        onVisitsClick = onVisitsClick,
+        onDeleteClick = onDeleteCaseClick
+    )
+    MessageDeleteChild(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
+        caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)
+}
+
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -104,85 +137,7 @@ fun CaseCreateScreen(viewModel: CaseCreateViewModel = viewModel(), onCreateCase:
 }
 
 
-/*@ExperimentalCoilApi
-@ExperimentalMaterialApi
-@Composable
-fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
-                      onEditChildClick: (Child) -> Unit, onCasesClick: (Child) -> Unit,
-                      onDeleteChildClick: (String) -> Unit) {
-    val childDetailState = rememberChildsState()
-    val viewModelState by viewModel.state.collectAsState()
-
-    LaunchedEffect(viewModelState.child) {
-        if (viewModelState.child != null) {
-            childDetailState.id.value = viewModelState.child!!.id
-            childDetailState.tutorId.value = viewModelState.child!!.tutorId
-            childDetailState.name.value = viewModelState.child!!.name
-            childDetailState.surnames.value = viewModelState.child!!.surnames
-            childDetailState.surnames.value = viewModelState.child!!.surnames
-            childDetailState.birthday.value = viewModelState.child!!.birthdate
-            childDetailState.lastDate.value = viewModelState.child!!.lastDate
-            childDetailState.createdDate.value = viewModelState.child!!.createDate
-            childDetailState.sex.value = viewModelState.child!!.sex
-            childDetailState.etnician.value = viewModelState.child!!.ethnicity
-            childDetailState.observations.value = viewModelState.child!!.observations
-            childDetailState.selectedOptionSex.value = viewModelState.child!!.sex
-            childDetailState.selectedOptionEtnician.value = viewModelState.child!!.ethnicity
-        }
-    }
-
-    ChildItemDetailScreen(
-        loading = viewModelState.loading,
-        childItem = viewModelState.child,
-        childState = childDetailState,
-        onEditClick = onEditChildClick,
-        onCasesClick = onCasesClick,
-        onDeleteClick = onDeleteChildClick
-    )
-    MessageDeleteChild(childDetailState.deleteChild.value, childDetailState::showDeleteQuestion,
-        childDetailState.id.value, childDetailState.tutorId.value, viewModel::deleteChild, onDeleteChildClick)
-}
-
-
-@ExperimentalCoilApi
-@ExperimentalMaterialApi
-@Composable
-fun ChildCreateScreen(viewModel: ChildCreateViewModel = viewModel(), onCreateChild: (String) -> Unit) {
-    val childCreateState = rememberChildsState()
-    val viewModelState by viewModel.state.collectAsState()
-
-
-    LaunchedEffect(viewModelState.child) {
-        if (viewModelState.child != null) {
-            childCreateState.id.value = viewModelState.child!!.id
-            childCreateState.tutorId.value = viewModelState.child!!.tutorId
-            childCreateState.name.value = viewModelState.child!!.name
-            childCreateState.surnames.value = viewModelState.child!!.surnames
-            childCreateState.birthday.value = viewModelState.child!!.birthdate
-            childCreateState.lastDate.value = viewModelState.child!!.lastDate
-            childCreateState.createdDate.value = viewModelState.child!!.createDate
-            childCreateState.sex.value = viewModelState.child!!.sex
-            childCreateState.etnician.value = viewModelState.child!!.ethnicity
-            childCreateState.observations.value = viewModelState.child!!.observations
-            childCreateState.selectedOptionSex.value = viewModelState.child!!.sex
-            childCreateState.selectedOptionEtnician.value = viewModelState.child!!.ethnicity
-        }
-    }
-
-    LaunchedEffect(viewModelState.created) {
-        if (viewModelState.created) {
-            onCreateChild(childCreateState.tutorId.value)
-        }
-    }
-
-    ChildItemCreateScreen(
-        loading = viewModelState.loading,
-        childState = childCreateState,
-        onCreateChild = viewModel::createChild
-    )
-}
-
-
+/*
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi

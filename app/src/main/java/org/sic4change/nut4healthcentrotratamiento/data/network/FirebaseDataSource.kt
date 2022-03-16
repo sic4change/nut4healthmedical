@@ -228,11 +228,33 @@ object FirebaseDataSource {
                     casesRef.add(caseToUpload.toServerCase()).await()
                     Timber.d("Create case result: ok")
                 }
-
-
-
             } catch (ex : Exception) {
                 Timber.d("Create case result: false ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun getCase(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Case = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val caseRef = firestore.collection("cases")
+        val query = caseRef.whereEqualTo("id", id)
+        val result = query.get().await()
+        val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+        networkCasesContainer.results[0].let {
+            it.toDomainCase()
+        }
+    }
+
+    suspend fun deleteCase(id: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to delete case from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val caseRef = firestore.collection("cases")
+                caseRef.document(id).delete().await()
+                Timber.d("Delete case result: ok")
+            } catch (ex: Exception) {
+                Timber.d("Delete case child: false ${ex.message}")
             }
         }
     }

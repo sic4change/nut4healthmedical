@@ -18,5 +18,6 @@ enum class Feature(val route: String) {
     EDITCHILD("editchild"),
 
     CASES("cases"),
+    CASE_DETAIL ("casedetail"),
     CREATECASE("createcase"),
 }

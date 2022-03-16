@@ -14,6 +14,7 @@ import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CasesScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
@@ -245,7 +246,10 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CASES)) {
-            CasesScreen(onClick =  {
+            CasesScreen(onClick =  { case ->
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
+                )
 
             },
                 onCreateCaseClick = { child ->
@@ -263,6 +267,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentTypeDetail(Feature.CASES).createRoute(childId)
                 )
             })
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.CASE_DETAIL)) {
+            CaseDetailScreen(onEditCaseClick = {
+            },
+                onVisitsClick = {
+
+                },
+                onDeleteCaseClick = {
+
+                })
         }
 
     }
