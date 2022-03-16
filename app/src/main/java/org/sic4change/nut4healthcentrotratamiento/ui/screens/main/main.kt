@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,10 +13,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 
@@ -48,7 +53,19 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
 
 
         Box(
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.background(
+                    Brush.verticalGradient(
+                        listOf(
+                            colorResource(R.color.colorPrimary),
+                            colorResource(R.color.white),
+                            colorResource(R.color.white),
+                            colorResource(R.color.white),
+                            colorResource(R.color.white),
+                            colorResource(R.color.colorPrimary),
+                        )
+                    )
+                )
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -67,9 +84,9 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
                             .padding(16.dp)
                     ) {
 
-                       Text("Bienvenido")
-
-
+                       Text(text = stringResource(R.string.welcome),
+                           style = MaterialTheme.typography.h6,
+                           color = colorResource(R.color.colorPrimary))
 
                     }
                 }

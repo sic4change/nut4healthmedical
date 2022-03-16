@@ -66,4 +66,5 @@
     <string name="status">Estado</string>
     <string name="open">Abierta</string>
     <string name="rosa_desierto">Rosa del Desierto</string>
+    <string name="welcome">Bienvenido al Centro de Tratamiento de Rosa del Desierto</string>
 </resources>
