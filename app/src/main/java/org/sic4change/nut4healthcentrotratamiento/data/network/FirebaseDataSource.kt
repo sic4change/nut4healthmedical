@@ -222,8 +222,9 @@ object FirebaseDataSource {
                 val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
                 networkChildsContainer.results[0].let {
                     val tutorId = it.toDomainChild().tutorId
-                    val caseToUpload = org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(case.id, case.childId, tutorId, case.name, case.status,
-                    case.createdate, case.lastdate, case.visits, case.observations)
+                    val caseToUpload = org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
+                        case.id, case.childId, tutorId, case.name, case.status, case.createdate,
+                        case.lastdate, case.visits, case.observations)
                     val casesRef = firestore.collection("cases")
                     casesRef.add(caseToUpload.toServerCase()).await()
                     Timber.d("Create case result: ok")
@@ -255,6 +256,20 @@ object FirebaseDataSource {
                 Timber.d("Delete case result: ok")
             } catch (ex: Exception) {
                 Timber.d("Delete case child: false ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun updateCase(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to update case from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val casesRef = firestore.collection("cases")
+                casesRef.document(case.id).set(case.toServerCase()).await()
+                Timber.d("update case result: ok")
+            } catch (ex: Exception) {
+                Timber.d("update case result: false ${ex.message}")
             }
         }
     }

@@ -15,6 +15,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CasesScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
@@ -270,7 +271,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CASE_DETAIL)) {
-            CaseDetailScreen(onEditCaseClick = {
+            CaseDetailScreen(onEditCaseClick = { case ->
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.EDITCASE).createRoute(case.id)
+                )
             },
                 onVisitsClick = {
 
@@ -283,6 +289,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     )
                 })
         }
+
+        composable(NavCommand.ContentTypeDetail(Feature.EDITCASE)) {
+            CaseEditScreen( onEditCase = { id ->
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(id)
+                )
+            })
+        }
+
 
     }
 

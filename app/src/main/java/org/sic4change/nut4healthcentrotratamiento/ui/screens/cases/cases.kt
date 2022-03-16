@@ -25,6 +25,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseIt
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.edit.CaseEditViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.edit.CaseItemEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
@@ -137,6 +139,43 @@ fun CaseCreateScreen(viewModel: CaseCreateViewModel = viewModel(), onCreateCase:
         onCreateCase = viewModel::createCase
     )
 }
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun CaseEditScreen(viewModel: CaseEditViewModel = viewModel(), onEditCase: (String) -> Unit) {
+    val caseEditState = rememberCasesState()
+    val viewModelState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(viewModelState.case) {
+        if (viewModelState.case != null) {
+            caseEditState.id.value = viewModelState.case!!.id
+            caseEditState.childId.value = viewModelState.case!!.tutorId
+            caseEditState.name.value = viewModelState.case!!.name
+            caseEditState.status.value = viewModelState.case!!.status
+            caseEditState.visits.value = viewModelState.case!!.visits
+            caseEditState.lastDate.value = viewModelState.case!!.lastdate
+            caseEditState.createdDate.value = viewModelState.case!!.createdate
+            caseEditState.observations.value = viewModelState.case!!.observations
+            caseEditState.selectedOptionStatus.value = viewModelState.case!!.status
+        }
+    }
+
+    LaunchedEffect(viewModelState.editChild) {
+        if (viewModelState.editChild) {
+            onEditCase(caseEditState.id.value)
+        }
+    }
+
+    CaseItemEditScreen(
+        loading = viewModelState.loading,
+        caseState = caseEditState,
+        onEditCase = viewModel::editCase
+    )
+}
+
+
 
 
 /*
