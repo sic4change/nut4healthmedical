@@ -3,7 +3,9 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.childs
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChildCare
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.People
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +30,14 @@ fun  ChildListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                IconButton(onClick = { onItemMore(item) }) {
+                    Icon(
+                        tint = colorResource(R.color.colorPrimary),
+                        imageVector = Icons.Default.ChildCare,
+                        contentDescription = null
+                    )
+                }
+
                 Text(
                     color = colorResource(R.color.colorPrimary),
                     text = "${item.name} ${item.surnames}"  ,
