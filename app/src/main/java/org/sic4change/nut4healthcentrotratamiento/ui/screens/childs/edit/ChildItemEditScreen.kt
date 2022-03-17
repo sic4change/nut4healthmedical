@@ -64,8 +64,9 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
             R.string.Undefined),)
 
     val etnicians = listOf(
-        stringResource(R.string.white), stringResource(R.string.black), stringResource(
-            R.string.mestizo),)
+        stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
+            R.string.beydan), stringResource(R.string.haratin), stringResource(R.string.soninke),
+        stringResource(R.string.autre))
 
     Column(
         modifier = Modifier.fillMaxWidth()

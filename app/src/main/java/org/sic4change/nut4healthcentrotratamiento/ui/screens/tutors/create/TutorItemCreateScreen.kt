@@ -65,8 +65,9 @@ private fun Header(tutorState: TutorState,
             R.string.Undefined),)
 
     val etnicians = listOf(
-        stringResource(R.string.white), stringResource(R.string.black), stringResource(
-            R.string.mestizo),)
+        stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
+            R.string.beydan), stringResource(R.string.haratin), stringResource(R.string.soninke),
+        stringResource(R.string.autre))
 
     val pregnants = listOf(stringResource(R.string.pregnant), stringResource(R.string.no_pregnant),)
 
