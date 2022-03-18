@@ -73,5 +73,6 @@
     <string name="haratin">Haratin</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
+    <string name="check_tutor">Introduce el teléfono del tutor/a para validar si existe</string>
     wolof
 </resources>

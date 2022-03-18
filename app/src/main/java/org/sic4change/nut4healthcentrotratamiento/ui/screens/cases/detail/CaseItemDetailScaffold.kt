@@ -33,7 +33,7 @@ fun CaseItemDetailScaffold(
                 onClick = { onVisitsClick(caseItem) },
                 shape = MaterialTheme.shapes.small
             ) {
-                Icon(imageVector = Icons.Default.House, contentDescription = null, tint = colorResource(R.color.white))
+                Icon(imageVector = Icons.Default.EditCalendar, contentDescription = null, tint = colorResource(R.color.white))
 
             }
         },

@@ -6,8 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import java.util.*
 
 class MainViewModel() : ViewModel() {
 
@@ -25,7 +27,9 @@ class MainViewModel() : ViewModel() {
         val loading: Boolean = false,
         val user: User? = null,
         val logout: Boolean = false,
-        val exit: Boolean = false
+        val exit: Boolean = false,
+        val tutor: Tutor? = null,
+        val tutorChecked: String = ""
     )
 
     fun logout() {
@@ -34,6 +38,23 @@ class MainViewModel() : ViewModel() {
             _state.value = UiState(user = null)
             _state.value = UiState(logout = true)
         }
+    }
+
+    fun checkTutor(phone: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.checkDiagnosis(phone)
+            val tutor = FirebaseDataSource.checkTutor(phone)
+            if (tutor != null) {
+                _state.value = UiState(tutor = tutor, tutorChecked = "found")
+            } else {
+                _state.value = UiState(tutor = Tutor("", "", "", "", "",
+                    Date(), "", "", Date(), Date(), "", "", "", false ), tutorChecked = "not_found")
+            }
+        }
+    }
+
+    fun resetTutor() {
+        _state.value = UiState(tutor = null)
     }
 
 }

@@ -7,13 +7,17 @@ import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -55,6 +59,23 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
         }
     }
 
+    LaunchedEffect(viewModelState.tutor) {
+        if (viewModelState.tutor != null) {
+            if (viewModelState.tutorChecked == "found") {
+                onClick(viewModelState.tutor!!)
+                viewModel.resetTutor()
+                mainState.phoneToCheck.value = ""
+                mainState.editPhoneToCheck.value = ""
+            }
+            if (!viewModelState.tutor!!.active) {
+                onCreateTutorClick()
+                viewModel.resetTutor()
+                mainState.phoneToCheck.value = ""
+                mainState.editPhoneToCheck.value = ""
+            }
+        }
+    }
+
     BackHandler {
         activity?.finish()
     }
@@ -64,8 +85,8 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
         Scaffold(
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {
-                        onCreateTutorClick()
+                    onClick = { //onCreateTutorClick()
+                              mainState.openDialog.value = true
                               },
                     backgroundColor = colorResource(R.color.colorPrimary),
                     content = {
@@ -75,6 +96,27 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             },
         ) {
             TutorsScreen(onItemClick = onClick)
+            if (mainState.openDialog.value) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            color = contentColorFor(MaterialTheme.colors.background)
+                                .copy(alpha = 0.6f)
+                        )
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {
+                                mainState.openDialog.value = false
+                            }
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomDialog(mainState.phoneToCheck, mainState.openDialog, mainState.editPhoneToCheck,
+                        viewModel::checkTutor)
+                }
+            }
         }
 
     }

@@ -1,14 +1,14 @@
 package org.sic4change.nut4healthcentrotratamiento.data
 
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
+import com.google.firebase.firestore.Exclude
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
+import java.util.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.Child as ServerChild
 import org.sic4change.nut4healthcentrotratamiento.data.network.Case as ServerCase
-
+import org.sic4change.nut4healthcentrotratamiento.data.network.Contract as ServerContract
 
 
 fun ServerUser.toDomainUser() : User = User(
@@ -38,4 +38,15 @@ fun ServerCase.toDomainCase() : Case = Case(
 fun Case.toServerCase() : ServerCase = ServerCase(
     id, childId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations
 )
+
+fun ServerContract.toDomainContract() : Contract = Contract(
+    id, status, medicalDate, medicalDateMiliseconds, medicalDateToUpdate, medicalDateToUpdateInMilis
+)
+
+fun Contract.toServerContract() : ServerContract = ServerContract(
+    id, status, medicalDate, medicalDateMiliseconds, medicalDateToUpdate, medicalDateToUpdateInMilis
+)
+
+
+
 

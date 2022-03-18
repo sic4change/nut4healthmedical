@@ -6,6 +6,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.sic4change.nut4healthcentrotratamiento.data.*
 import timber.log.Timber
+import java.util.*
 
 
 object FirebaseDataSource {
@@ -271,6 +272,46 @@ object FirebaseDataSource {
             } catch (ex: Exception) {
                 Timber.d("update case result: false ${ex.message}")
             }
+        }
+    }
+
+    suspend fun checkDiagnosis(phone: String) {
+        withContext(Dispatchers.IO) {
+            val firestore = NUT4HealthFirebaseService.mFirestore
+            val contractsRef = firestore.collection("contracts")
+            val query = contractsRef.whereEqualTo("childPhoneContract", phone.filter { !it.isWhitespace() })
+            val result = query.get().await()
+            val networkContractContainer = NetworkContractContainer(result.toObjects(Contract::class.java))
+            if (networkContractContainer.results.isNotEmpty()) {
+                networkContractContainer.results[0].let {
+                    val contract = it.toDomainContract()
+                    val contractRef = firestore.collection("contracts")
+                    contractRef.document(contract.id)
+                        .update(
+                            "status", "FINISH",
+                            "medicalDate", System.currentTimeMillis().toString(),
+                            "medicalDateMiliseconds", System.currentTimeMillis(),
+                            "medicalDateToUpdate", System.currentTimeMillis().toString(),
+                            "medicalDateToUpdateInMilis", System.currentTimeMillis(),
+                        ).await()
+                }
+            }
+        }
+
+    }
+
+    suspend fun checkTutor(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val tutorsRef = firestore.collection("tutors")
+        val query = tutorsRef.whereEqualTo("phone", phone.filter { !it.isWhitespace() })
+        val result = query.get().await()
+        val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+        try {
+            networkTutorsContainer.results[0].let {
+                it.toDomainTutor()
+            }
+        } catch (e : Exception) {
+            null
         }
     }
 

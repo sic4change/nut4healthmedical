@@ -308,7 +308,6 @@ private fun Header(tutorState: TutorState) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, tutorId: String, onDeleteTutor: (String) -> Unit, onDeleteTutorSelected: () -> Unit) {
-//fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {

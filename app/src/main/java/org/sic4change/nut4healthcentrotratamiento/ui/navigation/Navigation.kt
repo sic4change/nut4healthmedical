@@ -109,7 +109,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     )
                 },
                 onClick = { tutor ->
-
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
                     )

@@ -69,3 +69,19 @@ data class Case(
     @Exclude val visits: Int = 0,
     @Exclude val observations: String = "",
 )
+
+@JsonClass(generateAdapter = true)
+data class NetworkContractContainer(val results: List<Contract>)
+
+@JsonClass(generateAdapter = true)
+data class Contract(
+    @Exclude val id: String = "",
+    @Exclude val status: String = "",
+    @Exclude val medicalDate: String = "",
+    @Exclude val medicalDateMiliseconds: Long = 0,
+    @Exclude val medicalDateToUpdate: String = "",
+    @Exclude val medicalDateToUpdateInMilis: Long = 0,
+    )
+
+
+
