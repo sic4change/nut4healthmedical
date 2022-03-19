@@ -105,7 +105,8 @@ object FirebaseDataSource {
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
                 val tutorsRef = firestore.collection("tutors")
-                tutorsRef.add(tutor.toServerTutor()).await()
+                val id = tutorsRef.add(tutor.toServerTutor()).await().id
+                tutorsRef.document(id).update("id", id,).await()
                 Timber.d("Create tutor result: ok")
             } catch (ex : Exception) {
                 Timber.d("Create tutor result: false ${ex.message}")
@@ -167,7 +168,8 @@ object FirebaseDataSource {
             try {
                 val firestore = NUT4HealthFirebaseService.mFirestore
                 val childsRef = firestore.collection("childs")
-                childsRef.add(child.toServerChild()).await()
+                val id = childsRef.add(child.toServerChild()).await().id
+                childsRef.document(id).update("id", id,).await()
                 Timber.d("Create child result: ok")
             } catch (ex : Exception) {
                 Timber.d("Create child result: false ${ex.message}")
@@ -227,7 +229,8 @@ object FirebaseDataSource {
                         case.id, case.childId, tutorId, case.name, case.status, case.createdate,
                         case.lastdate, case.visits, case.observations)
                     val casesRef = firestore.collection("cases")
-                    casesRef.add(caseToUpload.toServerCase()).await()
+                    val id = casesRef.add(caseToUpload.toServerCase()).await().id
+                    childsRef.document(id).update("id", id,).await()
                     Timber.d("Create case result: ok")
                 }
             } catch (ex : Exception) {

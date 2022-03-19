@@ -74,5 +74,6 @@
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
     <string name="check_tutor">Introduce el teléfono del tutor/a para validar si existe</string>
+    <string name="edit_case">Editar caso</string>
     wolof
 </resources>

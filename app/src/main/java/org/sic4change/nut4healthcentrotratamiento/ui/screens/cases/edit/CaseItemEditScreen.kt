@@ -70,7 +70,7 @@ private fun Header(caseState: CaseState,  onEditCase: (String, String, String, S
         modifier = Modifier.fillMaxWidth()
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        Text(stringResource(R.string.edit_child),
+        Text(stringResource(R.string.edit_case),
             color = colorResource(R.color.colorPrimary),
             style = MaterialTheme.typography.h4,
             textAlign = TextAlign.Center,
