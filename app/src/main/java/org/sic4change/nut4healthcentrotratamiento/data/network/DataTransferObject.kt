@@ -123,7 +123,7 @@ data class Symtom(
 )
 
 @JsonClass(generateAdapter = true)
-data class TreatmentContainer(val results: List<Treatment>)
+data class NetworkTreatmentContainer(val results: List<Treatment>)
 
 @JsonClass(generateAdapter = true)
 data class Treatment(

@@ -336,5 +336,23 @@ object FirebaseDataSource {
         networkMalNutritionTeenagerTableContainer.results.map { it.toDomainMalNutritionTeenagerTable() }
     }
 
+    suspend fun getSymtom(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val casesRef = firestore.collection("symtoms")
+        val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
+        val result = query.get().await()
+        val networkSymtomContainer = NetworkSymtomContainer(result.toObjects(Symtom::class.java))
+        networkSymtomContainer.results.map { it.toDomainSymtom() }
+    }
+
+    suspend fun getTreatments(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val casesRef = firestore.collection("treatments")
+        val query = casesRef.whereEqualTo("active", true)
+        val result = query.get().await()
+        val networkTreatmentContainer = NetworkTreatmentContainer(result.toObjects(Treatment::class.java))
+        networkTreatmentContainer.results.map { it.toDomainTreatment() }
+    }
+
 }
 
