@@ -11,8 +11,8 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.Case as ServerCas
 import org.sic4change.nut4healthcentrotratamiento.data.network.Contract as ServerContract
 import org.sic4change.nut4healthcentrotratamiento.data.network.MalNutritionChildTable as ServerMalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.network.MalNutritionTeenagerTable as ServerMalNutritionTeenagerTable
-
-
+import org.sic4change.nut4healthcentrotratamiento.data.network.Symtom as ServerSymtom
+import org.sic4change.nut4healthcentrotratamiento.data.network.Treatment as ServerTreatment
 
 fun ServerUser.toDomainUser() : User = User(
     id, email, role, username
@@ -64,6 +64,22 @@ fun ServerMalNutritionTeenagerTable.toDomainMalNutritionTeenagerTable() : MalNut
 
 fun MalNutritionTeenagerTable.toServerMalNutritionTeenagerTable() : MalNutritionTeenagerTable = MalNutritionTeenagerTable(
     id, cm, eighty, eightyfive, hundred, seventy, sex
+)
+
+fun ServerSymtom.toDomainSymtom() : Symtom = Symtom(
+    id, name, name_en, name_fr
+)
+
+fun ServerSymtom.toServerSymtom() : Symtom = Symtom(
+    id, name, name_en, name_fr
+)
+
+fun ServerTreatment.toDomainTreatment() : Treatment = Treatment(
+    id, name, name_en, name_fr, active, price
+)
+
+fun ServerTreatment.toServerTreatment() : Treatment = Treatment(
+    id, name, name_en, name_fr, active, price
 )
 
 
