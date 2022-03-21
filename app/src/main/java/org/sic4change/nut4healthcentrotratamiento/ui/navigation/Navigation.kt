@@ -26,7 +26,9 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -304,7 +306,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.VISITS)) {
             VisitsScreen(onClick =  { visit ->
-
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL).createRoute(visit.id)
+                )
 
             },
                 onCreateVisitClick = {
@@ -312,6 +316,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
             )
 
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL)) {
+            VisitDetailScreen(
+                onEditVisitClick = { visit ->
+
+            },
+                onDeleteVisitClick = { visitId ->
+
+                },
+            )
         }
 
 

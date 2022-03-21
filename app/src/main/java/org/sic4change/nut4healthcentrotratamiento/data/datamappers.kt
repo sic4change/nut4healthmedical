@@ -96,7 +96,7 @@ fun ServerVisit.toDomainVisit() : Visit {
         treatmentsEntity.add(treatmentEntity)
     }*/
     return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
-        measlesVaccinated, vitamineAVaccinated, symtoms, treatments)
+        measlesVaccinated, vitamineAVaccinated, symtoms, treatments, observations)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
@@ -111,7 +111,7 @@ fun Visit.toServerVisit() : ServerVisit  {
         treatmentsNetwork.add(treatmentNetwork)
     }*/
     return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
-        measlesVaccinated, vitamineAVaccinated, symtoms, treatments)
+        measlesVaccinated, vitamineAVaccinated, symtoms, treatments, observations)
 }
 
 

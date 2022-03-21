@@ -17,4 +17,5 @@ data class Visit(
     val vitamineAVaccinated: Boolean,
     val symtoms: List<String>,
     val treatments: List<String>,
+    var observations: String,
     ) : Item

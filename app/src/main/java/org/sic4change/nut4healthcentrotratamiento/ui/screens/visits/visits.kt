@@ -15,9 +15,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.rememberCasesState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -59,4 +67,33 @@ fun VisitsScreen(viewModel: VisitsViewModel = viewModel(), onClick: (Visit) -> U
 
     }
 
+}
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
+                      onEditVisitClick: (Visit) -> Unit,
+                      onDeleteVisitClick: (String) -> Unit) {
+    val visitDetailState = rememberVisitsState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.visit) {
+        if (viewModelState.visit != null) {
+            visitDetailState.id.value = viewModelState.visit!!.id
+            visitDetailState.createdDate.value = viewModelState.visit!!.createdate
+            visitDetailState.status.value = viewModelState.visit!!.status
+            visitDetailState.observations.value = viewModelState.visit!!.observations
+        }
+    }
+
+    VisitItemDetailScreen(
+        loading = viewModelState.loading,
+        visitItem = viewModelState.visit,
+        visitState = visitDetailState,
+        onEditClick = onEditVisitClick,
+        onDeleteClick = onDeleteVisitClick
+    )
+    /*MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
+        caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)*/
 }

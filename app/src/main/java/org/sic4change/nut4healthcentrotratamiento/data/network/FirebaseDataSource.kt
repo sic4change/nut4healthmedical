@@ -259,7 +259,7 @@ object FirebaseDataSource {
                 caseRef.document(id).delete().await()
                 Timber.d("Delete case result: ok")
             } catch (ex: Exception) {
-                Timber.d("Delete case child: false ${ex.message}")
+                Timber.d("Delete case: false ${ex.message}")
             }
         }
     }
@@ -361,6 +361,31 @@ object FirebaseDataSource {
         val result = query.get().await()
         val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
         networkVisitsContainer.results.map { it.toDomainVisit() }
+    }
+
+    suspend fun getVisit(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val visitRef = firestore.collection("visits")
+        val query = visitRef.whereEqualTo("id", id)
+        val result = query.get().await()
+        val networkVisitContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
+        networkVisitContainer.results[0].let {
+            it.toDomainVisit()
+        }
+    }
+
+    suspend fun deleteVisit(id: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to delete visit from firebase")
+            try {
+                val firestore = NUT4HealthFirebaseService.mFirestore
+                val visitRef = firestore.collection("visits")
+                visitRef.document(id).delete().await()
+                Timber.d("Delete visit result: ok")
+            } catch (ex: Exception) {
+                Timber.d("Delete visit: false ${ex.message}")
+            }
+        }
     }
 
 }
