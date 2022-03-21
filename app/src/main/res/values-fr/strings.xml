@@ -75,4 +75,6 @@
     <string name="autre">Autre</string>
     <string name="check_tutor">Introduce el teléfono del tutor/a para validar si existe</string>
     <string name="edit_case">Editar caso</string>
+    <string name="visitas">Visitas</string>
+    <string name="no_visits">Sin visitas todavía</string>
 </resources>

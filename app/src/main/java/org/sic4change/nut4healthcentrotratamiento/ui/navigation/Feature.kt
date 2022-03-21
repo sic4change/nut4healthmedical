@@ -21,4 +21,6 @@ enum class Feature(val route: String) {
     CASE_DETAIL ("casedetail"),
     CREATECASE("createcase"),
     EDITCASE("editcase"),
+
+    VISITS("visits"),
 }

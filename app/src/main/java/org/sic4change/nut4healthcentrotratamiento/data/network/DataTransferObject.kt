@@ -103,12 +103,12 @@ data class NetworkMalNutritionTeenagerTableContainer(val results: List<MalNutrit
 @JsonClass(generateAdapter = true)
 data class MalNutritionTeenagerTable(
     @Exclude val id: String = "",
-    @Exclude val cm: String,
-    @Exclude val eighty: String,
-    @Exclude val eightyfive: String,
-    @Exclude val hundred: String,
-    @Exclude val seventy: String,
-    @Exclude val sex: String,
+    @Exclude val cm: String = "",
+    @Exclude val eighty: String = "",
+    @Exclude val eightyfive: String = "",
+    @Exclude val hundred: String = "",
+    @Exclude val seventy: String = "",
+    @Exclude val sex: String = ""
 )
 
 @JsonClass(generateAdapter = true)
@@ -117,9 +117,9 @@ data class NetworkSymtomContainer(val results: List<Symtom>)
 @JsonClass(generateAdapter = true)
 data class Symtom(
     @Exclude val id: String = "",
-    @Exclude val name: String,
-    @Exclude val name_en: String,
-    @Exclude val name_fr: String
+    @Exclude val name: String = "",
+    @Exclude val name_en: String = "",
+    @Exclude val name_fr: String = ""
 )
 
 @JsonClass(generateAdapter = true)
@@ -128,11 +128,11 @@ data class NetworkTreatmentContainer(val results: List<Treatment>)
 @JsonClass(generateAdapter = true)
 data class Treatment(
     @Exclude val id: String = "",
-    @Exclude val name: String,
-    @Exclude val name_en: String,
-    @Exclude val name_fr: String,
-    @Exclude val active: Boolean,
-    @Exclude val price: Double
+    @Exclude val name: String = "",
+    @Exclude val name_en: String = "",
+    @Exclude val name_fr: String = "",
+    @Exclude val active: Boolean = false,
+    @Exclude val price: Double = 0.0
 )
 
 @JsonClass(generateAdapter = true)
@@ -141,18 +141,22 @@ data class NetworkVisitContainer(val results: List<Visit>)
 @JsonClass(generateAdapter = true)
 data class Visit(
     @Exclude val id: String = "",
-    @Exclude val caseId: String,
-    @Exclude val childId: String,
-    @Exclude val tutorId: String,
-    @Exclude val createdate: Date,
-    @Exclude val height: Int,
-    @Exclude val weight: Int,
-    @Exclude val imc: Double,
-    @Exclude val armCircunference: Double,
-    @Exclude val status: String,
-    @Exclude val symtoms: List<Symtom>,
-    @Exclude val treatments: List<Treatment>,
+    @Exclude val caseId: String = "",
+    @Exclude val childId: String = "",
+    @Exclude val tutorId: String = "",
+    @Exclude val createdate: Date = Date(),
+    @Exclude val height: Int = 0,
+    @Exclude val weight: Double = 0.0,
+    @Exclude val imc: Double = 0.0,
+    @Exclude val armCircunference: Double = 0.0,
+    @Exclude val status: String = "",
+    @Exclude val measlesVaccinated: Boolean = false,
+    @Exclude val vitamineAVaccinated: Boolean = false,
+    @Exclude val symtoms: List<String> = emptyList(),
+    @Exclude val treatments: List<String> = emptyList(),
 )
+
+
 
 
 

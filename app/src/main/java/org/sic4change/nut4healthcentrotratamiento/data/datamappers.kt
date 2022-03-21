@@ -85,7 +85,7 @@ fun Treatment.toServerTreatment() : ServerTreatment = ServerTreatment(
 )
 
 fun ServerVisit.toDomainVisit() : Visit {
-    val symtomsEntity = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>()
+   /* val symtomsEntity = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>()
     symtoms.forEach {
         val symtomEntity = it.toDomainSymtom()
         symtomsEntity.add(symtomEntity)
@@ -94,12 +94,13 @@ fun ServerVisit.toDomainVisit() : Visit {
     treatments.forEach {
         val treatmentEntity = it.toDomainTreatment()
         treatmentsEntity.add(treatmentEntity)
-    }
-    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, symtomsEntity, treatmentsEntity)
+    }*/
+    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
+        measlesVaccinated, vitamineAVaccinated, symtoms, treatments)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    val symtomsNetwork = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.network.Symtom>()
+   /* val symtomsNetwork = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.network.Symtom>()
     symtoms.forEach {
         val symtomNetwork = it.toServerSymtom()
         symtomsNetwork.add(symtomNetwork)
@@ -108,8 +109,9 @@ fun Visit.toServerVisit() : ServerVisit  {
     treatments.forEach {
         val treatmentNetwork = it.toServerTreatment()
         treatmentsNetwork.add(treatmentNetwork)
-    }
-    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, symtomsNetwork, treatmentsNetwork)
+    }*/
+    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
+        measlesVaccinated, vitamineAVaccinated, symtoms, treatments)
 }
 
 
