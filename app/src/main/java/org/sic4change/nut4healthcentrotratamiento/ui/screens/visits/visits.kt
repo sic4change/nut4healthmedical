@@ -82,6 +82,10 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
         if (viewModelState.visit != null) {
             visitDetailState.id.value = viewModelState.visit!!.id
             visitDetailState.createdDate.value = viewModelState.visit!!.createdate
+            visitDetailState.height.value = viewModelState.visit!!.height
+            visitDetailState.weight.value = viewModelState.visit!!.weight
+            visitDetailState.imc.value = viewModelState.visit!!.imc
+            visitDetailState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitDetailState.status.value = viewModelState.visit!!.status
             visitDetailState.observations.value = viewModelState.visit!!.observations
         }

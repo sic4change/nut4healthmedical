@@ -77,5 +77,9 @@
     <string name="edit_case">Editar caso</string>
     <string name="visitas">Visitas</string>
     <string name="no_visits">Sin visitas todavía</string>
+    <string name="weight">Peso (Kg)</string>
+    <string name="height">Altura (cm)</string>
+    <string name="imc">IMC</string>
+    <string name="arm_circunference">Perímetro braquial</string>
 
 </resources>

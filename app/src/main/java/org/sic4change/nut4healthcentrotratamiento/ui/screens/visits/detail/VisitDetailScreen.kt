@@ -89,9 +89,88 @@ private fun Header(visitState: VisitState) {
                 Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                     label = { Text(stringResource(R.string.creation_date), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(value = visitState.height.value.toString(),
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+            label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = visitState.status.value.toString().capitalize(),
+        TextField(value = visitState.weight.value.toString(),
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+            label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(value = visitState.imc.value.toString(),
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Approval, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+            label = { Text(stringResource(R.string.imc), color = colorResource(R.color.disabled_color)) })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(value = visitState.armCircunference.value.toString(),
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Default.MultipleStop, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(value = visitState.status.value.capitalize(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -108,7 +187,6 @@ private fun Header(visitState: VisitState) {
                 leadingIcon = {
                     Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-
 
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = visitState.observations.value,
