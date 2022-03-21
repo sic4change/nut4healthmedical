@@ -354,5 +354,14 @@ object FirebaseDataSource {
         networkTreatmentContainer.results.map { it.toDomainTreatment() }
     }
 
+    suspend fun getVisits(caseId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val visitsRef = firestore.collection("visits")
+        val query = visitsRef.whereEqualTo("caseId", caseId)
+        val result = query.get().await()
+        val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
+        networkVisitsContainer.results.map { it.toDomainVisit() }
+    }
+
 }
 

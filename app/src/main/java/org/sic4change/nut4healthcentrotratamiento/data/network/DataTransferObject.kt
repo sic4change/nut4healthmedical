@@ -135,6 +135,26 @@ data class Treatment(
     @Exclude val price: Double
 )
 
+@JsonClass(generateAdapter = true)
+data class NetworkVisitContainer(val results: List<Visit>)
+
+@JsonClass(generateAdapter = true)
+data class Visit(
+    @Exclude val id: String = "",
+    @Exclude val caseId: String,
+    @Exclude val childId: String,
+    @Exclude val tutorId: String,
+    @Exclude val createdate: Date,
+    @Exclude val height: Int,
+    @Exclude val weight: Int,
+    @Exclude val imc: Double,
+    @Exclude val armCircunference: Double,
+    @Exclude val status: String,
+    @Exclude val symtoms: List<Symtom>,
+    @Exclude val treatments: List<Treatment>,
+)
+
+
 
 
 
