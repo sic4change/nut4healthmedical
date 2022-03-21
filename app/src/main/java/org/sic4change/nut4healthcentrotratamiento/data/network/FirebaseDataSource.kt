@@ -318,5 +318,23 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun getMalnutritionChildTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val malnutritionChildTableRef = firestore.collection("malnutritionChildTable")
+        val query = malnutritionChildTableRef.whereEqualTo("createdby", "aasencio@sic4change.org")
+        val result = query.get().await()
+        val networkMalnutritionChildTableContainer = NetworkMalNutritionChildTableContainer(result.toObjects(MalNutritionChildTable::class.java))
+        networkMalnutritionChildTableContainer.results.map { it.toDomainMalNutritionChildTable() }
+    }
+
+    suspend fun getMalnutritionTeenegerTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable> = withContext(Dispatchers.IO) {
+        val firestore = NUT4HealthFirebaseService.mFirestore
+        val casesRef = firestore.collection("malnutritionTeenagersTable")
+        val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
+        val result = query.get().await()
+        val networkMalNutritionTeenagerTableContainer = NetworkMalNutritionTeenagerTableContainer(result.toObjects(MalNutritionTeenagerTable::class.java))
+        networkMalNutritionTeenagerTableContainer.results.map { it.toDomainMalNutritionTeenagerTable() }
+    }
+
 }
 

@@ -1,14 +1,17 @@
 package org.sic4change.nut4healthcentrotratamiento.data
 
-import com.google.firebase.firestore.Exclude
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
-import java.util.*
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.Child as ServerChild
 import org.sic4change.nut4healthcentrotratamiento.data.network.Case as ServerCase
 import org.sic4change.nut4healthcentrotratamiento.data.network.Contract as ServerContract
+import org.sic4change.nut4healthcentrotratamiento.data.network.MalNutritionChildTable as ServerMalNutritionChildTable
+import org.sic4change.nut4healthcentrotratamiento.data.network.MalNutritionTeenagerTable as ServerMalNutritionTeenagerTable
+
 
 
 fun ServerUser.toDomainUser() : User = User(
@@ -47,6 +50,21 @@ fun Contract.toServerContract() : ServerContract = ServerContract(
     id, status, medicalDate, medicalDateMiliseconds, medicalDateToUpdate, medicalDateToUpdateInMilis
 )
 
+fun ServerMalNutritionChildTable.toDomainMalNutritionChildTable() : MalNutritionChildTable = MalNutritionChildTable(
+    id, cm, minusone, minusonefive, minusthree, minustwo, zero
+)
+
+fun MalNutritionChildTable.toServerMalNutritionChildTable() : MalNutritionChildTable = MalNutritionChildTable(
+    id, cm, minusone, minusonefive, minusthree, minustwo, zero
+)
+
+fun ServerMalNutritionTeenagerTable.toDomainMalNutritionTeenagerTable() : MalNutritionTeenagerTable = MalNutritionTeenagerTable(
+    id, cm, eighty, eightyfive, hundred, seventy, sex
+)
+
+fun MalNutritionTeenagerTable.toServerMalNutritionTeenagerTable() : MalNutritionTeenagerTable = MalNutritionTeenagerTable(
+    id, cm, eighty, eightyfive, hundred, seventy, sex
+)
 
 
 
