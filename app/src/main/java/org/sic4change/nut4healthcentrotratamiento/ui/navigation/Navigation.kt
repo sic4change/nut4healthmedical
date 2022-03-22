@@ -323,8 +323,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onEditVisitClick = { visit ->
 
             },
-                onDeleteVisitClick = { visitId ->
-
+                onDeleteVisitClick = { caseId ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(caseId)
+                    )
                 },
             )
         }

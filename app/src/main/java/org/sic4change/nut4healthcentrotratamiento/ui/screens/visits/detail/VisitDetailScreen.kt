@@ -1,7 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail
 
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

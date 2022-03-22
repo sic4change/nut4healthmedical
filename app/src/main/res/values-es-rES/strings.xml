@@ -81,7 +81,7 @@
     <string name="height">Altura (cm)</string>
     <string name="imc">IMC</string>
     <string name="arm_circunference">Perímetro braquial</string>
-    <string name="delete_visit_question">¿Está seguro que quiere eliminar esa visita?</string>
+    <string name="delete_visit_question">¿Está seguro que quiere eliminar esa visita? Se perderán los datos asociados</string>
     <string name="symtoms">Síntomas</string>
     <string name="treatments">Tratamientos</string>
 

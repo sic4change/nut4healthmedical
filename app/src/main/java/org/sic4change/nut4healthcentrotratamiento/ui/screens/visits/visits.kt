@@ -24,6 +24,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDe
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.rememberCasesState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.MessageDeleteVisit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
 
@@ -81,6 +82,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {
             visitDetailState.id.value = viewModelState.visit!!.id
+            visitDetailState.caseId.value = viewModelState.visit!!.caseId
             visitDetailState.createdDate.value = viewModelState.visit!!.createdate
             visitDetailState.height.value = viewModelState.visit!!.height
             visitDetailState.weight.value = viewModelState.visit!!.weight
@@ -100,6 +102,6 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
         onEditClick = onEditVisitClick,
         onDeleteClick = onDeleteVisitClick
     )
-    /*MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
-        caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)*/
+    MessageDeleteVisit(visitDetailState.deleteVisit.value, visitDetailState::showDeleteQuestion,
+        visitDetailState.id.value, visitDetailState.caseId.value, viewModel::deleteVisit, onDeleteVisitClick)
 }
