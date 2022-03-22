@@ -22,14 +22,14 @@ class VisitsViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(createVisit = false)
             _state.value = UiState(loading = true)
-            _state.value = UiState(visits = FirebaseDataSource.getVisits(id), childId = id, createVisit = false)
+            _state.value = UiState(visits = FirebaseDataSource.getVisits(id), caseId = id, createVisit = false)
         }
     }
 
 
     data class  UiState(
         val loading: Boolean = false,
-        val childId: String = "",
+        val caseId: String = "",
         val visits: List<Visit> = emptyList(),
         val createVisit: Boolean = false,
     )

@@ -84,4 +84,5 @@
     <string name="delete_visit_question">¿Está seguro que quiere eliminar esa visita? Se perderán los datos asociados</string>
     <string name="symtoms">Síntomas</string>
     <string name="treatments">Tratamientos</string>
+    <string name="create_visit">Crear visita</string>
 </resources>

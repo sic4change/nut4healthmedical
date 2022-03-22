@@ -20,10 +20,14 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.rememberCasesState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.MessageDeleteVisit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
@@ -50,7 +54,7 @@ fun VisitsScreen(viewModel: VisitsViewModel = viewModel(), onClick: (Visit) -> U
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        //onCreateVisitClick(viewModelState.childId)
+                        onCreateVisitClick(viewModelState.caseId)
                     },
                     backgroundColor = colorResource(R.color.colorPrimary),
                     content = {
@@ -104,4 +108,34 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     )
     MessageDeleteVisit(visitDetailState.deleteVisit.value, visitDetailState::showDeleteQuestion,
         visitDetailState.id.value, visitDetailState.caseId.value, viewModel::deleteVisit, onDeleteVisitClick)
+}
+
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit) {
+    val visitCreateState = rememberVisitsState()
+    val viewModelState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(viewModelState.visit) {
+        if (viewModelState.visit != null) {
+            visitCreateState.id.value = viewModelState.visit!!.id
+            visitCreateState.height.value = viewModelState.visit!!.height
+            visitCreateState.weight.value = viewModelState.visit!!.weight
+        }
+    }
+
+    LaunchedEffect(viewModelState.created) {
+        if (viewModelState.created) {
+            onCreateVisit(visitCreateState.caseId.value)
+        }
+    }
+
+    VisitItemCreateScreen(
+        loading = viewModelState.loading,
+        visitState = visitCreateState,
+        onCreateVisit = viewModel::createVisit
+    )
 }
