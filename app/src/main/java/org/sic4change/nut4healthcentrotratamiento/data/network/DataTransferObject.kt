@@ -153,7 +153,7 @@ data class Visit(
     @Exclude val measlesVaccinated: Boolean = false,
     @Exclude val vitamineAVaccinated: Boolean = false,
     @Exclude var symtoms: List<String> = emptyList(),
-    @Exclude val treatments: List<String> = emptyList(),
+    @Exclude var treatments: List<String> = emptyList(),
     @Exclude var observations: String = "",
 )
 
