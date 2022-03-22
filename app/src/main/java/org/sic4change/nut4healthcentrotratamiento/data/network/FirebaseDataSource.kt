@@ -1,5 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
+import android.content.res.Resources
+import androidx.core.os.ConfigurationCompat
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -11,15 +13,17 @@ import java.util.*
 
 object FirebaseDataSource {
 
+    private val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+    private val firestore = NUT4HealthFirebaseService.mFirestore
+
     suspend fun isLogged(): Boolean = withContext(Dispatchers.IO) {
-        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+
         firestoreAuth.currentUser != null
     }
 
     suspend fun getLoggedUser(): org.sic4change.nut4healthcentrotratamiento.data.entitities.User =
         withContext(Dispatchers.IO) {
             val firestoreAuth = NUT4HealthFirebaseService.fbAuth
-            val firestore = NUT4HealthFirebaseService.mFirestore
             val userRef = firestore.collection("users")
             val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val result = query.get().await()
@@ -30,7 +34,6 @@ object FirebaseDataSource {
         }
 
     suspend fun getUser(email: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.User = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val userRef = firestore.collection("users")
         val query = userRef.whereEqualTo("email", email).limit(1)
         val result = query.get().await()
@@ -80,7 +83,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("active", true).orderBy("name", Query.Direction.ASCENDING )
         val result = query.get().await()
@@ -89,7 +91,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTutor(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("id", id)
         val result = query.get().await()
@@ -103,7 +104,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create tutor with firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val tutorsRef = firestore.collection("tutors")
                 val id = tutorsRef.add(tutor.toServerTutor()).await().id
                 tutorsRef.document(id).update("id", id,).await()
@@ -118,7 +118,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete tutor from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val tutorRef = firestore.collection("tutors")
                 tutorRef.document(id).delete().await()
                 Timber.d("Delete tutor result: ok")
@@ -132,7 +131,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update tutor from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val tutorsRef = firestore.collection("tutors")
                 tutorsRef.document(tutor.id).set(tutor.toServerTutor()).await()
                 Timber.d("update tutor result: ok")
@@ -143,7 +141,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getChilds(tutorId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Child> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val childsRef = firestore.collection("childs")
         val query = childsRef.whereEqualTo("tutorId", tutorId).orderBy("name", Query.Direction.ASCENDING )
         val result = query.get().await()
@@ -152,7 +149,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getChild(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Child = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val childRef = firestore.collection("childs")
         val query = childRef.whereEqualTo("id", id)
         val result = query.get().await()
@@ -166,7 +162,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create child with firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val childsRef = firestore.collection("childs")
                 val id = childsRef.add(child.toServerChild()).await().id
                 childsRef.document(id).update("id", id,).await()
@@ -181,7 +176,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete child from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val childRef = firestore.collection("childs")
                 childRef.document(id).delete().await()
                 Timber.d("Delete child result: ok")
@@ -195,7 +189,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update child from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val childsRef = firestore.collection("childs")
                 childsRef.document(child.id).set(child.toServerChild()).await()
                 Timber.d("update child result: ok")
@@ -206,7 +199,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val casesRef = firestore.collection("cases")
         val query = casesRef.whereEqualTo("childId", childId)
         val result = query.get().await()
@@ -218,7 +210,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create case with firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val childsRef = firestore.collection("childs")
                 val query = childsRef.whereEqualTo("id", case.childId)
                 val result = query.get().await()
@@ -240,7 +231,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getCase(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Case = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val caseRef = firestore.collection("cases")
         val query = caseRef.whereEqualTo("id", id)
         val result = query.get().await()
@@ -254,7 +244,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete case from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val caseRef = firestore.collection("cases")
                 caseRef.document(id).delete().await()
                 Timber.d("Delete case result: ok")
@@ -268,7 +257,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update case from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val casesRef = firestore.collection("cases")
                 casesRef.document(case.id).set(case.toServerCase()).await()
                 Timber.d("update case result: ok")
@@ -280,7 +268,6 @@ object FirebaseDataSource {
 
     suspend fun checkDiagnosis(phone: String) {
         withContext(Dispatchers.IO) {
-            val firestore = NUT4HealthFirebaseService.mFirestore
             val contractsRef = firestore.collection("contracts")
             val query = contractsRef.whereEqualTo("childPhoneContract", phone.filter { !it.isWhitespace() })
             val result = query.get().await()
@@ -304,7 +291,6 @@ object FirebaseDataSource {
     }
 
     suspend fun checkTutor(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("phone", phone.filter { !it.isWhitespace() })
         val result = query.get().await()
@@ -319,7 +305,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getMalnutritionChildTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val malnutritionChildTableRef = firestore.collection("malnutritionChildTable")
         val query = malnutritionChildTableRef.whereEqualTo("createdby", "aasencio@sic4change.org")
         val result = query.get().await()
@@ -328,7 +313,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getMalnutritionTeenegerTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val casesRef = firestore.collection("malnutritionTeenagersTable")
         val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
         val result = query.get().await()
@@ -337,7 +321,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getSymtom(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val casesRef = firestore.collection("symtoms")
         val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
         val result = query.get().await()
@@ -346,7 +329,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTreatments(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val casesRef = firestore.collection("treatments")
         val query = casesRef.whereEqualTo("active", true)
         val result = query.get().await()
@@ -355,7 +337,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getVisits(caseId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val visitsRef = firestore.collection("visits")
         val query = visitsRef.whereEqualTo("caseId", caseId)
         val result = query.get().await()
@@ -364,21 +345,20 @@ object FirebaseDataSource {
     }
 
     suspend fun getVisit(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit = withContext(Dispatchers.IO) {
-        val firestore = NUT4HealthFirebaseService.mFirestore
         val visitRef = firestore.collection("visits")
         val query = visitRef.whereEqualTo("id", id)
         val result = query.get().await()
         val networkVisitContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
-        networkVisitContainer.results[0].let {
-            it.toDomainVisit()
+        networkVisitContainer.results[0].let { visit ->
+            visit.toDomainVisit()
         }
+        
     }
 
     suspend fun deleteVisit(id: String) {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete visit from firebase")
             try {
-                val firestore = NUT4HealthFirebaseService.mFirestore
                 val visitRef = firestore.collection("visits")
                 visitRef.document(id).delete().await()
                 Timber.d("Delete visit result: ok")

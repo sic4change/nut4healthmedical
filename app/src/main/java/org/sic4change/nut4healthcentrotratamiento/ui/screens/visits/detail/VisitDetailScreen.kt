@@ -1,6 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail
 
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -49,10 +49,7 @@ fun VisitItemDetailScreen(
                     item {
                         Header(visitState = visitState)
                     }
-                    /*item.references.forEach {
-                        val (icon, @StringRes stringRes) = it.type.createUiData()
-                        section(icon, stringRes, it.references)
-                    }*/
+
                 }
             }
 
@@ -210,13 +207,39 @@ private fun Header(visitState: VisitState) {
                     label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) }
                     )
         Spacer(modifier = Modifier.height(16.dp))
+        Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.colorPrimary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),)
+        visitState.symtoms.value.forEach {
+            ListItem(
+                icon = { Icon(imageVector = Icons.Filled.LocalHospital, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
+                text = { Text(text = it, color = colorResource(R.color.colorPrimary)) }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = stringResource(R.string.treatments), color = colorResource(R.color.colorPrimary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),)
+        visitState.treatments.value.forEach {
+            ListItem(
+                icon = { Icon(imageVector = Icons.Filled.LocalPharmacy, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
+                text = { Text(text = it, color = colorResource(R.color.colorPrimary)) }
+            )
+        }
 
     }
 }
 
+
+
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MessageDeleteCase(showDialog: Boolean, setShowDialog: () -> Unit, caseId: String, childId: String, onDeleteCase: (String) -> Unit, onDeleteCaseSelected: (String) -> Unit) {
+fun MessageDeleteVisit(showDialog: Boolean, setShowDialog: () -> Unit, visitId: String, caseId: String,
+                       onDeleteVisit: (String) -> Unit, onDeleteVisitSelected: (String) -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -229,8 +252,8 @@ fun MessageDeleteCase(showDialog: Boolean, setShowDialog: () -> Unit, caseId: St
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
                         setShowDialog()
-                        onDeleteCase(caseId)
-                        onDeleteCaseSelected(childId)
+                        onDeleteVisit(visitId)
+                        onDeleteVisitSelected(caseId)
                     },
                 ) {
                     Text(stringResource(R.string.accept), color = colorResource(R.color.white))
@@ -247,7 +270,7 @@ fun MessageDeleteCase(showDialog: Boolean, setShowDialog: () -> Unit, caseId: St
                 }
             },
             text = {
-                Text(stringResource(R.string.delete_case_question))
+                Text(stringResource(R.string.delete_visit_question))
             },
         )
     }

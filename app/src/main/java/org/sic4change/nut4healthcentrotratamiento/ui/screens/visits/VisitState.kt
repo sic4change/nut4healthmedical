@@ -17,11 +17,13 @@ fun rememberVisitsState(
     armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    symtoms: MutableState<List<String>> = rememberSaveable {mutableStateOf(listOf<String>())},
+    treatments: MutableState<List<String>> = rememberSaveable {mutableStateOf(listOf<String>())},
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     visitsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ VisitState(id, caseId, height, weight, imc, armCircunference, status, observations, createdDate,
-    visitsSize, deleteVisit ) }
+) = remember{ VisitState(id, caseId, height, weight, imc, armCircunference, status, observations,
+    symtoms, treatments, createdDate,  visitsSize, deleteVisit ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -32,6 +34,8 @@ class VisitState(
     val armCircunference: MutableState<Double>,
     val status: MutableState<String>,
     val observations: MutableState<String>,
+    val symtoms: MutableState<List<String>>,
+    val treatments: MutableState<List<String>>,
     val createdDate: MutableState<Date>,
     val visitsSize: MutableState<Int>,
     val deleteVisit: MutableState<Boolean>,

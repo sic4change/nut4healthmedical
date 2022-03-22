@@ -88,6 +88,8 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitDetailState.status.value = viewModelState.visit!!.status
             visitDetailState.observations.value = viewModelState.visit!!.observations
+            visitDetailState.symtoms.value = viewModelState.visit!!.symtoms
+            visitDetailState.treatments.value = viewModelState.visit!!.treatments
         }
     }
 
