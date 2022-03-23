@@ -11,8 +11,10 @@ import java.util.*
 fun rememberVisitsState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
     caseId: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    height: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
-    weight: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
+    childId: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    tutorId: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    height: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    weight: MutableState<String> = rememberSaveable { mutableStateOf("") },
     imc: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
     armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -22,14 +24,16 @@ fun rememberVisitsState(
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     visitsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ VisitState(id, caseId, height, weight, imc, armCircunference, status, observations,
-    symtoms, treatments, createdDate,  visitsSize, deleteVisit ) }
+) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
+    status, observations, symtoms, treatments, createdDate,  visitsSize, deleteVisit ) }
 
 class VisitState(
     val id: MutableState<String>,
     val caseId: MutableState<String>,
-    val height: MutableState<Int>,
-    val weight: MutableState<Double>,
+    val childId: MutableState<String>,
+    val tutorId: MutableState<String>,
+    val height: MutableState<String>,
+    val weight: MutableState<String>,
     val imc: MutableState<Double>,
     val armCircunference: MutableState<Double>,
     val status: MutableState<String>,

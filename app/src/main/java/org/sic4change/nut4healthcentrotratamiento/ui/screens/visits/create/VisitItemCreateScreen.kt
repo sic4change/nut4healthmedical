@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
@@ -24,7 +25,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
-                         onCreateVisit: (String, String, String) -> Unit) {
+                         onCreateVisit: (Double, Double, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -53,7 +54,7 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onCreateVisit: (String, String, String) -> Unit) {
+                   onCreateVisit: (Double, Double, String) -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -75,10 +76,11 @@ private fun Header(visitState: VisitState,
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
-            onValueChange = {visitState.height.value = it.toInt()},
+            onValueChange = {visitState.height.value = it},
             textStyle = MaterialTheme.typography.h5,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                capitalization = KeyboardCapitalization.Sentences),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -95,8 +97,11 @@ private fun Header(visitState: VisitState,
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
-            onValueChange = {visitState.weight.value = it.toDouble()},
+            onValueChange = {visitState.weight.value = it},
             textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -105,6 +110,24 @@ private fun Header(visitState: VisitState,
             label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
 
+        TextField(value = visitState.observations.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {visitState.observations.value = it},
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             modifier = Modifier
@@ -112,7 +135,8 @@ private fun Header(visitState: VisitState,
                 .padding(16.dp, 0.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
             onClick = {
-                //onCreateVisit(visitState.height.value, defaultStatus, caseState.observations.value)
+                onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                    visitState.weight.value.filter { !it.isWhitespace() }.toDouble(), visitState.observations.value)
 
             },
         ) {

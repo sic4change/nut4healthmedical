@@ -415,5 +415,41 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun createVisit(visit: org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to create visit with firebase")
+            try {
+
+                val casesRef = firestore.collection("cases")
+                val queryCase = casesRef.whereEqualTo("id", visit.caseId)
+                val resultCase = queryCase.get().await()
+                val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
+                networkCasesContainer.results[0].let { case ->
+                    val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
+                    visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.measlesVaccinated,
+                    visit.vitamineAVaccinated, visit.symtoms, visit.treatments, visit.observations)
+                    val visitsRef = firestore.collection("visits")
+                    val id = visitsRef.add(visitToUpdate.toServerVisit()).await().id
+                    visitsRef.document(id).update("id", id,).await()
+                    Timber.d("Create visit result: ok")
+                    val caseRef = firestore.collection("cases")
+                    val query = caseRef.whereEqualTo("id", visit.caseId)
+                    val result = query.get().await()
+                    val networkCaseContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+                    networkCaseContainer.results[0].let { case ->
+                        val visits = case.visits
+                        caseRef.document(visit.caseId)
+                            .update(
+                                "visits", visits + 1,
+                            ).await()
+                    }
+
+                }
+            } catch (ex : Exception) {
+                Timber.d("Create visit result: false ${ex.message}")
+            }
+        }
+    }
+
 }
 

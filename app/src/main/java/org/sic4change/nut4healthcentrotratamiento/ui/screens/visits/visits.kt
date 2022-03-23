@@ -88,8 +88,8 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.id.value = viewModelState.visit!!.id
             visitDetailState.caseId.value = viewModelState.visit!!.caseId
             visitDetailState.createdDate.value = viewModelState.visit!!.createdate
-            visitDetailState.height.value = viewModelState.visit!!.height
-            visitDetailState.weight.value = viewModelState.visit!!.weight
+            visitDetailState.height.value = viewModelState.visit!!.height.toString()
+            visitDetailState.weight.value = viewModelState.visit!!.weight.toString()
             visitDetailState.imc.value = viewModelState.visit!!.imc
             visitDetailState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitDetailState.status.value = viewModelState.visit!!.status
@@ -122,8 +122,11 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {
             visitCreateState.id.value = viewModelState.visit!!.id
-            visitCreateState.height.value = viewModelState.visit!!.height
-            visitCreateState.weight.value = viewModelState.visit!!.weight
+            visitCreateState.caseId.value = viewModelState.visit!!.caseId
+            visitCreateState.childId.value = viewModelState.visit!!.childId
+            visitCreateState.tutorId.value = viewModelState.visit!!.tutorId
+            visitCreateState.height.value = viewModelState.visit!!.height.toString()
+            visitCreateState.weight.value = viewModelState.visit!!.weight.toString()
         }
     }
 

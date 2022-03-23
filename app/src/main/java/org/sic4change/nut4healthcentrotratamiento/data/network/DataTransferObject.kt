@@ -145,7 +145,7 @@ data class Visit(
     @Exclude val childId: String = "",
     @Exclude val tutorId: String = "",
     @Exclude val createdate: Date = Date(),
-    @Exclude val height: Int = 0,
+    @Exclude val height: Double = 0.0,
     @Exclude val weight: Double = 0.0,
     @Exclude val imc: Double = 0.0,
     @Exclude val armCircunference: Double = 0.0,

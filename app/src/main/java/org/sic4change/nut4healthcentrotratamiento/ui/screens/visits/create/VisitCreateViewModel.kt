@@ -9,11 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import java.util.*
 
 class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    private val visitId = savedStateHandle.get<String>(NavArg.ItemId.key) ?: "0"
+    private val caseId = savedStateHandle.get<String>(NavArg.ItemId.key) ?: "0"
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -30,16 +31,17 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val created: Boolean = false,
     )
 
-
-    fun createVisit(name: String, status: String, observations: String) {
+    fun createVisit(height: Double, weight: Double, observations: String) {
         viewModelScope.launch {
-            /*val case = Case(childId, childId, childId, name, status,
-                Date(), Date(), "0", observations)
-            _state.value= UiState(case = case)
-            FirebaseDataSource.createCase(case)
-            _state.value = UiState(created = true)*/
+            val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
+                0.0, "", false, false,
+            emptyList(), emptyList(), observations)
+            _state.value= UiState(visit = visit)
+            FirebaseDataSource.createVisit(visit)
+            _state.value = UiState(created = true)
         }
     }
+
 
 
 
