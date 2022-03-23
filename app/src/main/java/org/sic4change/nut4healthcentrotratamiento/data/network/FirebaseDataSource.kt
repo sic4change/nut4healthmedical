@@ -462,9 +462,9 @@ object FirebaseDataSource {
             networkMalNutritionTeenagerTableContainer.results[0].let { malNutritionTeenagerTable ->
                 if (weight >= malNutritionTeenagerTable.hundred.toDouble()) {
                     status = 100.0
-                } else if (weight >= malNutritionTeenagerTable.eightyfive.toDouble()) {
+                } else if (weight > malNutritionTeenagerTable.eighty.toDouble()) {
                     status = 85.0
-                } else if (weight >= malNutritionTeenagerTable.eighty.toDouble()) {
+                } else if (weight > malNutritionTeenagerTable.seventy.toDouble()) {
                     status = 80.0
                 } else  {
                     status = 70.0
@@ -478,16 +478,13 @@ object FirebaseDataSource {
             val networkMalNutritionChildTableContainer =
                 NetworkMalNutritionChildTableContainer(resultChildMalNutritionChildTable.toObjects(MalNutritionChildTable::class.java))
             networkMalNutritionChildTableContainer.results[0].let { malNutritionChldTable ->
-                print("Aqui ${malNutritionChldTable.cm}")
-                if (weight >= malNutritionChldTable.zero.toDouble()) {
+                if (weight > malNutritionChldTable.minusone.toDouble()) {
                     status = 0.0
-                } else if (weight >= malNutritionChldTable.minusone.toDouble()) {
+                } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
                     status = -1.0
-                } else if (weight >= malNutritionChldTable.minusonefive.toDouble()) {
+                } else if (weight > malNutritionChldTable.minusthree.toDouble()) {
                     status = -1.5
-                } else if (weight >= malNutritionChldTable.minustwo.toDouble()) {
-                    status = -2.0
-                } else  {
+                }  else  {
                     status = -3.0
                 }
             }

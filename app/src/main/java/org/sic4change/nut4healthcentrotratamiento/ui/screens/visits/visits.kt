@@ -148,20 +148,18 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
 
     LaunchedEffect(viewModelState.imc) {
             visitCreateState.imc.value = viewModelState.imc!!
-        if (visitCreateState.imc.value.equals(-1.5) || visitCreateState.imc.value.equals(-1.0) ||
-            visitCreateState.imc.value.equals(0.0) || visitCreateState.imc.value.equals(100.0) ||
-            visitCreateState.imc.value.equals(85.0) ) {
+        if (visitCreateState.imc.value.equals(0.0) || visitCreateState.imc.value.equals(100.0)) {
             visitCreateState.status.value = "Normopeso"
-        } else if (visitCreateState.imc.value.equals(-2.0) || visitCreateState.imc.value.equals(80.0)) {
-            visitCreateState.status.value = "Moderada"
+        } else if (visitCreateState.imc.value.equals(-1.0) || visitCreateState.imc.value.equals(85.0)) {
+            visitCreateState.status.value = "Peso Objetivo"
+        } else if (visitCreateState.imc.value.equals(-1.5) || visitCreateState.imc.value.equals(80.0)) {
+            visitCreateState.status.value = "Aguda Moderada"
         } else if (visitCreateState.imc.value.equals(-3.0) || visitCreateState.imc.value.equals(70.0)) {
-            visitCreateState.status.value = "Severa"
+            visitCreateState.status.value = "Aguda Severa"
         } else {
             visitCreateState.status.value = ""
         }
     }
-
-
 
     VisitItemCreateScreen(
         loading = viewModelState.loading,
