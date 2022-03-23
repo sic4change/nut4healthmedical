@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -114,7 +115,8 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit) {
+fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
+onChangeWeightOrHeight: (String, String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -136,9 +138,35 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         }
     }
 
+    LaunchedEffect(viewModelState.height) {
+        onChangeWeightOrHeight(visitCreateState.height.value, visitCreateState.weight.value)
+    }
+
+    LaunchedEffect(viewModelState.weight) {
+        onChangeWeightOrHeight(visitCreateState.height.value, visitCreateState.weight.value)
+    }
+
+    LaunchedEffect(viewModelState.imc) {
+            visitCreateState.imc.value = viewModelState.imc!!
+        if (visitCreateState.imc.value.equals(-1.5) || visitCreateState.imc.value.equals(-1.0) ||
+            visitCreateState.imc.value.equals(0.0) || visitCreateState.imc.value.equals(100.0) ||
+            visitCreateState.imc.value.equals(85.0) ) {
+            visitCreateState.status.value = "Normopeso"
+        } else if (visitCreateState.imc.value.equals(-2.0) || visitCreateState.imc.value.equals(80.0)) {
+            visitCreateState.status.value = "Moderada"
+        } else if (visitCreateState.imc.value.equals(-3.0) || visitCreateState.imc.value.equals(70.0)) {
+            visitCreateState.status.value = "Severa"
+        } else {
+            visitCreateState.status.value = ""
+        }
+    }
+
+
+
     VisitItemCreateScreen(
         loading = viewModelState.loading,
         visitState = visitCreateState,
-        onCreateVisit = viewModel::createVisit
+        onCreateVisit = viewModel::createVisit,
+        onChangeWeightOrHeight = viewModel::checkDesnutrition
     )
 }

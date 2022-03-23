@@ -89,12 +89,12 @@ data class NetworkMalNutritionChildTableContainer(val results: List<MalNutrition
 @JsonClass(generateAdapter = true)
 data class MalNutritionChildTable(
     @Exclude val id: String = "",
-    @Exclude val cm: String,
-    @Exclude val minusone: String,
-    @Exclude val minusonefive: String,
-    @Exclude val minusthree: String,
-    @Exclude val minustwo: String,
-    @Exclude val zero: String,
+    @Exclude val cm: String = "",
+    @Exclude val minusone: String = "",
+    @Exclude val minusonefive: String = "",
+    @Exclude val minusthree: String = "",
+    @Exclude val minustwo: String = "",
+    @Exclude val zero: String = "",
 )
 
 @JsonClass(generateAdapter = true)

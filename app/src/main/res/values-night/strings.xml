@@ -86,4 +86,7 @@
     <string name="symtoms">Síntomas</string>
     <string name="treatments">Tratamientos</string>
     <string name="create_visit">Crear visita</string>
+    <string name="normopeso">Normopeso</string>
+    <string name="aguda_moderada">Desnutrición Aguda Moderada</string>
+    <string name="aguda_severa">Desnutrición Aguda Severa</string>
 </resources>

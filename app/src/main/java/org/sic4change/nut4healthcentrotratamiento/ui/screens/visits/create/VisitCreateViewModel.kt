@@ -28,6 +28,9 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val visit: Visit? = null,
+        val height: Double? = null,
+        val weight: Double? = null,
+        var imc: Double? = 0.0,
         val created: Boolean = false,
     )
 
@@ -39,6 +42,18 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value= UiState(visit = visit)
             FirebaseDataSource.createVisit(visit)
             _state.value = UiState(created = true)
+        }
+    }
+
+    fun checkDesnutrition(height: String, weight: String) {
+        viewModelScope.launch {
+            if (height.isNotEmpty() && weight.isNotEmpty()) {
+                try {
+                    _state.value= UiState(imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()))
+                } catch (error: Error) {
+                    println("error: ${error}")
+                }
+            }
         }
     }
 
