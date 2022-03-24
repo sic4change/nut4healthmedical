@@ -200,7 +200,7 @@ object FirebaseDataSource {
 
     suspend fun getCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("cases")
-        val query = casesRef.whereEqualTo("childId", childId)
+        val query = casesRef.whereEqualTo("childId", childId).orderBy("lastdate", Query.Direction.DESCENDING )
         val result = query.get().await()
         val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
         networkCasesContainer.results.map { it.toDomainCase() }
@@ -338,7 +338,7 @@ object FirebaseDataSource {
 
     suspend fun getVisits(caseId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = withContext(Dispatchers.IO) {
         val visitsRef = firestore.collection("visits")
-        val query = visitsRef.whereEqualTo("caseId", caseId)
+        val query = visitsRef.whereEqualTo("caseId", caseId).orderBy("createdate", Query.Direction.DESCENDING )
         val result = query.get().await()
         val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
         networkVisitsContainer.results.map { it.toDomainVisit() }
