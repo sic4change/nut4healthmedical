@@ -338,6 +338,18 @@ private fun Header(visitState: VisitState,
         }
 
 
+        CheckNUT4H(text = stringResource(id = R.string.measlesVaccinated), visitState.measlesVaccinated.value) {
+            visitState.measlesVaccinated.value = it
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
+            visitState.vitamineAVaccinated.value = it
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         TextField(value = visitState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -378,6 +390,35 @@ private fun Header(visitState: VisitState,
             Spacer(modifier = Modifier.height(16.dp))
         }
 
+    }
+}
+
+@Composable
+fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp)
+            .clickable(
+                onClick = {
+                    onCheckedChange(!checked)
+                }
+            ),
+    ) {
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = text,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Spacer(Modifier.weight(1f))
+
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            modifier = Modifier.height(4.dp),
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
     }
 }
 

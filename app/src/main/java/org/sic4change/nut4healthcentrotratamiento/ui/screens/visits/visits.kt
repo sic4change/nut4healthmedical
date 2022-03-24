@@ -130,6 +130,8 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.height.value = viewModelState.visit!!.height.toString()
             visitCreateState.weight.value = viewModelState.visit!!.weight.toString()
             visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
+            visitCreateState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
+            visitCreateState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
         }
     }
 
