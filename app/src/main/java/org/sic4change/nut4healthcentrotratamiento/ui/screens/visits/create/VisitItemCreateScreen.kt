@@ -30,7 +30,7 @@ import java.text.DecimalFormat
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
-                         onCreateVisit: (Double, Double, Double, String, String) -> Unit,
+                         onCreateVisit: (Double, Double, Double, String, Boolean, Boolean, String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -65,7 +65,7 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onCreateVisit: (Double, Double, Double, String, String) -> Unit,
+                   onCreateVisit: (Double, Double, Double, String, Boolean, Boolean, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     Column(
@@ -378,7 +378,10 @@ private fun Header(visitState: VisitState,
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
                     onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(), visitState.armCircunference.value, visitState.status.value, visitState.observations.value)
+                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                        visitState.armCircunference.value, visitState.status.value,
+                        visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
+                        visitState.observations.value)
 
                 },
             ) {
@@ -396,14 +399,14 @@ private fun Header(visitState: VisitState,
 @Composable
 fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Unit) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp)
             .clickable(
                 onClick = {
                     onCheckedChange(!checked)
                 }
             ),
+        verticalAlignment = Alignment.CenterVertically,
+
     ) {
         Text(
             color = colorResource(R.color.colorPrimary),
@@ -411,12 +414,9 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
             style = MaterialTheme.typography.body1,
         )
 
-        Spacer(Modifier.weight(1f))
-
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            modifier = Modifier.height(4.dp),
             colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
         )
     }
