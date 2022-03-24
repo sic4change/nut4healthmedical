@@ -440,6 +440,7 @@ object FirebaseDataSource {
                         caseRef.document(visit.caseId)
                             .update(
                                 "visits", visits + 1,
+                                "lastdate", Date()
                             ).await()
                     }
 
