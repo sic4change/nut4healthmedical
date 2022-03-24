@@ -31,18 +31,59 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(R.color.white),
-                        cursorColor = colorResource(R.color.full_transparent),
-                        disabledLabelColor =  colorResource(R.color.full_transparent),
-                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    textStyle = MaterialTheme.typography.h5,
-                    leadingIcon = {
-                        Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
+                if (item.status == stringResource(R.string.normopeso)) {
+                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorAccent),
+                            backgroundColor = colorResource(R.color.white),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(R.color.full_transparent),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        leadingIcon = {
+                            Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})})
+                } else if (item.status == stringResource(R.string.objetive_weight)) {
+                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.white),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(R.color.full_transparent),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        leadingIcon = {
+                            Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
+                } else if (item.status == stringResource(R.string.aguda_moderada)) {
+                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.orange),
+                            backgroundColor = colorResource(R.color.white),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(R.color.full_transparent),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        leadingIcon = {
+                            Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})})
+                } else {
+                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.error),
+                            backgroundColor = colorResource(R.color.white),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(R.color.full_transparent),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        leadingIcon = {
+                            Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})})
+                }
 
                 TextField(value = "${SimpleDateFormat("dd/MM/yyyy").format(item.createdate)}", onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(

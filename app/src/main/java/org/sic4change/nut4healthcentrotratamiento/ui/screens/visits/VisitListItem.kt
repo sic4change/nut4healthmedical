@@ -31,6 +31,41 @@ fun  VisitListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
+                if (item.status == stringResource(R.string.normopeso)) {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            tint = colorResource(R.color.colorAccent),
+                            imageVector = Icons.Default.EditCalendar,
+                            contentDescription = null
+                        )
+                    }
+                    Text(
+                        color = colorResource(R.color.colorAccent),
+                        text = "${item.status}".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    Text(
+                        color = colorResource(R.color.colorAccent),
+                        text = "${SimpleDateFormat("dd/MM/yyyy").format(item.createdate)}",
+                        style = MaterialTheme.typography.h6,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    IconButton(onClick = { onItemMore(item) }) {
+                        Icon(
+                            tint = colorResource(R.color.colorAccent),
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.more_actions)
+                        )
+                    }
+                } else if  (item.status == stringResource(R.string.objetive_weight)) {
                     IconButton(onClick = {}) {
                         Icon(
                             tint = colorResource(R.color.colorPrimary),
@@ -63,6 +98,73 @@ fun  VisitListItem(
                             contentDescription = stringResource(R.string.more_actions)
                         )
                     }
+                } else if (item.status == stringResource(R.string.aguda_moderada)) {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            tint = colorResource(R.color.orange),
+                            imageVector = Icons.Default.EditCalendar,
+                            contentDescription = null
+                        )
+                    }
+                    Text(
+                        color = colorResource(R.color.orange),
+                        text = "${item.status}".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    Text(
+                        color = colorResource(R.color.orange),
+                        text = "${SimpleDateFormat("dd/MM/yyyy").format(item.createdate)}",
+                        style = MaterialTheme.typography.h6,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    IconButton(onClick = { onItemMore(item) }) {
+                        Icon(
+                            tint = colorResource(R.color.orange),
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.more_actions)
+                        )
+                    }
+                } else {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            tint = colorResource(R.color.error),
+                            imageVector = Icons.Default.EditCalendar,
+                            contentDescription = null
+                        )
+                    }
+                    Text(
+                        color = colorResource(R.color.error),
+                        text = "${item.status}".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    Text(
+                        color = colorResource(R.color.error),
+                        text = "${SimpleDateFormat("dd/MM/yyyy").format(item.createdate)}",
+                        style = MaterialTheme.typography.h6,
+                        maxLines = 2,
+                        modifier = Modifier
+                            .padding(8.dp, 16.dp)
+                            .weight(1f)
+                    )
+                    IconButton(onClick = { onItemMore(item) }) {
+                        Icon(
+                            tint = colorResource(R.color.error),
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = stringResource(R.string.more_actions)
+                        )
+                    }
+                }
 
 
             }
