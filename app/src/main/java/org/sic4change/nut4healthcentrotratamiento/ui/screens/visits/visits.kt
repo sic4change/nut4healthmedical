@@ -129,6 +129,7 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.tutorId.value = viewModelState.visit!!.tutorId
             visitCreateState.height.value = viewModelState.visit!!.height.toString()
             visitCreateState.weight.value = viewModelState.visit!!.weight.toString()
+            visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
         }
     }
 

@@ -12,11 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_card"
-        android:textColor="@color/error"
+        android:textColor="@color/browser_actions_text_color"
         android:fontFamily="@font/bariol_regular"
         android:textSize="20sp"
         android:text="Perímetro braquial"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

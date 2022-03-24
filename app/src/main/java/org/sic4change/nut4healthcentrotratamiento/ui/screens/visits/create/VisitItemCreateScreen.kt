@@ -1,7 +1,9 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
+import java.text.DecimalFormat
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -58,6 +60,7 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 
 }
 
+@SuppressLint("ResourceAsColor")
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
@@ -147,7 +150,100 @@ private fun Header(visitState: VisitState,
         Spacer(modifier = Modifier.height(16.dp))*/
 
 
+        AnimatedVisibility(visible = (visitState.armCircunference.value != 0.0)) {
+            if (visitState.armCircunference.value < 11.5) {
+                TextField(value = visitState.armCircunference.value.toString(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.error),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.error),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.error),
+                        unfocusedIndicatorColor = colorResource(R.color.error),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+            }  else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5) {
+                TextField(value = visitState.armCircunference.value.toString(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.orange),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.orange),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.orange),
+                        unfocusedIndicatorColor = colorResource(R.color.orange),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+            } else {
+                TextField(value = visitState.armCircunference.value.toString(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorAccent),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+            }
 
+        }
+
+        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        AndroidView(
+            factory = {
+                val view = LayoutInflater.from(it)
+                    .inflate(R.layout.muac_view, null, false)
+                view
+            },
+            update  = {view ->
+                val ruler = view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.id.ruler)
+                val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
+                val tvCm = view.findViewById<TextView>(R.id.tvCm)
+                val df = DecimalFormat("#.0")
+               ruler.setOnValueChangeListener { view, position, value ->
+                   tvCm.text = df.format(value).toString() + " cm"
+                   visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                   if (value < 11.5) {
+                       rulerBackground.setBackgroundResource(R.color.error)
+                       tvCm.setTextColor(R.color.error)
+                   } else if (value >= 11.5 && value <= 12.5) {
+                       rulerBackground.setBackgroundResource(R.color.orange)
+                       tvCm.setTextColor(R.color.orange)
+                   } else {
+                       rulerBackground.setBackgroundResource(R.color.colorAccent)
+                       tvCm.setTextColor(R.color.colorAccent)
+                   }
+               }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
             if (visitState.status.value == "Normopeso") {
@@ -230,6 +326,7 @@ private fun Header(visitState: VisitState,
             Spacer(modifier = Modifier.height(16.dp))
         }
 
+
         TextField(value = visitState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -247,22 +344,6 @@ private fun Header(visitState: VisitState,
             leadingIcon = {
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AndroidView(
-            factory = {
-                val view = LayoutInflater.from(it)
-                    .inflate(R.layout.muac_view, null, false)
-                val ruler = view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.id.ruler)
-                view
-            },
-            update  = {view ->
-//                view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.layout.muac_view).setOnValueChangeListener { view, position, value ->  } { view, position, value ->  }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-        )
         Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
