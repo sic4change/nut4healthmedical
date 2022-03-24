@@ -30,7 +30,7 @@ import java.text.DecimalFormat
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
-                         onCreateVisit: (Double, Double, String) -> Unit,
+                         onCreateVisit: (Double, Double, Double, String, String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -65,7 +65,7 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onCreateVisit: (Double, Double, String) -> Unit,
+                   onCreateVisit: (Double, Double, Double, String, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     Column(
@@ -129,26 +129,6 @@ private fun Header(visitState: VisitState,
                 Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-
-        /*TextField(value = visitState.imc.value.toString(),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-            ),
-            onValueChange = {}, readOnly = true,
-            textStyle = MaterialTheme.typography.h5,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            leadingIcon = {
-                Icon(Icons.Filled.Approval, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { *//* .. *//*})},
-            label = { Text(stringResource(R.string.imc), color = colorResource(R.color.disabled_color)) })
-        Spacer(modifier = Modifier.height(16.dp))*/
-
 
         AnimatedVisibility(visible = (visitState.armCircunference.value != 0.0)) {
             if (visitState.armCircunference.value < 11.5) {
@@ -227,15 +207,26 @@ private fun Header(visitState: VisitState,
                ruler.setOnValueChangeListener { view, position, value ->
                    tvCm.text = df.format(value).toString() + " cm"
                    visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+
                    if (value < 11.5) {
                        rulerBackground.setBackgroundResource(R.color.error)
                        tvCm.setTextColor(R.color.error)
+                       visitState.status.value = "Aguda Severa"
                    } else if (value >= 11.5 && value <= 12.5) {
                        rulerBackground.setBackgroundResource(R.color.orange)
                        tvCm.setTextColor(R.color.orange)
+                       if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                           || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                           visitState.status.value = "Aguda Moderada"
+                       }
                    } else {
                        rulerBackground.setBackgroundResource(R.color.colorAccent)
                        tvCm.setTextColor(R.color.colorAccent)
+                       if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                           visitState.status.value = "Normopeso"
+                       } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                           visitState.status.value = "Peso Objetivo"
+                       }
                    }
                }
             },
@@ -246,7 +237,27 @@ private fun Header(visitState: VisitState,
         Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
-            if (visitState.status.value == "Normopeso") {
+            var statusFormated = ""
+            if (visitState.status.value == "Normopeso" || visitState.status.value == stringResource(R.string.normopeso)) {
+                statusFormated = stringResource(R.string.normopeso)
+            } else if (visitState.status.value == "Peso Objetivo" || visitState.status.value == stringResource(R.string.objetive_weight)) {
+                statusFormated = stringResource(R.string.objetive_weight)
+            } else if (visitState.status.value == "Aguda Moderada" || visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                statusFormated = stringResource(R.string.aguda_moderada)
+            } else {
+                statusFormated = stringResource(R.string.aguda_severa)
+            }
+
+            if (visitState.armCircunference.value < 11.5) {
+                statusFormated = stringResource(R.string.aguda_severa)
+            } else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5 &&
+                (statusFormated == stringResource(R.string.normopeso) || statusFormated == stringResource(R.string.objetive_weight))) {
+                statusFormated = stringResource(R.string.aguda_moderada)
+            }
+
+            visitState.status.value = statusFormated
+
+            if (visitState.status.value == stringResource(R.string.normopeso)) {
                 TextField(value = visitState.status.value,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorResource(R.color.colorAccent),
@@ -264,7 +275,7 @@ private fun Header(visitState: VisitState,
                     leadingIcon = {
                         Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else if (visitState.status.value == "Peso Objetivo") {
+            } else if (visitState.status.value == stringResource(R.string.objetive_weight)) {
                 TextField(value = visitState.status.value,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorResource(R.color.colorPrimary),
@@ -282,7 +293,7 @@ private fun Header(visitState: VisitState,
                     leadingIcon = {
                         Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else if (visitState.status.value == "Aguda Moderada") {
+            } else if (visitState.status.value == stringResource(R.string.aguda_moderada)) {
                 TextField(value = visitState.status.value,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorResource(R.color.orange),
@@ -301,7 +312,7 @@ private fun Header(visitState: VisitState,
                         Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
             } else {
-                TextField(value = visitState.status.value,
+                TextField(value = statusFormated,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorResource(R.color.error),
                         backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -346,7 +357,8 @@ private fun Header(visitState: VisitState,
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.armCircunference.value != 0.0 )) {
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -354,7 +366,7 @@ private fun Header(visitState: VisitState,
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
                     onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(), visitState.observations.value)
+                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(), visitState.armCircunference.value, visitState.status.value, visitState.observations.value)
 
                 },
             ) {

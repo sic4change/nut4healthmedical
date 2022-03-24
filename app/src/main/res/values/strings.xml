@@ -88,5 +88,5 @@
     <string name="normopeso">Normopeso</string>
     <string name="aguda_moderada">Desnutrición Aguda Moderada</string>
     <string name="aguda_severa">Desnutrición Aguda Severa</string>
-    wolof
+    <string name="objetive_weight">Peso objetivo</string>
 </resources>

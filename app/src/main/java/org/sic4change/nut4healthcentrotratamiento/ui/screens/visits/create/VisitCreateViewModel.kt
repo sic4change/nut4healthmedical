@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import java.util.*
@@ -34,10 +36,10 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val created: Boolean = false,
     )
 
-    fun createVisit(height: Double, weight: Double, observations: String) {
+    fun createVisit(height: Double, weight: Double, arm_circunference: Double, status: String, observations: String) {
         viewModelScope.launch {
             val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
-                0.0, "", false, false,
+                arm_circunference, status, false, false,
             emptyList(), emptyList(), observations)
             _state.value= UiState(visit = visit)
             FirebaseDataSource.createVisit(visit)
