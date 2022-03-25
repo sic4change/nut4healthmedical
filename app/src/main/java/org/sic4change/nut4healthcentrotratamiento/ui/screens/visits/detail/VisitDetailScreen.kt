@@ -269,7 +269,7 @@ private fun Header(visitState: VisitState) {
         visitState.symtoms.value.forEach {
             ListItem(
                 icon = { Icon(imageVector = Icons.Filled.LocalHospital, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
-                text = { Text(text = it, color = colorResource(R.color.colorPrimary)) }
+                text = { Text(text = it.name_fr, color = colorResource(R.color.colorPrimary)) }
             )
         }
 
@@ -281,7 +281,7 @@ private fun Header(visitState: VisitState) {
         visitState.treatments.value.forEach {
             ListItem(
                 icon = { Icon(imageVector = Icons.Filled.LocalPharmacy, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
-                text = { Text(text = it, color = colorResource(R.color.colorPrimary)) }
+                text = { Text(text = it.name_fr, color = colorResource(R.color.colorPrimary)) }
             )
         }
 

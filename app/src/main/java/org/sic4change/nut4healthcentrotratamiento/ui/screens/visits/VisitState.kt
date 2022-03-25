@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import java.util.*
 
 
@@ -21,13 +23,16 @@ fun rememberVisitsState(
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    symtoms: MutableState<List<String>> = rememberSaveable {mutableStateOf(listOf<String>())},
-    treatments: MutableState<List<String>> = rememberSaveable {mutableStateOf(listOf<String>())},
+    symtoms: MutableState<List<Symtom>> = rememberSaveable {mutableStateOf(listOf<Symtom>())},
+    symtomsSelected: MutableState<List<Boolean>> = rememberSaveable { mutableStateOf(listOf<Boolean>()) },
+    treatments: MutableState<List<Treatment>> = rememberSaveable {mutableStateOf(listOf<Treatment>())},
+    treatmentsSelected: MutableState<List<Boolean>> = rememberSaveable { mutableStateOf(listOf<Boolean>()) },
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
-    status, measlesVaccinated, vitamineAVaccinated, observations, symtoms, treatments, createdDate,  visitsSize, deleteVisit ) }
+    status, measlesVaccinated, vitamineAVaccinated, observations, symtoms, symtomsSelected,
+    treatments, treatmentsSelected, createdDate, visitsSize, deleteVisit ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -42,8 +47,10 @@ class VisitState(
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val observations: MutableState<String>,
-    val symtoms: MutableState<List<String>>,
-    val treatments: MutableState<List<String>>,
+    val symtoms: MutableState<List<Symtom>>,
+    val symtomsSelected: MutableState<List<Boolean>>,
+    val treatments: MutableState<List<Treatment>>,
+    val treatmentsSelected: MutableState<List<Boolean>>,
     val createdDate: MutableState<Date>,
     val visitsSize: MutableState<Int>,
     val deleteVisit: MutableState<Boolean>,

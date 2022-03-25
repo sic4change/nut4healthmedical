@@ -132,6 +132,20 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitCreateState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitCreateState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
+            visitCreateState.symtoms.value = viewModelState.visit!!.symtoms
+            visitCreateState.treatments.value = viewModelState.visit!!.treatments
+        }
+    }
+
+    LaunchedEffect(viewModelState.treatments) {
+        if (viewModelState.treatments != null) {
+            visitCreateState.treatments.value = viewModelState.treatments
+        }
+    }
+
+    LaunchedEffect(viewModelState.symtoms) {
+        if (viewModelState.symtoms != null) {
+            visitCreateState.symtoms.value = viewModelState.symtoms
         }
     }
 

@@ -320,7 +320,7 @@ object FirebaseDataSource {
         networkMalNutritionTeenagerTableContainer.results.map { it.toDomainMalNutritionTeenagerTable() }
     }
 
-    suspend fun getSymtom(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom> = withContext(Dispatchers.IO) {
+    suspend fun getSymtoms(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("symtoms")
         val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
         val result = query.get().await()
@@ -348,19 +348,24 @@ object FirebaseDataSource {
         val visitRef = firestore.collection("visits")
         val query = visitRef.whereEqualTo("id", id)
         val result = query.get().await()
-        var symtoms = mutableListOf<String>()
-        var treatments = mutableListOf<String>()
+
+        //var symtoms = mutableListOf<Symtom>()
+        //var treatments = mutableListOf<Treatment>()
         val networkVisitContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
-        networkVisitContainer.results[0].let { visit ->
+        networkVisitContainer.results[0].let {
+            it.toDomainVisit()
+        }
+        /*networkVisitContainer.results[0].let { visit ->
             if (visit.symtoms.isNotEmpty()) {
                 visit.symtoms.forEach {
-                    val currentLocal = ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)
+                    //val currentLocal = ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)
                     val symtomRef = firestore.collection("symtoms")
                     val query = symtomRef.whereEqualTo("id", it)
                     val result = query.get().await()
                     val networkSymtomContainer = NetworkSymtomContainer(result.toObjects(Symtom::class.java))
                     networkSymtomContainer.results[0].let {
-                        when {
+                        symtoms.add(it)
+                        *//*when {
                             currentLocal.language.equals("es") -> {
                                 symtoms.add(it.name)
                             }
@@ -370,7 +375,7 @@ object FirebaseDataSource {
                             else -> {
                                 symtoms.add(it.name_fr)
                             }
-                        }
+                        }*//*
                     }
                 }
                 visit.symtoms = symtoms
@@ -383,7 +388,8 @@ object FirebaseDataSource {
                     val result = query.get().await()
                     val networkTreatmentContainer = NetworkTreatmentContainer(result.toObjects(Treatment::class.java))
                     networkTreatmentContainer.results[0].let {
-                        when {
+                        treatments.add(it)
+                        *//*when {
                             currentLocal.language.equals("es") -> {
                                 treatments.add(it.name)
                             }
@@ -393,13 +399,13 @@ object FirebaseDataSource {
                             else -> {
                                 treatments.add(it.name_fr)
                             }
-                        }
+                        }*//*
                     }
                 }
                 visit.treatments = treatments
-            }
-            visit.toDomainVisit()
-        }
+            }*/
+            //visit.toDomainVisit()
+       // }
     }
 
     suspend fun deleteVisit(id: String) {

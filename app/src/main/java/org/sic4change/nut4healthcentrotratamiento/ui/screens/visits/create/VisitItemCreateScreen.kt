@@ -8,13 +8,16 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -350,6 +353,30 @@ private fun Header(visitState: VisitState,
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.colorPrimary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),)
+
+        visitState.symtoms.value.forEach {
+            var index = 0;
+            ItemList(name = it.name_fr, MutableList(visitState.symtoms.value.size) { false }, index)
+            index++
+        }
+
+        Text(text = stringResource(R.string.treatments), color = colorResource(R.color.colorPrimary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),)
+
+        visitState.treatments.value.forEach {
+            var index = 0;
+            ItemList(name = it.name_fr, MutableList(visitState.treatments.value.size) { false }, index)
+            index++
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         TextField(value = visitState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -420,6 +447,35 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
             colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
         )
     }
+}
+
+
+@Composable
+fun ItemList(name: String, completedList: MutableList<Boolean>, index: Int) {
+    var isSelected by rememberSaveable { mutableStateOf(completedList[index]) }
+
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp),
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = name,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Checkbox(
+            checked = isSelected,
+            onCheckedChange = {
+                isSelected = !isSelected
+                completedList[index] = !isSelected
+            },
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+    }
+    
 }
 
 

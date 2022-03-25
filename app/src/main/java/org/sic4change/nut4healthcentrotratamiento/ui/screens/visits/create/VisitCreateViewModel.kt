@@ -1,6 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,9 +8,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsViewModel
 import java.util.*
 
 class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -24,12 +25,20 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
+            _state.value = UiState(
+                loading = true,
+                symtoms = FirebaseDataSource.getSymtoms(),
+                treatments = FirebaseDataSource.getTreatments()
+            )
+            println("Aqui")
         }
     }
 
     data class  UiState(
         val loading: Boolean = false,
         val visit: Visit? = null,
+        val symtoms: List<Symtom> = emptyList(),
+        val treatments: List<Treatment> = emptyList(),
         val height: Double? = null,
         val weight: Double? = null,
         var imc: Double? = 0.0,
