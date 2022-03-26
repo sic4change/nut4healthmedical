@@ -7,5 +7,6 @@ data class Treatment(
     val name_en: String,
     val name_fr: String,
     val active: Boolean,
-    val price: Double
+    val price: Double,
+    var selected: Boolean
     ) : Item

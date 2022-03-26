@@ -7,4 +7,5 @@ data class Symtom(
     val name: String,
     val name_en: String,
     val name_fr: String,
+    var selected: Boolean
     ) : Item

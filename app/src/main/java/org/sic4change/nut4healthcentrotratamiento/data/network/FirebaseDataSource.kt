@@ -432,7 +432,10 @@ object FirebaseDataSource {
                 networkCasesContainer.results[0].let { case ->
                     val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
                     visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.measlesVaccinated,
-                    visit.vitamineAVaccinated, visit.symtoms, visit.treatments, visit.observations)
+                    visit.vitamineAVaccinated,
+                        visit.symtoms.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>,
+                        visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
+                        visit.observations)
                     val visitsRef = firestore.collection("visits")
                     val id = visitsRef.add(visitToUpdate.toServerVisit()).await().id
                     visitsRef.document(id).update("id", id,).await()

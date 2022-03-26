@@ -23,16 +23,14 @@ fun rememberVisitsState(
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    symtoms: MutableState<List<Symtom>> = rememberSaveable {mutableStateOf(listOf<Symtom>())},
-    symtomsSelected: MutableState<List<Boolean>> = rememberSaveable { mutableStateOf(listOf<Boolean>()) },
-    treatments: MutableState<List<Treatment>> = rememberSaveable {mutableStateOf(listOf<Treatment>())},
-    treatmentsSelected: MutableState<List<Boolean>> = rememberSaveable { mutableStateOf(listOf<Boolean>()) },
+    treatments: MutableState<MutableList<Treatment>> = rememberSaveable {mutableStateOf(mutableListOf<Treatment>())},
+    symtoms: MutableState<MutableList<Symtom>> = rememberSaveable {mutableStateOf(mutableListOf<Symtom>())},
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
-    status, measlesVaccinated, vitamineAVaccinated, observations, symtoms, symtomsSelected,
-    treatments, treatmentsSelected, createdDate, visitsSize, deleteVisit ) }
+    status, measlesVaccinated, vitamineAVaccinated, observations, symtoms, treatments, createdDate,
+    visitsSize, deleteVisit ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -47,10 +45,8 @@ class VisitState(
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val observations: MutableState<String>,
-    val symtoms: MutableState<List<Symtom>>,
-    val symtomsSelected: MutableState<List<Boolean>>,
-    val treatments: MutableState<List<Treatment>>,
-    val treatmentsSelected: MutableState<List<Boolean>>,
+    val symtoms: MutableState<MutableList<Symtom>>,
+    val treatments: MutableState<MutableList<Treatment>>,
     val createdDate: MutableState<Date>,
     val visitsSize: MutableState<Int>,
     val deleteVisit: MutableState<Boolean>,

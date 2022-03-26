@@ -139,13 +139,13 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
 
     LaunchedEffect(viewModelState.treatments) {
         if (viewModelState.treatments != null) {
-            visitCreateState.treatments.value = viewModelState.treatments
+            visitCreateState.treatments.value = viewModelState.treatments.toMutableList()
         }
     }
 
     LaunchedEffect(viewModelState.symtoms) {
         if (viewModelState.symtoms != null) {
-            visitCreateState.symtoms.value = viewModelState.symtoms
+            visitCreateState.symtoms.value = viewModelState.symtoms.toMutableList()
         }
     }
 

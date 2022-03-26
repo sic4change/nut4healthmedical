@@ -119,7 +119,7 @@ data class Symtom(
     @Exclude val id: String = "",
     @Exclude val name: String = "",
     @Exclude val name_en: String = "",
-    @Exclude val name_fr: String = ""
+    @Exclude val name_fr: String = "",
 )
 
 @JsonClass(generateAdapter = true)
@@ -132,7 +132,7 @@ data class Treatment(
     @Exclude val name_en: String = "",
     @Exclude val name_fr: String = "",
     @Exclude val active: Boolean = false,
-    @Exclude val price: Double = 0.0
+    @Exclude val price: Double = 0.0,
 )
 
 @JsonClass(generateAdapter = true)

@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import java.text.DecimalFormat
 
@@ -33,7 +35,9 @@ import java.text.DecimalFormat
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
-                         onCreateVisit: (Double, Double, Double, String, Boolean, Boolean, String) -> Unit,
+                          onCreateVisit: (Double, Double, Double, String, Boolean, Boolean,
+                                          symtoms: List<Symtom>, treatments: List<Treatment>,
+                                          String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +72,8 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onCreateVisit: (Double, Double, Double, String, Boolean, Boolean, String) -> Unit,
+                   onCreateVisit: (Double, Double, Double, String, Boolean, Boolean,
+                                   symtoms: List<Symtom>, treatments: List<Treatment>, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     Column(
@@ -95,7 +100,7 @@ private fun Header(visitState: VisitState,
                 visitState.height.value = it
                 onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
                     visitState.weight.value.filter { !it.isWhitespace() })
-                            },
+            },
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
@@ -120,7 +125,7 @@ private fun Header(visitState: VisitState,
                 visitState.weight.value = it
                 onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
                     visitState.weight.value.filter { !it.isWhitespace() })
-                            },
+            },
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
@@ -207,31 +212,31 @@ private fun Header(visitState: VisitState,
                 val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
                 val tvCm = view.findViewById<TextView>(R.id.tvCm)
                 val df = DecimalFormat("#.0")
-               ruler.setOnValueChangeListener { view, position, value ->
-                   tvCm.text = df.format(value).toString() + " cm"
-                   visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                ruler.setOnValueChangeListener { view, position, value ->
+                    tvCm.text = df.format(value).toString() + " cm"
+                    visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
 
-                   if (value < 11.5) {
-                       rulerBackground.setBackgroundResource(R.color.error)
-                       tvCm.setTextColor(R.color.error)
-                       visitState.status.value = "Aguda Severa"
-                   } else if (value >= 11.5 && value <= 12.5) {
-                       rulerBackground.setBackgroundResource(R.color.orange)
-                       tvCm.setTextColor(R.color.orange)
-                       if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
-                           || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                           visitState.status.value = "Aguda Moderada"
-                       }
-                   } else {
-                       rulerBackground.setBackgroundResource(R.color.colorAccent)
-                       tvCm.setTextColor(R.color.colorAccent)
-                       if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                           visitState.status.value = "Normopeso"
-                       } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
-                           visitState.status.value = "Peso Objetivo"
-                       }
-                   }
-               }
+                    if (value < 11.5) {
+                        rulerBackground.setBackgroundResource(R.color.error)
+                        tvCm.setTextColor(R.color.error)
+                        visitState.status.value = "Aguda Severa"
+                    } else if (value >= 11.5 && value <= 12.5) {
+                        rulerBackground.setBackgroundResource(R.color.orange)
+                        tvCm.setTextColor(R.color.orange)
+                        if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                            || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                            visitState.status.value = "Aguda Moderada"
+                        }
+                    } else {
+                        rulerBackground.setBackgroundResource(R.color.colorAccent)
+                        tvCm.setTextColor(R.color.colorAccent)
+                        if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                            visitState.status.value = "Normopeso"
+                        } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                            visitState.status.value = "Peso Objetivo"
+                        }
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -358,10 +363,19 @@ private fun Header(visitState: VisitState,
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),)
 
-        visitState.symtoms.value.forEach {
-            var index = 0;
-            ItemList(name = it.name_fr, MutableList(visitState.symtoms.value.size) { false }, index)
-            index++
+
+        visitState.symtoms.value.forEach { symtom ->
+            ItemListSymtoms(symtom = symtom, checked = symtom.selected, {
+                var symtomsToUpdate : MutableList<Symtom> = mutableListOf()
+                visitState.symtoms.value.forEach { item ->
+                    if (item.id == symtom.id) {
+                        item.selected = it
+                    }
+                    symtomsToUpdate.add(item)
+                }
+                visitState.symtoms.value = mutableListOf()
+                visitState.symtoms.value.addAll(symtomsToUpdate)
+            })
         }
 
         Text(text = stringResource(R.string.treatments), color = colorResource(R.color.colorPrimary),
@@ -369,10 +383,18 @@ private fun Header(visitState: VisitState,
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),)
 
-        visitState.treatments.value.forEach {
-            var index = 0;
-            ItemList(name = it.name_fr, MutableList(visitState.treatments.value.size) { false }, index)
-            index++
+        visitState.treatments.value.forEach { treatment ->
+            ItemListTreatments(treatment = treatment, checked = treatment.selected,  {
+                var treatmentsToUpdate : MutableList<Treatment> = mutableListOf()
+                visitState.treatments.value.forEach { item ->
+                    if (item.id == treatment.id) {
+                        item.selected = it
+                    }
+                    treatmentsToUpdate.add(item)
+                }
+                visitState.treatments.value = mutableListOf()
+                visitState.treatments.value.addAll(treatmentsToUpdate)
+            })
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -408,6 +430,7 @@ private fun Header(visitState: VisitState,
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.armCircunference.value, visitState.status.value,
                         visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
+                        visitState.symtoms.value, visitState.treatments.value,
                         visitState.observations.value)
 
                 },
@@ -434,7 +457,7 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
             ),
         verticalAlignment = Alignment.CenterVertically,
 
-    ) {
+        ) {
         Text(
             color = colorResource(R.color.colorPrimary),
             text = text,
@@ -449,33 +472,60 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
     }
 }
 
-
 @Composable
-fun ItemList(name: String, completedList: MutableList<Boolean>, index: Int) {
-    var isSelected by rememberSaveable { mutableStateOf(completedList[index]) }
+fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (Boolean) -> Unit) {
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp),
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp).clickable(
+            onClick = {
+                onCheckedChangeSymtom(!checked)
+            }),
         verticalAlignment = Alignment.CenterVertically,
 
         ) {
 
         Text(
             color = colorResource(R.color.colorPrimary),
-            text = name,
+            text = symtom.name_fr,
             style = MaterialTheme.typography.body1,
         )
 
         Checkbox(
-            checked = isSelected,
-            onCheckedChange = {
-                isSelected = !isSelected
-                completedList[index] = !isSelected
-            },
+            checked = checked,
+            onCheckedChange = onCheckedChangeSymtom,
             colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
         )
     }
-    
+
+}
+
+
+@Composable
+fun ItemListTreatments(treatment: Treatment, checked: Boolean,  onCheckedChangeTreatment : (Boolean) -> Unit) {
+
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp).clickable(
+            onClick = {
+                onCheckedChangeTreatment(!checked)
+            }
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = treatment.name_fr,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChangeTreatment,
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+    }
+
 }
 
 

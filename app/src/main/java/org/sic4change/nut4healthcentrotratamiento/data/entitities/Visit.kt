@@ -15,7 +15,7 @@ data class Visit(
     var status: String,
     val measlesVaccinated: Boolean,
     val vitamineAVaccinated: Boolean,
-    val symtoms: List<Symtom>,
-    val treatments: List<Treatment>,
+    val symtoms: MutableList<Symtom>,
+    val treatments: MutableList<Treatment>,
     var observations: String,
     ) : Item

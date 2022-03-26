@@ -69,7 +69,7 @@ fun MalNutritionTeenagerTable.toServerMalNutritionTeenagerTable() : ServerMalNut
 )
 
 fun ServerSymtom.toDomainSymtom() : Symtom = Symtom(
-    id, name, name_en, name_fr
+    id, name, name_en, name_fr, false
 )
 
 fun Symtom.toServerSymtom() : ServerSymtom = ServerSymtom(
@@ -77,7 +77,7 @@ fun Symtom.toServerSymtom() : ServerSymtom = ServerSymtom(
 )
 
 fun ServerTreatment.toDomainTreatment() : Treatment = Treatment(
-    id, name, name_en, name_fr, active, price
+    id, name, name_en, name_fr, active, price, false
 )
 
 fun Treatment.toServerTreatment() : ServerTreatment = ServerTreatment(
@@ -85,32 +85,12 @@ fun Treatment.toServerTreatment() : ServerTreatment = ServerTreatment(
 )
 
 fun ServerVisit.toDomainVisit() : Visit {
-   /* val symtomsEntity = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>()
-    symtoms.forEach {
-        val symtomEntity = it.toDomainSymtom()
-        symtomsEntity.add(symtomEntity)
-    }
-    val treatmentsEntity = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>()
-    treatments.forEach {
-        val treatmentEntity = it.toDomainTreatment()
-        treatmentsEntity.add(treatmentEntity)
-    }*/
     return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
-        measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toDomainSymtom() },
-        treatments.map { it.toDomainTreatment() }, observations)
+        measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toDomainSymtom() }.toMutableList(),
+        treatments.map { it.toDomainTreatment() }.toMutableList(), observations)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-   /* val symtomsNetwork = mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.network.Symtom>()
-    symtoms.forEach {
-        val symtomNetwork = it.toServerSymtom()
-        symtomsNetwork.add(symtomNetwork)
-    }
-    val treatmentsNetwork= mutableListOf<org.sic4change.nut4healthcentrotratamiento.data.network.Treatment>()
-    treatments.forEach {
-        val treatmentNetwork = it.toServerTreatment()
-        treatmentsNetwork.add(treatmentNetwork)
-    }*/
     return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
         treatments.map { it.toServerTreatment() }, observations)

@@ -30,7 +30,6 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 symtoms = FirebaseDataSource.getSymtoms(),
                 treatments = FirebaseDataSource.getTreatments()
             )
-            println("Aqui")
         }
     }
 
@@ -46,11 +45,12 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun createVisit(height: Double, weight: Double, arm_circunference: Double, status: String,
-                    measlesVaccinated: Boolean, vitamineAVaccinated: Boolean, observations: String) {
+                    measlesVaccinated: Boolean, vitamineAVaccinated: Boolean, symtoms: List<Symtom>,
+                    treatments: List<Treatment>, observations: String) {
         viewModelScope.launch {
             val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
                 arm_circunference, status, measlesVaccinated, vitamineAVaccinated,
-            emptyList(), emptyList(), observations)
+                symtoms.toMutableList(), treatments.toMutableList(), observations)
             _state.value= UiState(visit = visit)
             FirebaseDataSource.createVisit(visit)
             _state.value = UiState(created = true)
@@ -61,7 +61,10 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             if (height.isNotEmpty() && weight.isNotEmpty()) {
                 try {
-                    _state.value= UiState(imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()))
+                    _state.value= UiState(
+                        symtoms = _state.value.symtoms,
+                        treatments = _state.value.treatments,
+                        imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()))
                 } catch (error: Error) {
                     println("error: ${error}")
                 }
