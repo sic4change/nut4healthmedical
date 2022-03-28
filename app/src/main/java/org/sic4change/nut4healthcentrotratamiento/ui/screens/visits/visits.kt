@@ -32,6 +32,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.MessageDeleteVisit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.edit.VisitEditViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.edit.VisitItemEditScreen
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -182,6 +184,82 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
         loading = viewModelState.loading,
         visitState = visitCreateState,
         onCreateVisit = viewModel::createVisit,
+        onChangeWeightOrHeight = viewModel::checkDesnutrition
+    )
+}
+
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun VisitEditScreen(viewModel: VisitEditViewModel = viewModel(), onEditVisit: (String) -> Unit,
+                    onChangeWeightOrHeight: (String, String) -> Unit) {
+    val visitEditState = rememberVisitsState()
+    val viewModelState by viewModel.state.collectAsState()
+
+
+    LaunchedEffect(viewModelState.visit) {
+        if (viewModelState.visit != null) {
+            visitEditState.id.value = viewModelState.visit!!.id
+            visitEditState.caseId.value = viewModelState.visit!!.caseId
+            visitEditState.childId.value = viewModelState.visit!!.childId
+            visitEditState.tutorId.value = viewModelState.visit!!.tutorId
+            visitEditState.height.value = viewModelState.visit!!.height.toString()
+            visitEditState.weight.value = viewModelState.visit!!.weight.toString()
+            visitEditState.status.value = viewModelState.visit!!.status
+            visitEditState.armCircunference.value = viewModelState.visit!!.armCircunference
+            visitEditState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
+            visitEditState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
+            visitEditState.observations.value = viewModelState.visit!!.observations
+            visitEditState.symtoms.value = viewModelState.visit!!.symtoms
+            visitEditState.treatments.value = viewModelState.visit!!.treatments
+        }
+    }
+
+    LaunchedEffect(viewModelState.treatments) {
+        if (viewModelState.treatments != null) {
+            visitEditState.treatments.value = viewModelState.treatments.toMutableList()
+        }
+    }
+
+    LaunchedEffect(viewModelState.symtoms) {
+        if (viewModelState.symtoms != null) {
+            visitEditState.symtoms.value = viewModelState.symtoms.toMutableList()
+        }
+    }
+
+    LaunchedEffect(viewModelState.editVisit) {
+        if (viewModelState.editVisit) {
+            onEditVisit(visitEditState.id.value)
+        }
+    }
+
+    LaunchedEffect(viewModelState.height) {
+        onChangeWeightOrHeight(visitEditState.height.value, visitEditState.weight.value)
+    }
+
+    LaunchedEffect(viewModelState.weight) {
+        onChangeWeightOrHeight(visitEditState.height.value, visitEditState.weight.value)
+    }
+
+    LaunchedEffect(viewModelState.imc) {
+        visitEditState.imc.value = viewModelState.imc!!
+        if (visitEditState.imc.value.equals(0.0) || visitEditState.imc.value.equals(100.0)) {
+            visitEditState.status.value = "Normopeso"
+        } else if (visitEditState.imc.value.equals(-1.0) || visitEditState.imc.value.equals(85.0)) {
+            visitEditState.status.value = "Peso Objetivo"
+        } else if (visitEditState.imc.value.equals(-1.5) || visitEditState.imc.value.equals(80.0)) {
+            visitEditState.status.value = "Aguda Moderada"
+        } else if (visitEditState.imc.value.equals(-3.0) || visitEditState.imc.value.equals(70.0)) {
+            visitEditState.status.value = "Aguda Severa"
+        } else {
+            visitEditState.status.value = ""
+        }
+    }
+
+    VisitItemEditScreen(
+        loading = viewModelState.loading,
+        visitState = visitEditState,
+        onEditVisit = viewModel::editVisit,
         onChangeWeightOrHeight = viewModel::checkDesnutrition
     )
 }

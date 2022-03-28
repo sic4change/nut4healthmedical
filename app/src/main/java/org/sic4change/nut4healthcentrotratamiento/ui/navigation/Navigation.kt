@@ -28,6 +28,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsSc
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
 
@@ -324,7 +325,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         composable(NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL)) {
             VisitDetailScreen(
                 onEditVisitClick = { visit ->
-
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITVISIT).createRoute(visit.id)
+                    )
             },
                 onDeleteVisitClick = { caseId ->
                     navController.popBackStack()
@@ -345,6 +350,20 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(caseId)
                     )
                 },
+                onChangeWeightOrHeight = { height, weight ->
+
+                },
+            )
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.EDITVISIT)) {
+            VisitEditScreen( onEditVisit = { id ->
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL).createRoute(id)
+                )
+            },
                 onChangeWeightOrHeight = { height, weight ->
 
                 },

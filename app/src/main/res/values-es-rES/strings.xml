@@ -91,5 +91,6 @@
     <string name="objetive_weight">Peso objetivo</string>
     <string name="measlesVaccinated">¿Ha sido vacunado del Sarampión?</string>
     <string name="vitamineAVaccinated">¿Ha estado durante 4 meses en un programa de vacunación de Vitamina A?</string>
+    <string name="edit_visit">Editar Visita</string>
 
 </resources>

@@ -73,6 +73,4 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     }
 
 
-
-
 }

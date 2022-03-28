@@ -348,64 +348,10 @@ object FirebaseDataSource {
         val visitRef = firestore.collection("visits")
         val query = visitRef.whereEqualTo("id", id)
         val result = query.get().await()
-
-        //var symtoms = mutableListOf<Symtom>()
-        //var treatments = mutableListOf<Treatment>()
         val networkVisitContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
         networkVisitContainer.results[0].let {
             it.toDomainVisit()
         }
-        /*networkVisitContainer.results[0].let { visit ->
-            if (visit.symtoms.isNotEmpty()) {
-                visit.symtoms.forEach {
-                    //val currentLocal = ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)
-                    val symtomRef = firestore.collection("symtoms")
-                    val query = symtomRef.whereEqualTo("id", it)
-                    val result = query.get().await()
-                    val networkSymtomContainer = NetworkSymtomContainer(result.toObjects(Symtom::class.java))
-                    networkSymtomContainer.results[0].let {
-                        symtoms.add(it)
-                        *//*when {
-                            currentLocal.language.equals("es") -> {
-                                symtoms.add(it.name)
-                            }
-                            currentLocal.language.equals("en") -> {
-                                symtoms.add(it.name_en)
-                            }
-                            else -> {
-                                symtoms.add(it.name_fr)
-                            }
-                        }*//*
-                    }
-                }
-                visit.symtoms = symtoms
-            }
-            if (visit.treatments.isNotEmpty()) {
-                visit.treatments.forEach {
-                    val currentLocal = ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)
-                    val treatmentsRef = firestore.collection("treatments")
-                    val query = treatmentsRef.whereEqualTo("id", it)
-                    val result = query.get().await()
-                    val networkTreatmentContainer = NetworkTreatmentContainer(result.toObjects(Treatment::class.java))
-                    networkTreatmentContainer.results[0].let {
-                        treatments.add(it)
-                        *//*when {
-                            currentLocal.language.equals("es") -> {
-                                treatments.add(it.name)
-                            }
-                            currentLocal.language.equals("en") -> {
-                                treatments.add(it.name_en)
-                            }
-                            else -> {
-                                treatments.add(it.name_fr)
-                            }
-                        }*//*
-                    }
-                }
-                visit.treatments = treatments
-            }*/
-            //visit.toDomainVisit()
-       // }
     }
 
     suspend fun deleteVisit(id: String) {
@@ -456,6 +402,19 @@ object FirebaseDataSource {
                 }
             } catch (ex : Exception) {
                 Timber.d("Create visit result: false ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun updateVisit(visit: org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to update visit from firebase")
+            try {
+                val visitsRef = firestore.collection("visits")
+                visitsRef.document(visit.id).set(visit.toServerVisit()).await()
+                Timber.d("update visit result: ok")
+            } catch (ex: Exception) {
+                Timber.d("update visit result: false ${ex.message}")
             }
         }
     }
