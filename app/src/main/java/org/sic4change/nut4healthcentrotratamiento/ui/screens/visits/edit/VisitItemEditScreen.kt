@@ -107,7 +107,9 @@ private fun Header(visitState: VisitState,
             leadingIcon = {
                 Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+
         Spacer(modifier = Modifier.height(16.dp))
+
         TextField(value = visitState.weight.value.toString(),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -354,24 +356,6 @@ private fun Header(visitState: VisitState,
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = visitState.observations.value,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-            ),
-            onValueChange = {visitState.observations.value = it},
-            textStyle = MaterialTheme.typography.h5,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            leadingIcon = {
-                Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-            label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
-        Spacer(modifier = Modifier.height(16.dp))
 
         Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.colorPrimary),
             modifier = Modifier
@@ -411,6 +395,26 @@ private fun Header(visitState: VisitState,
                 visitState.treatments.value.addAll(treatmentsToUpdate)
             })
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(value = visitState.observations.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {visitState.observations.value = it},
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
 
         Spacer(modifier = Modifier.height(16.dp))
 
