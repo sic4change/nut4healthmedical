@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import java.util.*
@@ -18,18 +19,19 @@ fun rememberVisitsState(
     height: MutableState<String> = rememberSaveable { mutableStateOf("") },
     weight: MutableState<String> = rememberSaveable { mutableStateOf("") },
     imc: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
-    armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
+    armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(30.0) },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    childDateMillis: MutableState<Long> = rememberSaveable { mutableStateOf(0) },
     treatments: MutableState<MutableList<Treatment>> = rememberSaveable {mutableStateOf(mutableListOf<Treatment>())},
     symtoms: MutableState<MutableList<Symtom>> = rememberSaveable {mutableStateOf(mutableListOf<Symtom>())},
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
-    status, measlesVaccinated, vitamineAVaccinated, observations, symtoms, treatments, createdDate,
+    status, measlesVaccinated, vitamineAVaccinated, observations, childDateMillis, symtoms, treatments, createdDate,
     visitsSize, deleteVisit ) }
 
 class VisitState(
@@ -45,6 +47,7 @@ class VisitState(
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val observations: MutableState<String>,
+    val childDateMillis: MutableState<Long>,
     val symtoms: MutableState<MutableList<Symtom>>,
     val treatments: MutableState<MutableList<Treatment>>,
     val createdDate: MutableState<Date>,

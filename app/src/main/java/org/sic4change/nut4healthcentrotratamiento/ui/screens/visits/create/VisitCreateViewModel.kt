@@ -8,9 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsViewModel
 import java.util.*
@@ -27,14 +25,25 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = UiState(
                 loading = true,
+                case = FirebaseDataSource.getCase(caseId),
                 symtoms = FirebaseDataSource.getSymtoms(),
                 treatments = FirebaseDataSource.getTreatments()
             )
+            _state.value = UiState(
+                loading = true,
+                case = _state.value.case,
+                symtoms = _state.value.symtoms,
+                treatments = _state.value.treatments,
+                childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId).birthdate.time }
+            )
+            println("Aqui ${_state.value.childDateMillis}");
         }
     }
 
     data class  UiState(
         val loading: Boolean = false,
+        val case: Case? = null,
+        val childDateMillis: Long? = 0,
         val visit: Visit? = null,
         val symtoms: List<Symtom> = emptyList(),
         val treatments: List<Treatment> = emptyList(),
@@ -64,7 +73,8 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     _state.value= UiState(
                         symtoms = _state.value.symtoms,
                         treatments = _state.value.treatments,
-                        imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()))
+                        imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()),
+                        childDateMillis = state.value.childDateMillis)
                 } catch (error: Error) {
                     println("error: ${error}")
                 }

@@ -114,6 +114,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -122,6 +123,12 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
+
+    LaunchedEffect(viewModelState.childDateMillis) {
+        if (viewModelState.childDateMillis != null) {
+            visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
+        }
+    }
 
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {
@@ -134,8 +141,10 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitCreateState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitCreateState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
+            visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
             visitCreateState.symtoms.value = viewModelState.visit!!.symtoms
             visitCreateState.treatments.value = viewModelState.visit!!.treatments
+            visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
         }
     }
 

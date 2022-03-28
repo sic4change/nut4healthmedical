@@ -1,9 +1,11 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,7 +32,14 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.temporal.ChronoUnit
+import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -67,6 +76,7 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("ResourceAsColor")
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
@@ -138,7 +148,14 @@ private fun Header(visitState: VisitState,
             label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = (visitState.armCircunference.value != 0.0)) {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
+
+        val monthsBetween = ChronoUnit.MONTHS.between(
+                YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
+        )
+
+        AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) && (monthsBetween >= 6 && monthsBetween <= 60))) {
             if (visitState.armCircunference.value < 11.5) {
                 TextField(value = visitState.armCircunference.value.toString(),
                     colors = TextFieldDefaults.textFieldColors(
@@ -197,52 +214,57 @@ private fun Header(visitState: VisitState,
 
         }
 
-        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        AndroidView(
-            factory = {
-                val view = LayoutInflater.from(it)
-                    .inflate(R.layout.muac_view, null, false)
-                view
-            },
-            update  = {view ->
-                val ruler = view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.id.ruler)
-                val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
-                val tvCm = view.findViewById<TextView>(R.id.tvCm)
-                val df = DecimalFormat("#.0")
-                ruler.setOnValueChangeListener { view, position, value ->
-                    tvCm.text = df.format(value).toString() + " cm"
-                    visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+        AnimatedVisibility(visible = (monthsBetween >= 6 && monthsBetween <= 60)) {
+            AndroidView(
+                factory = {
+                    val view = LayoutInflater.from(it)
+                        .inflate(R.layout.muac_view, null, false)
+                    view
+                },
+                update  = {view ->
+                    val ruler = view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.id.ruler)
+                    val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
+                    val tvCm = view.findViewById<TextView>(R.id.tvCm)
+                    val df = DecimalFormat("#.0")
+                    ruler.setOnValueChangeListener { view, position, value ->
+                        tvCm.text = df.format(value).toString() + " cm"
+                        visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
 
-                    if (value < 11.5) {
-                        rulerBackground.setBackgroundResource(R.color.error)
-                        tvCm.setTextColor(R.color.error)
-                        visitState.status.value = "Aguda Severa"
-                    } else if (value >= 11.5 && value <= 12.5) {
-                        rulerBackground.setBackgroundResource(R.color.orange)
-                        tvCm.setTextColor(R.color.orange)
-                        if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
-                            || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                            visitState.status.value = "Aguda Moderada"
-                        }
-                    } else {
-                        rulerBackground.setBackgroundResource(R.color.colorAccent)
-                        tvCm.setTextColor(R.color.colorAccent)
-                        if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                            visitState.status.value = "Normopeso"
-                        } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
-                            visitState.status.value = "Peso Objetivo"
+                        if (value < 11.5) {
+                            rulerBackground.setBackgroundResource(R.color.error)
+                            tvCm.setTextColor(R.color.error)
+                            visitState.status.value = "Aguda Severa"
+                        } else if (value >= 11.5 && value <= 12.5) {
+                            rulerBackground.setBackgroundResource(R.color.orange)
+                            tvCm.setTextColor(R.color.orange)
+                            if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                                || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                visitState.status.value = "Aguda Moderada"
+                            }
+                        } else {
+                            rulerBackground.setBackgroundResource(R.color.colorAccent)
+                            tvCm.setTextColor(R.color.colorAccent)
+                            if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                visitState.status.value = "Normopeso"
+                            } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                                visitState.status.value = "Peso Objetivo"
+                            }
                         }
                     }
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+            )
+        }
+
+        AnimatedVisibility(visible = (monthsBetween >= 6 && monthsBetween <= 60)) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
             var statusFormated = ""
@@ -418,8 +440,7 @@ private fun Header(visitState: VisitState,
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                && visitState.armCircunference.value != 0.0 )) {
+        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty())) {
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
