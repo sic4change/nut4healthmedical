@@ -28,6 +28,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.DrawerContent
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Navigation
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -38,7 +39,6 @@ import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 @Composable
 fun NUT4HealthApp() {
     val appState =  rememberNUT4HealthAppState()
-    val scope = rememberCoroutineScope()
     val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
     NUT4HealthScreen {
         if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {

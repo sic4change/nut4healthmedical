@@ -22,7 +22,7 @@ class CasesViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(createCase = false)
             _state.value = UiState(loading = true)
-            _state.value = UiState(cases = FirebaseDataSource.getCases(id), childId = id, createCase = false)
+            _state.value = UiState(cases = FirebaseDataSource.getCases(id), childId = id, createCase = false, loading = false)
         }
     }
 

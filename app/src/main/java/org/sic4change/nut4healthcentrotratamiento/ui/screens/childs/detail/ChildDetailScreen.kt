@@ -27,13 +27,20 @@ fun ChildItemDetailScreen(
     childItem: Child?, onEditClick: (Child) -> Unit,
     onDeleteClick: (String) -> Unit,
     onCasesClick: (Child) -> Unit) {
+
+    if (loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        if (loading) {
-            CircularProgressIndicator()
-        }
         if (childItem != null) {
             ChildItemDetailScaffold(
                 childState = childState,

@@ -21,7 +21,7 @@ class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(visit = FirebaseDataSource.getVisit(id))
+            _state.value = UiState(visit = FirebaseDataSource.getVisit(id), loading = false)
         }
     }
 

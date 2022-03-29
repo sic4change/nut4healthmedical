@@ -5,6 +5,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -45,7 +46,16 @@ fun TutorItemsListScreen(
             }
         }
 
-        ModalBottomSheetLayout(sheetContent = {
+    if (loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+        }
+    }
+
+    ModalBottomSheetLayout(sheetContent = {
             TutorItemBottomPreview(
                 item = bottomSheetItem,
                 onGoToDetail = {
@@ -67,7 +77,9 @@ fun TutorItemsListScreen(
                     }
                 }
             )
-        }
+    }
+
+
 }
 
 @Composable

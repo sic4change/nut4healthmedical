@@ -45,6 +45,15 @@ fun VisitItemsListScreen(
             }
         }
 
+        if (loading) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+            }
+        }
+
         ModalBottomSheetLayout(sheetContent = {
             VisitItemBottomPreview(
                 item = bottomSheetItem,

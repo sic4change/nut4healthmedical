@@ -18,7 +18,7 @@ class TutorsViewModel: ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(tutors = FirebaseDataSource.getTutors())
+            _state.value = UiState(tutors = FirebaseDataSource.getTutors(), loading = false)
         }
     }
 

@@ -45,6 +45,15 @@ fun CaseItemsListScreen(
             }
         }
 
+    if (loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+        }
+    }
+
         ModalBottomSheetLayout(sheetContent = {
             CaseItemBottomPreview(
                 item = bottomSheetItem,

@@ -26,13 +26,19 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                           tutorItem: Tutor?, onEditClick: (Tutor) -> Unit,
                           onDeleteClick: () -> Unit,
                           onClickChild: (Tutor) -> Unit) {
+    if (loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        if (loading) {
-            CircularProgressIndicator()
-        }
         if (tutorItem != null) {
             TutorItemDetailScaffold(
                 tutorState = tutorState,

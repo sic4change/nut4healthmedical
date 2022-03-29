@@ -22,7 +22,7 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(child = FirebaseDataSource.getChild(id))
+            _state.value = UiState(child = FirebaseDataSource.getChild(id), loading = false)
         }
     }
 

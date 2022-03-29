@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -131,6 +132,8 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
 @Composable
 fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
+
+
     TutorItemsListScreen(
         loading = state.loading,
         items = state.tutors,

@@ -28,13 +28,21 @@ fun CaseItemDetailScreen(
     caseItem: Case?, onEditClick: (Case) -> Unit,
     onDeleteClick: (String) -> Unit,
     onVisitsClick: (Case) -> Unit) {
+
+    if (loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        if (loading) {
-            CircularProgressIndicator()
-        }
+
         if (caseItem != null) {
             CaseItemDetailScaffold(
                 caseState = caseState,

@@ -29,13 +29,20 @@ fun VisitItemDetailScreen(
     visitState: VisitState, loading: Boolean = false,
     visitItem: Visit?, onEditClick: (Visit) -> Unit,
     onDeleteClick: (String) -> Unit) {
+    
+    if (loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        if (loading) {
-            CircularProgressIndicator()
-        }
         if (visitItem != null) {
             VisitItemDetailScaffold(
                 visitState = visitState,
