@@ -365,19 +365,33 @@ private fun Header(visitState: VisitState,
             Spacer(modifier = Modifier.height(16.dp))
         }
 
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            elevation = 0.dp,
+            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(0.dp, 16.dp)
+            ) {
+                CheckNUT4H(text = stringResource(id = R.string.measlesVaccinated), visitState.measlesVaccinated.value) {
+                    visitState.measlesVaccinated.value = it
+                }
 
-        CheckNUT4H(text = stringResource(id = R.string.measlesVaccinated), visitState.measlesVaccinated.value) {
-            visitState.measlesVaccinated.value = it
+                Spacer(modifier = Modifier.height(16.dp))
+
+                CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
+                    visitState.vitamineAVaccinated.value = it
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
-            visitState.vitamineAVaccinated.value = it
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
 
         Card(
             modifier = Modifier
