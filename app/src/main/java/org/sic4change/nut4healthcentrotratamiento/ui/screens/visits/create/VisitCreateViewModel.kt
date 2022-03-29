@@ -36,7 +36,6 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 treatments = _state.value.treatments,
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId).birthdate.time }
             )
-            println("Aqui ${_state.value.childDateMillis}");
         }
     }
 

@@ -205,6 +205,11 @@ fun VisitEditScreen(viewModel: VisitEditViewModel = viewModel(), onEditVisit: (S
     val visitEditState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
+    LaunchedEffect(viewModelState.childDateMillis) {
+        if (viewModelState.childDateMillis != null) {
+            visitEditState.childDateMillis.value = viewModelState.childDateMillis!!
+        }
+    }
 
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {

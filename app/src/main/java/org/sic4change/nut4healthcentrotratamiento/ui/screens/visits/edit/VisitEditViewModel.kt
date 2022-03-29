@@ -8,18 +8,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 import java.util.*
 
 class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     private val id = savedStateHandle.get<String>(NavArg.ItemId.key) ?: "0"
-    private var caseId = ""
     private var childId = ""
-    private var tutorId = ""
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -28,13 +28,12 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             _state.value = UiState(
+                loading = true,
                 visit = FirebaseDataSource.getVisit(id),
                 symtoms = FirebaseDataSource.getSymtoms(),
                 treatments = FirebaseDataSource.getTreatments()
             )
-            caseId = _state.value.visit?.caseId ?: "0"
             childId = _state.value.visit?.childId ?: "0"
-            tutorId = _state.value.visit?.tutorId ?: "0"
             _state.value.symtoms.forEach {
                 if (_state.value.visit != null) {
                     _state.value.visit!!.symtoms.forEach { symtom ->
@@ -53,12 +52,21 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     }
                 }
             }
+            _state.value = UiState(
+                loading = true,
+                visit = _state.value.visit,
+                symtoms = _state.value.symtoms,
+                treatments = _state.value.treatments,
+                childDateMillis = FirebaseDataSource.getChild(childId).birthdate.time
+            )
+            println("Aqui")
         }
     }
 
 
     data class  UiState(
         val loading: Boolean = false,
+        val childDateMillis: Long? = 0,
         val visit: Visit? = null,
         val symtoms: List<Symtom> = emptyList(),
         val treatments: List<Treatment> = emptyList(),
@@ -73,7 +81,7 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                   measlesVaccinated: Boolean, vitamineAVaccinated: Boolean, symtoms: List<Symtom>,
                   treatments: List<Treatment>, observations: String) {
         viewModelScope.launch {
-            val visit = Visit(id, caseId, childId, tutorId, Date(), height, weight, 0.0,
+            val visit = Visit(id, _state.value.visit!!.caseId, childId, _state.value.visit!!.tutorId, Date(), height, weight, 0.0,
                 arm_circunference, status, measlesVaccinated, vitamineAVaccinated,
                 symtoms.filter { it -> it.selected}.toMutableList(), treatments.filter { it -> it.selected}.toMutableList(),
                 observations)
@@ -88,6 +96,8 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (height.isNotEmpty() && weight.isNotEmpty()) {
                 try {
                     _state.value= UiState(
+                        visit = _state.value.visit,
+                        childDateMillis = _state.value.childDateMillis,
                         symtoms = _state.value.symtoms,
                         treatments = _state.value.treatments,
                         imc = FirebaseDataSource.checkDesnutrition(
