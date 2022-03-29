@@ -29,7 +29,7 @@ fun VisitItemDetailScreen(
     visitState: VisitState, loading: Boolean = false,
     visitItem: Visit?, onEditClick: (Visit) -> Unit,
     onDeleteClick: (String) -> Unit) {
-    
+
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
