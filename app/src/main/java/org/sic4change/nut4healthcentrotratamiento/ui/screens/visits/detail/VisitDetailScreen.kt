@@ -17,6 +17,7 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.CheckNUT4H
 import java.text.SimpleDateFormat
 
 @ExperimentalCoilApi
@@ -222,6 +223,14 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        DisableCheckNUT4H(text = stringResource(id = R.string.measlesVaccinated), visitState.measlesVaccinated.value)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        DisableCheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -304,6 +313,32 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+    }
+}
+
+@Composable
+fun DisableCheckNUT4H(text: String, checked: Boolean) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp)
+            .clickable(
+                onClick = {
+
+                }
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = text,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Checkbox(
+            checked = checked,
+            onCheckedChange = null,
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
     }
 }
 

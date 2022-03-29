@@ -377,43 +377,77 @@ private fun Header(visitState: VisitState,
         Spacer(modifier = Modifier.height(16.dp))
 
 
-        Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.colorPrimary),
+
+
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 0.dp),)
+                .padding(16.dp, 0.dp),
+            elevation = 0.dp,
+            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp)
+            ) {
 
+                Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.disabled_color),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),)
 
-        visitState.symtoms.value.forEach { symtom ->
-            ItemListSymtoms(symtom = symtom, checked = symtom.selected, {
-                var symtomsToUpdate : MutableList<Symtom> = mutableListOf()
-                visitState.symtoms.value.forEach { item ->
-                    if (item.id == symtom.id) {
-                        item.selected = it
-                    }
-                    symtomsToUpdate.add(item)
+                visitState.symtoms.value.forEach { symtom ->
+                    ItemListSymtoms(symtom = symtom, checked = symtom.selected, {
+                        var symtomsToUpdate : MutableList<Symtom> = mutableListOf()
+                        visitState.symtoms.value.forEach { item ->
+                            if (item.id == symtom.id) {
+                                item.selected = it
+                            }
+                            symtomsToUpdate.add(item)
+                        }
+                        visitState.symtoms.value = mutableListOf()
+                        visitState.symtoms.value.addAll(symtomsToUpdate)
+                    })
                 }
-                visitState.symtoms.value = mutableListOf()
-                visitState.symtoms.value.addAll(symtomsToUpdate)
-            })
+            }
         }
 
-        Text(text = stringResource(R.string.treatments), color = colorResource(R.color.colorPrimary),
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 0.dp),)
+                .padding(16.dp, 0.dp),
+            elevation = 0.dp,
+            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(R.string.treatments), color = colorResource(R.color.disabled_color),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),)
 
-        visitState.treatments.value.forEach { treatment ->
-            ItemListTreatments(treatment = treatment, checked = treatment.selected,  {
-                var treatmentsToUpdate : MutableList<Treatment> = mutableListOf()
-                visitState.treatments.value.forEach { item ->
-                    if (item.id == treatment.id) {
-                        item.selected = it
-                    }
-                    treatmentsToUpdate.add(item)
+                visitState.treatments.value.forEach { treatment ->
+                    ItemListTreatments(treatment = treatment, checked = treatment.selected,  {
+                        var treatmentsToUpdate : MutableList<Treatment> = mutableListOf()
+                        visitState.treatments.value.forEach { item ->
+                            if (item.id == treatment.id) {
+                                item.selected = it
+                            }
+                            treatmentsToUpdate.add(item)
+                        }
+                        visitState.treatments.value = mutableListOf()
+                        visitState.treatments.value.addAll(treatmentsToUpdate)
+                    })
                 }
-                visitState.treatments.value = mutableListOf()
-                visitState.treatments.value.addAll(treatmentsToUpdate)
-            })
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
