@@ -62,7 +62,7 @@ private fun NavGraphBuilder.loginNav(navController: NavController) {
         composable(NavCommand.ContentType(Feature.LOGIN)) {
             LoginScreen(onLogin = {
                 navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.LOGIN).createRoute("0")
+                    NavCommand.ContentType(Feature.TUTORS).route
                 )
                 }
             )
