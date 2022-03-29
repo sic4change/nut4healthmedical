@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
@@ -37,6 +38,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -377,8 +379,6 @@ private fun Header(visitState: VisitState,
         Spacer(modifier = Modifier.height(16.dp))
 
 
-
-
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -529,6 +529,16 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
 @Composable
 fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (Boolean) -> Unit) {
 
+    val language = LocaleListCompat.getDefault()[0].toLanguageTag()
+    var symtomTag = ""
+    if (language.contains("es-")) {
+        symtomTag = symtom.name
+    } else if(language.contains("en-")) {
+        symtomTag = symtom.name_en
+    } else {
+        symtomTag = symtom.name_fr
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp).clickable(
             onClick = {
@@ -540,7 +550,7 @@ fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (B
 
         Text(
             color = colorResource(R.color.colorPrimary),
-            text = symtom.name_fr,
+            text = symtomTag,
             style = MaterialTheme.typography.body1,
         )
 
@@ -557,6 +567,16 @@ fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (B
 @Composable
 fun ItemListTreatments(treatment: Treatment, checked: Boolean,  onCheckedChangeTreatment : (Boolean) -> Unit) {
 
+    val language = LocaleListCompat.getDefault()[0].toLanguageTag()
+    var treatmentTag = ""
+    if (language.contains("es-")) {
+        treatmentTag = treatment.name
+    } else if(language.contains("en-")) {
+        treatmentTag = treatment.name_en
+    } else {
+        treatmentTag = treatment.name_fr
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp).clickable(
             onClick = {
@@ -569,7 +589,7 @@ fun ItemListTreatments(treatment: Treatment, checked: Boolean,  onCheckedChangeT
 
         Text(
             color = colorResource(R.color.colorPrimary),
-            text = treatment.name_fr,
+            text = treatmentTag,
             style = MaterialTheme.typography.body1,
         )
 

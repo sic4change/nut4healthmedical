@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.ConfigurationCompat
+import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
@@ -231,6 +233,8 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        val language = LocaleListCompat.getDefault()[0].toLanguageTag()
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -250,9 +254,17 @@ private fun Header(visitState: VisitState) {
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),)
                 visitState.symtoms.value.forEach {
+                    var symtom = ""
+                    if (language.contains("es-")) {
+                        symtom = it.name
+                    } else if(language.contains("en-")) {
+                        symtom = it.name_en
+                    } else {
+                        symtom = it.name_fr
+                    }
                     ListItem(
                         icon = { Icon(imageVector = Icons.Filled.LocalHospital, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
-                        text = { Text(text = it.name_fr, color = colorResource(R.color.colorPrimary)) }
+                        text = { Text(text = symtom, color = colorResource(R.color.colorPrimary)) }
                     )
                 }
             }
@@ -280,9 +292,17 @@ private fun Header(visitState: VisitState) {
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),)
                 visitState.treatments.value.forEach {
+                    var treatment = ""
+                    if (language.contains("es-")) {
+                        treatment = it.name
+                    } else if(language.contains("en-")) {
+                        treatment = it.name_en
+                    } else {
+                        treatment = it.name_fr
+                    }
                     ListItem(
                         icon = { Icon(imageVector = Icons.Filled.LocalPharmacy, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
-                        text = { Text(text = it.name_fr, color = colorResource(R.color.colorPrimary)) }
+                        text = { Text(text = treatment, color = colorResource(R.color.colorPrimary)) }
                     )
                 }
             }
