@@ -57,7 +57,7 @@
     <string name="last_visits">Última visita:</string>
     <string name="tutors_title">Madres, padres o tutores</string>
     <string name="no_tutors">Sin perfiles madres, padres o tutores todavía</string>
-    <string name="no_childs">Si perfiles niñ@s todavía</string>
+    <string name="no_childs">Sin perfiles niñ@s todavía</string>
     <string name="childs">Perfiles niñ@s</string>
     <string name="casos">Casos</string>
     <string name="no_cases">Sin casos todavía</string>
@@ -89,8 +89,8 @@
     <string name="aguda_moderada">Desnutrición Aguda Moderada</string>
     <string name="aguda_severa">Desnutrición Aguda Severa</string>
     <string name="objetive_weight">Peso objetivo</string>
-    <string name="measlesVaccinated">¿Ha sido vacunado del Sarampión?</string>
-    <string name="vitamineAVaccinated">¿Ha estado durante 4 meses en un programa de vacunación de Vitamina A?</string>
+    <string name="measlesVaccinated">¿Está el niño/a vacunado de sarampión?</string>
+    <string name="vitamineAVaccinated">¿Ha estado durante los últimos 4 meses en un programa de vacunación de Vitamina A?</string>
     <string name="edit_visit">Editar Visita</string>
 
 </resources>
