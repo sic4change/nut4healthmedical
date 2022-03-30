@@ -6,11 +6,13 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -65,7 +67,7 @@ fun VisitItemsListScreen(
                 }
             )
         }, sheetState = sheetState) {
-            CaseItemsList(
+            VisitItemsList(
                 loading = loading,
                 items = items,
                 onItemClick = onClick,
@@ -106,7 +108,7 @@ fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun CaseItemsList(
+fun VisitItemsList(
     loading: Boolean,
     items: List<Visit>,
     onItemClick: (Visit) -> Unit,
@@ -114,11 +116,11 @@ fun CaseItemsList(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().background(colorResource(R.color.colorPrimaryDark))
     ) {
         Text(
             text = stringResource(R.string.visitas),
-            color = colorResource(R.color.colorPrimary),
+            color = colorResource(R.color.white),
             style = MaterialTheme.typography.h4,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -128,22 +130,29 @@ fun CaseItemsList(
             contentAlignment = Alignment.TopCenter
         ) {
             if (loading) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = colorResource(R.color.white), modifier = Modifier.padding(40.dp))
             }
             if (items.isNotEmpty()) {
-                LazyVerticalGrid(
-                    cells = GridCells.Adaptive(4000.dp),
-                    contentPadding = PaddingValues(4.dp),
-                    modifier = modifier
+                Card(
+                    shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                 ) {
-                    items(items) {
-                        VisitListItem(
-                            item = it,
-                            modifier = Modifier.clickable { onItemClick(it) },
-                            onItemMore = onItemMore
-                        )
+                    LazyVerticalGrid(
+                        cells = GridCells.Adaptive(4000.dp),
+                        contentPadding = PaddingValues(4.dp),
+                        modifier = modifier
+                    ) {
+                        items(items) {
+                            VisitListItem(
+                                item = it,
+                                modifier = Modifier.clickable { onItemClick(it) },
+                                onItemMore = onItemMore
+                            )
+                        }
                     }
                 }
+
             } else {
                 Text(
                     text = stringResource(R.string.no_visits),
