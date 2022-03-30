@@ -18,6 +18,7 @@ import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.CheckNUT4H
 import java.text.SimpleDateFormat
@@ -156,8 +157,8 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (visitState.status.value == stringResource(R.string.normopeso)) {
-            TextField(value = visitState.status.value.capitalize(),
+        if (formatStatus(visitState.status.value) == stringResource(R.string.normopeso)) {
+            TextField(value = formatStatus(visitState.status.value).capitalize(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorAccent),
@@ -174,8 +175,8 @@ private fun Header(visitState: VisitState) {
                 leadingIcon = {
                     Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { })},
                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-        } else if (visitState.status.value == stringResource(R.string.objetive_weight)) {
-            TextField(value = visitState.status.value.capitalize(),
+        } else if (formatStatus(visitState.status.value) == stringResource(R.string.objetive_weight)) {
+            TextField(value = formatStatus(visitState.status.value).capitalize(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -192,8 +193,8 @@ private fun Header(visitState: VisitState) {
                 leadingIcon = {
                     Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-        } else if (visitState.status.value == stringResource(R.string.aguda_moderada)) {
-            TextField(value = visitState.status.value.capitalize(),
+        } else if (formatStatus(visitState.status.value) == stringResource(R.string.aguda_moderada)) {
+            TextField(value = formatStatus(visitState.status.value).capitalize(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.orange),
@@ -211,7 +212,7 @@ private fun Header(visitState: VisitState) {
                     Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { })},
                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
         } else {
-            TextField(value = visitState.status.value.capitalize(),
+            TextField(value = formatStatus(visitState.status.value).capitalize(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.error),

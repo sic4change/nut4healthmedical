@@ -1,5 +1,8 @@
 package org.sic4change.nut4healthcentrotratamiento.data
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
@@ -95,6 +98,8 @@ fun Visit.toServerVisit() : ServerVisit  {
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
         treatments.map { it.toServerTreatment() }, observations)
 }
+
+
 
 
 

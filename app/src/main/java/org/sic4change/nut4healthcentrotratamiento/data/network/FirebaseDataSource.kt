@@ -1,6 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import android.content.res.Resources
+import androidx.compose.runtime.Composable
 import androidx.core.os.ConfigurationCompat
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers

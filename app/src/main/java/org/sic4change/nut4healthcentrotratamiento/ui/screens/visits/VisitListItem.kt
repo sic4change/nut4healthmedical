@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import java.text.SimpleDateFormat
 
 @ExperimentalCoilApi
@@ -32,7 +33,7 @@ fun  VisitListItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                if (item.status == stringResource(R.string.normopeso)) {
+                if (formatStatus(item.status)  == stringResource(R.string.normopeso)) {
                     IconButton(onClick = {}) {
                         Icon(
                             tint = colorResource(R.color.colorAccent),
@@ -42,8 +43,8 @@ fun  VisitListItem(
                     }
                     Text(
                         color = colorResource(R.color.colorAccent),
-                        text = "${item.status}".toString().capitalize()  ,
-                        style = MaterialTheme.typography.h5,
+                        text = "${formatStatus(item.status) }".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h6,
                         maxLines = 2,
                         modifier = Modifier
                             .padding(8.dp, 16.dp)
@@ -65,7 +66,7 @@ fun  VisitListItem(
                             contentDescription = stringResource(R.string.more_actions)
                         )
                     }
-                } else if  (item.status == stringResource(R.string.objetive_weight)) {
+                } else if  (formatStatus(item.status)  == stringResource(R.string.objetive_weight)) {
                     IconButton(onClick = {}) {
                         Icon(
                             tint = colorResource(R.color.colorPrimary),
@@ -75,8 +76,8 @@ fun  VisitListItem(
                     }
                     Text(
                         color = colorResource(R.color.colorPrimary),
-                        text = "${item.status}".toString().capitalize()  ,
-                        style = MaterialTheme.typography.h5,
+                        text = "${formatStatus(item.status) }".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h6,
                         maxLines = 2,
                         modifier = Modifier
                             .padding(8.dp, 16.dp)
@@ -98,7 +99,7 @@ fun  VisitListItem(
                             contentDescription = stringResource(R.string.more_actions)
                         )
                     }
-                } else if (item.status == stringResource(R.string.aguda_moderada)) {
+                } else if (formatStatus(item.status)  == stringResource(R.string.aguda_moderada)) {
                     IconButton(onClick = {}) {
                         Icon(
                             tint = colorResource(R.color.orange),
@@ -108,8 +109,8 @@ fun  VisitListItem(
                     }
                     Text(
                         color = colorResource(R.color.orange),
-                        text = "${item.status}".toString().capitalize()  ,
-                        style = MaterialTheme.typography.h5,
+                        text = "${formatStatus(item.status) }".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h6,
                         maxLines = 2,
                         modifier = Modifier
                             .padding(8.dp, 16.dp)
@@ -141,8 +142,8 @@ fun  VisitListItem(
                     }
                     Text(
                         color = colorResource(R.color.error),
-                        text = "${item.status}".toString().capitalize()  ,
-                        style = MaterialTheme.typography.h5,
+                        text = "${formatStatus(item.status) }".toString().capitalize()  ,
+                        style = MaterialTheme.typography.h6,
                         maxLines = 2,
                         modifier = Modifier
                             .padding(8.dp, 16.dp)

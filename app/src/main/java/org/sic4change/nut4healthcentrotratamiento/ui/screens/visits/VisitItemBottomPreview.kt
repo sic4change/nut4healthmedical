@@ -17,6 +17,7 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import java.text.SimpleDateFormat
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -31,8 +32,8 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (item.status == stringResource(R.string.normopeso)) {
-                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                if (formatStatus(item.status) == stringResource(R.string.normopeso)) {
+                    TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.colorAccent),
                             backgroundColor = colorResource(R.color.white),
@@ -44,8 +45,8 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                         textStyle = MaterialTheme.typography.h5,
                         leadingIcon = {
                             Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})})
-                } else if (item.status == stringResource(R.string.objetive_weight)) {
-                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                } else if (formatStatus(item.status) == stringResource(R.string.objetive_weight)) {
+                    TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.colorPrimary),
                             backgroundColor = colorResource(R.color.white),
@@ -57,8 +58,8 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                         textStyle = MaterialTheme.typography.h5,
                         leadingIcon = {
                             Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
-                } else if (item.status == stringResource(R.string.aguda_moderada)) {
-                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                } else if (formatStatus(item.status) == stringResource(R.string.aguda_moderada)) {
+                    TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.orange),
                             backgroundColor = colorResource(R.color.white),
@@ -71,7 +72,7 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                         leadingIcon = {
                             Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})})
                 } else {
-                    TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
+                    TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.error),
                             backgroundColor = colorResource(R.color.white),
