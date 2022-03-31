@@ -42,6 +42,9 @@ class CaseCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
+    fun resetCreateCase() {
+        _state.value = UiState(created = false)
+    }
 
 
 }

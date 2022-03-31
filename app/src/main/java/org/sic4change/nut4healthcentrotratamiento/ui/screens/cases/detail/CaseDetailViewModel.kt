@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
 
 class CaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -36,5 +37,6 @@ class CaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             FirebaseDataSource.deleteCase(id)
         }
     }
+
 
 }

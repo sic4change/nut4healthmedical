@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import java.util.*
 
@@ -31,7 +30,7 @@ class CaseEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val case: Case? = null,
-        val editChild: Boolean = false,
+        val editCase: Boolean = false,
     )
 
     fun editCase(id: String, name: String, status: String, observations: String) {
@@ -40,8 +39,12 @@ class CaseEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 name, status, Date(), Date(), _state.value.case!!.visits, observations)
             _state.value= UiState(case = case)
             FirebaseDataSource.updateCase(case)
-            _state.value = UiState(editChild = true)
+            _state.value = UiState(editCase = true)
         }
+    }
+
+    fun resetUpdateCase() {
+        _state.value = UiState(editCase = false)
     }
 
 }

@@ -276,8 +276,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.CASE_DETAIL)) {
             CaseDetailScreen(onEditCaseClick = { case ->
-                navController.popBackStack()
-                navController.popBackStack()
                 navController.navigate(
                     NavCommand.ContentTypeDetail(Feature.EDITCASE).createRoute(case.id)
                 )
