@@ -30,7 +30,7 @@ fun VisitItemDetailScaffold(
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         bottomBar = {
-            BottomAppBar(
+            /*BottomAppBar(
                 backgroundColor = colorResource(R.color.colorPrimary),
                 cutoutShape = MaterialTheme.shapes.small
             ) {
@@ -41,7 +41,7 @@ fun VisitItemDetailScaffold(
                 AppBarIcon(imageVector = Icons.Default.Delete, onClick = {
                     visitState.showDeleteQuestion()
                 })
-            }
+            }*/
         },
         content = content
     )
