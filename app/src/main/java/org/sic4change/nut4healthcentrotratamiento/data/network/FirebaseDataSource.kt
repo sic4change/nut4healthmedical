@@ -3,6 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.data.network
 import android.content.res.Resources
 import androidx.compose.runtime.Composable
 import androidx.core.os.ConfigurationCompat
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -447,17 +448,42 @@ object FirebaseDataSource {
             val resultChildMalNutritionChildTable = queryChildMalNutritionChildTable.get().await()
             val networkMalNutritionChildTableContainer =
                 NetworkMalNutritionChildTableContainer(resultChildMalNutritionChildTable.toObjects(MalNutritionChildTable::class.java))
-            networkMalNutritionChildTableContainer.results[0].let { malNutritionChldTable ->
-                if (weight > malNutritionChldTable.minusone.toDouble()) {
-                    status = 0.0
-                } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
-                    status = -1.0
-                } else if (weight > malNutritionChldTable.minusthree.toDouble()) {
-                    status = -1.5
-                }  else  {
-                    status = -3.0
+            try {
+                networkMalNutritionChildTableContainer.results[0].let { malNutritionChldTable ->
+                    println("Aqui ${malNutritionChldTable}")
+                    if (weight > malNutritionChldTable.minusone.toDouble()) {
+                        status = 0.0
+                    } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
+                        status = -1.0
+                    } else if (weight > malNutritionChldTable.minusthree.toDouble()) {
+                        status = -1.5
+                    }  else  {
+                        status = -3.0
+                    }
+                }
+            } catch (e : Exception) {
+                if (height.toString() == "100.0") {
+                    val malNutritionChldTable = MalNutritionChildTable(
+                        "X3fX5g2Fd9lpy0OVYkgA",
+                        "100",
+                        "14.2",
+                        "13.6",
+                        "12.1",
+                        "13.1",
+                        "15.4"
+                    )
+                    if (weight > malNutritionChldTable.minusone.toDouble()) {
+                        status = 0.0
+                    } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
+                        status = -1.0
+                    } else if (weight > malNutritionChldTable.minusthree.toDouble()) {
+                        status = -1.5
+                    }  else  {
+                        status = -3.0
+                    }
                 }
             }
+
         }
         status
 
