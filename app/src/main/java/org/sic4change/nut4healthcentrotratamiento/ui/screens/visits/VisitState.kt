@@ -28,11 +28,12 @@ fun rememberVisitsState(
     treatments: MutableState<MutableList<Treatment>> = rememberSaveable {mutableStateOf(mutableListOf<Treatment>())},
     symtoms: MutableState<MutableList<Symtom>> = rememberSaveable {mutableStateOf(mutableListOf<Symtom>())},
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    createdVisit:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
     status, measlesVaccinated, vitamineAVaccinated, observations, childDateMillis, symtoms, treatments, createdDate,
-    visitsSize, deleteVisit ) }
+    createdVisit,visitsSize, deleteVisit ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -51,6 +52,7 @@ class VisitState(
     val symtoms: MutableState<MutableList<Symtom>>,
     val treatments: MutableState<MutableList<Treatment>>,
     val createdDate: MutableState<Date>,
+    val createdVisit: MutableState<Boolean>,
     val visitsSize: MutableState<Int>,
     val deleteVisit: MutableState<Boolean>,
 ) {

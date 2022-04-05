@@ -493,11 +493,13 @@ private fun Header(visitState: VisitState,
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty())) {
             Button(
+                enabled = !visitState.createdVisit.value,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
+                    visitState.createdVisit.value = true
                     onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.armCircunference.value, visitState.status.value,
