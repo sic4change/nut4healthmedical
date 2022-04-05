@@ -257,11 +257,13 @@ private fun Header(childState: ChildState,
         AnimatedVisibility(visible = (childState.name.value.isNotEmpty() &&
                 childState.surnames.value.isNotEmpty())) {
             Button(
+                enabled = !childState.createdChild.value,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
+                    childState.createdChild.value = true
                     onCreateChild(childState.name.value, childState.surnames.value,
                         childState.birthday.value, childState.selectedOptionEtnician.value,
                         childState.selectedOptionSex.value, childState.observations.value)
