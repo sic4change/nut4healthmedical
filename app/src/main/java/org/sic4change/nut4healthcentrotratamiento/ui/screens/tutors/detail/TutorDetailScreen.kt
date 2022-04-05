@@ -263,7 +263,9 @@ private fun Header(tutorState: TutorState) {
         AnimatedVisibility(visible = (tutorState.sex.value.equals(stringResource(R.string.female)))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.pregnant.value.equals(stringResource(R.string.pregnant)))) {
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
+                    tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
             TextField(value = tutorState.weeks.value.toString(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
@@ -283,7 +285,8 @@ private fun Header(tutorState: TutorState) {
                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
 
         }
-        AnimatedVisibility(visible = (tutorState.pregnant.value.equals(stringResource(R.string.pregnant)))) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
+                tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         TextField(value = tutorState.observations.value,

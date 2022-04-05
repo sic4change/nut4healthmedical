@@ -333,7 +333,9 @@ private fun Header(tutorState: TutorState,
             Spacer(modifier = Modifier.height(16.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
-        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
+                tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
             TextField(value = tutorState.weeks.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -358,7 +360,10 @@ private fun Header(tutorState: TutorState,
                     Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
+                    tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))
+        ) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         TextField(value = tutorState.observations.value,
