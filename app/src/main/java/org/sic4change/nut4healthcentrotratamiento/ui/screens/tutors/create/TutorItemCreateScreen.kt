@@ -386,11 +386,13 @@ private fun Header(tutorState: TutorState,
                 tutorState.phone.value.isNotEmpty() &&
                 tutorState.address.value.isNotEmpty())) {
             Button(
+                enabled = !tutorState.createdTutor.value,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
+                    tutorState.createdTutor.value = true
                     onCreateTutor(tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
                         tutorState.selectedOptionSex.value, tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
