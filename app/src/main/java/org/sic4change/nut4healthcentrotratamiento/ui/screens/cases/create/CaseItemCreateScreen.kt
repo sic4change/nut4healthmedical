@@ -110,11 +110,13 @@ private fun Header(caseState: CaseState,
 
         AnimatedVisibility(visible = (caseState.name.value.isNotEmpty())) {
             Button(
+                enabled = !caseState.createdCase.value,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
+                    caseState.createdCase.value = true
                     onCreateCase(caseState.name.value, defaultStatus, caseState.observations.value)
 
                 },
