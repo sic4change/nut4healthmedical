@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,8 +47,18 @@ fun NUT4HealthApp() {
             Scaffold (
                 topBar = {
                     TopAppBar(
+                        actions = {
+                            IconButton(onClick = { appState.onHomeClick() }) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Home,
+                                    contentDescription = "home",
+                                    tint = colorResource(R.color.white)
+                                )
+                            }
+                        },
                         backgroundColor = colorResource(R.color.colorPrimary),
-                        title = { Text(stringResource(R.string.app_name), color = colorResource(R.color.white)) },
+                        title = { Text(stringResource(R.string.app_name),
+                            color = colorResource(R.color.white)) },
                         navigationIcon = {
                             if (!appState.currentRoute.contains("login/detail") &&
                                 !appState.currentRoute.contains("settings/home") &&
@@ -62,6 +74,7 @@ fun NUT4HealthApp() {
                             }
 
                         },
+
 
                         )
                 },

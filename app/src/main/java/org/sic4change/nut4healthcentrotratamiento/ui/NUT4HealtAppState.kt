@@ -64,6 +64,12 @@ class NUT4HealthAppState(
         navController.popBackStack()
     }
 
+    fun onHomeClick() {
+        navController.navigate(
+            NavCommand.ContentType(Feature.TUTORS).route
+        )
+    }
+
     fun onMenuClick() {
         coroutineScope.launch { scaffoldState.drawerState.open() }
     }

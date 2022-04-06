@@ -13,4 +13,5 @@ fun AppBarIcon(imageVector: ImageVector, onClick: () -> Unit, contentDescription
         Icon(imageVector = imageVector, contentDescription = contentDescription, tint = colorResource(
             R.color.white))
     }
+
 }
