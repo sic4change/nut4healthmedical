@@ -1,6 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -137,25 +138,30 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = visitState.armCircunference.value.toString(),
-            onValueChange = {}, readOnly = true,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.full_transparent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.full_transparent),
-                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-            ),
-            textStyle = MaterialTheme.typography.h5,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            leadingIcon = {
-                Icon(Icons.Default.MultipleStop, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+        if (visitState.armCircunference.value != 30.0)  {
+            TextField(value = visitState.armCircunference.value.toString(),
+                onValueChange = {}, readOnly = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.full_transparent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.full_transparent),
+                    unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                ),
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Default.MultipleStop, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        if (visitState.armCircunference.value != 30.0)  {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
 
         if (formatStatus(visitState.status.value) == stringResource(R.string.normopeso)) {
             TextField(value = formatStatus(visitState.status.value).capitalize(),
