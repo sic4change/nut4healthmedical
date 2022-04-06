@@ -53,12 +53,14 @@
     <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
     <string name="edit_child">Modifier profil d’enfant</string>
     <string name="tutors">Mère, pere ou tuteur</string>
+    <string name="visits_title">"Visites"</string>
     <string name="visits">"Visites: "</string>
     <string name="last_visits">Dernière visite:</string>
     <string name="tutors_title">Mère, père ou tuteur</string>
     <string name="no_tutors"></string>
     <string name="no_childs">Aucun profile d’enfant encore</string>
     <string name="childs">Enfants</string>
+    <string name="childs_title">Enfants</string>
     <string name="casos">Cas</string>
     <string name="no_cases">Aucun cas encore</string>
     <string name="create_case">Créer cas</string>

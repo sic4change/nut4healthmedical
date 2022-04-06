@@ -1,14 +1,16 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail
 
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
@@ -33,8 +35,24 @@ fun ChildItemDetailScaffold(
                 onClick = { onCasesClick(childItem) },
                 shape = MaterialTheme.shapes.small
             ) {
-                Icon(imageVector = Icons.Default.Folder, contentDescription = null, tint = colorResource(R.color.white))
-
+                //Icon(imageVector = Icons.Default.Folder, contentDescription = null, tint = colorResource(R.color.white))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Icon(
+                        modifier = Modifier.size(40.dp),
+                        imageVector = Icons.Default.Folder,
+                        contentDescription = null,
+                        tint = colorResource(R.color.white)
+                    )
+                    Text(
+                        text = stringResource(R.string.casos),
+                        color = colorResource(R.color.white),
+                        style = MaterialTheme.typography.caption,
+                        modifier = Modifier.padding(4.dp)
+                            .wrapContentHeight(Alignment.CenterVertically)
+                    )
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.Center,

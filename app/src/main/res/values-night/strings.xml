@@ -53,12 +53,14 @@
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar perfil niñ@</string>
     <string name="tutors">Madres, padres o tutores</string>
+    <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>
     <string name="last_visits">Última visita:</string>
     <string name="tutors_title">Madres, padres o tutores</string>
     <string name="no_tutors">Sin perfiles madres, padres o tutores todavía</string>
     <string name="no_childs">Sin perfiles niñ@s todavía</string>
     <string name="childs">Perfiles niñ@s</string>
+    <string name="childs_title">Niñ@s</string>
     <string name="casos">Casos</string>
     <string name="no_cases">Sin casos todavía</string>
     <string name="create_case">Crear caso</string>
