@@ -433,9 +433,9 @@ object FirebaseDataSource {
             networkMalNutritionTeenagerTableContainer.results[0].let { malNutritionTeenagerTable ->
                 if (weight >= malNutritionTeenagerTable.hundred.toDouble()) {
                     status = 100.0
-                } else if (weight > malNutritionTeenagerTable.eighty.toDouble()) {
+                } else if (weight >= malNutritionTeenagerTable.eighty.toDouble()) {
                     status = 85.0
-                } else if (weight > malNutritionTeenagerTable.seventy.toDouble()) {
+                } else if (weight >= malNutritionTeenagerTable.seventy.toDouble()) {
                     status = 80.0
                 } else  {
                     status = 70.0
@@ -450,11 +450,11 @@ object FirebaseDataSource {
                 NetworkMalNutritionChildTableContainer(resultChildMalNutritionChildTable.toObjects(MalNutritionChildTable::class.java))
             try {
                 networkMalNutritionChildTableContainer.results[0].let { malNutritionChldTable ->
-                    if (weight > malNutritionChldTable.minusone.toDouble()) {
+                    if (weight >= malNutritionChldTable.minusone.toDouble()) {
                         status = 0.0
-                    } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
+                    } else if (weight >= malNutritionChldTable.minustwo.toDouble()) {
                         status = -1.0
-                    } else if (weight > malNutritionChldTable.minusthree.toDouble()) {
+                    } else if (weight >= malNutritionChldTable.minusthree.toDouble()) {
                         status = -1.5
                     }  else  {
                         status = -3.0
@@ -471,11 +471,11 @@ object FirebaseDataSource {
                         "13.1",
                         "15.4"
                     )
-                    if (weight > malNutritionChldTable.minusone.toDouble()) {
+                    if (weight >= malNutritionChldTable.minusone.toDouble()) {
                         status = 0.0
-                    } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
+                    } else if (weight >= malNutritionChldTable.minustwo.toDouble()) {
                         status = -1.0
-                    } else if (weight > malNutritionChldTable.minusthree.toDouble()) {
+                    } else if (weight >= malNutritionChldTable.minusthree.toDouble()) {
                         status = -1.5
                     }  else  {
                         status = -3.0
