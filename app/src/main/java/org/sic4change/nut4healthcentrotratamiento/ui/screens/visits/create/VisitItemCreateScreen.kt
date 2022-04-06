@@ -108,7 +108,7 @@ private fun Header(visitState: VisitState,
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
             onValueChange = {
-                visitState.height.value = it
+                visitState.formatHeightValue(it)
                 onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
                     visitState.weight.value.filter { !it.isWhitespace() })
             },
@@ -133,7 +133,7 @@ private fun Header(visitState: VisitState,
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
             onValueChange = {
-                visitState.weight.value = it
+                visitState.formatWeightValue(it)
                 onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
                     visitState.weight.value.filter { !it.isWhitespace() })
             },

@@ -61,4 +61,18 @@ class VisitState(
         deleteVisit.value = !deleteVisit.value
     }
 
+    fun formatHeightValue(value: String) {
+        val temp = value.replace(",", ".")
+        if (temp != "." && temp.filter { it == '.' }.count() < 2) {
+            height.value = temp
+        }
+    }
+
+    fun formatWeightValue(value: String) {
+        val temp = value.replace(",", ".")
+        if (temp != "." && temp.filter { it == '.' }.count() < 2) {
+            weight.value = temp
+        }
+    }
+
 }
