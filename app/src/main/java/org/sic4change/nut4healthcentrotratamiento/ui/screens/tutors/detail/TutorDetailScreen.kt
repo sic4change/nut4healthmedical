@@ -18,6 +18,8 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -151,7 +153,11 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Default.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
+        val splitDate = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value).split("/")
+        val yearsLabel = ChronoUnit.YEARS.between(
+            ZonedDateTime.parse(splitDate[2] + "-" +
+                splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
+        TextField(value = "${SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value)} ≈${yearsLabel} ${stringResource(R.string.years)}",
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),

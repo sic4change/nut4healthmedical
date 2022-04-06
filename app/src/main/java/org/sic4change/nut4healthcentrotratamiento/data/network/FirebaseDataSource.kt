@@ -450,7 +450,6 @@ object FirebaseDataSource {
                 NetworkMalNutritionChildTableContainer(resultChildMalNutritionChildTable.toObjects(MalNutritionChildTable::class.java))
             try {
                 networkMalNutritionChildTableContainer.results[0].let { malNutritionChldTable ->
-                    println("Aqui ${malNutritionChldTable}")
                     if (weight > malNutritionChldTable.minusone.toDouble()) {
                         status = 0.0
                     } else if (weight > malNutritionChldTable.minustwo.toDouble()) {
@@ -486,65 +485,6 @@ object FirebaseDataSource {
 
         }
         status
-
-
-        /*val casesRef = firestore.collection("cases")
-        val queryCase = casesRef.whereEqualTo("id", caseId)
-        val resultCase = queryCase.get().await()
-        val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
-        networkCasesContainer.results[0].let { case ->
-            val childRef = firestore.collection("childs")
-            val query = childRef.whereEqualTo("id", case.childId)
-            val result = query.get().await()
-            val networkChildContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
-            var status = 0.0
-            networkChildContainer.results[0].let {
-                val child = it.toDomainChild()
-                val sex = child.sex
-                if (height > 120) {
-                    val childMalNutritionTeenagerTableRef = firestore.collection("malnutritionTeenagersTable")
-                    val queryChildMalNutritionTeenagerTable = childMalNutritionTeenagerTableRef.whereEqualTo("sex", "mf").whereGreaterThanOrEqualTo("cm", height)
-                        .orderBy("cm").limit(1)
-                    val resultChildMalNutritionTeenagerTable = queryChildMalNutritionTeenagerTable.get().await()
-                    val networkMalNutritionTeenagerTableContainer =
-                        NetworkMalNutritionTeenagerTableContainer(resultChildMalNutritionTeenagerTable.toObjects(MalNutritionTeenagerTable::class.java))
-                    networkMalNutritionTeenagerTableContainer.results[0].let { malNutritionTeenagerTable ->
-                        if (weight >= malNutritionTeenagerTable.hundred.toDouble()) {
-                            status = 100.0
-                        } else if (weight >= malNutritionTeenagerTable.eightyfive.toDouble()) {
-                            status = 85.0
-                        } else if (weight >= malNutritionTeenagerTable.eighty.toDouble()) {
-                            status = 80.0
-                        } else  {
-                            status = 70.0
-                        }
-                    }
-                    status
-                } else {
-                    val childMalNutritionChildTableRef = firestore.collection("malnutritionChildTable")
-                    val queryChildMalNutritionChildTable = childMalNutritionChildTableRef
-                        .whereGreaterThanOrEqualTo("cm", height).orderBy("cm").limit(1)
-                    val resultChildMalNutritionChildTable = queryChildMalNutritionChildTable.get().await()
-                    val networkMalNutritionChildTableContainer =
-                        NetworkMalNutritionChildTableContainer(resultChildMalNutritionChildTable.toObjects(MalNutritionChildTable::class.java))
-                    networkMalNutritionChildTableContainer.results[0].let { malNutritionChldTable ->
-                        if (weight >= malNutritionChldTable.zero.toDouble()) {
-                            status = 0.0
-                        } else if (weight >= malNutritionChldTable.minusone.toDouble()) {
-                            status = -1.0
-                        } else if (weight >= malNutritionChldTable.minusonefive.toDouble()) {
-                            status = -1.5
-                        } else if (weight >= malNutritionChldTable.minustwo.toDouble()) {
-                            status = -2.0
-                        } else  {
-                            status = -3.0
-                        }
-
-                    }
-                    status
-                }
-            }
-        }*/
 
     }
 

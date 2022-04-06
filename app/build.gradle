@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
-        minSdk 23
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -100,6 +100,9 @@ dependencies {
 
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //Dates
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

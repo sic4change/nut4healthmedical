@@ -7,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -15,14 +14,15 @@ import java.text.SimpleDateFormat
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cake
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.ui.unit.dp
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Composable
 fun DatePickerView(
         context: Context,
+        showMonths: Boolean,
         value: String,
         setValue: (String) -> Unit
 ) {
@@ -53,8 +53,24 @@ fun DatePickerView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val splitDate = value.split("/")
+        val yearsLabel = ChronoUnit.YEARS.between(ZonedDateTime.parse(splitDate[2] + "-" +
+                splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
+        var monthsLabel = ChronoUnit.MONTHS.between(ZonedDateTime.parse(splitDate[2] + "-" +
+                splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
+        if (showMonths) {
+            monthsLabel -= (yearsLabel * 12)
+        }
+
         TextField(
                 value =  value,
+                label = {
+                    if (!showMonths)
+                        Text("≈ ${yearsLabel} ${stringResource(R.string.years)} ", color = colorResource(R.color.colorAccent))
+                    else {
+                        Text("≈ ${yearsLabel} ${stringResource(R.string.years)} ${monthsLabel} ${stringResource(R.string.months)} ", color = colorResource(R.color.colorAccent))
+                    }
+                },
                 onValueChange = setValue,
                 placeholder = { Text(text = stringResource(R.string.date)) },
                 enabled = false,
@@ -78,4 +94,5 @@ fun DatePickerView(
 
         )
     }
+
 }

@@ -92,5 +92,6 @@
     <string name="measlesVaccinated">¿Está el niño/a vacunado de sarampión?</string>
     <string name="vitamineAVaccinated">¿Ha estado durante los últimos 4 meses en un programa de vacunación de Vitamina A?</string>
     <string name="edit_visit">Editar Visita</string>
-
+    <string name="years">años</string>
+    <string name="months">meses</string>
 </resources>

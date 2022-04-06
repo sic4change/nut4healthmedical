@@ -18,6 +18,8 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -117,7 +119,14 @@ private fun Header(childState: ChildState) {
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                     label = { Text(stringResource(R.string.surnames), color = colorResource(R.color.disabled_color)) })
                     Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
+        val splitDate = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value).split("/")
+        val yearsLabel = ChronoUnit.YEARS.between(
+            ZonedDateTime.parse(splitDate[2] + "-" +
+                    splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
+        var monthsLabel = ChronoUnit.MONTHS.between(ZonedDateTime.parse(splitDate[2] + "-" +
+                splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
+        monthsLabel -= (yearsLabel * 12)
+        TextField(value = "${SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value)} ≈${yearsLabel} ${stringResource(R.string.years)} ${monthsLabel} ${stringResource(R.string.months)}",
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -127,7 +136,7 @@ private fun Header(childState: ChildState) {
                 focusedIndicatorColor = colorResource(R.color.full_transparent),
                 unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
-            textStyle = MaterialTheme.typography.h5,
+            textStyle = MaterialTheme.typography.h6,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),

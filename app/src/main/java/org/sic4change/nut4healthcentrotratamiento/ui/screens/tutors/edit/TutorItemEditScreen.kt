@@ -153,6 +153,7 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
             label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
         DatePickerView(
+            showMonths = false,
             context = LocalContext.current,
             value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
             setValue = { tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}

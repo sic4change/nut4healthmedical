@@ -117,6 +117,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
         Spacer(modifier = Modifier.height(16.dp))
         DatePickerView(
             context = LocalContext.current,
+            showMonths = true,
             value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
             setValue = { childState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
         )

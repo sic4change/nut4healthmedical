@@ -92,4 +92,6 @@
     <string name="measlesVaccinated">L’enfant est-il vacciné contre la rougeole?</string>
     <string name="vitamineAVaccinated">L’enfant suit-il un programme de vaccination à la vitamine A depuis 4 mois?</string>
     <string name="edit_visit">Modifier visite</string>
+    <string name="years">années</string>
+    <string name="months">mois</string>
 </resources>
