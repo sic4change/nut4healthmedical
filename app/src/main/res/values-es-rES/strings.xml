@@ -38,7 +38,7 @@
     <string name="observations">Observaciones</string>
     <string name="sex">Sexo</string>
     <string name="phone">Teléfono</string>
-    <string name="address">Domicilio</string>
+    <string name="address">Vecindario</string>
     <string name="surnames">Apellidos</string>
     <string name="name">Nombre</string>
     <string name="creation_date">Fecha alta</string>
