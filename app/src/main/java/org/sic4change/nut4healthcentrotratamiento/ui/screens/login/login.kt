@@ -79,7 +79,7 @@ fun MainView(loginState: LoginState,
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,16 +89,19 @@ fun MainView(loginState: LoginState,
                 .verticalScroll(loginState.scrollState)
                 .padding(16.dp)
         ) {
-            Image(
-                painter = painterResource(R.mipmap.icon),
-                contentDescription = "nut4health",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape)
-                    .background(color = colorResource(R.color.colorPrimary))
-                    .border(8.dp, colorResource(R.color.white), CircleShape)
-            )
+            AnimatedVisibility(visible = (loginState.email.value.isEmpty() || loginState.email.value.isEmpty())) {
+                Image(
+                    painter = painterResource(R.mipmap.icon),
+                    contentDescription = "nut4health",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(150.dp)
+                        .clip(CircleShape)
+                        .background(color = colorResource(R.color.colorPrimary))
+                        .border(8.dp, colorResource(R.color.white), CircleShape)
+                )
+            }
+
             Card {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
