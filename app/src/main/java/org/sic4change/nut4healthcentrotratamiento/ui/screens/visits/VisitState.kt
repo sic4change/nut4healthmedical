@@ -62,14 +62,16 @@ class VisitState(
     }
 
     fun formatHeightValue(value: String) {
-        val temp = value.replace(",", ".")
+        val temp = value.replace(",", ".").
+        replace(" ", "").replace("-", "")
         if (temp != "." && temp.filter { it == '.' }.count() < 2) {
             height.value = temp
         }
     }
 
     fun formatWeightValue(value: String) {
-        val temp = value.replace(",", ".")
+        val temp = value.replace(",", ".").
+            replace(" ", "").replace("-", "")
         if (temp != "." && temp.filter { it == '.' }.count() < 2) {
             weight.value = temp
         }
