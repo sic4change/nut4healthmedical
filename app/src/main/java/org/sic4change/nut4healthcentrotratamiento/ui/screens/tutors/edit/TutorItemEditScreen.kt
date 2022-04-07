@@ -265,7 +265,7 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -319,15 +319,13 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                 }
             }
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(
-            visible = (
-                    tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
-                            tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))
-        ) {
+            visible = ((tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme") &&
+                    tutorState.selectedOptionPregnant.value == "Embarazada" || tutorState.selectedOptionPregnant.value == "Enceinte")) {
             TextField(value = tutorState.weeks.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -347,8 +345,8 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
         }
         AnimatedVisibility(
-            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
-                tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
+            visible = ((tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme") &&
+                    tutorState.selectedOptionPregnant.value == "Embarazada" || tutorState.selectedOptionPregnant.value == "Enceinte")) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         TextField(value = tutorState.observations.value,

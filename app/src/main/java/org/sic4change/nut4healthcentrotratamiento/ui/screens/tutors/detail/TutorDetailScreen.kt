@@ -247,7 +247,7 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        AnimatedVisibility(visible = (tutorState.sex.value.equals(stringResource(R.string.female)))) {
+        AnimatedVisibility(visible = (tutorState.sex.value == "Femenino" || tutorState.sex.value == "Femme")) {
             TextField(value = tutorState.pregnant.value,
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
@@ -266,12 +266,12 @@ private fun Header(tutorState: TutorState) {
                     Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.pregnant), color = colorResource(R.color.disabled_color)) })
         }
-        AnimatedVisibility(visible = (tutorState.sex.value.equals(stringResource(R.string.female)))) {
+        AnimatedVisibility(visible = (tutorState.sex.value == "Femenino" || tutorState.sex.value == "Femme")) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         AnimatedVisibility(
-            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
-                    tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
+            visible = ((tutorState.sex.value == "Femenino" || tutorState.sex.value == "Femme") &&
+                    (tutorState.pregnant.value == "Embarazada" || tutorState.pregnant.value == "Enceinte"))) {
             TextField(value = tutorState.weeks.value.toString(),
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
@@ -291,8 +291,8 @@ private fun Header(tutorState: TutorState) {
                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
 
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
-                tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
+        AnimatedVisibility(visible = ((tutorState.sex.value == "Femenino" || tutorState.sex.value == "Femme") &&
+                (tutorState.pregnant.value == "Embarazada" || tutorState.pregnant.value == "Enceinte"))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         TextField(value = tutorState.observations.value,
