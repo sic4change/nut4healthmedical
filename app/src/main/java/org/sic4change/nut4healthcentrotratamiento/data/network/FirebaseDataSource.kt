@@ -433,6 +433,8 @@ object FirebaseDataSource {
             networkMalNutritionTeenagerTableContainer.results[0].let { malNutritionTeenagerTable ->
                 if (weight >= malNutritionTeenagerTable.hundred.toDouble()) {
                     status = 100.0
+                } else if (weight >= malNutritionTeenagerTable.eightyfive.toDouble()) {
+                    status = 100.0
                 } else if (weight >= malNutritionTeenagerTable.eighty.toDouble()) {
                     status = 85.0
                 } else if (weight >= malNutritionTeenagerTable.seventy.toDouble()) {
