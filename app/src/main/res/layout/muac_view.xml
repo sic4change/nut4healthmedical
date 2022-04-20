@@ -21,6 +21,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_down"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="-15dp"
+        app:layout_constraintBottom_toTopOf="@id/rulerBackground"/>
+
     <View
         android:id="@+id/rulerBackground"
         android:layout_width="match_parent"
@@ -52,7 +61,15 @@
         seek:textColor ="@color/back_courses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCm"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tvCm" />
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_up"
+        android:layout_marginTop="-15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rulerBackground"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
