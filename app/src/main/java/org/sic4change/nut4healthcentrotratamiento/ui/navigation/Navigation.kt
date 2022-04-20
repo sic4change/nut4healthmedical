@@ -108,9 +108,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
             TutorsScreen(
-                onCreateTutorClick = {
+                onCreateTutorClick = { phone ->
                     navController.navigate(
-                        NavCommand.ContentType(Feature.CREATETUTOR).route
+                        NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
                     )
                 },
                 onClick = { tutor ->
@@ -120,6 +120,22 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
             )
         }
+
+        composable(NavCommand.ContentTypeCreate(Feature.CREATETUTOR)) {
+            TutorCreateScreen(onCreateTutor = {
+                navController.navigate(
+                    NavCommand.ContentType(Feature.TUTORS).route
+                )
+            })
+        }
+
+        /*composable(NavCommand.ContentType(Feature.CREATETUTOR)) {
+            TutorCreateScreen(onCreateTutor = {
+                navController.navigate(
+                    NavCommand.ContentType(Feature.TUTORS).route
+                )
+            })
+        }*/
 
         composable(NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL)) {
             TutorDetailScreen(
@@ -178,14 +194,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
                 })
-        }
-
-        composable(NavCommand.ContentType(Feature.CREATETUTOR)) {
-            TutorCreateScreen(onCreateTutor = {
-                navController.navigate(
-                    NavCommand.ContentType(Feature.TUTORS).route
-                )
-            })
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.EDITTUTOR)) {

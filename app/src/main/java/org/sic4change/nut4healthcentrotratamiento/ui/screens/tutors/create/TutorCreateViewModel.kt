@@ -12,6 +12,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorsViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
 import java.util.*
 
 class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -21,8 +22,14 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            _state.value = UiState(phone = id)
+        }
+    }
 
     data class  UiState(
+        val phone: String = "",
         val loading: Boolean = false,
         val tutor: Tutor? = null,
         val created: Boolean = false,

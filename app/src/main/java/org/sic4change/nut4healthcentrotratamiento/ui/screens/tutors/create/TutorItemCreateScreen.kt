@@ -143,6 +143,7 @@ private fun Header(tutorState: TutorState,
             label = { Text(stringResource(R.string.address), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.phone.value,
+            enabled = false,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),

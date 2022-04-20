@@ -48,7 +48,7 @@ class MainViewModel() : ViewModel() {
                 _state.value = UiState(tutor = tutor, tutorChecked = "found")
             } else {
                 _state.value = UiState(tutor = Tutor("", "", "", "", "",
-                    Date(), "", "", Date(), Date(), "", "", "", false ), tutorChecked = "not_found")
+                    Date(), phone, "", Date(), Date(), "", "", "", false ), tutorChecked = "not_found")
             }
         }
     }

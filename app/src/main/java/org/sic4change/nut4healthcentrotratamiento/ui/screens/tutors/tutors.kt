@@ -46,7 +46,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorIt
 @ExperimentalMaterialApi
 @Composable
 fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit,
-    onCreateTutorClick: () -> Unit) {
+    onCreateTutorClick: (String) -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -69,7 +69,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                 mainState.editPhoneToCheck.value = ""
             }
             if (!viewModelState.tutor!!.active) {
-                onCreateTutorClick()
+                onCreateTutorClick(mainState.phoneToCheck.value)
                 viewModel.resetTutor()
                 mainState.phoneToCheck.value = ""
                 mainState.editPhoneToCheck.value = ""
@@ -210,6 +210,8 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
             tutorCreateState.selectedOptionSex.value = viewModelState.tutor!!.sex
             tutorCreateState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
             tutorCreateState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+        } else {
+            tutorCreateState.phone.value = viewModelState.phone
         }
     }
 

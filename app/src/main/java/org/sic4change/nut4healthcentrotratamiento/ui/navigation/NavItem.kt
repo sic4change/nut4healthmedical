@@ -35,6 +35,14 @@ sealed class NavCommand(
         }
     }
 
+    class ContentTypeCreate(feature: Feature) :
+        NavCommand(feature, "create", listOf(NavArg.ItemId)) {
+
+        fun createRoute(itemId: String) : String {
+            return "${feature.route}/$subRoute/$itemId"
+        }
+    }
+
     val route = run {
         val argValues = navArgs.map { "{${it.key}}" }
         listOf(feature.route)
