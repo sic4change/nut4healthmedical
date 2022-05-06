@@ -261,9 +261,8 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         composable(NavCommand.ContentTypeDetail(Feature.CASES)) {
             CasesScreen(onClick =  { case ->
                 navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
+                    NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(case.id)
                 )
-
             },
                 onCreateCaseClick = { child ->
                     navController.navigate(
