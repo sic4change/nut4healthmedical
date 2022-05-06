@@ -337,7 +337,7 @@ object FirebaseDataSource {
 
     suspend fun getSymtoms(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("symtoms")
-        val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
+        val query = casesRef.whereNotEqualTo("name", "")
         val result = query.get().await()
         val networkSymtomContainer = NetworkSymtomContainer(result.toObjects(Symtom::class.java))
         networkSymtomContainer.results.map { it.toDomainSymtom() }
