@@ -24,12 +24,14 @@ class TutorsViewModel: ViewModel() {
 
     fun searchTutor(text: String) {
         viewModelScope.launch {
+            _state.value = UiState(tutors = emptyList())
             _state.value = UiState(loading = true)
             _state.value = UiState(tutors = FirebaseDataSource.getTutors(), loading = false)
             if (text.isNotEmpty() ) {
-                _state.value = UiState(tutors = _state.value.tutors.filter { it.name.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault())) || it.surnames.lowercase(Locale.getDefault())
-                    .contains(text.lowercase(Locale.getDefault()))}, loading = false)
+                _state.value = UiState(tutors = _state.value.tutors.filter {
+                    (it.name + it.surnames).lowercase(Locale.getDefault())
+                    .contains(text.lowercase(Locale.getDefault()))
+                                                                           }, loading = false)
             }
 
         }
