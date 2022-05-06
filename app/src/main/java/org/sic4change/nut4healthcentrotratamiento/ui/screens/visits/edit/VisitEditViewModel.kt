@@ -57,9 +57,8 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 visit = _state.value.visit,
                 symtoms = _state.value.symtoms,
                 treatments = _state.value.treatments,
-                childDateMillis = FirebaseDataSource.getChild(childId).birthdate.time
+                childDateMillis = FirebaseDataSource.getChild(childId)?.birthdate?.time
             )
-            println("Aqui")
         }
     }
 

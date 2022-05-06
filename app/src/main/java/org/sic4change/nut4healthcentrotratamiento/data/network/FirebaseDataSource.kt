@@ -1,9 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
-import android.content.res.Resources
-import androidx.compose.runtime.Composable
-import androidx.core.os.ConfigurationCompat
-import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -35,13 +31,17 @@ object FirebaseDataSource {
             }
         }
 
-    suspend fun getUser(email: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.User = withContext(Dispatchers.IO) {
+    suspend fun getUser(email: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.User? = withContext(Dispatchers.IO) {
         val userRef = firestore.collection("users")
         val query = userRef.whereEqualTo("email", email).limit(1)
         val result = query.get().await()
         val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
-        networkUserContainer.results[0].let {
+        try {
+            networkUserContainer.results[0].let {
                 it.toDomainUser()
+            }
+        } catch (e : Exception) {
+            null
         }
     }
 
@@ -92,13 +92,17 @@ object FirebaseDataSource {
         networkTutorsContainer.results.map { it.toDomainTutor() }
     }
 
-    suspend fun getTutor(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor = withContext(Dispatchers.IO) {
+    suspend fun getTutor(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("id", id)
         val result = query.get().await()
         val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
-        networkTutorsContainer.results[0].let {
-            it.toDomainTutor()
+        try {
+            networkTutorsContainer.results[0].let {
+                it.toDomainTutor()
+            }
+        } catch (e : Exception) {
+            null
         }
     }
 
@@ -150,14 +154,19 @@ object FirebaseDataSource {
         networkChildsContainer.results.map { it.toDomainChild() }
     }
 
-    suspend fun getChild(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Child = withContext(Dispatchers.IO) {
+    suspend fun getChild(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Child? = withContext(Dispatchers.IO) {
         val childRef = firestore.collection("childs")
         val query = childRef.whereEqualTo("id", id)
         val result = query.get().await()
         val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
-        networkChildsContainer.results[0].let {
-            it.toDomainChild()
+        if (networkChildsContainer.results.isNotEmpty()) {
+            networkChildsContainer.results[0].let {
+                it.toDomainChild()
+            }
+        } else {
+            null
         }
+
     }
 
     suspend fun createChild(child: org.sic4change.nut4healthcentrotratamiento.data.entitities.Child) {
@@ -232,13 +241,17 @@ object FirebaseDataSource {
         }
     }
 
-    suspend fun getCase(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Case = withContext(Dispatchers.IO) {
+    suspend fun getCase(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Case? = withContext(Dispatchers.IO) {
         val caseRef = firestore.collection("cases")
         val query = caseRef.whereEqualTo("id", id)
         val result = query.get().await()
         val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
-        networkCasesContainer.results[0].let {
-            it.toDomainCase()
+        try {
+            networkCasesContainer.results[0].let {
+                it.toDomainCase()
+            }
+        } catch (e : Exception) {
+            null
         }
     }
 
@@ -346,13 +359,17 @@ object FirebaseDataSource {
         networkVisitsContainer.results.map { it.toDomainVisit() }
     }
 
-    suspend fun getVisit(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit = withContext(Dispatchers.IO) {
+    suspend fun getVisit(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit? = withContext(Dispatchers.IO) {
         val visitRef = firestore.collection("visits")
         val query = visitRef.whereEqualTo("id", id)
         val result = query.get().await()
         val networkVisitContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
-        networkVisitContainer.results[0].let {
-            it.toDomainVisit()
+        try {
+            networkVisitContainer.results[0].let {
+                it.toDomainVisit()
+            }
+        } catch (e : Exception) {
+            null
         }
     }
 
