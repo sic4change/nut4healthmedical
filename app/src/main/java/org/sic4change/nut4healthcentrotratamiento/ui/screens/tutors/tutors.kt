@@ -44,7 +44,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorIt
 @ExperimentalMaterialApi
 @Composable
 fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit,
-    onCreateTutorClick: (String) -> Unit) {
+                 onCreateTutorClick: (String) -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -86,16 +86,6 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                 Row {
                     FloatingActionButton(
                         onClick = {
-                            mainState.openDialogSearchByNameAndSurname.value = true
-                        },
-                        backgroundColor = colorResource(R.color.colorPrimary),
-                        content = {
-                            Icon(Icons.Filled.Search,"", tint = Color.White)
-                        }
-                    )
-                    Box(Modifier.width(8.dp))
-                    FloatingActionButton(
-                        onClick = {
                             mainState.openDialogSearchByPhone.value = true
                         },
                         backgroundColor = colorResource(R.color.colorPrimary),
@@ -130,27 +120,6 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                         viewModel::checkTutorByPhone)
                 }
             }
-            if (mainState.openDialogSearchByNameAndSurname.value) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            color = contentColorFor(MaterialTheme.colors.background)
-                                .copy(alpha = 0.6f)
-                        )
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null,
-                            onClick = {
-                                mainState.openDialogSearchByNameAndSurname.value = false
-                            }
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    SearchByPhoneDialog(mainState.phoneToCheck, mainState.openDialogSearchByPhone, mainState.editPhoneToCheck,
-                        viewModel::checkTutorByPhone)
-                }
-            }
         }
 
     }
@@ -163,14 +132,14 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun TutorsScreen(onItemClick: (Tutor) -> Unit, viewModel: TutorsViewModel = viewModel()) {
+fun TutorsScreen(onItemClick: (Tutor) -> Unit,
+                 viewModel: TutorsViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
-
 
     TutorItemsListScreen(
         loading = state.loading,
         items = state.tutors,
-        onClick = onItemClick
+        onClick = onItemClick,
     )
 }
 

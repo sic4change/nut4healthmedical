@@ -96,4 +96,5 @@
     <string name="edit_visit">Modifier visite</string>
     <string name="years">années</string>
     <string name="months">mois</string>
+    <string name="searchByNameAndSurnames">Recherche par nom et/ou prénom</string>
 </resources>

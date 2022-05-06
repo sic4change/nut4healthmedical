@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
+import java.util.*
 
 class TutorsViewModel: ViewModel() {
 
@@ -20,6 +20,11 @@ class TutorsViewModel: ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = UiState(tutors = FirebaseDataSource.getTutors(), loading = false)
         }
+    }
+
+    fun searchTutor(text: String) {
+        _state.value = UiState(tutors = _state.value.tutors.filter { it.name.lowercase(Locale.getDefault())
+            .contains(text.lowercase(Locale.getDefault()))}, loading = false)
     }
 
     data class UiState(

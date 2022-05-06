@@ -14,13 +14,17 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +33,7 @@ import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
@@ -86,30 +91,6 @@ fun TutorItemsListScreen(
 
 }
 
-@Composable
-fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
-    val lifecycleOwener = LocalLifecycleOwner.current
-    val backDispatcher = requireNotNull(LocalOnBackPressedDispatcherOwner.current).onBackPressedDispatcher
-
-
-    val backCallback = remember {
-        object : OnBackPressedCallback(enabled) {
-            override fun handleOnBackPressed() {
-                onBack()
-            }
-        }
-    }
-
-    SideEffect {
-        backCallback.isEnabled = enabled
-    }
-
-    DisposableEffect(lifecycleOwener, backDispatcher) {
-        backDispatcher.addCallback(lifecycleOwener, backCallback)
-        onDispose { backCallback.remove() }
-    }
-}
-
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
@@ -121,6 +102,8 @@ fun  TutorItemsList(
     modifier: Modifier = Modifier
 ) {
 
+    val mainState = rememberMainState()
+
     Column(
         modifier = Modifier.fillMaxWidth().background(colorResource(R.color.colorPrimaryDark))
     ) {
@@ -131,6 +114,25 @@ fun  TutorItemsList(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp)
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(value = mainState.filterText.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {mainState.filterText.value = it},
+            textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            label = { Text(stringResource(R.string.searchByNameAndSurnames), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
