@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -127,6 +129,12 @@ fun  TutorItemsList(
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
+            trailingIcon = {if (mainState.filterText.value.isNotBlank()) {
+                Icon(Icons.Filled.Clear, null, tint = colorResource(R.color.colorPrimary),
+                    modifier = Modifier.clickable {
+                        mainState.filterText.value = ""
+                        onSearch("")
+                    })} else{ null}},
             onValueChange = {
                 mainState.filterText.value = it
                 onSearch(it) },
