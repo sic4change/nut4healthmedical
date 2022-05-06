@@ -140,6 +140,7 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit,
         loading = state.loading,
         items = state.tutors,
         onClick = onItemClick,
+        onSearch = viewModel::searchTutor
     )
 }
 

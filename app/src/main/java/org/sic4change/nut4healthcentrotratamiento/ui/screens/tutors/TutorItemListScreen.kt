@@ -43,6 +43,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainSt
 fun TutorItemsListScreen(
     loading: Boolean = false,
     items: List<Tutor>,
+    onSearch: (String) -> Unit,
     onClick: (Tutor) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Tutor?>(null) }
@@ -78,6 +79,7 @@ fun TutorItemsListScreen(
             TutorItemsList(
                 loading = loading,
                 items = items,
+                onSearch = onSearch,
                 onItemClick = onClick,
                 onItemMore = {
                     bottomSheetItem = it
@@ -97,6 +99,7 @@ fun TutorItemsListScreen(
 fun  TutorItemsList(
     loading: Boolean,
     items: List<Tutor>,
+    onSearch: (String) -> Unit,
     onItemClick: (Tutor) -> Unit,
     onItemMore: (Tutor) -> Unit,
     modifier: Modifier = Modifier
@@ -124,7 +127,9 @@ fun  TutorItemsList(
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
-            onValueChange = {mainState.filterText.value = it},
+            onValueChange = {
+                mainState.filterText.value = it
+                onSearch(it) },
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions.Default.copy(
                 capitalization = KeyboardCapitalization.Sentences),
