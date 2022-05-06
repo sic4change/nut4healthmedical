@@ -5,30 +5,28 @@ import android.app.Activity
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
@@ -85,19 +83,33 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
 
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { //onCreateTutorClick()
-                              mainState.openDialog.value = true
-                              },
-                    backgroundColor = colorResource(R.color.colorPrimary),
-                    content = {
-                        Icon(Icons.Filled.Add,"", tint = Color.White)
-                    }
-                )
+                Row {
+                    FloatingActionButton(
+                        onClick = {
+                            mainState.openDialogSearchByNameAndSurname.value = true
+                        },
+                        backgroundColor = colorResource(R.color.colorPrimary),
+                        content = {
+                            Icon(Icons.Filled.Search,"", tint = Color.White)
+                        }
+                    )
+                    Box(Modifier.width(8.dp))
+                    FloatingActionButton(
+                        onClick = {
+                            mainState.openDialogSearchByPhone.value = true
+                        },
+                        backgroundColor = colorResource(R.color.colorPrimary),
+                        content = {
+                            Icon(Icons.Filled.Add,"", tint = Color.White)
+                        }
+                    )
+
+                }
+
             },
         ) {
             TutorsScreen(onItemClick = onClick)
-            if (mainState.openDialog.value) {
+            if (mainState.openDialogSearchByPhone.value) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -109,13 +121,34 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                             onClick = {
-                                mainState.openDialog.value = false
+                                mainState.openDialogSearchByPhone.value = false
                             }
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    CustomDialog(mainState.phoneToCheck, mainState.openDialog, mainState.editPhoneToCheck,
-                        viewModel::checkTutor)
+                    SearchByPhoneDialog(mainState.phoneToCheck, mainState.openDialogSearchByPhone, mainState.editPhoneToCheck,
+                        viewModel::checkTutorByPhone)
+                }
+            }
+            if (mainState.openDialogSearchByNameAndSurname.value) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            color = contentColorFor(MaterialTheme.colors.background)
+                                .copy(alpha = 0.6f)
+                        )
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {
+                                mainState.openDialogSearchByNameAndSurname.value = false
+                            }
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    SearchByPhoneDialog(mainState.phoneToCheck, mainState.openDialogSearchByPhone, mainState.editPhoneToCheck,
+                        viewModel::checkTutorByPhone)
                 }
             }
         }

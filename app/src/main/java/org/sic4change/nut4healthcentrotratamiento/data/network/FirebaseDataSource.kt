@@ -305,7 +305,7 @@ object FirebaseDataSource {
 
     }
 
-    suspend fun checkTutor(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
+    suspend fun checkTutorByPhone(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("phone", phone.filter { !it.isWhitespace() })
         val result = query.get().await()

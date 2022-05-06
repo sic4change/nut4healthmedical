@@ -40,10 +40,10 @@ class MainViewModel() : ViewModel() {
         }
     }
 
-    fun checkTutor(phone: String) {
+    fun checkTutorByPhone(phone: String) {
         viewModelScope.launch {
             FirebaseDataSource.checkDiagnosis(phone)
-            val tutor = FirebaseDataSource.checkTutor(phone)
+            val tutor = FirebaseDataSource.checkTutorByPhone(phone)
             if (tutor != null) {
                 _state.value = UiState(tutor = tutor, tutorChecked = "found")
             } else {

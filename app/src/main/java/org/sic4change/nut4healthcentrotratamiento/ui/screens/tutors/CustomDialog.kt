@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 
 @Composable
-fun CustomDialog(
+fun SearchByPhoneDialog(
     message: MutableState<String>,
     openDialog: MutableState<Boolean>,
     editMessage: MutableState<String>,
