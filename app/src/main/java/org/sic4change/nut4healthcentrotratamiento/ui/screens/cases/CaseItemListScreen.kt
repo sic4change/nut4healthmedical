@@ -35,7 +35,8 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 fun CaseItemsListScreen(
     loading: Boolean = false,
     items: List<Case>,
-    onClick: (Case) -> Unit
+    onClick: (Case) -> Unit,
+    onGoToDetailClick: (Case) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Case?>(null) }
         val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -62,7 +63,7 @@ fun CaseItemsListScreen(
                 onGoToDetail = {
                     scope.launch {
                         sheetState.hide()
-                        onClick(it)
+                        onGoToDetailClick(it)
                     }
                 }
             )

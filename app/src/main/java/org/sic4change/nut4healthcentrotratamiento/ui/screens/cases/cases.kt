@@ -32,7 +32,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.edit.CaseItem
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit,
-                onCreateCaseClick: (String) -> Unit) {
+                onCreateCaseClick: (String) -> Unit, onGoToDetailClick: (Case) -> Unit) {
     val casesState = rememberCasesState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -61,7 +61,8 @@ fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit
             CaseItemsListScreen(
                 loading = viewModelState.loading,
                 items = viewModelState.cases,
-                onClick = onClick
+                onClick = onClick,
+                onGoToDetailClick = onGoToDetailClick
             )
         }
 
