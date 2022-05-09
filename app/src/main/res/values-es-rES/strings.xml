@@ -97,5 +97,6 @@
     <string name="years">años</string>
     <string name="months">meses</string>
     <string name="searchByNameAndSurnames">Buscar por nombre o apellidos</string>
+    <string name="caso">Caso</string>
 
 </resources>

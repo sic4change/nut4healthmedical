@@ -22,12 +22,15 @@ class CaseCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
+            _state.value = UiState(casesNumber = "" + (FirebaseDataSource.getCases(childId).size + 1), loading = false)
+
         }
     }
 
     data class  UiState(
         val loading: Boolean = false,
         val case: Case? = null,
+        val casesNumber: String = "",
         val created: Boolean = false,
     )
 

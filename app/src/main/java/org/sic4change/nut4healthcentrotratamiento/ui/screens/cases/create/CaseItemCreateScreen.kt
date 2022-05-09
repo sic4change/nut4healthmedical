@@ -1,6 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -52,8 +51,7 @@ fun CaseItemCreateScreen(caseState: CaseState, loading: Boolean = false,
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(caseState: CaseState,
-                   onCreateCase: (String, String, String) -> Unit) {
+private fun Header(caseState: CaseState, onCreateCase: (String, String, String) -> Unit) {
 
     val defaultStatus = stringResource(R.string.open)
 
@@ -77,7 +75,8 @@ private fun Header(caseState: CaseState,
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
-            onValueChange = {caseState.name.value = it},
+            enabled = false,
+            onValueChange = {},
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions.Default.copy(
                 capitalization = KeyboardCapitalization.Sentences),
@@ -108,21 +107,19 @@ private fun Header(caseState: CaseState,
         Spacer(modifier = Modifier.height(16.dp))
 
 
-        AnimatedVisibility(visible = (caseState.name.value.isNotEmpty())) {
-            Button(
-                enabled = !caseState.createdCase.value,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                onClick = {
-                    caseState.createdCase.value = true
-                    onCreateCase(caseState.name.value, defaultStatus, caseState.observations.value)
+        Button(
+            enabled = !caseState.createdCase.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+            onClick = {
+                caseState.createdCase.value = true
+                onCreateCase(caseState.name.value, defaultStatus, caseState.observations.value)
 
-                },
-            ) {
-                Text(stringResource(R.string.save), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
-            }
+            },
+        ) {
+            Text(stringResource(R.string.save), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
         }
 
         Spacer(modifier = Modifier.height(16.dp))

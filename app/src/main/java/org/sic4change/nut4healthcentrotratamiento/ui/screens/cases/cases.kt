@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -109,7 +110,7 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
 fun CaseCreateScreen(viewModel: CaseCreateViewModel = viewModel(), onCreateCase: (String) -> Unit) {
     val caseCreateState = rememberCasesState()
     val viewModelState by viewModel.state.collectAsState()
-
+    val casePref = stringResource(R.string.caso)
 
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
@@ -118,6 +119,10 @@ fun CaseCreateScreen(viewModel: CaseCreateViewModel = viewModel(), onCreateCase:
             caseCreateState.name.value = viewModelState.case!!.name
             caseCreateState.observations.value = viewModelState.case!!.observations
         }
+    }
+
+    LaunchedEffect(viewModelState.casesNumber) {
+        caseCreateState.name.value = casePref + " " + viewModelState.casesNumber
     }
 
     LaunchedEffect(viewModelState.created) {

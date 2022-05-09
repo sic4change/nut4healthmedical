@@ -277,7 +277,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CREATECASE)) {
-            CaseCreateScreen( onCreateCase = { childId ->
+            CaseCreateScreen( onCreateCase = { childId->
                 navController.popBackStack()
                 navController.popBackStack()
                 navController.navigate(
