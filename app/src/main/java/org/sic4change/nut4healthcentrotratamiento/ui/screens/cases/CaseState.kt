@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import java.util.*
 
 
@@ -19,11 +20,12 @@ fun rememberCasesState(
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    cases:  MutableState<List<Case>> = rememberSaveable { mutableStateOf(emptyList()) },
     casesSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     createdCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ CaseState(id, childId, name, status, expandedStatus, selectedOptionStatus,
-    visits, lastDate, createdDate, observations, casesSize, createdCase, deleteCase) }
+    visits, lastDate, createdDate, observations, cases, casesSize, createdCase, deleteCase) }
 
 class CaseState(
     val id: MutableState<String>,
@@ -36,6 +38,7 @@ class CaseState(
     val lastDate: MutableState<Date>,
     val createdDate: MutableState<Date>,
     val observations: MutableState<String>,
+    val cases: MutableState<List<Case>>,
     val casesSize: MutableState<Int>,
     val createdCase: MutableState<Boolean>,
     val deleteCase: MutableState<Boolean>,

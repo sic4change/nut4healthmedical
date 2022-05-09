@@ -40,6 +40,7 @@ fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit
     LaunchedEffect(viewModelState.cases) {
         if (viewModelState.cases != null) {
             casesState.casesSize.value = viewModelState.cases!!.size
+            casesState.cases.value = viewModelState.cases
         }
     }
 
@@ -61,7 +62,7 @@ fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit
         ) {
             CaseItemsListScreen(
                 loading = viewModelState.loading,
-                items = viewModelState.cases,
+                items = casesState.cases.value,
                 onClick = onClick,
                 onGoToDetailClick = onGoToDetailClick
             )

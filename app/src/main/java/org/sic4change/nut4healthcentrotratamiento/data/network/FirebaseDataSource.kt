@@ -232,7 +232,8 @@ object FirebaseDataSource {
                         case.lastdate, case.visits, case.observations)
                     val casesRef = firestore.collection("cases")
                     val id = casesRef.add(caseToUpload.toServerCase()).await().id
-                    childsRef.document(id).update("id", id,).await()
+                    caseToUpload.id = id
+                    casesRef.document(id).set(caseToUpload.toServerCase()).await()
                     Timber.d("Create case result: ok")
                 }
             } catch (ex : Exception) {
