@@ -24,6 +24,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
@@ -44,7 +45,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorIt
 @ExperimentalMaterialApi
 @Composable
 fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit,
-                 onCreateTutorClick: (String) -> Unit) {
+                 onCreateTutorClick: (String) -> Unit,
+                 onNotificationChildClick: (String) -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -55,6 +57,9 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
+            if (MainActivity.notificationChildId.isNotEmpty()) {
+                onNotificationChildClick(MainActivity.notificationChildId)
+            }
         }
     }
 

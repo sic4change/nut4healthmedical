@@ -21,7 +21,6 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateS
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildItemEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
@@ -30,7 +29,6 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateS
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -68,7 +66,7 @@ private fun NavGraphBuilder.loginNav(navController: NavController) {
             )
         }
         composable(NavCommand.ContentTypeDetail(Feature.LOGIN)) {
-            MainScreen(onLogout = {
+            MainScreen(onNotificationChildClick = {
                 navController.navigate(
                     NavCommand.ContentType(Feature.LOGIN).route
                 )
@@ -90,13 +88,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         startDestination = NavCommand.ContentType(Feature.HOME).route,
         route = Feature.HOME.route
     ) {
-        composable(NavCommand.ContentTypeDetail(Feature.HOME)) {
-            MainScreen(onLogout = {
-                navController.navigate(
-                    NavCommand.ContentType(Feature.HOME).route
-                )
-            })
+        composable(
+            NavCommand.ContentTypeDetail(Feature.HOME)
+        ) {
+            MainScreen(onNotificationChildClick =  {})
         }
+
 
         composable(NavCommand.ContentType(Feature.SETTINGS)) {
             SettingsScreen(onLogout = {
@@ -108,6 +105,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
             TutorsScreen(
+                onNotificationChildClick =  { childId ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(childId)
+                    )
+                },
                 onCreateTutorClick = { phone ->
                     navController.navigate(
                         NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
@@ -393,7 +395,7 @@ private fun NavGraphBuilder.composable(
 ) {
     composable(
         route = navItem.route,
-        arguments = navItem.args
+        arguments = navItem.args,
     ) {
         content(it)
     }

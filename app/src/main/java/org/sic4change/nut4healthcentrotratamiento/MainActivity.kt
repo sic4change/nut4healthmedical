@@ -21,10 +21,15 @@ import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthApp
 @ExperimentalMaterialApi
 class MainActivity : ComponentActivity() {
 
+    companion object{
+        var notificationChildId = ""
+    }
+
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        notificationChildId = ""
         notificationSetting()
         setContent {
             NUT4HealthApp()
@@ -35,7 +40,7 @@ class MainActivity : ComponentActivity() {
         FirebaseMessaging.getInstance().subscribeToTopic("rosa_del_desierto")
         val childId: String? = intent.getStringExtra("childId")
         childId?.let {
-            println("Ha llegado una notificación push del niño: ${childId}")
+            notificationChildId = childId
         }
     }
 }

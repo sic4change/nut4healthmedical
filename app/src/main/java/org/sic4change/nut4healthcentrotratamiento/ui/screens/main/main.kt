@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
@@ -29,7 +30,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
+fun MainScreen(viewModel: MainViewModel = viewModel(), onNotificationChildClick: (String) -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -40,6 +41,8 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit) {
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
+            println("Aqui ${MainActivity.notificationChildId}")
+            onNotificationChildClick(MainActivity.notificationChildId)
         }
     }
 
