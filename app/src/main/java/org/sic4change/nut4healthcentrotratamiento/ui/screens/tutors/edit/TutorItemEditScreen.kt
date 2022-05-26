@@ -28,7 +28,8 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
-                        onEditTutor: (String, String, String, String, String, Date, String, String, String, String, String) -> Unit) {
+                        onEditTutor: (String, String, String, String, String, Date, String, String,
+                                      String, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -56,8 +57,9 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String, String, String, Date, String, String, String, String, String) -> Unit) {
-
+private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String, String, String,
+                                                          Date, String, String, String, String,
+                                                          String, String) -> Unit) {
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
             R.string.Undefined),)
@@ -68,6 +70,8 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
         stringResource(R.string.autre))
 
     val pregnants = listOf(stringResource(R.string.pregnant), stringResource(R.string.no_pregnant),)
+
+    val childMinors = listOf(stringResource(R.string.child_minor), stringResource(R.string.no_child_minor))
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -265,6 +269,66 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
+            ExposedDropdownMenuBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                expanded = tutorState.expandedChildMinor.value,
+                onExpandedChange = {
+                    tutorState.expandedChildMinor.value = !tutorState.expandedChildMinor.value
+                }
+            ) {
+                println("Aqui ${tutorState.selectedOptionChildMinor.value}")
+                TextField(
+                    readOnly = true,
+                    value = tutorState.selectedOptionChildMinor.value,
+                    onValueChange = { tutorState.selectedOptionChildMinor.value = it
+                        tutorState.childMinor.value = it },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = tutorState.expandedChildMinor.value
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.h5,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) }
+                )
+                ExposedDropdownMenu(
+                    expanded = tutorState.expandedChildMinor.value,
+                    onDismissRequest = {
+                        tutorState.expandedChildMinor.value = false
+                    }
+                ) {
+                    childMinors.forEach { selectionOption2 ->
+                        DropdownMenuItem(
+                            onClick = {
+                                tutorState.selectedOptionChildMinor.value = selectionOption2
+                                tutorState.expandedChildMinor.value = false
+                            }
+                        ) {
+                            Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
+                        }
+                    }
+                }
+            }
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
@@ -379,7 +443,8 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                 onClick = {
                     onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
-                        tutorState.selectedOptionSex.value, tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
+                        tutorState.selectedOptionSex.value, tutorState.selectedOptionChildMinor.value,
+                        tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
                         tutorState.observations.value)
 
                 },

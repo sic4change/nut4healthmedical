@@ -171,12 +171,14 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
             tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
             tutorDetailState.sex.value = viewModelState.tutor!!.sex
             tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorDetailState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
             tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
             tutorDetailState.observations.value = viewModelState.tutor!!.observations
             tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
             tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
             tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+            tutorDetailState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
         }
     }
 
@@ -212,12 +214,14 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
             tutorCreateState.createdDate.value = viewModelState.tutor!!.createDate
             tutorCreateState.sex.value = viewModelState.tutor!!.sex
             tutorCreateState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorCreateState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorCreateState.pregnant.value = viewModelState.tutor!!.pregnant
             tutorCreateState.weeks.value = viewModelState.tutor!!.weeks
             tutorCreateState.observations.value = viewModelState.tutor!!.observations
             tutorCreateState.selectedOptionSex.value = viewModelState.tutor!!.sex
             tutorCreateState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
             tutorCreateState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+            tutorCreateState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
         } else {
             tutorCreateState.phone.value = viewModelState.phone
         }
@@ -257,12 +261,14 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
             tutorEditState.createdDate.value = viewModelState.tutor!!.createDate
             tutorEditState.sex.value = viewModelState.tutor!!.sex
             tutorEditState.etnician.value = viewModelState.tutor!!.ethnicity
+            tutorEditState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorEditState.pregnant.value = viewModelState.tutor!!.pregnant
             tutorEditState.weeks.value = viewModelState.tutor!!.weeks
             tutorEditState.observations.value = viewModelState.tutor!!.observations
             tutorEditState.selectedOptionSex.value = viewModelState.tutor!!.sex
             tutorEditState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
             tutorEditState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+            tutorEditState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
         }
     }
 
