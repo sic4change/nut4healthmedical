@@ -31,6 +31,7 @@ data class Tutor(
     @Exclude val address: String = "",
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
+    @Exclude val childMinor: String = "",
     @Exclude val pregnant: String = "",
     @Exclude val observations: String = "",
     @Exclude val weeks: Int = 0,

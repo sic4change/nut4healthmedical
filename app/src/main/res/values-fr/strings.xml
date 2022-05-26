@@ -98,4 +98,7 @@
     <string name="months">mois</string>
     <string name="searchByNameAndSurnames">Recherche par nom ou prénom</string>
     <string name="caso">Cas</string>
+    <string name="child_minor_six_month">Enfant de moins de 6 mois</string>
+    <string name="child_minor">Oui</string>
+    <string name="no_child_minor">Ne pas</string>
 </resources>

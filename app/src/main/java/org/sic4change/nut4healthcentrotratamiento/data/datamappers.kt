@@ -1,13 +1,10 @@
 package org.sic4change.nut4healthcentrotratamiento.data
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import org.sic4change.nut4healthcentrotratamiento.R
+
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
-import java.util.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.Child as ServerChild
@@ -24,11 +21,13 @@ fun ServerUser.toDomainUser() : User = User(
 )
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
-    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, pregnant, observations, weeks.toString(), active
+    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
+    pregnant, observations, weeks.toString(), active
 )
 
 fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
-    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, pregnant, observations, weeks.toInt(), active
+    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
+    pregnant, observations, weeks.toInt(), active
 )
 
 fun ServerChild.toDomainChild() : Child = Child(

@@ -13,6 +13,7 @@ data class Tutor(
     val address: String,
     val createDate: Date,
     val lastDate: Date,
+    val childMinor: String,
     val pregnant: String,
     val observations: String,
     val weeks: String,
