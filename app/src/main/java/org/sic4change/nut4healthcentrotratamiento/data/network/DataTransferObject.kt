@@ -35,7 +35,9 @@ data class Tutor(
     @Exclude val pregnant: String = "",
     @Exclude val observations: String = "",
     @Exclude val weeks: Int = 0,
-    @Exclude val active: Boolean = false
+    @Exclude val height: Double = 0.0,
+    @Exclude  val weight: Double = 0.0,
+    @Exclude val active: Boolean = false,
     )
 
 @JsonClass(generateAdapter = true)

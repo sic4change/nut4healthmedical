@@ -17,5 +17,7 @@ data class Tutor(
     val pregnant: String,
     val observations: String,
     val weeks: String,
+    val height: Double,
+    val weight: Double,
     val active: Boolean,
     ) : Item

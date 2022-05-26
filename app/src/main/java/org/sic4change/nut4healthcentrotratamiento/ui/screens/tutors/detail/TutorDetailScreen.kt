@@ -317,6 +317,54 @@ private fun Header(tutorState: TutorState) {
                 (tutorState.pregnant.value == "Embarazada" || tutorState.pregnant.value == "Enceinte"))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            TextField(value = tutorState.height.value.toString(),
+                onValueChange = {}, readOnly = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.full_transparent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.full_transparent),
+                    unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                ),
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            TextField(value = tutorState.weight.value.toString(),
+                onValueChange = {}, readOnly = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.full_transparent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.full_transparent),
+                    unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                ),
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         TextField(value = tutorState.observations.value,
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(

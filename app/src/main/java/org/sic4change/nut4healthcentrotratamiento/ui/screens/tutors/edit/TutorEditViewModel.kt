@@ -37,11 +37,11 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     fun editTutor(id: String, name: String, surnames: String, address: String, phone: String,
                     birthdate: Date, ethnician: String, sex: String, childMinor: String,
-                  pregnang: String, weks: String, observations: String) {
+                  pregnang: String, weeks: String, height: Double, weight: Double, observations: String) {
         viewModelScope.launch {
             val tutor = Tutor(id,
                 name, surnames, sex, ethnician, birthdate, phone, address,
-                Date(), Date(), childMinor, pregnang, observations, weks, true)
+                Date(), Date(), childMinor, pregnang, observations, weeks, height, weight, true)
             _state.value= UiState(tutor = tutor)
             FirebaseDataSource.updateTutor(tutor)
             _state.value = UiState(editTutor = true)

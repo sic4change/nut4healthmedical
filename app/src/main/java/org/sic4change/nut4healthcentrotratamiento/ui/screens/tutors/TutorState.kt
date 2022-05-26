@@ -23,6 +23,8 @@ fun rememberTutorState(
     pregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
     childMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
     weeks: MutableState<String> = rememberSaveable { mutableStateOf("0") },
+    height: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    weight: MutableState<String> = rememberSaveable { mutableStateOf("") },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedSex: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionSex: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -38,7 +40,7 @@ fun rememberTutorState(
 
 ) = remember{ TutorState(
     id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, etnician, pregnant,
-    childMinor, weeks, observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
+    childMinor, weeks, height, weight, observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
     expandedPregnant, expandedChildMinor, selectedOptionPregnant, selectedOptionChildMinor, createdTutor, deleteTutor
 ) }
 
@@ -56,6 +58,8 @@ class TutorState(
     val pregnant: MutableState<String>,
     val childMinor: MutableState<String>,
     val weeks: MutableState<String>,
+    val height: MutableState<String>,
+    val weight: MutableState<String>,
     val observations: MutableState<String>,
     val expandedSex: MutableState<Boolean>,
     val selectedOptionSex: MutableState<String>,
@@ -68,10 +72,26 @@ class TutorState(
     val createdTutor: MutableState<Boolean>,
     val deleteTutor: MutableState<Boolean>,
 
-) {
+    ) {
 
     fun showDeleteQuestion() {
         deleteTutor.value = !deleteTutor.value
+    }
+
+    fun formatHeightValue(value: String) {
+        val temp = value.replace(",", ".").
+        replace(" ", "").replace("-", "")
+        if (temp != "." && temp.filter { it == '.' }.count() < 2) {
+            height.value = temp
+        }
+    }
+
+    fun formatWeightValue(value: String) {
+        val temp = value.replace(",", ".").
+        replace(" ", "").replace("-", "")
+        if (temp != "." && temp.filter { it == '.' }.count() < 2) {
+            weight.value = temp
+        }
     }
 
 }

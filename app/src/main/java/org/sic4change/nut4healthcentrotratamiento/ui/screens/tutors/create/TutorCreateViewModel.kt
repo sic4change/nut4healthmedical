@@ -37,12 +37,12 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     fun createTutor(name: String, surnames: String, address: String, phone: String,
                     birthdate: Date, ethnician: String, sex: String,  childMinor: String,
-                    pregnang: String, weks: String,
+                    pregnang: String, weks: String, height: Double, weight: Double,
                     observations: String) {
         viewModelScope.launch {
             val tutor = Tutor(phone,
                 name, surnames, sex, ethnician, birthdate, phone, address,
-                Date(), Date(), childMinor, pregnang, observations, weks, true)
+                Date(), Date(), childMinor, pregnang, observations, weks, height, weight, true)
             _state.value= UiState(tutor = tutor)
             FirebaseDataSource.createTutor(tutor)
             _state.value = UiState(created = true)

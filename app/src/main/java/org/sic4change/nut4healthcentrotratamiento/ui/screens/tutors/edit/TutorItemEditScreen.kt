@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
@@ -24,12 +26,16 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
+
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
-                        onEditTutor: (String, String, String, String, String, Date, String, String,
-                                      String, String, String, String) -> Unit) {
+                        onEditTutor: (String, String, String, String, String,
+                                      Date, String, String, String,
+                                      String, String, Double, Double, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -58,8 +64,8 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String, String, String,
-                                                          Date, String, String, String, String,
-                                                          String, String) -> Unit) {
+                                                          Date, String, String, String,
+                                                          String, String, Double, Double, String) -> Unit) {
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
             R.string.Undefined),)
@@ -383,9 +389,6 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                 }
             }
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(
             visible = ((tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme") &&
@@ -411,6 +414,74 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
         AnimatedVisibility(
             visible = ((tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme") &&
                     tutorState.selectedOptionPregnant.value == "Embarazada" || tutorState.selectedOptionPregnant.value == "Enceinte")) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            TextField(value = tutorState.height.value.toString(),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                ),
+                onValueChange = {
+                    tutorState.formatHeightValue(it)
+                    /* onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                         visitState.weight.value.filter { !it.isWhitespace() })*/
+                },
+                textStyle = MaterialTheme.typography.h5,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            TextField(value = tutorState.weight.value.toString(),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                ),
+                onValueChange = {
+                    tutorState.formatWeightValue(it)
+                    /* onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                         visitState.weight.value.filter { !it.isWhitespace() })*/
+                },
+                textStyle = MaterialTheme.typography.h5,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))
+        ) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         TextField(value = tutorState.observations.value,
@@ -440,11 +511,15 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+
                 onClick = {
-                    onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
-                        tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
-                        tutorState.selectedOptionSex.value, tutorState.selectedOptionChildMinor.value,
-                        tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
+                    onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value,
+                        tutorState.address.value, tutorState.phone.value, tutorState.birthday.value,
+                        tutorState.selectedOptionEtnician.value, tutorState.selectedOptionSex.value,
+                        tutorState.selectedOptionChildMinor.value, tutorState.selectedOptionPregnant.value,
+                        tutorState.weeks.value,
+                        tutorState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                        tutorState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         tutorState.observations.value)
 
                 },

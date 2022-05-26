@@ -30,7 +30,7 @@ import java.util.*
 @Composable
 fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false,
 onCreateTutor: (String, String, String, String, Date, String, String, String, String,
-                String, String) -> Unit) {
+                String, Double, Double, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -60,7 +60,7 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, St
 @Composable
 private fun Header(tutorState: TutorState,
                    onCreateTutor: (String, String, String, String, Date, String, String, String,
-                                   String, String, String) -> Unit) {
+                                   String, String, Double, Double, String) -> Unit) {
 
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
@@ -395,7 +395,6 @@ private fun Header(tutorState: TutorState,
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(
             visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
                 tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
@@ -426,6 +425,74 @@ private fun Header(tutorState: TutorState,
         AnimatedVisibility(
             visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
                     tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            TextField(value = tutorState.height.value.toString(),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                ),
+                onValueChange = {
+                    tutorState.formatHeightValue(it)
+                    /* onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                         visitState.weight.value.filter { !it.isWhitespace() })*/
+                },
+                textStyle = MaterialTheme.typography.h5,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
+            TextField(value = tutorState.weight.value.toString(),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                ),
+                onValueChange = {
+                    tutorState.formatWeightValue(it)
+                    /* onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                         visitState.weight.value.filter { !it.isWhitespace() })*/
+                },
+                textStyle = MaterialTheme.typography.h5,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(
+            visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))
         ) {
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -465,6 +532,8 @@ private fun Header(tutorState: TutorState,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
                         tutorState.selectedOptionSex.value, tutorState.selectedOptionChildMinor.value,
                         tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
+                        tutorState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                        tutorState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         tutorState.observations.value)
 
                 },

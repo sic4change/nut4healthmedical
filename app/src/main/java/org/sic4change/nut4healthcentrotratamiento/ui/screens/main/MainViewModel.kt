@@ -49,7 +49,7 @@ class MainViewModel() : ViewModel() {
             } else {
                 _state.value = UiState(tutor = Tutor("", "", "", "", "",
                     Date(), phone, "", Date(), Date(), "", "", "",
-                    "", false ), tutorChecked = "not_found")
+                    "", 0.0, 0.0, false ), tutorChecked = "not_found")
             }
         }
     }

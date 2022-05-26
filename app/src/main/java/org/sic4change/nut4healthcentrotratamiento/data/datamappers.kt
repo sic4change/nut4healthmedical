@@ -22,12 +22,12 @@ fun ServerUser.toDomainUser() : User = User(
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
-    pregnant, observations, weeks.toString(), active
+    pregnant, observations, weeks.toString(), height, weight, active
 )
 
 fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
-    pregnant, observations, weeks.toInt(), active
+    pregnant, observations, weeks.toInt(), height, weight, active
 )
 
 fun ServerChild.toDomainChild() : Child = Child(
