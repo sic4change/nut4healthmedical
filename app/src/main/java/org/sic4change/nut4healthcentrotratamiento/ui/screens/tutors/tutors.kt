@@ -175,6 +175,7 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
             tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
             tutorDetailState.height.value = viewModelState.tutor!!.height.toString()
             tutorDetailState.weight.value = viewModelState.tutor!!.weight.toString()
+            tutorDetailState.status.value = viewModelState.tutor!!.status
             tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
             tutorDetailState.observations.value = viewModelState.tutor!!.observations
             tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
