@@ -3,8 +3,6 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.res.stringResource
-import org.sic4change.nut4healthcentrotratamiento.R
 import java.util.*
 
 
@@ -25,6 +23,8 @@ fun rememberTutorState(
     weeks: MutableState<String> = rememberSaveable { mutableStateOf("0") },
     height: MutableState<String> = rememberSaveable { mutableStateOf("") },
     weight: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    imc: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
+    status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedSex: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionSex: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -40,7 +40,7 @@ fun rememberTutorState(
 
 ) = remember{ TutorState(
     id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, etnician, pregnant,
-    childMinor, weeks, height, weight, observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
+    childMinor, weeks, height, weight, imc, status, observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
     expandedPregnant, expandedChildMinor, selectedOptionPregnant, selectedOptionChildMinor, createdTutor, deleteTutor
 ) }
 
@@ -60,6 +60,8 @@ class TutorState(
     val weeks: MutableState<String>,
     val height: MutableState<String>,
     val weight: MutableState<String>,
+    val imc: MutableState<Double>,
+    val status: MutableState<String>,
     val observations: MutableState<String>,
     val expandedSex: MutableState<Boolean>,
     val selectedOptionSex: MutableState<String>,

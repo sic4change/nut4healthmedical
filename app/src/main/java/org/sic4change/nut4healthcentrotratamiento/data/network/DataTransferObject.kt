@@ -37,6 +37,7 @@ data class Tutor(
     @Exclude val weeks: Int = 0,
     @Exclude val height: Double = 0.0,
     @Exclude  val weight: Double = 0.0,
+    @Exclude  val status: String = "",
     @Exclude val active: Boolean = false,
     )
 
@@ -112,6 +113,20 @@ data class MalNutritionTeenagerTable(
     @Exclude val hundred: String = "",
     @Exclude val seventy: String = "",
     @Exclude val sex: String = ""
+)
+
+@JsonClass(generateAdapter = true)
+data class NetworkMalNutritionAdultTableContainer(val results: List<MalNutritionAdultTable>)
+
+@JsonClass(generateAdapter = true)
+data class MalNutritionAdultTable(
+    @Exclude val cm: Double = 0.0,
+    @Exclude val eighteen: Double = 0.0,
+    @Exclude val eighteenfive: Double = 0.0,
+    @Exclude val seventeen: Double = 0.0,
+    @Exclude val seventeenfive: Double = 0.0,
+    @Exclude val sixteen: Double = 0.0,
+    @Exclude val sixteenfive: Double = 0.0,
 )
 
 @JsonClass(generateAdapter = true)

@@ -13,6 +13,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSourc
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorsViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 import java.util.*
 
 class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -33,19 +34,39 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val loading: Boolean = false,
         val tutor: Tutor? = null,
         val created: Boolean = false,
+        var imc: Double? = 0.0,
     )
 
     fun createTutor(name: String, surnames: String, address: String, phone: String,
                     birthdate: Date, ethnician: String, sex: String,  childMinor: String,
                     pregnang: String, weks: String, height: Double, weight: Double,
-                    observations: String) {
+                    status: String, observations: String) {
         viewModelScope.launch {
             val tutor = Tutor(phone,
                 name, surnames, sex, ethnician, birthdate, phone, address,
-                Date(), Date(), childMinor, pregnang, observations, weks, height, weight, true)
+                Date(), Date(), childMinor, pregnang, observations, weks, height, weight,
+                status,true)
             _state.value= UiState(tutor = tutor)
             FirebaseDataSource.createTutor(tutor)
             _state.value = UiState(created = true)
+        }
+    }
+
+    fun checkDesnutrition(height: String, weight: String) {
+        viewModelScope.launch {
+            if (height.isNotEmpty() && weight.isNotEmpty()) {
+                try {
+                    _state.value= UiState(
+                        phone = _state.value.phone,
+                        imc = FirebaseDataSource.checkAdultDesnutrition(
+                            height.toDouble(),
+                            weight.toDouble()
+                        ),
+                    )
+                } catch (error: Error) {
+                    println("error: ${error}")
+                }
+            }
         }
     }
 

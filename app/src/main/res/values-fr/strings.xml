@@ -101,4 +101,12 @@
     <string name="child_minor_six_month">Enfant de moins de 6 mois</string>
     <string name="child_minor">Oui</string>
     <string name="no_child_minor">Ne pas</string>
+
+    //Adults
+    <string name="adults_normal">Poids Normal</string>
+    <string name="adults_marginal">Maigreur marginale</string>
+    <string name="adults_moderate">Maigreur modérée</string>
+    <string name="adults_severe">Maigreur sévère</string>
+
+
 </resources>

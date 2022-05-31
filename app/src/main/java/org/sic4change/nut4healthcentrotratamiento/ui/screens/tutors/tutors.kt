@@ -231,6 +231,21 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
         }
     }
 
+    LaunchedEffect(viewModelState.imc) {
+        tutorCreateState.imc.value = viewModelState.imc!!
+        if (tutorCreateState.imc.value.equals(18.5) ) {
+            tutorCreateState.status.value = "Normopeso"
+        } else if (tutorCreateState.imc.value.equals(18.0)) {
+            tutorCreateState.status.value = "Peso Objetivo"
+        } else if (tutorCreateState.imc.value.equals(17.0)) {
+            tutorCreateState.status.value = "Peso Objetivo"
+        } else if (tutorCreateState.imc.value.equals(16.0)) {
+            tutorCreateState.status.value = "Aguda Moderada"
+        } else {
+            tutorCreateState.status.value = "Aguda Severa"
+        }
+    }
+
     LaunchedEffect(viewModelState.created) {
         if (viewModelState.created) {
             onCreateTutor()
@@ -240,7 +255,8 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
     TutorItemCreateScreen(
         loading = viewModelState.loading,
         tutorState = tutorCreateState,
-        onCreateTutor = viewModel::createTutor
+        onCreateTutor = viewModel::createTutor,
+        onChangeWeightOrHeight = viewModel::checkDesnutrition
     )
 }
 

@@ -102,4 +102,13 @@
     <string name="child_minor">Sí</string>
     <string name="no_child_minor">No</string>
 
+    //Adults
+    <string name="adults_normal">Peso Normal</string>
+    <string name="adults_marginal">Delgadez marginal</string>
+    <string name="adults_moderate">Delgadez moderada</string>
+    <string name="adults_severe">Delgadez severa</string>
+
+
+
+
 </resources>

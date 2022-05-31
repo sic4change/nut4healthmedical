@@ -19,5 +19,6 @@ data class Tutor(
     val weeks: String,
     val height: Double,
     val weight: Double,
+    val status: String,
     val active: Boolean,
     ) : Item
