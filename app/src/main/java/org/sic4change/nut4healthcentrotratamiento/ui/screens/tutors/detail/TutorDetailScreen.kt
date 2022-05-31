@@ -387,7 +387,7 @@ private fun Header(tutorState: TutorState) {
                     leadingIcon = {
                         Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { })},
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else if (tutorState.status.value == stringResource(R.string.objetive_weight)) {
+            } else if (tutorState.status.value == stringResource(R.string.adults_marginal)) {
                 TextField(value = tutorState.status.value,
                     onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
@@ -405,7 +405,7 @@ private fun Header(tutorState: TutorState) {
                     leadingIcon = {
                         Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else if (tutorState.status.value == stringResource(R.string.aguda_moderada)) {
+            } else if (tutorState.status.value == stringResource(R.string.adults_moderate)) {
                 TextField(value = tutorState.status.value,
                     onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(

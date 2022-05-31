@@ -13,6 +13,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSourc
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorsViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 import java.util.*
 
@@ -42,13 +43,14 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     pregnang: String, weks: String, height: Double, weight: Double,
                     status: String, observations: String) {
         viewModelScope.launch {
+            _state.value = UiState(loading = true, imc = _state.value.imc)
             val tutor = Tutor(phone,
                 name, surnames, sex, ethnician, birthdate, phone, address,
                 Date(), Date(), childMinor, pregnang, observations, weks, height, weight,
                 status,true)
-            _state.value= UiState(tutor = tutor)
+            _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
             FirebaseDataSource.createTutor(tutor)
-            _state.value = UiState(created = true)
+            _state.value = UiState(created = true, loading = true, imc = _state.value.imc)
         }
     }
 

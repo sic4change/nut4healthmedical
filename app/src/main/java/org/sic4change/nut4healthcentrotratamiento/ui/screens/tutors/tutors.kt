@@ -287,11 +287,27 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
             tutorEditState.weeks.value = viewModelState.tutor!!.weeks
             tutorEditState.height.value = viewModelState.tutor!!.height.toString()
             tutorEditState.weight.value = viewModelState.tutor!!.weight.toString()
+            tutorEditState.status.value = viewModelState.tutor!!.status
             tutorEditState.observations.value = viewModelState.tutor!!.observations
             tutorEditState.selectedOptionSex.value = viewModelState.tutor!!.sex
             tutorEditState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
             tutorEditState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
             tutorEditState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
+        }
+    }
+
+    LaunchedEffect(viewModelState.imc) {
+        tutorEditState.imc.value = viewModelState.imc!!
+        if (tutorEditState.imc.value.equals(18.5) ) {
+            tutorEditState.status.value = "Normopeso"
+        } else if (tutorEditState.imc.value.equals(18.0)) {
+            tutorEditState.status.value = "Peso Objetivo"
+        } else if (tutorEditState.imc.value.equals(17.0)) {
+            tutorEditState.status.value = "Peso Objetivo"
+        } else if (tutorEditState.imc.value.equals(16.0)) {
+            tutorEditState.status.value = "Aguda Moderada"
+        } else {
+            tutorEditState.status.value = "Aguda Severa"
         }
     }
 
@@ -305,7 +321,8 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
     TutorItemEditScreen(
         loading = viewModelState.loading,
         tutorState = tutorEditState,
-        onEditTutor = viewModel::editTutor
+        onEditTutor = viewModel::editTutor,
+        onChangeWeightOrHeight = viewModel::checkDesnutrition
     )
 }
 

@@ -510,12 +510,13 @@ object FirebaseDataSource {
     suspend fun checkAdultDesnutrition(height: Double, weight: Double): Double = withContext(Dispatchers.IO) {
         var status = 0.0
         val childMalNutritionAdultTableRef = firestore.collection("malnutritionAdultTable")
-        val queryChildMalNutritionAdultTable = childMalNutritionAdultTableRef.whereGreaterThanOrEqualTo("cm", height)
+        val queryChildMalNutritionAdultTable = childMalNutritionAdultTableRef.whereGreaterThanOrEqualTo("cm", height - 0.1)
             .orderBy("cm", Query.Direction.ASCENDING).limit(1)
         val resultChildMalNutritionAdultTable = queryChildMalNutritionAdultTable.get().await()
         val networkMalNutritionAdultTableContainer =
             NetworkMalNutritionAdultTableContainer(resultChildMalNutritionAdultTable.toObjects(MalNutritionAdultTable::class.java))
         networkMalNutritionAdultTableContainer.results[0].let { malNutritionAdultTable ->
+            println("Aqui ${malNutritionAdultTable.cm}")
             if (weight >= malNutritionAdultTable.eighteenfive) {
                 status = 18.5
             } else if (weight >= malNutritionAdultTable.eighteen) {

@@ -27,15 +27,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
-
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
-                        onEditTutor: (String, String, String, String, String,
-                                      Date, String, String, String,
-                                      String, String, Double, Double, String) -> Unit) {
+                        onEditTutor: (String, String, String, String, String, Date, String, String,
+                                      String, String, String, Double, Double, String, String) -> Unit,
+                        onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -48,7 +46,10 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
                 .fillMaxWidth()
         ) {
             item {
-                Header(tutorState = tutorState, onEditTutor = onEditTutor)
+                Header(
+                    tutorState = tutorState,
+                    onEditTutor = onEditTutor,
+                    onChangeWeightOrHeight = onChangeWeightOrHeight)
             }
             /*item.references.forEach {
                 val (icon, @StringRes stringRes) = it.type.createUiData()
@@ -63,9 +64,10 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String, String, String,
-                                                          Date, String, String, String,
-                                                          String, String, Double, Double, String) -> Unit) {
+private fun Header(tutorState: TutorState,
+                   onEditTutor: (String, String, String, String, String, Date, String, String, String,
+                                 String, String, Double, Double, String, String) -> Unit,
+                   onChangeWeightOrHeight: (String, String) -> Unit) {
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male), stringResource(
             R.string.Undefined),)
@@ -429,8 +431,8 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                 ),
                 onValueChange = {
                     tutorState.formatHeightValue(it)
-                    /* onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                         visitState.weight.value.filter { !it.isWhitespace() })*/
+                    onChangeWeightOrHeight(tutorState.height.value.filter { !it.isWhitespace() },
+                        tutorState.weight.value.filter { !it.isWhitespace() })
                 },
                 textStyle = MaterialTheme.typography.h5,
                 keyboardOptions = KeyboardOptions(
@@ -463,8 +465,8 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                 ),
                 onValueChange = {
                     tutorState.formatWeightValue(it)
-                    /* onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                         visitState.weight.value.filter { !it.isWhitespace() })*/
+                    onChangeWeightOrHeight(tutorState.height.value.filter { !it.isWhitespace() },
+                        tutorState.weight.value.filter { !it.isWhitespace() })
                 },
                 textStyle = MaterialTheme.typography.h5,
                 keyboardOptions = KeyboardOptions(
@@ -484,6 +486,107 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
         ) {
             Spacer(modifier = Modifier.height(16.dp))
         }
+
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor) && tutorState.weight.value.isNotEmpty()
+                && tutorState.height.value.isNotEmpty() )) {
+            var statusFormated = ""
+            if (tutorState.status.value == "Normopeso" || tutorState.status.value == stringResource(R.string.adults_normal)) {
+                statusFormated = stringResource(R.string.adults_normal)
+            } else if (tutorState.status.value == "Peso Objetivo" || tutorState.status.value == stringResource(R.string.adults_marginal)) {
+                statusFormated = stringResource(R.string.adults_marginal)
+            } else if (tutorState.status.value == "Aguda Moderada" || tutorState.status.value == stringResource(R.string.adults_moderate)) {
+                statusFormated = stringResource(R.string.adults_moderate)
+            } else {
+                statusFormated = stringResource(R.string.adults_severe)
+            }
+
+
+            tutorState.status.value = statusFormated
+
+            if (tutorState.status.value == stringResource(R.string.adults_normal)) {
+                TextField(value = tutorState.status.value,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorAccent),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            } else if (tutorState.status.value == stringResource(R.string.adults_marginal)) {
+                TextField(value = tutorState.status.value,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorPrimary),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorPrimary),
+                        unfocusedIndicatorColor = colorResource(R.color.colorPrimary),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            } else if (tutorState.status.value == stringResource(R.string.adults_moderate)) {
+                TextField(value = tutorState.status.value,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.orange),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.orange),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.orange),
+                        unfocusedIndicatorColor = colorResource(R.color.orange),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            } else {
+                TextField(value = statusFormated,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.error),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.error),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.error),
+                        unfocusedIndicatorColor = colorResource(R.color.error),
+                    ),
+                    onValueChange = {}, readOnly = true,
+                    textStyle = MaterialTheme.typography.h5,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
+                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            }
+
+        }
+
+        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
+                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor) && tutorState.weight.value.isNotEmpty()
+                    && tutorState.height.value.isNotEmpty() )
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         TextField(value = tutorState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -501,7 +604,9 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
             leadingIcon = {
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+
         Spacer(modifier = Modifier.height(16.dp))
+
         AnimatedVisibility(visible = (tutorState.name.value.isNotEmpty() &&
                 tutorState.surnames.value.isNotEmpty() &&
                 tutorState.phone.value.isNotEmpty() &&
@@ -520,6 +625,7 @@ private fun Header(tutorState: TutorState,  onEditTutor: (String, String, String
                         tutorState.weeks.value,
                         tutorState.height.value.filter { !it.isWhitespace() }.toDouble(),
                         tutorState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                        tutorState.status.value,
                         tutorState.observations.value)
 
                 },
