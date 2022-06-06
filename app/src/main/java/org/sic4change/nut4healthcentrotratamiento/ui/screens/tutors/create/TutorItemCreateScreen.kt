@@ -67,8 +67,7 @@ private fun Header(tutorState: TutorState,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male), stringResource(
-            R.string.Undefined),)
+        stringResource(R.string.female), stringResource(R.string.Male))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
@@ -500,7 +499,9 @@ private fun Header(tutorState: TutorState,
         ) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.weight.value.isNotEmpty() && tutorState.height.value.isNotEmpty() )) {
+        AnimatedVisibility(visible = (tutorState.weight.value.isNotEmpty()
+                && tutorState.height.value.isNotEmpty() &&
+                !tutorState.createdTutor.value)) {
             var statusFormated = ""
             if (tutorState.status.value == "Normopeso" || tutorState.status.value == stringResource(R.string.adults_normal)) {
                 statusFormated = stringResource(R.string.adults_normal)
@@ -623,13 +624,25 @@ private fun Header(tutorState: TutorState,
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
                     tutorState.createdTutor.value = true
+                    var height = 0.0
+                    if (tutorState.height.value != ""){
+                        height = tutorState.height.value.filter { !it.isWhitespace() }.toDouble()
+                    }
+                    var weight = 0.0
+                    if (tutorState.weight.value != ""){
+                        weight = tutorState.weight.value.filter { !it.isWhitespace() }.toDouble()
+                    }
+                    var status = tutorState.status.value
+                    if (weight == 0.0 || height == 0.0) {
+                        status = ""
+                    }
                     onCreateTutor(tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
                         tutorState.selectedOptionSex.value, tutorState.selectedOptionChildMinor.value,
                         tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
-                        tutorState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                        tutorState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                        tutorState.status.value,
+                        height,
+                        weight,
+                        status,
                         tutorState.observations.value)
 
                 },

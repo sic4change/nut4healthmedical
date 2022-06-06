@@ -69,8 +69,7 @@ private fun Header(tutorState: TutorState,
                                  String, String, Double, Double, String, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male), stringResource(
-            R.string.Undefined),)
+        stringResource(R.string.female), stringResource(R.string.Male))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
@@ -288,7 +287,6 @@ private fun Header(tutorState: TutorState,
                     tutorState.expandedChildMinor.value = !tutorState.expandedChildMinor.value
                 }
             ) {
-                println("Aqui ${tutorState.selectedOptionChildMinor.value}")
                 TextField(
                     readOnly = true,
                     value = tutorState.selectedOptionChildMinor.value,
@@ -618,14 +616,27 @@ private fun Header(tutorState: TutorState,
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
 
                 onClick = {
+                    tutorState.createdTutor.value = true
+                    var height = 0.0
+                    if (tutorState.height.value != ""){
+                        height = tutorState.height.value.filter { !it.isWhitespace() }.toDouble()
+                    }
+                    var weight = 0.0
+                    if (tutorState.weight.value != ""){
+                        weight = tutorState.weight.value.filter { !it.isWhitespace() }.toDouble()
+                    }
+                    var status = tutorState.status.value
+                    if (weight == 0.0 || height == 0.0) {
+                        status = ""
+                    }
                     onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value,
                         tutorState.address.value, tutorState.phone.value, tutorState.birthday.value,
                         tutorState.selectedOptionEtnician.value, tutorState.selectedOptionSex.value,
                         tutorState.selectedOptionChildMinor.value, tutorState.selectedOptionPregnant.value,
                         tutorState.weeks.value,
-                        tutorState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                        tutorState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                        tutorState.status.value,
+                        height,
+                        weight,
+                        status,
                         tutorState.observations.value)
 
                 },

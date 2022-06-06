@@ -62,8 +62,7 @@ private fun Header(childState: ChildState,
                    onCreateChild: (String, String, Date, String, String, String) -> Unit) {
 
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male), stringResource(
-            R.string.Undefined),)
+        stringResource(R.string.female), stringResource(R.string.Male))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
