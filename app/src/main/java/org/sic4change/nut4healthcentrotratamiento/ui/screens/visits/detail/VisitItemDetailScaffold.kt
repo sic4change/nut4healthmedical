@@ -30,18 +30,18 @@ fun VisitItemDetailScaffold(
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         bottomBar = {
-            /*BottomAppBar(
+            BottomAppBar(
                 backgroundColor = colorResource(R.color.colorPrimary),
                 cutoutShape = MaterialTheme.shapes.small
             ) {
-                AppBarIcon(imageVector = Icons.Default.Edit, onClick = {
+                /*AppBarIcon(imageVector = Icons.Default.Edit, onClick = {
                     onClickEdit(visitItem)
-                })
+                })*/
                 Spacer(modifier = Modifier.weight(1f))
                 AppBarIcon(imageVector = Icons.Default.Delete, onClick = {
                     visitState.showDeleteQuestion()
                 })
-            }*/
+            }
         },
         content = content
     )
