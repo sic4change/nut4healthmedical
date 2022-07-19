@@ -41,7 +41,6 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onNotificationChildClick:
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
-            println("Aqui ${MainActivity.notificationChildId}")
             onNotificationChildClick(MainActivity.notificationChildId)
         }
     }

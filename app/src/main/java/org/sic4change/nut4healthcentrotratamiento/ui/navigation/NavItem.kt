@@ -15,8 +15,8 @@ enum class NavItem(
     @StringRes val title: Int
 ) {
     LOGIN(NavCommand.ContentType(Feature.LOGIN), Icons.Default.Home, R.string.login),
-    //HOME(NavCommand.ContentType(Feature.HOME), Icons.Default.Home, R.string.congratulations),
     TUTORS(NavCommand.ContentType(Feature.TUTORS), Icons.Default.People, R.string.tutors),
+    CUADRANTE(NavCommand.ContentType(Feature.CUADRANTE), Icons.Default.CalendarViewMonth, R.string.cuadrante),
     SETTINGS(NavCommand.ContentType(Feature.SETTINGS), Icons.Default.Settings, R.string.settings),
 }
 

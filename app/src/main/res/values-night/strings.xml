@@ -49,6 +49,7 @@
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar perfil niñ@</string>
     <string name="tutors">Madres, padres o tutores</string>
+    <string name="cuadrante">Cuadrante de visitas</string>
     <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>
     <string name="last_visits">Última visita:</string>

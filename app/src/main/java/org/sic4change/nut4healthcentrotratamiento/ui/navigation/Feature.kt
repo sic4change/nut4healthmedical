@@ -7,6 +7,8 @@ enum class Feature(val route: String) {
 
     SETTINGS("settings"),
 
+    CUADRANTE("cuadrante"),
+
     TUTORS("tutors"),
     CREATETUTOR("createtutor"),
     EDITTUTOR("edittutor"),

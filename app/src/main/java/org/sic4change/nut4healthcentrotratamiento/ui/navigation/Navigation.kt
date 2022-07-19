@@ -21,6 +21,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateS
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cuadrante.CuadrantsScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsScreen
@@ -101,6 +102,10 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentType(Feature.LOGIN).route
                 )
             })
+        }
+
+        composable(NavCommand.ContentType(Feature.CUADRANTE)) {
+            CuadrantsScreen()
         }
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {

@@ -35,7 +35,7 @@ class NUT4HealthAppState(
 ) {
 
     companion object {
-        val DRAWER_OPTIONS = listOf(NavItem.TUTORS, NavItem.SETTINGS)
+        val DRAWER_OPTIONS = listOf(NavItem.TUTORS, NavItem.CUADRANTE, NavItem.SETTINGS)
         val BOTTOM_NAV_OPTIONS = listOf(NavItem.TUTORS, NavItem.SETTINGS)
     }
 

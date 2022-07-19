@@ -49,6 +49,7 @@
     <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
     <string name="edit_child">Modifier profil d’enfant</string>
     <string name="tutors">Mère, pere ou tuteur</string>
+    <string name="cuadrante">Visitez le quadrant</string>
     <string name="visits_title">"Visites"</string>
     <string name="visits">"Visites: "</string>
     <string name="last_visits">Dernière visite:</string>
