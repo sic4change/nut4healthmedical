@@ -75,6 +75,40 @@ fun  CuadrantListItem(
                 Divider(color = Color.LightGray, thickness = 2.dp, modifier =
                 Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp))
 
+                if (!item.visitsCuadrant.isNullOrEmpty()) {
+                    val nextVisit = item.visitsCuadrant[0].createdate.time + (14 * 24 * 60 * 60 * 1000)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = {}) {
+                            Icon(
+                                tint = colorResource(R.color.frutorial_title),
+                                imageVector = Icons.Default.Add,
+                                modifier = Modifier.size(20.dp),
+                                contentDescription = null
+                            )
+                        }
+                        Text(
+                            color = colorResource(R.color.frutorial_title),
+                            text = stringResource(R.string.next_visit).capitalize(),
+                            style = MaterialTheme.typography.body2,
+                            maxLines = 2,
+                            modifier = Modifier
+                                .padding(8.dp, 16.dp)
+                                .weight(1f)
+                        )
+                        Text(
+                            color = colorResource(R.color.frutorial_title),
+                            text = "${SimpleDateFormat("dd/MM/yyyy").format(nextVisit)}",
+                            style = MaterialTheme.typography.body2,
+                            maxLines = 2,
+                            modifier = Modifier
+                                .padding(8.dp, 16.dp)
+                                .weight(1f)
+                        )
+                    }
+                }
+
                 item.visitsCuadrant.forEach { visit ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically
