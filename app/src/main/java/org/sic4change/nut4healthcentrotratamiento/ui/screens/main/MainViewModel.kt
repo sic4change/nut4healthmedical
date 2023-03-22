@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
@@ -26,11 +27,18 @@ class MainViewModel() : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val user: User? = null,
+        val point: Point? = null,
         val logout: Boolean = false,
         val exit: Boolean = false,
         val tutor: Tutor? = null,
         val tutorChecked: String = ""
     )
+
+    fun getPoint(pointId: String?) {
+        viewModelScope.launch {
+            _state.value = UiState(point = FirebaseDataSource.getPoint(pointId))
+        }
+    }
 
     fun logout() {
         viewModelScope.launch {

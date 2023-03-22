@@ -84,6 +84,20 @@ object FirebaseDataSource {
         return result
     }
 
+    suspend fun getPoint(id: String?): org.sic4change.nut4healthcentrotratamiento.data.entitities.Point? = withContext(Dispatchers.IO) {
+        val pointsRef = firestore.collection("points")
+        val query = pointsRef.whereEqualTo("id", id)
+        val result = query.get().await()
+        val networkPointsContainer = NetworkPointsContainer(result.toObjects(Point::class.java))
+        try {
+            networkPointsContainer.results[0].let {
+                it.toDomainPoint()
+            }
+        } catch (e : Exception) {
+            null
+        }
+    }
+
     suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("active", true).orderBy("name", Query.Direction.ASCENDING )

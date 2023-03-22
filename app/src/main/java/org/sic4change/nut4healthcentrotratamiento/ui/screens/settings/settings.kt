@@ -42,6 +42,13 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
+            viewModel.getPoint(viewModelState.user!!.point)
+        }
+    }
+
+    LaunchedEffect(viewModelState.point) {
+        if (viewModelState.point != null) {
+            mainState.point.value = viewModelState.point!!.fullName
         }
     }
 
@@ -71,19 +78,27 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
                     ) {
 
                         AnimatedVisibility(visible = (mainState.email.value!= null)) {
+                            Text(mainState.email.value, color = colorResource(R.color.colorPrimary))
+                        }
+
+                        AnimatedVisibility(visible = (mainState.email.value!= null)) {
                             Text(mainState.username.value, color = colorResource(R.color.colorPrimary))
+                        }
+
+                        AnimatedVisibility(visible = (mainState.email.value!= null)) {
+                            Text(mainState.role.value, color = colorResource(R.color.colorPrimary))
+                        }
+
+                        AnimatedVisibility(visible = (mainState.point.value!= null)) {
+                            Text(mainState.point.value, color = colorResource(R.color.colorPrimary))
                         }
 
                         Button(
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                            onClick = {
-                                mainState.showLogoutQuestion()
-                            },
+                            onClick = { mainState.showLogoutQuestion() },
                         ) {
                             Text(stringResource(R.string.logout),color = colorResource(R.color.white))
                         }
-
-
 
                     }
                 }

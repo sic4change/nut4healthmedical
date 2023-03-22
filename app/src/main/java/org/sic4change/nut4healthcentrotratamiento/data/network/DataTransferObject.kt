@@ -18,6 +18,15 @@ data class User(
     @Exclude val point: String = "")
 
 @JsonClass(generateAdapter = true)
+data class NetworkPointsContainer(val results: List<Point>)
+
+@JsonClass(generateAdapter = true)
+data class Point(
+    @Exclude val id: String = "",
+    @Exclude val name: String = "",
+    @Exclude val fullName: String = "")
+
+@JsonClass(generateAdapter = true)
 data class NetworkTutorsContainer(val results: List<Tutor>)
 
 @JsonClass(generateAdapter = true)

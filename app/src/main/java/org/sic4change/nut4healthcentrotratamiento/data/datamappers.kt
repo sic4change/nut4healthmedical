@@ -6,6 +6,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
+import org.sic4change.nut4healthcentrotratamiento.data.network.Point as ServerPoint
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.Child as ServerChild
 import org.sic4change.nut4healthcentrotratamiento.data.network.Case as ServerCase
@@ -18,6 +19,10 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.Visit as ServerVi
 
 fun ServerUser.toDomainUser() : User = User(
     id, email, role, username, point
+)
+
+fun ServerPoint.toDomainPoint() : Point = Point(
+    id, name, fullName
 )
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
