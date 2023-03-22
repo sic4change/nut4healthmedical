@@ -24,6 +24,7 @@ import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.MessageLogout
 
 @ExperimentalFoundationApi
 @OptIn(ExperimentalAnimationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
@@ -49,11 +50,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onNotificationChildClick:
         activity?.finish()
     }
 
-
-
     NUT4HealthScreen {
-
-
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier.background(
@@ -76,7 +73,6 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onNotificationChildClick:
                     .wrapContentSize()
                     .padding(16.dp)
             ) {
-
                 Card {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,7 +93,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onNotificationChildClick:
         }
     }
 
-
-
 }
+
+
 

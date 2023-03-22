@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
@@ -46,7 +47,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorIt
 @Composable
 fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit,
                  onCreateTutorClick: (String) -> Unit,
-                 onNotificationChildClick: (String) -> Unit) {
+                 onNotificationChildClick: (String) -> Unit,
+                 onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
@@ -59,6 +61,9 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             mainState.username.value = viewModelState.user!!.username
             if (MainActivity.notificationChildId.isNotEmpty()) {
                 onNotificationChildClick(MainActivity.notificationChildId)
+            }
+            if (mainState.role.value != "Servicio Salud") {
+                mainState.showRoleError()
             }
         }
     }
@@ -126,11 +131,40 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                 }
             }
         }
-
+        MessageErrorRole(mainState.roleError.value, mainState::showRoleError, viewModel::logout, onLogout)
     }
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageErrorRole(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit, onLogoutSelected: () -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onLogout()
+                        onLogoutSelected()
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.credential_error))
+            },
+        )
+    }
+
+}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi

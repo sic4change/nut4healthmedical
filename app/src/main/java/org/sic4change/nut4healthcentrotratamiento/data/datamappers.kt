@@ -17,7 +17,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.Treatment as Serv
 import org.sic4change.nut4healthcentrotratamiento.data.network.Visit as ServerVisit
 
 fun ServerUser.toDomainUser() : User = User(
-    id, email, role, username
+    id, email, role, username, point
 )
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(

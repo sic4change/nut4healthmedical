@@ -11,12 +11,13 @@ fun rememberMainState(
     email: MutableState<String> = rememberSaveable { mutableStateOf("") },
     role: MutableState<String> = rememberSaveable { mutableStateOf("") },
     logout: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    roleError: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     phoneToCheck: MutableState<String> = rememberSaveable { mutableStateOf("") },
     openDialogSearchByPhone: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     editPhoneToCheck: MutableState<String> = rememberSaveable { mutableStateOf("") },
     filterText: MutableState<String> = rememberSaveable { mutableStateOf("") },
 ) = remember{ MainState(
-    id, username, email, role, logout, phoneToCheck, openDialogSearchByPhone,
+    id, username, email, role, logout, roleError, phoneToCheck, openDialogSearchByPhone,
     editPhoneToCheck, filterText) }
 
 class MainState(
@@ -25,6 +26,7 @@ class MainState(
     val email: MutableState<String>,
     val role: MutableState<String>,
     val logout: MutableState<Boolean>,
+    val roleError: MutableState<Boolean>,
     val phoneToCheck: MutableState<String>,
     val openDialogSearchByPhone: MutableState<Boolean>,
     val editPhoneToCheck: MutableState<String>,
@@ -33,6 +35,10 @@ class MainState(
 
     fun showLogoutQuestion() {
         logout.value = !logout.value
+    }
+
+    fun showRoleError() {
+        roleError.value = !roleError.value
     }
 
 

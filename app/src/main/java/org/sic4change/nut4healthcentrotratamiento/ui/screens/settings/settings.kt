@@ -49,11 +49,7 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
         activity?.finish()
     }
 
-
-
     NUT4HealthScreen {
-
-
         Box(
             contentAlignment = Alignment.Center
         ) {
@@ -96,8 +92,6 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
         }
         MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout, onLogout)
     }
-
-
 
 }
 

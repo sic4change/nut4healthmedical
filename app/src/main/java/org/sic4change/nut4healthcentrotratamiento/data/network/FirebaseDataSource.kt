@@ -16,7 +16,6 @@ object FirebaseDataSource {
     private val firestore = NUT4HealthFirebaseService.mFirestore
 
     suspend fun isLogged(): Boolean = withContext(Dispatchers.IO) {
-
         firestoreAuth.currentUser != null
     }
 

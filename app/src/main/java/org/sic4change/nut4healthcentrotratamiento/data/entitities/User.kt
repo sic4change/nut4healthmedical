@@ -4,5 +4,6 @@ data class User(
     override val id: String,
     val email: String,
     val role: String,
-    val username: String
+    val username: String,
+    val point: String?,
 ) : Item

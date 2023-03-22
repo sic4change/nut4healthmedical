@@ -125,6 +125,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
                     )
                 },
+                onLogout = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.LOGIN).route
+                    )
+                }
             )
         }
 
@@ -135,14 +140,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 )
             })
         }
-
-        /*composable(NavCommand.ContentType(Feature.CREATETUTOR)) {
-            TutorCreateScreen(onCreateTutor = {
-                navController.navigate(
-                    NavCommand.ContentType(Feature.TUTORS).route
-                )
-            })
-        }*/
 
         composable(NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL)) {
             TutorDetailScreen(

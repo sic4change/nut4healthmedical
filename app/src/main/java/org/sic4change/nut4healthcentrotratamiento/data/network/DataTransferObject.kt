@@ -14,7 +14,8 @@ data class User(
     @Exclude val email: String = "",
     @Exclude val role: String = "",
     @Exclude val username: String = "",
-    @Exclude val photo: String = "")
+    @Exclude val photo: String = "",
+    @Exclude val point: String = "")
 
 @JsonClass(generateAdapter = true)
 data class NetworkTutorsContainer(val results: List<Tutor>)
