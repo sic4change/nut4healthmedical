@@ -6,8 +6,12 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
@@ -78,26 +83,142 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
                     ) {
 
                         AnimatedVisibility(visible = (mainState.email.value!= null)) {
-                            Text(mainState.email.value, color = colorResource(R.color.colorPrimary))
+                            TextField(value = mainState.username.value,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = colorResource(R.color.colorPrimary),
+                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    cursorColor = colorResource(R.color.colorAccent),
+                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                ),
+                                enabled = false,
+                                onValueChange = {},
+                                textStyle = MaterialTheme.typography.h6,
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    capitalization = KeyboardCapitalization.Sentences),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp, 0.dp),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                                label = { Text(stringResource(R.string.username), color = colorResource(R.color.disabled_color)) })
+
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
 
                         AnimatedVisibility(visible = (mainState.email.value!= null)) {
-                            Text(mainState.username.value, color = colorResource(R.color.colorPrimary))
+                                TextField(value = mainState.email.value,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    ),
+                                    enabled = false,
+                                    onValueChange = {},
+                                    textStyle = MaterialTheme.typography.h6,
+                                    keyboardOptions = KeyboardOptions.Default.copy(
+                                        capitalization = KeyboardCapitalization.Sentences),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp, 0.dp),
+                                    leadingIcon = {
+                                        Icon(Icons.Filled.Email, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                                    label = { Text(stringResource(R.string.username), color = colorResource(R.color.disabled_color)) })
+                                Spacer(modifier = Modifier.height(8.dp))
                         }
 
                         AnimatedVisibility(visible = (mainState.email.value!= null)) {
-                            Text(mainState.role.value, color = colorResource(R.color.colorPrimary))
+                                TextField(value = mainState.role.value,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    ),
+                                    enabled = false,
+                                    onValueChange = {},
+                                    textStyle = MaterialTheme.typography.h6,
+                                    keyboardOptions = KeyboardOptions.Default.copy(
+                                        capitalization = KeyboardCapitalization.Sentences
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp, 0.dp),
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Filled.VerifiedUser,
+                                            null,
+                                            tint = colorResource(R.color.colorPrimary),
+                                            modifier = Modifier.clickable { /* .. */ })
+                                    },
+                                    label = {
+                                        Text(
+                                            stringResource(R.string.username),
+                                            color = colorResource(R.color.disabled_color)
+                                        )
+                                    })
+                                Spacer(modifier = Modifier.height(8.dp))
                         }
 
                         AnimatedVisibility(visible = (mainState.point.value!= null)) {
-                            Text(mainState.point.value, color = colorResource(R.color.colorPrimary))
+                                TextField(value = mainState.point.value,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    ),
+                                    enabled = false,
+                                    onValueChange = {},
+                                    textStyle = MaterialTheme.typography.h6,
+                                    keyboardOptions = KeyboardOptions.Default.copy(
+                                        capitalization = KeyboardCapitalization.Sentences
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp, 0.dp),
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Filled.LocalHospital,
+                                            null,
+                                            tint = colorResource(R.color.colorPrimary),
+                                            modifier = Modifier.clickable { /* .. */ })
+                                    },
+                                    label = {
+                                        Text(
+                                            stringResource(R.string.username),
+                                            color = colorResource(R.color.disabled_color)
+                                        )
+                                    })
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                        Button(
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                            onClick = { mainState.showChangePassQuestion() },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp, 0.dp),
+                        ) {
+                            Text(stringResource(R.string.change_password), color = colorResource(R.color.white), style = MaterialTheme.typography.h6)
                         }
 
                         Button(
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = { mainState.showLogoutQuestion() },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp, 0.dp),
                         ) {
-                            Text(stringResource(R.string.logout),color = colorResource(R.color.white))
+                            Text(stringResource(R.string.logout), color = colorResource(R.color.white), style = MaterialTheme.typography.h6)
                         }
 
                     }
@@ -105,7 +226,48 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
             }
 
         }
+        MessageForgotPassword(mainState.changePass.value, mainState::showChangePassQuestion, mainState.email.value, viewModel::changePassword)
         MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout, onLogout)
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageChangePassword(showDialog: Boolean, setShowDialog: () -> Unit, email: String, onChangePassword: (String) -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onChangePassword(email)
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.close),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.forgot_password_question))
+            },
+        )
     }
 
 }

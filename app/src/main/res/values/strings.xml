@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">NUT4Health Centro Tratamiento</string>
+    <string name="username">Usuario</string>
+    <string name="role">Rol</string>
+    <string name="centre">Centro de tratamiento</string>
     <string name="reveal_password">Mostrar contraseña</string>
+    <string name="change_password">Cambiar contraseña</string>
     <string name="hide_password">Ocultar contraseña</string>
     <string name="email">Correo electrónico</string>
     <string name="best_email">Usa tu correo electrónico</string>
@@ -9,7 +13,7 @@
     <string name="login">ENTRAR</string>
     <string name="terms_and_conditions">Términos y condiciones</string>
     <string name="nut4health">NUT4Health</string>
-    <string name="forgot_password_question">Si aceptas enviaremos a tu correo las intrucciones para recuperar tu contraseña</string>
+    <string name="forgot_password_question">Si aceptas enviaremos a tu correo las intrucciones para fijar tu contraseña</string>
     <string name="send_email">Enviar correo</string>
     <string name="valid_email">Debe ser un correo válido</string>
     <string name="valid_pass">La contraseña debe tener al menos 5 caracteres</string>
@@ -17,7 +21,7 @@
     <string name="email_or_pass_incorrect">Correo electrónico o contraseña incorrecta</string>
     <string name="no_error" />
     <string name="accept">Aceptar</string>
-    <string name="close">Cerrada</string>
+    <string name="close">Cerrar</string>
     <string name="logout">Cerrar sesión</string>
     <string name="logout_question">¿Estás seguro que quieres cerrar sesión?</string>
     <string name="credential_error">Acceso no permitido</string>

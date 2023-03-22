@@ -10,6 +10,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginViewModel
 import java.util.*
 
 class MainViewModel() : ViewModel() {
@@ -29,6 +30,7 @@ class MainViewModel() : ViewModel() {
         val user: User? = null,
         val point: Point? = null,
         val logout: Boolean = false,
+        val changePassword: Boolean = false,
         val exit: Boolean = false,
         val tutor: Tutor? = null,
         val tutorChecked: String = ""
@@ -45,6 +47,13 @@ class MainViewModel() : ViewModel() {
             FirebaseDataSource.logout()
             _state.value = UiState(user = null)
             _state.value = UiState(logout = true)
+        }
+    }
+
+    fun changePassword(email: String) {
+        viewModelScope.launch {
+            _state.value =
+                UiState(changePassword = FirebaseDataSource.forgotPassword(email.filter { !it.isWhitespace() }))
         }
     }
 

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">NUT4Health Poste de santé</string>
+    <string name="username">Utilisateur</string>
+    <string name="role">Rôle</string>
+    <string name="centre">Poste de santé</string>
+    <string name="change_password">Changer de mot de passe</string>
     <string name="reveal_password">Afficher le mot de passe</string>
     <string name="hide_password">Masquer le mot de passe</string>
     <string name="email">e-mail</string>
@@ -9,7 +13,7 @@
     <string name="login">ENTRER</string>
     <string name="terms_and_conditions">Termes et conditions</string>
     <string name="nut4health">NUT4Health</string>
-    <string name="forgot_password_question"> Si vous acceptez, nous vous enverrons par e-mail les instructions pour récupérer votre mot de passe </string>
+    <string name="forgot_password_question">Si vous acceptez, nous enverrons à votre e-mail les instructions pour définir votre mot de passe.</string>
     <string name="send_email">Envoyer e-mail</string>
     <string name="valid_email">Doit être un e-mail valide</string>
     <string name="valid_pass">Le mot de passe doit comporter au moins 5 caractères</string>
