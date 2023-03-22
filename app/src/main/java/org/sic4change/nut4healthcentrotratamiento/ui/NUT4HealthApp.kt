@@ -84,6 +84,7 @@ fun NUT4HealthApp() {
                 drawerContent = {
                     if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
                         DrawerContent(
+                            title = stringResource(R.string.app_name),
                             drawerOptions = NUT4HealthAppState.DRAWER_OPTIONS,
                             selectedIndex = appState.drawerSelectedIndex,
                             onOptionClick = { navItem ->

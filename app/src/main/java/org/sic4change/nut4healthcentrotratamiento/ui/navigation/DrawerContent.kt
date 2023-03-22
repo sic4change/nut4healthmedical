@@ -32,6 +32,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.BottomView
 
 @Composable
 fun DrawerContent(
+    title: String,
     drawerOptions: List<NavItem>,
     selectedIndex: Int,
     onOptionClick: (NavItem) -> Unit
@@ -58,7 +59,7 @@ fun DrawerContent(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Image(
-                    painter = painterResource(R.mipmap.rosa_desierto),
+                    painter = painterResource(R.mipmap.icon),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -70,7 +71,7 @@ fun DrawerContent(
 
             }
             Text(
-                stringResource(R.string.rosa_desierto),
+                title,
                 color = colorResource(R.color.colorPrimary),
                 style = MaterialTheme.typography.h6,
                 textAlign = TextAlign.Center,
