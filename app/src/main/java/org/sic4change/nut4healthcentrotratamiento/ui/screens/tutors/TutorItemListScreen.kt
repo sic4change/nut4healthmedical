@@ -163,8 +163,7 @@ fun  TutorItemsList(
                 ) {
                     LazyVerticalGrid(
                         cells = GridCells.Adaptive(4000.dp),
-                        contentPadding = PaddingValues(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp),
-                        modifier = modifier
+                        contentPadding = PaddingValues(top = 32.dp, bottom = 0.dp, end = 0.dp, start = 0.dp),
                     ) {
                         items(items) {
                             TutorListItem(

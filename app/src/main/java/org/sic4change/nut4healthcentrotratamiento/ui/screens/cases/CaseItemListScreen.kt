@@ -141,7 +141,7 @@ fun CaseItemsList(
                 ) {
                     LazyVerticalGrid(
                         cells = GridCells.Adaptive(4000.dp),
-                        contentPadding = PaddingValues(4.dp),
+                        contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
                         modifier = modifier
                     ) {
                         items(items) {
