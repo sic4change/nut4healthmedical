@@ -378,17 +378,21 @@ fun DisableCheckNUT4H(text: String, checked: Boolean) {
         verticalAlignment = Alignment.CenterVertically,
 
         ) {
-        Text(
-            color = colorResource(R.color.colorPrimary),
-            text = text,
-            style = MaterialTheme.typography.body1,
-        )
 
         Checkbox(
             checked = checked,
             onCheckedChange = null,
             colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
         )
+
+        Spacer(modifier = Modifier.width(16.dp) )
+
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = text,
+            style = MaterialTheme.typography.body1,
+        )
+
     }
 }
 

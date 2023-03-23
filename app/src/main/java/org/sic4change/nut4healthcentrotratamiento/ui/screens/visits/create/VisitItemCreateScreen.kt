@@ -532,17 +532,19 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
         verticalAlignment = Alignment.CenterVertically,
 
         ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+
         Text(
             color = colorResource(R.color.colorPrimary),
             text = text,
             style = MaterialTheme.typography.body1,
         )
 
-        Checkbox(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
-        )
+
     }
 }
 
@@ -568,17 +570,18 @@ fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (B
 
         ) {
 
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChangeSymtom,
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+
         Text(
             color = colorResource(R.color.colorPrimary),
             text = symtomTag,
             style = MaterialTheme.typography.body1,
         )
 
-        Checkbox(
-            checked = checked,
-            onCheckedChange = onCheckedChangeSymtom,
-            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
-        )
     }
 
 }
@@ -607,16 +610,16 @@ fun ItemListTreatments(treatment: Treatment, checked: Boolean,  onCheckedChangeT
 
         ) {
 
-        Text(
-            color = colorResource(R.color.colorPrimary),
-            text = treatmentTag,
-            style = MaterialTheme.typography.body1,
-        )
-
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChangeTreatment,
             colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = treatmentTag,
+            style = MaterialTheme.typography.body1,
         )
     }
 
