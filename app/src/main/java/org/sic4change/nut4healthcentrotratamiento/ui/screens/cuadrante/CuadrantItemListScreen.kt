@@ -34,7 +34,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 @Composable
 fun CuadrantItemsListScreen(
     loading: Boolean = false,
-    items: List<Cuadrant>
+    items: List<Cuadrant?>
 ) {
         var bottomSheetItem by remember { mutableStateOf<Cuadrant?>(null) }
         val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -96,7 +96,7 @@ fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
 @Composable
 fun CuadrantItemsList(
     loading: Boolean,
-    items: List<Cuadrant>,
+    items: List<Cuadrant?>,
     modifier: Modifier = Modifier
 ) {
     Column(

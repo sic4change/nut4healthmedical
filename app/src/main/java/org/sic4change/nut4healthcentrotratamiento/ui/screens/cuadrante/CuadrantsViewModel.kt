@@ -24,7 +24,7 @@ class CuadrantsViewModel() : ViewModel() {
 
     data class  UiState(
         val loading: Boolean = false,
-        val cuadrants: List<Cuadrant> = emptyList(),
+        val cuadrants: List<Cuadrant?> = emptyList(),
     )
 
 }

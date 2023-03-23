@@ -634,61 +634,71 @@ object FirebaseDataSource {
         status
     }
 
-    suspend fun getActiveCases(): List<Cuadrant> = withContext(Dispatchers.IO) {
+    suspend fun getActiveCases(): List<Cuadrant?> = withContext(Dispatchers.IO) {
+        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+        val userRef = firestore.collection("users")
+        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+        val resultUser = queryUser.get().await()
+        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+        networkUserContainer.results[0].let { user ->
+            val tutorsRef = firestore.collection("tutors")
+            val queryTutor = tutorsRef.whereEqualTo("point", user.point).orderBy("name", Query.Direction.ASCENDING)
+            val resultTutor = queryTutor.get().await()
+            val networkTutorsContainer =
+                NetworkTutorsContainer(resultTutor.toObjects(Tutor::class.java))
+            val tutors = networkTutorsContainer.results
 
-        val tutorsRef = firestore.collection("tutors")
-        val queryTutor =
-            tutorsRef.whereEqualTo("active", true).orderBy("name", Query.Direction.ASCENDING)
-        val resultTutor = queryTutor.get().await()
-        val networkTutorsContainer =
-            NetworkTutorsContainer(resultTutor.toObjects(Tutor::class.java))
-        val tutors = networkTutorsContainer.results
+            val childsRef = firestore.collection("childs")
+            val queryChilds = childsRef.whereEqualTo("point", user.point).orderBy("name", Query.Direction.ASCENDING)
+            val resultChild = queryChilds.get().await()
+            val networkChildsContainer =
+                NetworkChildsContainer(resultChild.toObjects(Child::class.java))
+            val childs = networkChildsContainer.results
 
-        val childsRef = firestore.collection("childs")
-        val queryChilds = childsRef.orderBy("name", Query.Direction.ASCENDING)
-        val resultChild = queryChilds.get().await()
-        val networkChildsContainer =
-            NetworkChildsContainer(resultChild.toObjects(Child::class.java))
-        val childs = networkChildsContainer.results
+            val visitsRef = firestore.collection("visits")
+            val queryVisit =
+                visitsRef.whereEqualTo("point", user.point).orderBy("createdate", Query.Direction.DESCENDING)
+            val resultVisit = queryVisit.get().await()
+            val networkVisitsContainer =
+                NetworkVisitContainer(resultVisit.toObjects(Visit::class.java))
+            val visits = networkVisitsContainer.results.map { it.toDomainVisit() }
 
-        val visitsRef = firestore.collection("visits")
-        val queryVisit =
-            visitsRef.orderBy("createdate", Query.Direction.DESCENDING)
-        val resultVisit = queryVisit.get().await()
-        val networkVisitsContainer =
-            NetworkVisitContainer(resultVisit.toObjects(Visit::class.java))
-        val visits = networkVisitsContainer.results.map { it.toDomainVisit() }
-
-        val casesRef = firestore.collection("cases")
-        val query = casesRef.whereIn("status", listOf("Abierta", "Ouvert"))
-            .orderBy("lastdate", Query.Direction.DESCENDING)
-        val result = query.get().await()
-        val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
-        networkCasesContainer.results.map { case ->
-            val child = childs.findLast { it.id == case.childId }
-            val tutor = tutors.findLast { it.id == case.tutorId }
-            var visitsToAdd : MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = arrayListOf()
-            visits.forEach {
-                if (it.caseId == case.id) {
-                    visitsToAdd.add(it)
+            val casesRef = firestore.collection("cases")
+            val query = casesRef.whereIn("status", listOf("Abierta", "Ouvert"))
+                .orderBy("lastdate", Query.Direction.DESCENDING)
+            val result = query.get().await()
+            val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+            networkCasesContainer.results.filter { it.point == user.point }.map { case ->
+                val child = childs.findLast { it.id == case.childId }
+                val tutor = tutors.findLast { it.id == case.tutorId }
+                var visitsToAdd : MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = arrayListOf()
+                visits.forEach {
+                    if (it.caseId == case.id) {
+                        visitsToAdd.add(it)
+                    }
+                }
+                if (tutor != null) {
+                    Cuadrant(
+                        case.id,
+                        case.childId,
+                        (child?.name ?: "") + " " + (child?.surnames ?: ""),
+                        case.tutorId,
+                        (tutor?.name ?: "") + " " + (tutor?.surnames ?: ""),
+                        case.name,
+                        case.status,
+                        case.createdate,
+                        case.lastdate,
+                        Date(),
+                        visitsToAdd.toList(),
+                        case.visits.toString(),
+                        case.observations
+                    )
+                } else {
+                    null
                 }
             }
-            Cuadrant(
-                case.id,
-                case.childId,
-                (child?.name ?: "") + " " + (child?.surnames ?: ""),
-                case.tutorId,
-                (tutor?.name ?: "") + " " + (tutor?.surnames ?: ""),
-                case.name,
-                case.status,
-                case.createdate,
-                case.lastdate,
-                Date(),
-                visitsToAdd.toList(),
-                case.visits.toString(),
-                case.observations
-            )
         }
+
     }
 
 }

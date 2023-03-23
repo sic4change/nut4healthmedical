@@ -19,7 +19,7 @@ fun rememberCuadrantsState(
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
-    cuadrants:  MutableState<List<Cuadrant>> = rememberSaveable { mutableStateOf(emptyList()) },
+    cuadrants:  MutableState<List<Cuadrant?>> = rememberSaveable { mutableStateOf(emptyList()) },
     cuadrantsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
 ) = remember{ CuadrantState(id, childId, name, status, visits, lastDate, createdDate, observations,
     cuadrants, cuadrantsSize) }
@@ -33,7 +33,7 @@ class CuadrantState(
     val lastDate: MutableState<Date>,
     val createdDate: MutableState<Date>,
     val observations: MutableState<String>,
-    val cases: MutableState<List<Cuadrant>>,
+    val cases: MutableState<List<Cuadrant?>>,
     val casesSize: MutableState<Int>,
 ) {
 
