@@ -99,11 +99,19 @@ object FirebaseDataSource {
     }
 
     suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
-        val tutorsRef = firestore.collection("tutors")
-        val query = tutorsRef.whereEqualTo("active", true).orderBy("name", Query.Direction.ASCENDING )
-        val result = query.get().await()
-        val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
-        networkTutorsContainer.results.map { it.toDomainTutor() }
+        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+        val userRef = firestore.collection("users")
+        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+        val resultUser = queryUser.get().await()
+        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+        networkUserContainer.results[0].let {
+            val point = it.point
+            val tutorsRef = firestore.collection("tutors")
+            val query = tutorsRef.whereEqualTo("point", point).orderBy("name", Query.Direction.ASCENDING )
+            val result = query.get().await()
+            val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+            networkTutorsContainer.results.filter { it.active }.map { it.toDomainTutor() }
+        }
     }
 
     suspend fun getTutor(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
@@ -373,17 +381,29 @@ object FirebaseDataSource {
     }
 
     suspend fun checkTutorByPhone(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
-        val tutorsRef = firestore.collection("tutors")
-        val query = tutorsRef.whereEqualTo("phone", phone.filter { !it.isWhitespace() })
-        val result = query.get().await()
-        val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
-        try {
-            networkTutorsContainer.results[0].let {
-                it.toDomainTutor()
+        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+        val userRef = firestore.collection("users")
+        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+        val resultUser = queryUser.get().await()
+        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+        networkUserContainer.results[0].let { user ->
+            val tutorsRef = firestore.collection("tutors")
+            val query = tutorsRef.whereEqualTo("phone", phone.filter { !it.isWhitespace() })
+            val result = query.get().await()
+            val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+            try {
+                networkTutorsContainer.results[0].let {
+                    if (it.point == user.point) {
+                        it.toDomainTutor()
+                    } else {
+                        null
+                    }
+                }
+            } catch (e : Exception) {
+                null
             }
-        } catch (e : Exception) {
-            null
         }
+
     }
 
     suspend fun getMalnutritionChildTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable> = withContext(Dispatchers.IO) {
