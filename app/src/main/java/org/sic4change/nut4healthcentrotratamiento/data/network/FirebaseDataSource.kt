@@ -124,10 +124,19 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create tutor with firebase")
             try {
-                val tutorsRef = firestore.collection("tutors")
-                val id = tutorsRef.add(tutor.toServerTutor()).await().id
-                tutorsRef.document(id).update("id", id,).await()
-                Timber.d("Create tutor result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val result = query.get().await()
+                val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
+                networkUserContainer.results[0].let {
+                    val user = it.toDomainUser()
+                    tutor.point = user.point
+                    val tutorsRef = firestore.collection("tutors")
+                    val id = tutorsRef.add(tutor.toServerTutor()).await().id
+                    tutorsRef.document(id).update("id", id,).await()
+                    Timber.d("Create tutor result: ok")
+                }
             } catch (ex : Exception) {
                 Timber.d("Create tutor result: false ${ex.message}")
             }
@@ -151,9 +160,18 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update tutor from firebase")
             try {
-                val tutorsRef = firestore.collection("tutors")
-                tutorsRef.document(tutor.id).set(tutor.toServerTutor()).await()
-                Timber.d("update tutor result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get().await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    tutor.point = user.point
+                    val tutorsRef = firestore.collection("tutors")
+                    tutorsRef.document(tutor.id).set(tutor.toServerTutor()).await()
+                    Timber.d("update tutor result: ok")
+                }
+
             } catch (ex: Exception) {
                 Timber.d("update tutor result: false ${ex.message}")
             }
@@ -180,17 +198,25 @@ object FirebaseDataSource {
         } else {
             null
         }
-
     }
 
     suspend fun createChild(child: org.sic4change.nut4healthcentrotratamiento.data.entitities.Child) {
         withContext(Dispatchers.IO) {
             Timber.d("try to create child with firebase")
             try {
-                val childsRef = firestore.collection("childs")
-                val id = childsRef.add(child.toServerChild()).await().id
-                childsRef.document(id).update("id", id,).await()
-                Timber.d("Create child result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val result = query.get().await()
+                val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
+                networkUserContainer.results[0].let {
+                    val user = it.toDomainUser()
+                    child.point = user.point
+                    val childsRef = firestore.collection("childs")
+                    val id = childsRef.add(child.toServerChild()).await().id
+                    childsRef.document(id).update("id", id,).await()
+                    Timber.d("Create child result: ok")
+                }
             } catch (ex : Exception) {
                 Timber.d("Create child result: false ${ex.message}")
             }
@@ -214,9 +240,17 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update child from firebase")
             try {
-                val childsRef = firestore.collection("childs")
-                childsRef.document(child.id).set(child.toServerChild()).await()
-                Timber.d("update child result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get().await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    child.point = user.point
+                    val childsRef = firestore.collection("childs")
+                    childsRef.document(child.id).set(child.toServerChild()).await()
+                    Timber.d("update child result: ok")
+                }
             } catch (ex: Exception) {
                 Timber.d("update child result: false ${ex.message}")
             }
@@ -235,21 +269,30 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create case with firebase")
             try {
-                val childsRef = firestore.collection("childs")
-                val query = childsRef.whereEqualTo("id", case.childId)
-                val result = query.get().await()
-                val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
-                networkChildsContainer.results[0].let {
-                    val tutorId = it.toDomainChild().tutorId
-                    val caseToUpload = org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                        case.id, case.childId, tutorId, case.name, case.status, case.createdate,
-                        case.lastdate, case.visits, case.observations)
-                    val casesRef = firestore.collection("cases")
-                    val id = casesRef.add(caseToUpload.toServerCase()).await().id
-                    caseToUpload.id = id
-                    casesRef.document(id).set(caseToUpload.toServerCase()).await()
-                    Timber.d("Create case result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get().await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    val childsRef = firestore.collection("childs")
+                    val queryChild = childsRef.whereEqualTo("id", case.childId)
+                    val resultChild = queryChild.get().await()
+                    val networkChildsContainer = NetworkChildsContainer(resultChild.toObjects(Child::class.java))
+                    networkChildsContainer.results[0].let {
+                        val tutorId = it.toDomainChild().tutorId
+                        val pointId = user.point
+                        val caseToUpload = org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
+                            case.id, case.childId, tutorId, case.name, case.status, case.createdate,
+                            case.lastdate, case.visits, case.observations, pointId)
+                        val casesRef = firestore.collection("cases")
+                        val id = casesRef.add(caseToUpload.toServerCase()).await().id
+                        caseToUpload.id = id
+                        casesRef.document(id).set(caseToUpload.toServerCase()).await()
+                        Timber.d("Create case result: ok")
+                    }
                 }
+
             } catch (ex : Exception) {
                 Timber.d("Create case result: false ${ex.message}")
             }
@@ -287,9 +330,18 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update case from firebase")
             try {
-                val casesRef = firestore.collection("cases")
-                casesRef.document(case.id).set(case.toServerCase()).await()
-                Timber.d("update case result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get().await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    case.point = user.point
+                    val casesRef = firestore.collection("cases")
+                    casesRef.document(case.id).set(case.toServerCase()).await()
+                    Timber.d("update case result: ok")
+                }
+
             } catch (ex: Exception) {
                 Timber.d("update case result: false ${ex.message}")
             }
@@ -405,35 +457,43 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create visit with firebase")
             try {
-                val casesRef = firestore.collection("cases")
-                val queryCase = casesRef.whereEqualTo("id", visit.caseId)
-                val resultCase = queryCase.get().await()
-                val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
-                networkCasesContainer.results[0].let { case ->
-                    val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
-                    visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.measlesVaccinated,
-                    visit.vitamineAVaccinated,
-                        visit.symtoms.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>,
-                        visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
-                        visit.observations)
-                    val visitsRef = firestore.collection("visits")
-                    val id = visitsRef.add(visitToUpdate.toServerVisit()).await().id
-                    visitsRef.document(id).update("id", id,).await()
-                    Timber.d("Create visit result: ok")
-                    val caseRef = firestore.collection("cases")
-                    val query = caseRef.whereEqualTo("id", visit.caseId)
-                    val result = query.get().await()
-                    val networkCaseContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
-                    networkCaseContainer.results[0].let { case ->
-                        val visits = case.visits
-                        caseRef.document(visit.caseId)
-                            .update(
-                                "visits", visits + 1,
-                                "lastdate", Date()
-                            ).await()
-                    }
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get().await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    val casesRef = firestore.collection("cases")
+                    val queryCase = casesRef.whereEqualTo("id", visit.caseId)
+                    val resultCase = queryCase.get().await()
+                    val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
+                    networkCasesContainer.results[0].let { case ->
+                        val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
+                            visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.measlesVaccinated,
+                            visit.vitamineAVaccinated,
+                            visit.symtoms.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>,
+                            visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
+                            visit.observations, user.point)
+                        val visitsRef = firestore.collection("visits")
+                        val id = visitsRef.add(visitToUpdate.toServerVisit()).await().id
+                        visitsRef.document(id).update("id", id,).await()
+                        Timber.d("Create visit result: ok")
+                        val caseRef = firestore.collection("cases")
+                        val query = caseRef.whereEqualTo("id", visit.caseId)
+                        val result = query.get().await()
+                        val networkCaseContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+                        networkCaseContainer.results[0].let { case ->
+                            val visits = case.visits
+                            caseRef.document(visit.caseId)
+                                .update(
+                                    "visits", visits + 1,
+                                    "lastdate", Date()
+                                ).await()
+                        }
 
+                    }
                 }
+
             } catch (ex : Exception) {
                 Timber.d("Create visit result: false ${ex.message}")
             }
@@ -444,9 +504,18 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update visit from firebase")
             try {
-                val visitsRef = firestore.collection("visits")
-                visitsRef.document(visit.id).set(visit.toServerVisit()).await()
-                Timber.d("update visit result: ok")
+                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get().await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    visit.point = user.point
+                    val visitsRef = firestore.collection("visits")
+                    visitsRef.document(visit.id).set(visit.toServerVisit()).await()
+                    Timber.d("update visit result: ok")
+                }
+
             } catch (ex: Exception) {
                 Timber.d("update visit result: false ${ex.message}")
             }

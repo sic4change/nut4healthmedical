@@ -21,4 +21,5 @@ data class Tutor(
     val weight: Double,
     val status: String,
     val active: Boolean,
+    var point: String?,
     ) : Item

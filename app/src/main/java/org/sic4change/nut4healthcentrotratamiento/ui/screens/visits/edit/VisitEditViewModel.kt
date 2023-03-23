@@ -83,7 +83,7 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             val visit = Visit(id, _state.value.visit!!.caseId, childId, _state.value.visit!!.tutorId, Date(), height, weight, 0.0,
                 arm_circunference, status, measlesVaccinated, vitamineAVaccinated,
                 symtoms.filter { it -> it.selected}.toMutableList(), treatments.filter { it -> it.selected}.toMutableList(),
-                observations)
+                observations, "")
             _state.value= UiState(visit = visit)
             FirebaseDataSource.updateVisit(visit)
             _state.value = UiState(editVisit = true)

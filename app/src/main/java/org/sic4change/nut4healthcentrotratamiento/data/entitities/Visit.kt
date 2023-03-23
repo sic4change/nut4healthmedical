@@ -18,4 +18,5 @@ data class Visit(
     val symtoms: MutableList<Symtom>,
     val treatments: MutableList<Treatment>,
     var observations: String,
+    var point: String?,
     ) : Item

@@ -47,7 +47,7 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             val tutor = Tutor(phone,
                 name, surnames, sex, ethnician, birthdate, phone, address,
                 Date(), Date(), childMinor, pregnang, observations, weks, height, weight,
-                status,true)
+                status,true, "")
             _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
             FirebaseDataSource.createTutor(tutor)
             _state.value = UiState(created = true, loading = true, imc = _state.value.imc)

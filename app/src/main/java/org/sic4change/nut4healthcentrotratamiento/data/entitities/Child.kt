@@ -13,4 +13,5 @@ data class Child(
     val createDate: Date,
     val lastDate: Date,
     val observations: String,
+    var point: String?,
     ) : Item

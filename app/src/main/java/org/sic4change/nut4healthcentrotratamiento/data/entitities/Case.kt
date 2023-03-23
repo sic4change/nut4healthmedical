@@ -12,4 +12,5 @@ data class Case(
     val lastdate: Date,
     var visits: String,
     val observations: String,
+    var point: String?,
     ) : Item

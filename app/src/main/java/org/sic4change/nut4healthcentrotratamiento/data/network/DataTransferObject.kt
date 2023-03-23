@@ -15,7 +15,8 @@ data class User(
     @Exclude val role: String = "",
     @Exclude val username: String = "",
     @Exclude val photo: String = "",
-    @Exclude val point: String = "")
+    @Exclude val point: String = ""
+)
 
 @JsonClass(generateAdapter = true)
 data class NetworkPointsContainer(val results: List<Point>)
@@ -49,7 +50,9 @@ data class Tutor(
     @Exclude  val weight: Double = 0.0,
     @Exclude  val status: String = "",
     @Exclude val active: Boolean = false,
-    )
+    @Exclude val point: String? = ""
+)
+
 
 @JsonClass(generateAdapter = true)
 data class NetworkChildsContainer(val results: List<Child>)
@@ -66,6 +69,7 @@ data class Child(
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
     @Exclude val observations: String = "",
+    @Exclude val point: String? = ""
 )
 
 @JsonClass(generateAdapter = true)
@@ -82,6 +86,7 @@ data class Case(
     @Exclude val lastdate: Date = Date(),
     @Exclude val visits: Int = 0,
     @Exclude val observations: String = "",
+    @Exclude val point: String? = ""
 )
 
 @JsonClass(generateAdapter = true)
@@ -183,6 +188,7 @@ data class Visit(
     @Exclude var symtoms: List<Symtom> = emptyList(),
     @Exclude var treatments: List<Treatment> = emptyList(),
     @Exclude var observations: String = "",
+    @Exclude var point: String? = "",
 )
 
 

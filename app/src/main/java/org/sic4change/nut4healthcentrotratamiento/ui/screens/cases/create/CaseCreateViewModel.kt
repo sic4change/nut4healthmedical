@@ -38,7 +38,7 @@ class CaseCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     fun createCase(name: String, status: String, observations: String) {
         viewModelScope.launch {
             val case = Case(childId, childId, childId, name, status,
-                Date(), Date(), "0", observations)
+                Date(), Date(), "0", observations, "")
             _state.value= UiState(case = case)
             FirebaseDataSource.createCase(case)
             _state.value = UiState(created = true)

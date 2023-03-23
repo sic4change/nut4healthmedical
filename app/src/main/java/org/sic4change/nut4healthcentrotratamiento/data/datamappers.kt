@@ -27,28 +27,28 @@ fun ServerPoint.toDomainPoint() : Point = Point(
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
-    pregnant, observations, weeks.toString(), height, weight, status, active
+    pregnant, observations, weeks.toString(), height, weight, status, active, point
 )
 
 fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
-    pregnant, observations, weeks.toInt(), height, weight, status, active
+    pregnant, observations, weeks.toInt(), height, weight, status, active, point
 )
 
 fun ServerChild.toDomainChild() : Child = Child(
-    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations
+    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations, point
 )
 
 fun Child.toServerChild() : ServerChild = ServerChild(
-    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations
+    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations, point
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, tutorId, name, status, createdate, lastdate, visits.toString(), observations
+    id, childId, tutorId, name, status, createdate, lastdate, visits.toString(), observations, point
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations
+    id, childId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations, point
 )
 
 fun ServerContract.toDomainContract() : Contract = Contract(
@@ -94,13 +94,13 @@ fun Treatment.toServerTreatment() : ServerTreatment = ServerTreatment(
 fun ServerVisit.toDomainVisit() : Visit {
     return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toDomainSymtom() }.toMutableList(),
-        treatments.map { it.toDomainTreatment() }.toMutableList(), observations)
+        treatments.map { it.toDomainTreatment() }.toMutableList(), observations, point)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
     return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
-        treatments.map { it.toServerTreatment() }, observations)
+        treatments.map { it.toServerTreatment() }, observations, point)
 }
 
 
