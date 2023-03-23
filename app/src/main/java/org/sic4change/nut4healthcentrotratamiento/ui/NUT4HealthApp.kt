@@ -58,8 +58,7 @@ fun NUT4HealthApp() {
                             }
                         },
                         backgroundColor = colorResource(R.color.colorPrimary),
-                        title = { Text(stringResource(R.string.app_name),
-                            color = colorResource(R.color.white)) },
+                        title = { },
                         navigationIcon = {
                             if (!appState.currentRoute.contains("login/detail") &&
                                 !appState.currentRoute.contains("settings/home") &&
@@ -98,13 +97,11 @@ fun NUT4HealthApp() {
             }
         } else {
             Scaffold (
-
                 scaffoldState = appState.scaffoldState
             ) {
                 Navigation(appState.navController)
             }
         }
-
 
     }
 }
