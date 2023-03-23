@@ -1,6 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import com.google.firebase.firestore.Query
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -699,6 +700,18 @@ object FirebaseDataSource {
             }
         }
 
+    }
+
+    suspend fun subscribeToPointNotifications() = withContext(Dispatchers.IO) {
+        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+        val userRef = firestore.collection("users")
+        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+        val resultUser = queryUser.get().await()
+        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+        networkUserContainer.results[0].let {
+            val point = it.point
+            FirebaseMessaging.getInstance().subscribeToTopic(point)
+        }
     }
 
 }

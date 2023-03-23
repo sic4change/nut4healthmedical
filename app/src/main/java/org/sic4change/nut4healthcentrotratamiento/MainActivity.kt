@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun notificationSetting() {
-        FirebaseMessaging.getInstance().subscribeToTopic("rosa_del_desierto")
         val childId: String? = intent.getStringExtra("childId")
         childId?.let {
             notificationChildId = childId
