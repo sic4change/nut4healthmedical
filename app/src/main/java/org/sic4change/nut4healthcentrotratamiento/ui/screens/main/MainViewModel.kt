@@ -34,7 +34,8 @@ class MainViewModel() : ViewModel() {
         val changePassword: Boolean = false,
         val exit: Boolean = false,
         val tutor: Tutor? = null,
-        val tutorChecked: String = ""
+        val tutorChecked: String = "",
+        val avatarUrl: String = ""
     )
 
     fun getPoint(pointId: String?) {
@@ -76,10 +77,9 @@ class MainViewModel() : ViewModel() {
         _state.value = UiState(tutor = null)
     }
 
-    //Aqui falta concretar esto para que se actualice el avatar en Firebase
     fun updateAvatar(fileUri: Uri) {
         viewModelScope.launch {
-           // _state.value = _state.value.copy(avatarUrl = updateAvatarUseCase(fileUri.toString()))
+            _state.value = _state.value.copy(avatarUrl = FirebaseDataSource.updatePhotoAvatar(fileUri.toString()))
         }
 
     }

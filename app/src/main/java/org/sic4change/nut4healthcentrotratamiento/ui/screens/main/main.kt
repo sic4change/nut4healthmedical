@@ -42,6 +42,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel(), onNotificationChildClick:
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
+            mainState.avatar.value = viewModelState.user!!.photo
             onNotificationChildClick(MainActivity.notificationChildId)
         }
     }

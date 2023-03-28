@@ -14,7 +14,7 @@ data class User(
     @Exclude val email: String = "",
     @Exclude val role: String = "",
     @Exclude val username: String = "",
-    @Exclude val photo: String = "",
+    @Exclude var photo: String = "",
     @Exclude val point: String = ""
 )
 

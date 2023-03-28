@@ -69,6 +69,7 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
+            mainState.avatar.value = viewModelState.user!!.photo
             viewModel.getPoint(viewModelState.user!!.point)
         }
     }
@@ -341,7 +342,7 @@ fun PhotoPermissions(
                             },
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_arrow_down), "Back",
+                                painter = painterResource(id = R.drawable.ic_back), "Back",
                                 tint = Color.Unspecified
                             )
                         }
@@ -359,7 +360,7 @@ fun PhotoPermissions(
                             },
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                                painter = painterResource(id = R.drawable.ic_gallery),
                                 "Gallery",
                                 tint = Color.Unspecified,
                                 modifier = Modifier

@@ -1,7 +1,9 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
+import android.net.Uri
 import com.google.firebase.firestore.Query
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -80,6 +82,33 @@ object FirebaseDataSource {
                 result = true
             } catch (ex : Exception) {
                 Timber.d("Request change password: error ${ex.message}")
+            }
+        }
+        return result
+    }
+
+    suspend fun updatePhotoAvatar(fileUri: String) : String {
+        var result = ""
+        withContext(Dispatchers.IO) {
+            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+            val userRef = firestore.collection("users")
+            val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val resultUser = queryUser.get().await()
+            val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+            networkUserContainer.results[0].let { user ->
+                Timber.d("try to request change avatar image with firebase")
+                val refStorage = FirebaseStorage.getInstance().reference.child("avatars/${user.id}/avatar_medical_${System.currentTimeMillis()}")
+                val resultUpload = refStorage.putFile(Uri.parse(fileUri)).await()
+                resultUpload.let {
+                    val url = it.storage.downloadUrl.await()
+                    url.let {
+                        result = it.toString()
+                        user.photo = result
+                        val usersRef = firestore.collection("users")
+                        usersRef.document(user.id).set(user).await()
+                        Timber.d("update photo user result: ok")
+                    }
+                }
             }
         }
         return result
@@ -380,7 +409,6 @@ object FirebaseDataSource {
         }
 
     }
-
     suspend fun checkTutorByPhone(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
         val firestoreAuth = NUT4HealthFirebaseService.fbAuth
         val userRef = firestore.collection("users")

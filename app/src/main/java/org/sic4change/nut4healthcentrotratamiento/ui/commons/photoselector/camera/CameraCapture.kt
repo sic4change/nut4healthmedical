@@ -91,7 +91,7 @@ fun CameraCapture(
                         previewUseCase = it
                     }
                 )
-                Icon(painter = painterResource(id = R.mipmap.ic_launcher),
+                Icon(painter = painterResource(id = R.drawable.ic_take_photo),
                     "Take",
                     tint = Color.Unspecified,
                     modifier = Modifier.size(100.dp).padding(16.dp).align(Alignment.BottomCenter).clickable {

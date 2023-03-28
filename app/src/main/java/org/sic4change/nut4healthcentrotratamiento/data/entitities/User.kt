@@ -6,4 +6,5 @@ data class User(
     val role: String,
     val username: String,
     val point: String?,
+    val photo: String?
 ) : Item
