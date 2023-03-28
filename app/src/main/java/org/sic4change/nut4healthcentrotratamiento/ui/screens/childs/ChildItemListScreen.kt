@@ -9,8 +9,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -138,8 +139,8 @@ fun  ChildItemsList(
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                     modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                 ) {
-                    LazyVerticalGrid(
-                        cells = GridCells.Adaptive(4000.dp),
+                    LazyColumn(
+                        //columns = GridCells.Adaptive(4000.dp),
                         contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
                         modifier = modifier
                     ) {

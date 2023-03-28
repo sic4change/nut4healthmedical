@@ -544,7 +544,7 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
 @Composable
 fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (Boolean) -> Unit) {
 
-    val language = LocaleListCompat.getDefault()[0].toLanguageTag()
+    val language = LocaleListCompat.getDefault()[0]!!.toLanguageTag()
     var symtomTag = ""
     if (language.contains("es-")) {
         symtomTag = symtom.name
@@ -582,7 +582,7 @@ fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (B
 @Composable
 fun ItemListTreatments(treatment: Treatment, checked: Boolean,  onCheckedChangeTreatment : (Boolean) -> Unit) {
 
-    val language = LocaleListCompat.getDefault()[0].toLanguageTag()
+    val language = LocaleListCompat.getDefault()[0]!!.toLanguageTag()
     var treatmentTag = ""
     if (language.contains("es-")) {
         treatmentTag = treatment.name

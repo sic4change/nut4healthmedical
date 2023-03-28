@@ -263,7 +263,7 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val language = LocaleListCompat.getDefault()[0].toLanguageTag()
+        val language = LocaleListCompat.getDefault()[0]!!.toLanguageTag()
 
         Card(
             modifier = Modifier

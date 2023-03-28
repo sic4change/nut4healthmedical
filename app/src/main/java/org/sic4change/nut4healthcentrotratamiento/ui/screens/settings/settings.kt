@@ -1,7 +1,9 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.settings
 
 
+import android.Manifest
 import android.app.Activity
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -18,18 +20,38 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.size.Size
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
+import androidx.compose.foundation.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.*
+import androidx.core.net.toUri
+import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.MultiplePermissionsState
+import com.google.accompanist.permissions.PermissionsRequired
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.photoselector.camera.CameraCapture
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.photoselector.gallery.GallerySelect
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainState
 
 @ExperimentalFoundationApi
 @OptIn(ExperimentalAnimationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
@@ -81,7 +103,46 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
                             .wrapContentSize()
                             .padding(16.dp)
                     ) {
+                        Box(modifier = Modifier.padding(all = 8.dp)) {
+                            val painter = rememberAsyncImagePainter(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .diskCachePolicy(CachePolicy.DISABLED)
+                                    .data(mainState.avatar.value)
+                                    .size(Size.ORIGINAL)
+                                    .placeholder(R.mipmap.ic_launcher)
+                                    .build()
+                            )
+                            Image(
+                                painter = painter,
+                                contentScale = ContentScale.Crop,
+                                contentDescription = "Profile picture",
+                                modifier = Modifier
+                                    .size(150.dp)
+                                    .clip(CircleShape)
+                            )
+                            Canvas(
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .size(size = 31.dp)
+                            ) {
+                                drawCircle(
+                                    color = Color.Gray
+                                )
+                            }
+                            Image(
+                                painter = painterResource(R.mipmap.ic_edit_avatar),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .size(30.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        mainState.showPhotoSelector()
+                                    }
 
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
                         AnimatedVisibility(visible = (mainState.email.value!= null)) {
                             TextField(value = mainState.username.value,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -226,52 +287,115 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
             }
 
         }
+        SelectPhoto(mainState, mainState.showPhotoSelector.value, viewModel::updateAvatar)
         MessageForgotPassword(mainState.changePass.value, mainState::showChangePassQuestion, mainState.email.value, viewModel::changePassword)
         MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout, onLogout)
     }
 
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun MessageChangePassword(showDialog: Boolean, setShowDialog: () -> Unit, email: String, onChangePassword: (String) -> Unit) {
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = {
-            },
-            title = {
-                Text(stringResource(R.string.nut4health))
-            },
-            confirmButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                        onChangePassword(email)
-                    },
-                ) {
-                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+fun PhotoPermissions(
+    mainState: MainState,
+    multiplePermissionState: MultiplePermissionsState,
+    onSavedAvatar: (imageUri: Uri) -> Unit
+) {
+    PermissionsRequired(
+        multiplePermissionsState = multiplePermissionState,
+        permissionsNotGrantedContent = { mainState.showPhotoSelector() },
+        permissionsNotAvailableContent = { mainState.showPhotoSelector() }
+    ) {
+        Box(modifier = Modifier.padding(50.dp, 50.dp, 50.dp, 180.dp)) {
+            var imageUri by remember { mutableStateOf(EMPTY_IMAGE_URI) }
+            if (imageUri == EMPTY_IMAGE_URI) {
+                var showGallerySelect by remember { mutableStateOf(false) }
+                if (showGallerySelect) {
+                    GallerySelect(
+                        onImageUri = { uri ->
+                            showGallerySelect = false
+                            imageUri = uri
+                            mainState.showPhotoSelector()
+                            onSavedAvatar(imageUri)
+                        }
+                    )
+                } else {
+                    Box(Modifier.padding(0.dp, 0.dp, 0.dp, 0.dp)) {
+                        CameraCapture(
+                            onImageFile = { file ->
+                                imageUri = file.toUri()
+                                mainState.showPhotoSelector()
+                                onSavedAvatar(imageUri)
+                            }
+                        )
+                        IconButton(
+                            modifier = Modifier
+                                .defaultMinSize(
+                                    minWidth = 20.dp,
+                                    minHeight = 20.dp
+                                )
+                                .align(Alignment.TopStart)
+                                .padding(4.dp),
+                            onClick = {
+                                mainState.showPhotoSelector()
+                            },
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_arrow_down), "Back",
+                                tint = Color.Unspecified
+                            )
+                        }
+
+                        IconButton(
+                            modifier = Modifier
+                                .defaultMinSize(
+                                    minWidth = 40.dp,
+                                    minHeight = 40.dp
+                                )
+                                .align(Alignment.TopEnd)
+                                .padding(4.dp),
+                            onClick = {
+                                showGallerySelect = true
+                            },
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                                "Gallery",
+                                tint = Color.Unspecified,
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .height(40.dp)
+                            )
+                        }
+                    }
                 }
-            },
-            dismissButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                    },
-                ) {
-                    Text(stringResource(R.string.close),color = colorResource(R.color.white))
-                }
-            },
-            text = {
-                Text(stringResource(R.string.forgot_password_question))
-            },
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun SelectPhoto(
+    mainState: MainState,
+    showPhotoSelector: Boolean,
+    onSavedAvatar: (imageUri: Uri) -> Unit
+) {
+    val multiplePermissionState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_MEDIA_LOCATION
         )
+    )
+    if (showPhotoSelector) {
+        PhotoPermissions(
+            mainState = mainState, multiplePermissionState = multiplePermissionState,
+            onSavedAvatar
+        )
+        multiplePermissionState.launchMultiplePermissionRequest()
     }
 
 }
-
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -312,3 +436,5 @@ fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -
     }
 
 }
+
+val EMPTY_IMAGE_URI: Uri = Uri.parse("file://dev/null")

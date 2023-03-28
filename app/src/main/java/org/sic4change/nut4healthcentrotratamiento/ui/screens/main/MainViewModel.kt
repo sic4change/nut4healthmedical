@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.main
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -73,6 +74,14 @@ class MainViewModel() : ViewModel() {
 
     fun resetTutor() {
         _state.value = UiState(tutor = null)
+    }
+
+    //Aqui falta concretar esto para que se actualice el avatar en Firebase
+    fun updateAvatar(fileUri: Uri) {
+        viewModelScope.launch {
+           // _state.value = _state.value.copy(avatarUrl = updateAvatarUseCase(fileUri.toString()))
+        }
+
     }
 
 }

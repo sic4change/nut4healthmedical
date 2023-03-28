@@ -18,9 +18,11 @@ fun rememberMainState(
     openDialogSearchByPhone: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     editPhoneToCheck: MutableState<String> = rememberSaveable { mutableStateOf("") },
     filterText: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    showPhotoSelector: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    avatar: MutableState<String> = rememberSaveable { mutableStateOf("https://firebasestorage.googleapis.com/v0/b/chuqabp.appspot.com/o/ic_empty_avatar.png?alt=media&token=41418f7f-a4e3-4510-a14c-c8fbc5f0f12d") },
 ) = remember{ MainState(
     id, username, email, role, point, logout, changePass, roleError, phoneToCheck, openDialogSearchByPhone,
-    editPhoneToCheck, filterText) }
+    editPhoneToCheck, filterText, showPhotoSelector, avatar) }
 
 class MainState(
     val id: MutableState<String>,
@@ -35,7 +37,12 @@ class MainState(
     val openDialogSearchByPhone: MutableState<Boolean>,
     val editPhoneToCheck: MutableState<String>,
     val filterText: MutableState<String>,
+    val showPhotoSelector: MutableState<Boolean>,
+    val avatar: MutableState<String>
 ) {
+    fun showPhotoSelector() {
+        showPhotoSelector.value = !showPhotoSelector.value
+    }
 
     fun showLogoutQuestion() {
         logout.value = !logout.value
@@ -48,6 +55,5 @@ class MainState(
     fun showRoleError() {
         roleError.value = !roleError.value
     }
-
 
 }

@@ -1,35 +1,27 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 import android.os.Build
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.widget.ConstraintLayout
 import arrow.core.left
 import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
@@ -161,8 +153,8 @@ fun  TutorItemsList(
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                     modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                 ) {
-                    LazyVerticalGrid(
-                        cells = GridCells.Adaptive(4000.dp),
+                    LazyColumn(
+                        //cells = GridCells.Adaptive(4000.dp),
                         contentPadding = PaddingValues(top = 32.dp, bottom = 0.dp, end = 0.dp, start = 0.dp),
                     ) {
                         items(items) {
