@@ -44,6 +44,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.*
 import androidx.core.net.toUri
+import coil.compose.AsyncImagePainter
+import coil.compose.ImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
@@ -69,8 +71,14 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
-            mainState.avatar.value = viewModelState.user!!.photo
+            mainState.avatar.value = viewModelState.user!!.photo.toString()
             viewModel.getPoint(viewModelState.user!!.point)
+        }
+    }
+
+    LaunchedEffect(viewModelState.avatarUrl) {
+        if (viewModelState.avatarUrl != null && viewModelState.avatarUrl != "") {
+            mainState.avatar.value = viewModelState.avatarUrl
         }
     }
 
@@ -110,38 +118,45 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
                                     .diskCachePolicy(CachePolicy.DISABLED)
                                     .data(mainState.avatar.value)
                                     .size(Size.ORIGINAL)
-                                    .placeholder(R.mipmap.ic_launcher)
                                     .build()
                             )
-                            Image(
-                                painter = painter,
-                                contentScale = ContentScale.Crop,
-                                contentDescription = "Profile picture",
-                                modifier = Modifier
-                                    .size(150.dp)
-                                    .clip(CircleShape)
-                            )
-                            Canvas(
-                                modifier = Modifier
-                                    .padding(10.dp)
-                                    .size(size = 31.dp)
-                            ) {
-                                drawCircle(
-                                    color = Color.Gray
+                            if (painter.state is AsyncImagePainter.State.Loading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.align(Alignment.Center),
+                                    color = colorResource(id = R.color.colorPrimary)
+                                )
+                            } else {
+                                Image(
+                                    painter = painter,
+                                    contentScale = ContentScale.Crop,
+                                    contentDescription = "Profile picture",
+                                    modifier = Modifier
+                                        .size(150.dp)
+                                        .clip(CircleShape)
+                                )
+                                Canvas(
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .size(size = 31.dp)
+                                ) {
+                                    drawCircle(
+                                        color = Color.Gray
+                                    )
+                                }
+                                Image(
+                                    painter = painterResource(R.mipmap.ic_edit_avatar),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .padding(10.dp)
+                                        .size(30.dp)
+                                        .clip(CircleShape)
+                                        .clickable {
+                                            mainState.showPhotoSelector()
+                                        }
+
                                 )
                             }
-                            Image(
-                                painter = painterResource(R.mipmap.ic_edit_avatar),
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .padding(10.dp)
-                                    .size(30.dp)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        mainState.showPhotoSelector()
-                                    }
 
-                            )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         AnimatedVisibility(visible = (mainState.email.value!= null)) {

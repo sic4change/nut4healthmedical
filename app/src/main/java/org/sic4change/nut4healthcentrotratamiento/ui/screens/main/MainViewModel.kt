@@ -35,7 +35,7 @@ class MainViewModel() : ViewModel() {
         val exit: Boolean = false,
         val tutor: Tutor? = null,
         val tutorChecked: String = "",
-        val avatarUrl: String = ""
+        var avatarUrl: String = ""
     )
 
     fun getPoint(pointId: String?) {
