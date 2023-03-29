@@ -5,6 +5,7 @@ import android.Manifest
 import android.app.Activity
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.camera.core.CameraSelector
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -322,7 +323,7 @@ fun PhotoPermissions(
         permissionsNotGrantedContent = { mainState.showPhotoSelector() },
         permissionsNotAvailableContent = { mainState.showPhotoSelector() }
     ) {
-        Box(modifier = Modifier.padding(50.dp, 50.dp, 50.dp, 180.dp)) {
+        Box(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 0.dp)) {
             var imageUri by remember { mutableStateOf(EMPTY_IMAGE_URI) }
             if (imageUri == EMPTY_IMAGE_URI) {
                 var showGallerySelect by remember { mutableStateOf(false) }

@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
@@ -46,9 +47,18 @@ import org.sic4change.nut4healthcentrotratamiento.ui.commons.photoselector.Permi
 @Composable
 fun CameraCapture(
     modifier: Modifier = Modifier,
-    cameraSelector: CameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA,
     onImageFile: (File) -> Unit = { }
 ) {
+
+    val frontCameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
+    val backCameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+
+    var currentCameraSelector by remember { mutableStateOf(backCameraSelector) }
+    var useFrontCamera by remember { mutableStateOf(false) }
+
+    val cameraSwitchIcon: Painter = painterResource(id = R.drawable.ic_switch_camera)
+
+    //var cameraSelector: CameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
     val context = LocalContext.current
     Permission(
         permission = Manifest.permission.CAMERA,
@@ -71,8 +81,7 @@ fun CameraCapture(
             }
         }
     ) {
-        Box(modifier = modifier.clip(RoundedCornerShape(10)).
-        border(1.dp, colorResource(R.color.colorPrimary), RoundedCornerShape(10))) {
+        Box{
             val lifecycleOwner = LocalLifecycleOwner.current
             val coroutineScope = rememberCoroutineScope()
             var previewUseCase by remember { mutableStateOf<UseCase>(Preview.Builder().build()) }
@@ -91,6 +100,18 @@ fun CameraCapture(
                         previewUseCase = it
                     }
                 )
+
+                Icon(painter = cameraSwitchIcon,
+                    "Take",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(60.dp).padding(16.dp).align(Alignment.BottomEnd).clickable {
+                        coroutineScope.launch {
+                            useFrontCamera = !useFrontCamera
+                            currentCameraSelector = if (useFrontCamera) frontCameraSelector else backCameraSelector
+                        }
+                    }
+                )
+                
                 Icon(painter = painterResource(id = R.drawable.ic_take_photo),
                     "Take",
                     tint = Color.Unspecified,
@@ -109,7 +130,20 @@ fun CameraCapture(
                     // Must unbind the use-cases before rebinding them.
                     cameraProvider.unbindAll()
                     cameraProvider.bindToLifecycle(
-                        lifecycleOwner, cameraSelector, previewUseCase, imageCaptureUseCase
+                        lifecycleOwner, currentCameraSelector, previewUseCase, imageCaptureUseCase
+                    )
+                } catch (ex: Exception) {
+                    Log.e("CameraCapture", "Failed to bind camera use cases", ex)
+                }
+            }
+
+            LaunchedEffect(currentCameraSelector) {
+                val cameraProvider = context.getCameraProvider()
+                try {
+                    // Must unbind the use-cases before rebinding them.
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner, currentCameraSelector, previewUseCase, imageCaptureUseCase
                     )
                 } catch (ex: Exception) {
                     Log.e("CameraCapture", "Failed to bind camera use cases", ex)
