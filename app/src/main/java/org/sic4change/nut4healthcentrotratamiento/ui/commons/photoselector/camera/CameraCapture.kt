@@ -11,6 +11,7 @@ import androidx.camera.core.ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
 import androidx.camera.core.ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY
 import androidx.camera.core.Preview
 import androidx.camera.core.UseCase
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -101,28 +102,35 @@ fun CameraCapture(
                     }
                 )
 
-                Icon(painter = cameraSwitchIcon,
-                    "Take",
-                    tint = Color.Unspecified,
-                    modifier = Modifier.size(60.dp).padding(16.dp).align(Alignment.BottomEnd).clickable {
-                        coroutineScope.launch {
-                            useFrontCamera = !useFrontCamera
-                            currentCameraSelector = if (useFrontCamera) frontCameraSelector else backCameraSelector
-                        }
-                    }
-                )
-                
-                Icon(painter = painterResource(id = R.drawable.ic_take_photo),
-                    "Take",
-                    tint = Color.Unspecified,
-                    modifier = Modifier.size(100.dp).padding(16.dp).align(Alignment.BottomCenter).clickable {
-                        coroutineScope.launch {
-                            imageCaptureUseCase.takePicture(context.executor).let {
-                                onImageFile(it)
+                Box(modifier = modifier.padding(16.dp).align(Alignment.BottomEnd)) {
+                    Icon(painter = cameraSwitchIcon,
+                        "Take",
+                        tint = Color.Unspecified,
+                        modifier = Modifier.size(60.dp).background(color = Color.White, shape = RoundedCornerShape(32.dp))
+                            .padding(16.dp).align(Alignment.Center).clickable {
+                            coroutineScope.launch {
+                                useFrontCamera = !useFrontCamera
+                                currentCameraSelector = if (useFrontCamera) frontCameraSelector else backCameraSelector
                             }
                         }
-                    }
-                )
+                    )
+                }
+
+                Box(modifier = modifier.padding(16.dp).align(Alignment.BottomCenter)) {
+                    Icon(painter = painterResource(id = R.drawable.ic_take_photo),
+                        "Take",
+                        tint = Color.Unspecified,
+                        modifier = Modifier.size(100.dp).background(color = Color.White, shape = RoundedCornerShape(32.dp),
+                        ).padding(16.dp).align(Alignment.Center).clickable {
+                            coroutineScope.launch {
+                                imageCaptureUseCase.takePicture(context.executor).let {
+                                    onImageFile(it)
+                                }
+                            }
+                        }
+                    )
+                }
+
             }
             LaunchedEffect(previewUseCase) {
                 val cameraProvider = context.getCameraProvider()

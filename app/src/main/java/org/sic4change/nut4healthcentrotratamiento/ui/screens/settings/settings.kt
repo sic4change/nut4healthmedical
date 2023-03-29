@@ -40,6 +40,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -52,6 +53,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.photoselector.camera.CameraCapture
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.photoselector.gallery.GallerySelect
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainState
@@ -357,33 +359,29 @@ fun PhotoPermissions(
                                 mainState.showPhotoSelector()
                             },
                         ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_back), "Back",
-                                tint = Color.Unspecified
-                            )
+                            Box(modifier = Modifier.padding(16.dp)) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_back), "Back",
+                                    tint = Color.Unspecified,
+                                    modifier = Modifier.background(color = Color.White, shape = RoundedCornerShape(32.dp))
+                                )
+                            }
+
                         }
 
-                        IconButton(
-                            modifier = Modifier
-                                .defaultMinSize(
-                                    minWidth = 40.dp,
-                                    minHeight = 40.dp
+                        Box(modifier = Modifier.padding(0.dp, 0.dp, 16.dp, 90.dp).align(Alignment.BottomEnd)) {
+                            IconButton(onClick = { showGallerySelect = true },
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_gallery),
+                                    "Gallery",
+                                    tint = Color.Unspecified,
+                                    modifier = Modifier.size(60.dp).background(color = Color.White, shape = RoundedCornerShape(32.dp))
+                                        .padding(16.dp)
                                 )
-                                .align(Alignment.TopEnd)
-                                .padding(4.dp),
-                            onClick = {
-                                showGallerySelect = true
-                            },
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_gallery),
-                                "Gallery",
-                                tint = Color.Unspecified,
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                            )
+                            }
                         }
+
                     }
                 }
             }
