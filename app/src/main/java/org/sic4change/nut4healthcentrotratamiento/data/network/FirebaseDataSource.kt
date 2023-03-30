@@ -98,17 +98,22 @@ object FirebaseDataSource {
             networkUserContainer.results[0].let { user ->
                 Timber.d("try to request change avatar image with firebase")
                 val refStorage = FirebaseStorage.getInstance().reference.child("avatars/${user.id}/avatar_medical_${System.currentTimeMillis()}")
-                val resultUpload = refStorage.putFile(Uri.parse(fileUri)).await()
-                resultUpload.let {
-                    val url = it.storage.downloadUrl.await()
-                    url.let {
-                        result = it.toString()
-                        user.photo = result
-                        val usersRef = firestore.collection("users")
-                        usersRef.document(user.id).set(user).await()
-                        Timber.d("update photo user result: ok")
+                try {
+                    val resultUpload = refStorage.putFile(Uri.parse(fileUri)).await()
+                    resultUpload.let {
+                        val url = it.storage.downloadUrl.await()
+                        url.let {
+                            result = it.toString()
+                            user.photo = result
+                            val usersRef = firestore.collection("users")
+                            usersRef.document(user.id).set(user).await()
+                            Timber.d("update photo user result: ok")
+                        }
                     }
+                } catch (ex : Exception) {
+                    Timber.d("error when upload image to firebase storage: ${ex.message}")
                 }
+
             }
         }
         return result

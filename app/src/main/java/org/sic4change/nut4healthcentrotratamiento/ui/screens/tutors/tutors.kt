@@ -1,6 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 
+import android.Manifest
 import android.app.Activity
 import android.os.Build
 import androidx.activity.compose.BackHandler
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.rememberPermissionState
 import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
@@ -41,7 +46,9 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorIt
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
-@OptIn(ExperimentalAnimationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalPermissionsApi::class
+)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -52,6 +59,8 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
     val activity = (LocalContext.current as? Activity)
+
+    val permission: PermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
@@ -64,6 +73,9 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             }
             if (mainState.role.value != "Servicio Salud") {
                 mainState.showRoleError()
+            }
+            if (!permission.hasPermission) {
+                permission.launchPermissionRequest()
             }
         }
     }
@@ -135,6 +147,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
     }
 
 }
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
