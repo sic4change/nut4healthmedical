@@ -35,7 +35,8 @@ fun CuadrantsScreen(viewModel: CuadrantsViewModel = viewModel()) {
         ) {
             CuadrantItemsListScreen(
                 loading = viewModelState.loading,
-                items = cuadrantsState.cases.value
+                items = cuadrantsState.cases.value,
+                onSearch = viewModel::searchTutor
             )
         }
 

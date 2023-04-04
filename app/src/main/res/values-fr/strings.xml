@@ -100,6 +100,7 @@
     <string name="years">années</string>
     <string name="months">mois</string>
     <string name="searchByNameAndSurnames">Recherche par nom ou prénom</string>
+    <string name="searchTutorsByNameAndSurnames">Chercher par nom ou prénom du tuteur</string>
     <string name="caso">Cas</string>
     <string name="child_minor_six_month">Enfant de moins de 6 mois</string>
     <string name="child_minor">Oui</string>

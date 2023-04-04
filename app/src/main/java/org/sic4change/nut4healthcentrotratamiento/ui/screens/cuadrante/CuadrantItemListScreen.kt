@@ -12,19 +12,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
@@ -33,7 +38,8 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 @Composable
 fun CuadrantItemsListScreen(
     loading: Boolean = false,
-    items: List<Cuadrant?>
+    items: List<Cuadrant?>,
+    onSearch: (String) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Cuadrant?>(null) }
         val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -61,7 +67,8 @@ fun CuadrantItemsListScreen(
         }, sheetState = sheetState) {
             CuadrantItemsList(
                 loading = loading,
-                items = items
+                items = items,
+                onSearch = onSearch
             )
         }
 }
@@ -96,8 +103,12 @@ fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
 fun CuadrantItemsList(
     loading: Boolean,
     items: List<Cuadrant?>,
+    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val cuadranteState = rememberCuadrantsState()
+
     Column(
         modifier = Modifier.fillMaxWidth().background(colorResource(R.color.colorPrimaryDark))
     ) {
@@ -108,6 +119,34 @@ fun CuadrantItemsList(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(value = cuadranteState.filterText.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            trailingIcon = {if (cuadranteState.filterText.value.isNotBlank()) {
+                Icon(
+                    Icons.Filled.Clear, null, tint = colorResource(R.color.colorPrimary),
+                    modifier = Modifier.clickable {
+                        cuadranteState.filterText.value = ""
+                        onSearch("")
+                    })} else{ null}},
+            onValueChange = {
+                cuadranteState.filterText.value = it
+                onSearch(it) },
+            textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            label = { Text(stringResource(R.string.searchTutorsByNameAndSurnames), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter

@@ -74,6 +74,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             if (mainState.role.value != "Servicio Salud") {
                 mainState.showRoleError()
             }
+
             if (!permission.hasPermission) {
                 permission.launchPermissionRequest()
             }
