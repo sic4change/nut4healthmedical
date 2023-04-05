@@ -19,7 +19,6 @@ class TutorsViewModel: ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             _state.value = UiState(tutors = FirebaseDataSource.getTutors(), loading = false)
-            FirebaseDataSource.subscribeToPointNotifications()
         }
     }
 

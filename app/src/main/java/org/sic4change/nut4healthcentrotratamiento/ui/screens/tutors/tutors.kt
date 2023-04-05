@@ -73,6 +73,8 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             }
             if (mainState.role.value != "Servicio Salud") {
                 mainState.showRoleError()
+            } else {
+                viewModel.subscribeToPointNotifications()
             }
 
             if (!permission.hasPermission) {
