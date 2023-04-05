@@ -87,6 +87,7 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
 
     LaunchedEffect(viewModelState.point) {
         if (viewModelState.point != null) {
+            mainState.pointId.value = viewModelState.point!!.id
             mainState.point.value = viewModelState.point!!.fullName
         }
     }
@@ -307,8 +308,10 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
 
         }
         SelectPhoto(mainState, mainState.showPhotoSelector.value, viewModel::updateAvatar)
-        MessageForgotPassword(mainState.changePass.value, mainState::showChangePassQuestion, mainState.email.value, viewModel::changePassword)
-        MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout, onLogout)
+        MessageForgotPassword(mainState.changePass.value, mainState::showChangePassQuestion,
+            mainState.email.value, viewModel::changePassword)
+        MessageLogout(mainState.logout.value, mainState::showLogoutQuestion, viewModel::logout,
+            mainState.pointId.value, onUnSubscribe = { point -> viewModel.unsubscribeToPointNotifications(point) }, onLogout)
     }
 
 }
@@ -414,7 +417,8 @@ fun SelectPhoto(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit, onLogoutSelected: () -> Unit) {
+fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit,
+                  point: String, onUnSubscribe: (point:String) -> Unit, onLogoutSelected: () -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -428,6 +432,7 @@ fun MessageLogout(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -
                     onClick = {
                         setShowDialog()
                         onLogout()
+                        onUnSubscribe(point)
                         onLogoutSelected()
                     },
                 ) {

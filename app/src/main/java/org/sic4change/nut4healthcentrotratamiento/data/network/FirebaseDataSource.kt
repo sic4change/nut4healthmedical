@@ -1,6 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.firestore.Query
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
@@ -736,15 +737,24 @@ object FirebaseDataSource {
     }
 
     suspend fun subscribeToPointNotifications() = withContext(Dispatchers.IO) {
-        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
-        val userRef = firestore.collection("users")
-        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
-        val resultUser = queryUser.get().await()
-        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
-        networkUserContainer.results[0].let {
-            val point = it.point
-            FirebaseMessaging.getInstance().subscribeToTopic(point)
+        try {
+            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+            val userRef = firestore.collection("users")
+            val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val resultUser = queryUser.get().await()
+            val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+            networkUserContainer.results[0].let {
+                val point = it.point
+                FirebaseMessaging.getInstance().subscribeToTopic(point)
+            }
+        } catch (e: Exception) {
+            Log.e("Error", e.message.toString())
         }
+
+    }
+
+    suspend fun unsubscribeToPointNotifications(point: String) = withContext(Dispatchers.IO) {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(point)
     }
 
 }

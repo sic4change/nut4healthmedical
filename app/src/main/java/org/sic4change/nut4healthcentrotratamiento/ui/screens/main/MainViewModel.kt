@@ -50,6 +50,12 @@ class MainViewModel() : ViewModel() {
         }
     }
 
+    fun unsubscribeToPointNotifications(point: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.unsubscribeToPointNotifications(point)
+        }
+    }
+
     fun logout() {
         viewModelScope.launch {
             FirebaseDataSource.logout()
