@@ -30,7 +30,7 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun ChildItemCreateScreen(childState: ChildState, loading: Boolean = false,
-onCreateChild: (String, String, Date, String, String, String) -> Unit) {
+onCreateChild: (String, String, Date, Int, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -59,7 +59,7 @@ onCreateChild: (String, String, Date, String, String, String) -> Unit) {
 @ExperimentalCoilApi
 @Composable
 private fun Header(childState: ChildState,
-                   onCreateChild: (String, String, Date, String, String, String) -> Unit) {
+                   onCreateChild: (String, String, Date, Int, String, String, String) -> Unit) {
 
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.Male))
@@ -68,6 +68,8 @@ private fun Header(childState: ChildState,
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
             R.string.beydan), stringResource(R.string.haratin), stringResource(R.string.soninke),
         stringResource(R.string.autre))
+
+    val brotherOptions = listOf(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20, 21)
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -127,6 +129,59 @@ private fun Header(childState: ChildState,
             value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
             setValue = { childState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            expanded = childState.expandedBrothers.value,
+            onExpandedChange = {
+                childState.expandedBrothers.value = !childState.expandedBrothers.value
+            }
+        ) {
+            TextField(
+                readOnly = true,
+                value = childState.selectedOptionBrothers.value.toString(),
+                onValueChange = { childState.selectedOptionBrothers.value = it.toInt()
+                    childState.brothers.value = it.toInt() },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = childState.expandedBrothers.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    Icon(Icons.Filled.Numbers, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                label = { Text(stringResource(R.string.child_brothers), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = childState.expandedBrothers.value,
+                onDismissRequest = {
+                    childState.expandedBrothers.value = false
+                }
+            ) {
+                brotherOptions.forEach { selectionOption2 ->
+                    DropdownMenuItem(
+                        onClick = {
+                            childState.selectedOptionBrothers.value = selectionOption2
+                            childState.expandedBrothers.value = false
+                        }
+                    ) {
+                        Text(text = selectionOption2.toString(), color = colorResource(R.color.colorPrimary))
+                    }
+                }
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
         ExposedDropdownMenuBox(
             modifier = Modifier
@@ -265,8 +320,9 @@ private fun Header(childState: ChildState,
                 onClick = {
                     childState.createdChild.value = true
                     onCreateChild(childState.name.value, childState.surnames.value,
-                        childState.birthday.value, childState.selectedOptionEtnician.value,
-                        childState.selectedOptionSex.value, childState.observations.value)
+                        childState.birthday.value, childState.selectedOptionBrothers.value,
+                        childState.selectedOptionEtnician.value, childState.selectedOptionSex.value,
+                        childState.observations.value)
 
                 },
             ) {

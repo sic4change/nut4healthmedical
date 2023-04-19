@@ -35,9 +35,9 @@ class ChildEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun editChild(id: String, tutorId: String, name: String, surnames: String,
-                  birthdate: Date, ethnician: String, sex: String, observations: String) {
+                  birthdate: Date, brothers: Int, ethnician: String, sex: String, observations: String) {
         viewModelScope.launch {
-            val child = Child(id, tutorId, name, surnames, sex, ethnician, birthdate,
+            val child = Child(id, tutorId, name, surnames, sex, ethnician, birthdate, brothers, "",
                 Date(), Date(), observations, "")
             _state.value= UiState(child = child)
             FirebaseDataSource.updateChild(child)

@@ -105,6 +105,7 @@
     <string name="child_minor_six_month">Hij@ menor a 6 meses</string>
     <string name="child_minor">Sí</string>
     <string name="no_child_minor">No</string>
+    <string name="child_brothers">Hermanos/as mayores del niño/a</string>
 
     //Adults
     <string name="adults_normal">Peso Normal</string>

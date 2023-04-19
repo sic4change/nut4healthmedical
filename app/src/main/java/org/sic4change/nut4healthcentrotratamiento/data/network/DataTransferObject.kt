@@ -66,6 +66,8 @@ data class Child(
     @Exclude val sex: String = "",
     @Exclude val ethnicity: String = "",
     @Exclude val birthdate: Date = Date(),
+    @Exclude val brothers: Int = 0,
+    @Exclude val code: String = "",
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
     @Exclude val observations: String = "",

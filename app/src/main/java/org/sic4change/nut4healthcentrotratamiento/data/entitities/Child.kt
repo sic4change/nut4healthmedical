@@ -10,6 +10,8 @@ data class Child(
     val sex: String,
     val ethnicity: String,
     val birthdate: Date,
+    val brothers: Int,
+    var code: String,
     val createDate: Date,
     val lastDate: Date,
     val observations: String,

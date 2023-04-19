@@ -34,10 +34,10 @@ class ChildCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val created: Boolean = false,
     )
 
-    fun createChild(name: String, surnames: String, birthdate: Date, ethnician: String,
+    fun createChild(name: String, surnames: String, birthdate: Date, brothers: Int, ethnician: String,
                     sex: String, observations: String) {
         viewModelScope.launch {
-            val child = Child(tutorId, tutorId, name, surnames, sex, ethnician, birthdate,
+            val child = Child(tutorId, tutorId, name, surnames, sex, ethnician, birthdate, brothers, "",
                 Date(), Date(), observations, "")
             _state.value= UiState(child = child)
             FirebaseDataSource.createChild(child)

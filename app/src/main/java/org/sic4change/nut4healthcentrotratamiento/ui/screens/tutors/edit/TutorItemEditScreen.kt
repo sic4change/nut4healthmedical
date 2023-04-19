@@ -154,6 +154,7 @@ private fun Header(tutorState: TutorState,
                 focusedIndicatorColor = colorResource(R.color.colorAccent),
                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
             ),
+            enabled = false,
             onValueChange = {tutorState.phone.value = it},
             textStyle = MaterialTheme.typography.h5,
             modifier = Modifier

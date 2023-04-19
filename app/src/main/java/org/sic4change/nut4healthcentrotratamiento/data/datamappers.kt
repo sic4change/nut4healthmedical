@@ -36,11 +36,11 @@ fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
 )
 
 fun ServerChild.toDomainChild() : Child = Child(
-    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations, point
+    id, tutorId, name, surnames, sex, ethnicity, birthdate, brothers, code, createDate, lastDate, observations, point
 )
 
 fun Child.toServerChild() : ServerChild = ServerChild(
-    id, tutorId, name, surnames, sex, ethnicity, birthdate, createDate, lastDate, observations, point
+    id, tutorId, name, surnames, sex, ethnicity, birthdate, brothers, code, createDate, lastDate, observations, point
 )
 
 fun ServerCase.toDomainCase() : Case = Case(

@@ -13,6 +13,9 @@ fun rememberChildsState(
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     surnames: MutableState<String> = rememberSaveable { mutableStateOf("") },
     birthday: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    brothers: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
+    expandedBrothers: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedOptionBrothers: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     sex: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -25,8 +28,9 @@ fun rememberChildsState(
     childsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     createdChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ ChildState(id, tutorId, name, surnames, birthday, lastDate, createdDate, sex, etnician,
-    observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild) }
+) = remember{ ChildState(id, tutorId, name, surnames, birthday, brothers, selectedOptionBrothers,
+    expandedBrothers, lastDate, createdDate, sex, etnician, observations, expandedSex, selectedOptionSex,
+    expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild) }
 
 class ChildState(
     val id: MutableState<String>,
@@ -34,6 +38,9 @@ class ChildState(
     val name: MutableState<String>,
     val surnames: MutableState<String>,
     val birthday: MutableState<Date>,
+    val brothers: MutableState<Int>,
+    val selectedOptionBrothers: MutableState<Int>,
+    val expandedBrothers: MutableState<Boolean>,
     val lastDate: MutableState<Date>,
     val createdDate: MutableState<Date>,
     val sex: MutableState<String>,

@@ -248,14 +248,14 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create child with firebase")
             try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
-                val userRef = firestore.collection("users")
-                val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val userRef = firestore.collection("tutors")
+                val query = userRef.whereEqualTo("id", child.tutorId)
                 val result = query.get().await()
-                val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
-                networkUserContainer.results[0].let {
-                    val user = it.toDomainUser()
-                    child.point = user.point
+                val networkTutorContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+                networkTutorContainer.results[0].let {
+                    val tutor = it.toDomainTutor()
+                    child.point = tutor.point
+                    child.code = "${tutor.phone}-${child.brothers}"
                     val childsRef = firestore.collection("childs")
                     val id = childsRef.add(child.toServerChild()).await().id
                     childsRef.document(id).update("id", id,).await()
@@ -284,13 +284,13 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update child from firebase")
             try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
-                val userRef = firestore.collection("users")
-                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
-                val resultUser = queryUser.get().await()
-                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
-                networkUserContainer.results[0].let { user ->
-                    child.point = user.point
+                val userRef = firestore.collection("tutors")
+                val query = userRef.whereEqualTo("id", child.tutorId)
+                val result = query.get().await()
+                val networkTutorContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+                networkTutorContainer.results[0].let {
+                    child.point = it.point
+                    child.code = "${it.phone}-${child.brothers}"
                     val childsRef = firestore.collection("childs")
                     childsRef.document(child.id).set(child.toServerChild()).await()
                     Timber.d("update child result: ok")
