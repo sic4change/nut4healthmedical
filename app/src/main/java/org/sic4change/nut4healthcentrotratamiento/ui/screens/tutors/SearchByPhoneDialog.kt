@@ -1,10 +1,13 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -12,7 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 
@@ -21,6 +28,7 @@ fun SearchByPhoneDialog(
     message: MutableState<String>,
     openDialog: MutableState<Boolean>,
     editMessage: MutableState<String>,
+    phoneCode: MutableState<String>,
     onCheckTutor: (String) -> Unit
 ) {
     Column(
@@ -49,6 +57,7 @@ fun SearchByPhoneDialog(
                     focusedIndicatorColor = colorResource(R.color.colorAccent),
                     unfocusedIndicatorColor = colorResource(R.color.colorAccent),
                 ),
+                visualTransformation = PrefixTransformation("+${phoneCode.value}"),
                 textStyle = MaterialTheme.typography.h5,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone
@@ -87,4 +96,29 @@ fun SearchByPhoneDialog(
             }
         }
     }
+}
+
+class PrefixTransformation(val prefix: String) : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return PrefixFilter(text, prefix)
+    }
+}
+
+fun PrefixFilter(number: AnnotatedString, prefix: String): TransformedText {
+
+    var out = prefix + number.text
+    val prefixOffset = prefix.length
+
+    val numberOffsetTranslator = object : OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            return offset + prefixOffset
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            if (offset < prefixOffset) return 0
+            return offset - prefixOffset
+        }
+    }
+
+    return TransformedText(AnnotatedString(out), numberOffsetTranslator)
 }

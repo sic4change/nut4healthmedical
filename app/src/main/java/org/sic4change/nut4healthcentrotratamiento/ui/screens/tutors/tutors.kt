@@ -68,6 +68,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             mainState.role.value = viewModelState.user!!.role
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
+            viewModel.getPoint(viewModelState.user!!.point)
             if (MainActivity.notificationChildId.isNotEmpty()) {
                 onNotificationChildClick(MainActivity.notificationChildId)
             }
@@ -97,6 +98,14 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                 mainState.phoneToCheck.value = ""
                 mainState.editPhoneToCheck.value = ""
             }
+        }
+    }
+
+    LaunchedEffect(viewModelState.point) {
+        if (viewModelState.point != null) {
+            mainState.pointId.value = viewModelState.point!!.id
+            mainState.point.value = viewModelState.point!!.fullName
+            mainState.phoneCode.value = viewModelState.point!!.phoneCode
         }
     }
 
@@ -142,7 +151,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                     contentAlignment = Alignment.Center
                 ) {
                     SearchByPhoneDialog(mainState.phoneToCheck, mainState.openDialogSearchByPhone, mainState.editPhoneToCheck,
-                        viewModel::checkTutorByPhone)
+                        mainState.phoneCode, viewModel::checkTutorByPhone)
                 }
             }
         }

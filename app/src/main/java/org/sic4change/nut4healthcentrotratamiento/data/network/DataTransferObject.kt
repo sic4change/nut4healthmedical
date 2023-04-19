@@ -25,7 +25,8 @@ data class NetworkPointsContainer(val results: List<Point>)
 data class Point(
     @Exclude val id: String = "",
     @Exclude val name: String = "",
-    @Exclude val fullName: String = "")
+    @Exclude val fullName: String = "",
+    @Exclude val phoneCode: String = "")
 
 @JsonClass(generateAdapter = true)
 data class NetworkTutorsContainer(val results: List<Tutor>)

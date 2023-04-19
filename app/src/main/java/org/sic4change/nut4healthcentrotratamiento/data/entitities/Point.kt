@@ -5,5 +5,6 @@ import java.util.*
 data class Point(
     override var id: String,
     val name: String,
-    val fullName: String
+    val fullName: String,
+    val phoneCode: String
     ) : Item

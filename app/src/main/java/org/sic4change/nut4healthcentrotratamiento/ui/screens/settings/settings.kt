@@ -89,6 +89,7 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
         if (viewModelState.point != null) {
             mainState.pointId.value = viewModelState.point!!.id
             mainState.point.value = viewModelState.point!!.fullName
+            mainState.phoneCode.value = viewModelState.point!!.phoneCode
         }
     }
 
