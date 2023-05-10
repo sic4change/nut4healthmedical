@@ -55,6 +55,7 @@
     <string name="edit_child">Modifier profil d’enfant</string>
     <string name="tutors">Mère, pere ou tuteur</string>
     <string name="cuadrante">Visitez le quadrant</string>
+    <string name="next_visits">Prochaines visites</string>
     <string name="next_visit">Prochaine visite</string>
     <string name="visits_title">"Visites"</string>
     <string name="visits">"Visites: "</string>

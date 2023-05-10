@@ -62,7 +62,7 @@ fun NUT4HealthApp() {
                         navigationIcon = {
                             if (!appState.currentRoute.contains("login/detail") &&
                                 !appState.currentRoute.contains("settings/home") &&
-                                !appState.currentRoute.contains("tutors/home")   ||
+                                !appState.currentRoute.contains("nextvisits/home")   ||
                                 (MainActivity.notificationChildId.isEmpty()) && appState.currentRoute.contains("childdetail")) {
                                 AppBarIcon(
                                     imageVector = Icons.Default.ArrowBack,

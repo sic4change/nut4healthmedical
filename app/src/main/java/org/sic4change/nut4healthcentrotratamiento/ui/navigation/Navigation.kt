@@ -61,7 +61,7 @@ private fun NavGraphBuilder.loginNav(navController: NavController) {
         composable(NavCommand.ContentType(Feature.LOGIN)) {
             LoginScreen(onLogin = {
                 navController.navigate(
-                    NavCommand.ContentType(Feature.TUTORS).route
+                    NavCommand.ContentType(Feature.NEXT_VISITS).route
                 )
                 }
             )
@@ -89,12 +89,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         startDestination = NavCommand.ContentType(Feature.HOME).route,
         route = Feature.HOME.route
     ) {
+
         composable(
             NavCommand.ContentTypeDetail(Feature.HOME)
         ) {
             MainScreen(onNotificationChildClick =  {})
         }
-
 
         composable(NavCommand.ContentType(Feature.SETTINGS)) {
             SettingsScreen(onLogout = {
@@ -102,6 +102,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     NavCommand.ContentType(Feature.LOGIN).route
                 )
             })
+        }
+
+        composable(NavCommand.ContentType(Feature.NEXT_VISITS)) {
+            //TODO: Add Next Visits Screen
+            CuadrantsScreen()
         }
 
         composable(NavCommand.ContentType(Feature.CUADRANTE)) {

@@ -35,21 +35,21 @@ class NUT4HealthAppState(
 ) {
 
     companion object {
-        val DRAWER_OPTIONS = listOf(NavItem.TUTORS, NavItem.CUADRANTE, NavItem.SETTINGS)
-        val BOTTOM_NAV_OPTIONS = listOf(NavItem.TUTORS, NavItem.SETTINGS)
+        val DRAWER_OPTIONS = listOf(NavItem.NEXT_VISITS, NavItem.TUTORS, NavItem.CUADRANTE, NavItem.SETTINGS)
+        val BOTTOM_NAV_OPTIONS = listOf(NavItem.NEXT_VISITS, NavItem.TUTORS, NavItem.CUADRANTE, NavItem.SETTINGS)
     }
 
     val currentRoute: String
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination?.route
             ?: ""
 
-    val showUpNavigation: Boolean
+   /* val showUpNavigation: Boolean
         @Composable get() = currentRoute !in NavItem.values().map {
             it.navCommand.route
         }
 
     val showBottomNavigation: Boolean
-        @Composable get() = BOTTOM_NAV_OPTIONS.any { currentRoute.contains(it.navCommand.feature.route) }
+        @Composable get() = BOTTOM_NAV_OPTIONS.any { currentRoute.contains(it.navCommand.feature.route) }*/
 
     val drawerSelectedIndex: Int
         /*@Composable get() =  if (showBottomNavigation) {
@@ -66,7 +66,7 @@ class NUT4HealthAppState(
 
     fun onHomeClick() {
         navController.navigate(
-            NavCommand.ContentType(Feature.TUTORS).route
+            NavCommand.ContentType(Feature.NEXT_VISITS).route
         )
     }
 
