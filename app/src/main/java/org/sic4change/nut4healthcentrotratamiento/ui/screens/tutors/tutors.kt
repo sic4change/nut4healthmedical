@@ -106,6 +106,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
             mainState.pointId.value = viewModelState.point!!.id
             mainState.point.value = viewModelState.point!!.fullName
             mainState.phoneCode.value = viewModelState.point!!.phoneCode
+            mainState.phoneLength.value = viewModelState.point!!.phoneLength
         }
     }
 
@@ -151,7 +152,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                     contentAlignment = Alignment.Center
                 ) {
                     SearchByPhoneDialog(mainState.phoneToCheck, mainState.openDialogSearchByPhone, mainState.editPhoneToCheck,
-                        mainState.phoneCode, viewModel::checkTutorByPhone)
+                        mainState.phoneCode, mainState.phoneLength, viewModel::checkTutorByPhone)
                 }
             }
         }

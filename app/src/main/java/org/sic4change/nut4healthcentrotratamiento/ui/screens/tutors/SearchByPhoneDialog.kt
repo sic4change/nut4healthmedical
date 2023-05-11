@@ -29,6 +29,7 @@ fun SearchByPhoneDialog(
     openDialog: MutableState<Boolean>,
     editMessage: MutableState<String>,
     phoneCode: MutableState<String>,
+    phoneLength: MutableState<Int>,
     onCheckTutor: (String) -> Unit
 ) {
     Column(
@@ -47,7 +48,11 @@ fun SearchByPhoneDialog(
 
             TextField(
                 value = editMessage.value,
-                onValueChange = { editMessage.value = it },
+                onValueChange = {
+                                    if (it.length <= (phoneLength.value))    {
+                                        editMessage.value = it
+                                    }
+                                },
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -58,6 +63,7 @@ fun SearchByPhoneDialog(
                     unfocusedIndicatorColor = colorResource(R.color.colorAccent),
                 ),
                 visualTransformation = PrefixTransformation("+${phoneCode.value}"),
+
                 textStyle = MaterialTheme.typography.h5,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone

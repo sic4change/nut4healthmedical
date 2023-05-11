@@ -6,5 +6,6 @@ data class Point(
     override var id: String,
     val name: String,
     val fullName: String,
-    val phoneCode: String
+    val phoneCode: String,
+    val phoneLength: Int,
     ) : Item
