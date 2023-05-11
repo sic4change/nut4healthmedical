@@ -157,7 +157,7 @@ fun  ChildItemsList(
             } else {
                 Text(
                     text = stringResource(R.string.no_childs),
-                    color = colorResource(R.color.disabled_color),
+                    color = colorResource(R.color.white),
                     style = MaterialTheme.typography.caption,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()

@@ -169,7 +169,7 @@ fun  TutorItemsList(
             } else {
                 Text(
                     text = stringResource(R.string.no_tutors),
-                    color = colorResource(R.color.disabled_color),
+                    color = colorResource(R.color.white),
                     style = MaterialTheme.typography.caption,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()

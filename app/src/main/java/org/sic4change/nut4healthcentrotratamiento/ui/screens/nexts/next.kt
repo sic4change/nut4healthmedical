@@ -25,10 +25,9 @@ fun NextScreen(
     LaunchedEffect(viewModelState.cuadrants) {
         if (viewModelState.cuadrants != null) {
             nextState.casesSize.value = viewModelState.cuadrants!!.size
-            nextState.cases.value = viewModelState.cuadrants
+            nextState.cases.value = viewModelState.cuadrants.filterNotNull().filter { it!!.visits != "0" }
         }
     }
-
 
     NUT4HealthScreen {
 

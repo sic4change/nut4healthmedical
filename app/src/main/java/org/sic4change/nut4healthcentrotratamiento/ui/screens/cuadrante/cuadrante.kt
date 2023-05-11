@@ -23,7 +23,7 @@ fun CuadrantsScreen(viewModel: CuadrantsViewModel = viewModel()) {
     LaunchedEffect(viewModelState.cuadrants) {
         if (viewModelState.cuadrants != null) {
             cuadrantsState.casesSize.value = viewModelState.cuadrants!!.size
-            cuadrantsState.cases.value = viewModelState.cuadrants
+            viewModelState.cuadrants.filterNotNull().filter { it!!.visits != "0" }
         }
     }
 
