@@ -46,6 +46,9 @@
     <string name="creation_date">Date d’inscription</string>
     <string name="last_date">Dernière visite</string>
     <string name="total_visits">Nombre de visites</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="current_week">Cette semaine</string>
+    <string name="current_month">Ce mois-ci</string>
     <string name="weeks">Semaines</string>
     <string name="create_tutor">Créer un profil de mère, père ou de tuteur</string>
     <string name="save">Sauvegarder</string>

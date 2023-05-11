@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -75,30 +77,6 @@ fun NextItemsListScreen(
         }
 }
 
-@Composable
-fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
-    val lifecycleOwener = LocalLifecycleOwner.current
-    val backDispatcher = requireNotNull(LocalOnBackPressedDispatcherOwner.current).onBackPressedDispatcher
-
-
-    val backCallback = remember {
-        object : OnBackPressedCallback(enabled) {
-            override fun handleOnBackPressed() {
-                onBack()
-            }
-        }
-    }
-
-    SideEffect {
-        backCallback.isEnabled = enabled
-    }
-
-    DisposableEffect(lifecycleOwener, backDispatcher) {
-        backDispatcher.addCallback(lifecycleOwener, backCallback)
-        onDispose { backCallback.remove() }
-    }
-}
-
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
@@ -123,32 +101,7 @@ fun NextItemsList(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = nextState.filterText.value,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-            ),
-            trailingIcon = {if (nextState.filterText.value.isNotBlank()) {
-                Icon(
-                    Icons.Filled.Clear, null, tint = colorResource(R.color.colorPrimary),
-                    modifier = Modifier.clickable {
-                        nextState.filterText.value = ""
-                        onSearch("")
-                    })} else{ null}},
-            onValueChange = {
-                nextState.filterText.value = it
-                onSearch(it) },
-            textStyle = MaterialTheme.typography.h5,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                capitalization = KeyboardCapitalization.Sentences),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            label = { Text(stringResource(R.string.searchTutorsByNameAndSurnames), color = colorResource(R.color.disabled_color)) })
+        TriStateToggle()
         Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = modifier.fillMaxSize(),
@@ -183,5 +136,58 @@ fun NextItemsList(
         }
     }
 
-
 }
+
+@Composable
+fun TriStateToggle() {
+    val states = listOf(
+        stringResource(R.string.today),
+        stringResource(R.string.current_week),
+        stringResource(R.string.current_month),
+    )
+    var selectedOption by remember {
+        mutableStateOf(states[0])
+    }
+    val onSelectionChange = { text: String ->
+        selectedOption = text
+    }
+
+    Surface(
+        shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp,
+        modifier = Modifier.background(colorResource(R.color.colorPrimary)).fillMaxWidth().padding(16.dp, 0.dp)
+    ) {
+        Row(
+            modifier = Modifier.background(colorResource(R.color.colorPrimary)).wrapContentSize()
+        ) {
+            states.forEach { text->
+                Text(
+                    text = text,
+                    color = (
+                            if (text == selectedOption) {
+                                colorResource(R.color.colorPrimary)
+                            } else {
+                                colorResource(R.color.white)
+                            }),
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(24.dp))
+                        .clickable {
+                            onSelectionChange(text)
+                        }
+                        .background(
+                            if (text == selectedOption) {
+                                colorResource(R.color.white)
+                            } else {
+                                colorResource(R.color.colorPrimary)
+                            }
+                        )
+                        .padding(
+                            vertical = 12.dp,
+                            horizontal = 16.dp,
+                        ),
+                )
+            }
+        }
+    }
+}
+

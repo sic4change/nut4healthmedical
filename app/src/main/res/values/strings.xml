@@ -57,6 +57,9 @@
     <string name="cuadrante">Cuadrante de visitas</string>
     <string name="next_visits">Próximas visitas</string>
     <string name="total_visits">Número de visitas</string>
+    <string name="today">Hoy</string>
+    <string name="current_week">Esta semana</string>
+    <string name="current_month">Este mes</string>
     <string name="next_visit">Próxima visita</string>
     <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>
