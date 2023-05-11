@@ -37,7 +37,7 @@ fun NextScreen(
                 loading = viewModelState.loading,
                 items = nextState.cases.value,
                 onClick = onItemClick,
-                onSearch = viewModel::searchTutor
+                onFilter = viewModel::filterNext
             )
         }
 

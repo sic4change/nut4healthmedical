@@ -42,7 +42,7 @@ fun NextItemsListScreen(
     loading: Boolean = false,
     items: List<Cuadrant?>,
     onClick: (Cuadrant) -> Unit,
-    onSearch: (String) -> Unit
+    onFilter: (Int) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Cuadrant?>(null) }
         val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -72,7 +72,7 @@ fun NextItemsListScreen(
                 loading = loading,
                 items = items,
                 onItemClick = onClick,
-                onSearch = onSearch
+                onFilter = onFilter
             )
         }
 }
@@ -84,7 +84,7 @@ fun NextItemsList(
     loading: Boolean,
     items: List<Cuadrant?>,
     onItemClick: (Cuadrant) -> Unit,
-    onSearch: (String) -> Unit,
+    onFilter: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -101,7 +101,10 @@ fun NextItemsList(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
-        TriStateToggle()
+        TriStateToggle(nextState.filterValue.value, onFilter = { value ->
+            nextState.filterValue.value = value
+            onFilter(value)
+        })
         Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = modifier.fillMaxSize(),
@@ -109,29 +112,38 @@ fun NextItemsList(
         ) {
             if (loading) {
                 CircularProgressIndicator(color = colorResource(R.color.white), modifier = Modifier.padding(40.dp))
-            }
-            if (items.isNotEmpty()) {
-                Card(
-                    shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    modifier = Modifier.fillMaxSize().padding(top = 16.dp)
-                ) {
-                    LazyColumn(
-                        //cells = GridCells.Adaptive(4000.dp),
-                        contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
-                        modifier = modifier
+            } else {
+                if (items.isNotEmpty()) {
+                    Card(
+                        shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                     ) {
-                        items(items) {
-                            NextListItem(
-                                item = it,
-                                modifier = Modifier.clickable {
-                                    onItemClick(it!!)
-                                }
-                            )
+                        LazyColumn(
+                            //cells = GridCells.Adaptive(4000.dp),
+                            contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
+                            modifier = modifier
+                        ) {
+                            items(items) {
+                                NextListItem(
+                                    item = it,
+                                    modifier = Modifier.clickable {
+                                        onItemClick(it!!)
+                                    }
+                                )
+                            }
                         }
                     }
-                }
 
+                } else {
+                    Text(
+                        text = stringResource(R.string.no_visits_found),
+                        color = colorResource(R.color.white),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     }
@@ -139,17 +151,18 @@ fun NextItemsList(
 }
 
 @Composable
-fun TriStateToggle() {
+fun TriStateToggle(value: Int, onFilter: (Int) -> Unit) {
     val states = listOf(
         stringResource(R.string.today),
         stringResource(R.string.current_week),
         stringResource(R.string.current_month),
     )
     var selectedOption by remember {
-        mutableStateOf(states[0])
+        mutableStateOf(states[value])
     }
     val onSelectionChange = { text: String ->
         selectedOption = text
+        onFilter(states.indexOf(text))
     }
 
     Surface(

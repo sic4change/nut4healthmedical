@@ -12,7 +12,6 @@ data class Cuadrant(
     var status: String,
     val createdate: Date,
     val lastdate: Date,
-    val nextVisit: Date,
     val visitsCuadrant: List<Visit>,
     var visits: String,
     val observations: String,

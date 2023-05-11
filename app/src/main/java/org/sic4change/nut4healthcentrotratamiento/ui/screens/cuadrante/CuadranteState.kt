@@ -13,8 +13,6 @@ fun rememberCuadrantsState(
     childId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    expandedStatus: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    selectedOptionStatus: MutableState<String> = rememberSaveable { mutableStateOf("") },
     visits: MutableState<String> = rememberSaveable { mutableStateOf("") },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },

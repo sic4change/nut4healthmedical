@@ -723,7 +723,6 @@ object FirebaseDataSource {
                         case.status,
                         case.createdate,
                         case.lastdate,
-                        Date(),
                         visitsToAdd.toList(),
                         case.visits.toString(),
                         case.observations
