@@ -9,12 +9,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
-fun NextScreen(viewModel: NextsViewModel= viewModel()) {
+fun NextScreen(
+    onItemClick: (Cuadrant) -> Unit,
+    viewModel: NextsViewModel= viewModel()) {
     val nextState = rememberNextState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -28,12 +32,11 @@ fun NextScreen(viewModel: NextsViewModel= viewModel()) {
 
     NUT4HealthScreen {
 
-        Scaffold(
-
-        ) {
+        Scaffold {
             NextItemsListScreen(
                 loading = viewModelState.loading,
                 items = nextState.cases.value,
+                onClick = onItemClick,
                 onSearch = viewModel::searchTutor
             )
         }

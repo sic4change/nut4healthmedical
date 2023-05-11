@@ -56,6 +56,7 @@
     <string name="tutors">Madres, padres o tutores</string>
     <string name="cuadrante">Cuadrante de visitas</string>
     <string name="next_visits">Próximas visitas</string>
+    <string name="total_visits">Número de visitas</string>
     <string name="next_visit">Próxima visita</string>
     <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>

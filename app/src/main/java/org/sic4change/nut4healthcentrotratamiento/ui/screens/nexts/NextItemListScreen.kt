@@ -29,6 +29,7 @@ import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi
@@ -38,6 +39,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 fun NextItemsListScreen(
     loading: Boolean = false,
     items: List<Cuadrant?>,
+    onClick: (Cuadrant) -> Unit,
     onSearch: (String) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Cuadrant?>(null) }
@@ -67,6 +69,7 @@ fun NextItemsListScreen(
             NextItemsList(
                 loading = loading,
                 items = items,
+                onItemClick = onClick,
                 onSearch = onSearch
             )
         }
@@ -102,6 +105,7 @@ fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
 fun NextItemsList(
     loading: Boolean,
     items: List<Cuadrant?>,
+    onItemClick: (Cuadrant) -> Unit,
     onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -167,7 +171,9 @@ fun NextItemsList(
                         items(items) {
                             NextListItem(
                                 item = it,
-                                modifier = Modifier.clickable {  }
+                                modifier = Modifier.clickable {
+                                    onItemClick(it!!)
+                                }
                             )
                         }
                     }
