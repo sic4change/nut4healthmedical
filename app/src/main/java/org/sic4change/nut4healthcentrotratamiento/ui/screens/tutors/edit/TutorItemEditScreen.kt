@@ -30,7 +30,7 @@ import java.util.*
 @Composable
 fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
                         onEditTutor: (String, String, String, String, String, Date, String, String,
-                                      String, String, String, Double, Double, String, String) -> Unit,
+                                      String, String, String, String, Double, Double, String, String) -> Unit,
                         onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -64,10 +64,16 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
 @Composable
 private fun Header(tutorState: TutorState,
                    onEditTutor: (String, String, String, String, String, Date, String, String, String,
-                                 String, String, Double, Double, String, String) -> Unit,
+                                 String, String, String, Double, Double, String, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
+
     val sexs = listOf(
         stringResource(R.string.female), stringResource(R.string.male))
+
+    val maleRelations = listOf(
+        stringResource(R.string.father), stringResource(R.string.grandfather), stringResource(
+            R.string.brother), stringResource(R.string.uncle), stringResource(R.string.cousin),
+        stringResource(R.string.other))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
@@ -276,7 +282,68 @@ private fun Header(tutorState: TutorState,
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+            //tutorState.clearWomanValues()
+            ExposedDropdownMenuBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                expanded = tutorState.expandedMaleRelation.value,
+                onExpandedChange = {
+                    tutorState.expandedMaleRelation.value = !tutorState.expandedMaleRelation.value
+                }
+            ) {
+                TextField(
+                    readOnly = true,
+                    value = tutorState.selectedOptionMaleRelations.value,
+                    onValueChange = { tutorState.selectedOptionMaleRelations.value = it
+                        tutorState.sex.value = it },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = tutorState.expandedMaleRelation.value
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.h5,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(Icons.Filled.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) }
+                )
+                ExposedDropdownMenu(
+                    expanded = tutorState.expandedMaleRelation.value,
+                    onDismissRequest = {
+                        tutorState.expandedMaleRelation.value = false
+                    }
+                ) {
+                    maleRelations.forEach { selectionOption2 ->
+                        DropdownMenuItem(
+                            onClick = {
+                                tutorState.selectedOptionMaleRelations.value = selectionOption2
+                                tutorState.expandedMaleRelation.value = false
+                            }
+                        ) {
+                            Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
+                        }
+                    }
+                }
+            }
+        }
+
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+            //tutorState.clearManValues()
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -330,11 +397,11 @@ private fun Header(tutorState: TutorState,
                 }
             }
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme")) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -389,9 +456,8 @@ private fun Header(tutorState: TutorState,
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        AnimatedVisibility(
-            visible = ((tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme") &&
-                    tutorState.selectedOptionPregnant.value == "Embarazada" || tutorState.selectedOptionPregnant.value == "Enceinte")) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female)) &&
+                (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
             TextField(value = tutorState.weeks.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -410,9 +476,8 @@ private fun Header(tutorState: TutorState,
                     Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
         }
-        AnimatedVisibility(
-            visible = ((tutorState.selectedOptionSex.value == "Femenino" || tutorState.selectedOptionSex.value == "Femme") &&
-                    tutorState.selectedOptionPregnant.value == "Embarazada" || tutorState.selectedOptionPregnant.value == "Enceinte")) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female)) &&
+                (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
@@ -631,8 +696,8 @@ private fun Header(tutorState: TutorState,
                     onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value,
                         tutorState.address.value, tutorState.phone.value, tutorState.birthday.value,
                         tutorState.selectedOptionEtnician.value, tutorState.selectedOptionSex.value,
-                        tutorState.selectedOptionChildMinor.value, tutorState.selectedOptionPregnant.value,
-                        tutorState.weeks.value,
+                        tutorState.selectedOptionMaleRelations.value, tutorState.selectedOptionChildMinor.value,
+                        tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
                         height,
                         weight,
                         status,

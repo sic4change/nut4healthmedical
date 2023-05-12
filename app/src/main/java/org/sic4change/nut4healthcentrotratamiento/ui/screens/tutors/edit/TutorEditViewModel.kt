@@ -36,15 +36,21 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun editTutor(id: String, name: String, surnames: String, address: String, phone: String,
-                    birthdate: Date, ethnician: String, sex: String, childMinor: String,
-                  pregnang: String, weeks: String, height: Double, weight: Double, status: String,
+                    birthdate: Date, ethnician: String, sex: String, maleRelation: String,
+                  childMinor: String, pregnang: String, weeks: String, height: Double,
+                  weight: Double, status: String,
                   observations: String) {
         viewModelScope.launch {
             _state.value = UiState(loading = true, imc = _state.value.imc)
-            //Aqui tienes que poner el campo maleRelation
+            if (sex == "Masculino" || sex == "Homme") {
+                _state.value = UiState(
+                    tutor = _state.value.tutor,
+                    imc = FirebaseDataSource.checkAdultDesnutrition(height, weight),
+                )
+            }
             val tutor = Tutor(id,
                 name, surnames, sex, ethnician, birthdate, phone, address,
-                Date(), Date(), "", childMinor, pregnang, observations, weeks, height, weight,
+                Date(), Date(), maleRelation, childMinor, pregnang, observations, weeks, height, weight,
                 status,true, "")
             _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
             FirebaseDataSource.updateTutor(tutor)
