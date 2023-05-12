@@ -17,6 +17,7 @@ fun rememberTutorState(
     lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     sex: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    maleRelation: MutableState<String> = rememberSaveable { mutableStateOf("") },
     etnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
     pregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
     childMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -27,7 +28,9 @@ fun rememberTutorState(
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedSex: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    expandedRelation: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionSex: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    selectedOptionMaleRelations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedEtnician: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionEtnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedPregnant: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
@@ -39,9 +42,10 @@ fun rememberTutorState(
 
 
 ) = remember{ TutorState(
-    id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, etnician, pregnant,
-    childMinor, weeks, height, weight, imc, status, observations, expandedSex, selectedOptionSex, expandedEtnician, selectedOptionEtnician,
-    expandedPregnant, expandedChildMinor, selectedOptionPregnant, selectedOptionChildMinor, createdTutor, deleteTutor
+    id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, maleRelation, etnician, pregnant,
+    childMinor, weeks, height, weight, imc, status, observations, expandedSex, expandedRelation, selectedOptionSex,
+    selectedOptionMaleRelations, expandedEtnician, selectedOptionEtnician, expandedPregnant, expandedChildMinor,
+    selectedOptionPregnant, selectedOptionChildMinor, createdTutor, deleteTutor
 ) }
 
 class TutorState(
@@ -54,6 +58,7 @@ class TutorState(
     val lastDate: MutableState<Date>,
     val createdDate: MutableState<Date>,
     val sex: MutableState<String>,
+    val maleRelation: MutableState<String>,
     val etnician: MutableState<String>,
     val pregnant: MutableState<String>,
     val childMinor: MutableState<String>,
@@ -64,7 +69,9 @@ class TutorState(
     val status: MutableState<String>,
     val observations: MutableState<String>,
     val expandedSex: MutableState<Boolean>,
+    val expandedMaleRelation: MutableState<Boolean>,
     val selectedOptionSex: MutableState<String>,
+    val selectedOptionMaleRelations: MutableState<String>,
     val expandedEtnician: MutableState<Boolean>,
     val selectedOptionEtnician: MutableState<String>,
     val expandedPregnant: MutableState<Boolean>,

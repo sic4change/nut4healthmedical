@@ -93,7 +93,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
                 mainState.editPhoneToCheck.value = ""
             }
             if (!viewModelState.tutor!!.active) {
-                onCreateTutorClick(mainState.phoneToCheck.value)
+                onCreateTutorClick(mainState.phoneCode.value + mainState.phoneToCheck.value)
                 viewModel.resetTutor()
                 mainState.phoneToCheck.value = ""
                 mainState.editPhoneToCheck.value = ""
@@ -230,6 +230,7 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
             tutorDetailState.lastDate.value = viewModelState.tutor!!.lastDate
             tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
             tutorDetailState.sex.value = viewModelState.tutor!!.sex
+            tutorDetailState.maleRelation.value = viewModelState.tutor!!.maleRelation
             tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
             tutorDetailState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant

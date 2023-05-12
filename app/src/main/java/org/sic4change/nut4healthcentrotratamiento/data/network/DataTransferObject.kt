@@ -32,6 +32,7 @@ data class Point(
 @JsonClass(generateAdapter = true)
 data class NetworkTutorsContainer(val results: List<Tutor>)
 
+
 @JsonClass(generateAdapter = true)
 data class Tutor(
     @Exclude val id: String = "",
@@ -44,6 +45,7 @@ data class Tutor(
     @Exclude val address: String = "",
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
+    @Exclude val maleRelation: String = "",
     @Exclude val childMinor: String = "",
     @Exclude val pregnant: String = "",
     @Exclude val observations: String = "",

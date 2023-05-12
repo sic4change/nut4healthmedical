@@ -3,8 +3,8 @@
     <string name="username">Usuario</string>
     <string name="role">Rol</string>
     <string name="centre">Centro de tratamiento</string>
-    <string name="reveal_password">Mostrar contraseña</string>
     <string name="change_password">Cambiar contraseña</string>
+    <string name="reveal_password">Mostrar contraseña</string>
     <string name="hide_password">Ocultar contraseña</string>
     <string name="email">Correo electrónico</string>
     <string name="best_email">Usa tu correo electrónico</string>
@@ -32,7 +32,7 @@
     <string name="birthdate">"Fecha de nacimiento"</string>
     <string name="date">Fecha</string>
     <string name="female">Femenino</string>
-    <string name="Male">Masculino</string>
+    <string name="male">Masculino</string>
     <string name="pregnant">Embarazada</string>
     <string name="no_pregnant">No embarazada</string>
     <string name="child">Niñ@</string>
@@ -46,14 +46,14 @@
     <string name="last_date">Última visita</string>
     <string name="weeks">Semanas</string>
     <string name="etnician">Étnia</string>
-    <string name="create_tutor">Crear perfil madre, padre o tutor</string>
+    <string name="create_tutor">Crear perfil de la mujer acompañante o embarazada y lactante (FEFA)</string>
     <string name="save">Guardar</string>
-    <string name="delete_tutor_question">¿Estás seguro que quieres eliminar ese perfil madre, padre o tutor? Se perderá toda la información asociada</string>
-    <string name="editar_tutor">Editar perfil madre, padre o tutor</string>
+    <string name="delete_tutor_question">¿Estás seguro que quieres eliminar ese acompañante? Se perderá toda la información asociada</string>
+    <string name="editar_tutor">Editar acompañanate</string>
     <string name="create_child">Crear perfil niño/a</string>
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar perfil niñ@</string>
-    <string name="tutors">Madres, padres o tutores</string>
+    <string name="tutors">Acompañantes</string>
     <string name="cuadrante">Cuadrante de visitas</string>
     <string name="next_visits">Próximas visitas</string>
     <string name="total_visits">Número de visitas</string>
@@ -65,8 +65,8 @@
     <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>
     <string name="last_visits">Última visita:</string>
-    <string name="tutors_title">Madres, padres o tutores</string>
-    <string name="no_tutors">Sin perfiles madres, padres o tutores todavía</string>
+    <string name="tutors_title">Acompañantes</string>
+    <string name="no_tutors">Sin perfiles acompañantes todavía</string>
     <string name="no_childs">Sin perfiles niñ@s todavía</string>
     <string name="childs">Perfiles niñ@s</string>
     <string name="childs_title">Niñ@s</string>
@@ -84,7 +84,7 @@
     <string name="haratin">Haratin</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
-    <string name="check_tutor">Introduce el teléfono de la madre, padre o tutor para validar si existe</string>
+    <string name="check_tutor">Introduce el teléfono del acompañanate para validar si existe</string>
     <string name="edit_case">Editar caso</string>
     <string name="visitas">Visitas</string>
     <string name="no_visits">Sin visitas todavía</string>
@@ -106,7 +106,7 @@
     <string name="years">años</string>
     <string name="months">meses</string>
     <string name="searchByNameAndSurnames">Buscar por nombre o apellidos</string>
-    <string name="searchTutorsByNameAndSurnames">Buscar por nombre o apellidos del tutor</string>
+    <string name="searchTutorsByNameAndSurnames">Buscar por nombre o apellidos del acompañante</string>
     <string name="caso">Caso</string>
     <string name="child_minor_six_month">Hij@ menor a 6 meses</string>
     <string name="child_minor">Sí</string>
@@ -119,7 +119,13 @@
     <string name="adults_moderate">Delgadez moderada</string>
     <string name="adults_severe">Delgadez severa</string>
 
-
-
+    //Relations
+    <string name="relation">Vínculo con hijo/a</string>
+    <string name="father">Padre</string>
+    <string name="grandfather">Abuelo</string>
+    <string name="uncle">Tío</string>
+    <string name="brother">Hermano</string>
+    <string name="cousin">Primo</string>
+    <string name="other">Otro</string>
 
 </resources>

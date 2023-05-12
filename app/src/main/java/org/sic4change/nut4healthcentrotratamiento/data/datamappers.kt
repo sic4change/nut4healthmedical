@@ -26,13 +26,14 @@ fun ServerPoint.toDomainPoint() : Point = Point(
 )
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
-    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
-    pregnant, observations, weeks.toString(), height, weight, status, active, point
+    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, maleRelation,
+    childMinor, pregnant, observations, weeks.toString(), height, weight, status, active, point
 )
 
 fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
-    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, childMinor,
-    pregnant, observations, weeks.toInt(), height, weight, status, active, point
+    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate,
+    maleRelation, childMinor, pregnant, observations, weeks.toInt(), height, weight, status,
+    active, point
 )
 
 fun ServerChild.toDomainChild() : Child = Child(

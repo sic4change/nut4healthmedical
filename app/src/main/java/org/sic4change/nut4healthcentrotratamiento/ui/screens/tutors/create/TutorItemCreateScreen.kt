@@ -29,7 +29,7 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false,
-onCreateTutor: (String, String, String, String, Date, String, String, String, String,
+onCreateTutor: (String, String, String, String, Date, String, String, String, String, String,
                 String, Double, Double, String, String) -> Unit, onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -63,11 +63,16 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, St
 @Composable
 private fun Header(tutorState: TutorState,
                    onCreateTutor: (String, String, String, String, Date, String, String, String,
-                                   String, String, Double, Double, String, String) -> Unit,
+                                   String, String, String, Double, Double, String, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male))
+        stringResource(R.string.female), stringResource(R.string.male))
+
+    val maleRelations = listOf(
+        stringResource(R.string.father), stringResource(R.string.grandfather), stringResource(
+            R.string.brother), stringResource(R.string.uncle), stringResource(R.string.cousin),
+        stringResource(R.string.other))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
@@ -86,7 +91,7 @@ private fun Header(tutorState: TutorState,
             color = colorResource(R.color.colorPrimary),
             style = MaterialTheme.typography.h4,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(4.dp, 0.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = tutorState.name.value,
@@ -284,6 +289,65 @@ private fun Header(tutorState: TutorState,
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+            ExposedDropdownMenuBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                expanded = tutorState.expandedMaleRelation.value,
+                onExpandedChange = {
+                    tutorState.expandedMaleRelation.value = !tutorState.expandedMaleRelation.value
+                }
+            ) {
+                TextField(
+                    readOnly = true,
+                    value = tutorState.selectedOptionMaleRelations.value,
+                    onValueChange = { tutorState.selectedOptionMaleRelations.value = it
+                        tutorState.sex.value = it },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = tutorState.expandedMaleRelation.value
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.h5,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(Icons.Filled.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) }
+                )
+                ExposedDropdownMenu(
+                    expanded = tutorState.expandedMaleRelation.value,
+                    onDismissRequest = {
+                        tutorState.expandedMaleRelation.value = false
+                    }
+                ) {
+                    maleRelations.forEach { selectionOption2 ->
+                        DropdownMenuItem(
+                            onClick = {
+                                tutorState.selectedOptionMaleRelations.value = selectionOption2
+                                tutorState.expandedMaleRelation.value = false
+                            }
+                        ) {
+                            Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
+                        }
+                    }
+                }
+            }
+        }
+
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
@@ -638,7 +702,7 @@ private fun Header(tutorState: TutorState,
                     }
                     onCreateTutor(tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
-                        tutorState.selectedOptionSex.value, tutorState.selectedOptionChildMinor.value,
+                        tutorState.selectedOptionSex.value, tutorState.selectedOptionMaleRelations.value, tutorState.selectedOptionChildMinor.value,
                         tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
                         height,
                         weight,

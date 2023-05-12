@@ -248,6 +248,28 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
+        AnimatedVisibility(visible = (tutorState.sex.value == "Masculino" || tutorState.sex.value == "Homme")) {
+            TextField(value = tutorState.maleRelation.value,
+                onValueChange = {}, readOnly = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.full_transparent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.full_transparent),
+                    unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                ),
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
+        }
+        AnimatedVisibility(visible = (tutorState.sex.value == "Masculino" || tutorState.sex.value == "Homme")) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         AnimatedVisibility(visible = (tutorState.sex.value == "Femenino" || tutorState.sex.value == "Femme")) {
             TextField(value = tutorState.childMinor.value,
                 onValueChange = {}, readOnly = true,

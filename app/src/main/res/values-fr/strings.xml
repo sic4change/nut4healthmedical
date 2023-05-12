@@ -32,7 +32,7 @@
     <string name="birthdate">Date de naissance</string>
     <string name="date">Date</string>
     <string name="female">Femme</string>
-    <string name="Male">Homme</string>
+    <string name="male">Homme</string>
     <string name="pregnant">Enceinte</string>
     <string name="no_pregnant">Pas enceinte</string>
     <string name="child">Enfant</string>
@@ -51,22 +51,22 @@
     <string name="current_month">Ce mois-ci</string>
     <string name="weeks">Semaines</string>
     <string name="no_visits_found">Aucune visite trouvée</string>
-    <string name="create_tutor">Créer un profil de mère, père ou de tuteur</string>
+    <string name="create_tutor">Créer un profil de l’accompagnant ou FEFA</string>
     <string name="save">Sauvegarder</string>
-    <string name="delete_tutor_question">Êtes-vous sûr de vouloir supprimer ce profil de mère, père ou tuteur? Toutes les informations associées seront perdues</string>
-    <string name="editar_tutor">Modifier le profil de mère, père ou tuteur</string>
+    <string name="delete_tutor_question">Êtes-vous sûr de vouloir supprimer ce profil de l’accompagnant ou FEFA? Toutes les informations associées seront perdues</string>
+    <string name="editar_tutor">Modifier le profil de l’accompagnant ou FEFA</string>
     <string name="create_child">Créer profil d’enfant</string>
     <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
     <string name="edit_child">Modifier profil d’enfant</string>
-    <string name="tutors">Mère, pere ou tuteur</string>
+    <string name="tutors">Profil de l’accompagnant ou FEFA</string>
     <string name="cuadrante">Visitez le quadrant</string>
     <string name="next_visits">Prochaines visites</string>
     <string name="next_visit">Prochaine visite</string>
     <string name="visits_title">"Visites"</string>
     <string name="visits">"Visites: "</string>
     <string name="last_visits">Dernière visite:</string>
-    <string name="tutors_title">Mère, père ou tuteur</string>
-    <string name="no_tutors"></string>
+    <string name="tutors_title">Profil de l’accompagnant ou FEFA</string>
+    <string name="no_tutors">Pas encore de profils d\'accompagnateurs</string>
     <string name="no_childs">Aucun profile d’enfant encore</string>
     <string name="childs">Enfants</string>
     <string name="childs_title">Enfants</string>
@@ -84,7 +84,7 @@
     <string name="haratin">Haratin</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
-    <string name="check_tutor">Entrez le numéro de téléphone de la mère, père ou tuteur pour valider s’il existe</string>
+    <string name="check_tutor">Entrez le numéro de téléphone de l’accompagnant ou FEFA pour valider s’il existe</string>
     <string name="edit_case">Modifier le cas</string>
     <string name="visitas">Visites</string>
     <string name="no_visits">Aucun visite encore</string>
@@ -106,7 +106,7 @@
     <string name="years">années</string>
     <string name="months">mois</string>
     <string name="searchByNameAndSurnames">Recherche par nom ou prénom</string>
-    <string name="searchTutorsByNameAndSurnames">Chercher par nom ou prénom du tuteur</string>
+    <string name="searchTutorsByNameAndSurnames">Chercher par nom ou prénom du profil de l’accompagnant ou FEFA</string>
     <string name="caso">Cas</string>
     <string name="child_minor_six_month">Enfant de moins de 6 mois</string>
     <string name="child_minor">Oui</string>
@@ -118,6 +118,15 @@
     <string name="adults_marginal">Maigreur marginale</string>
     <string name="adults_moderate">Maigreur modérée</string>
     <string name="adults_severe">Maigreur sévère</string>
+
+    //Relations
+    <string name="relation">Lien avec le fils/la fille</string>
+    <string name="father">Père</string>
+    <string name="grandfather">Grand-père</string>
+    <string name="uncle">Oncle</string>
+    <string name="brother">Frère</string>
+    <string name="cousin">Cousin</string>
+    <string name="other">Autre</string>
 
 
 </resources>

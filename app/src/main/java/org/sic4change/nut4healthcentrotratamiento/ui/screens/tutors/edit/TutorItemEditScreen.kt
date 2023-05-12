@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,7 +12,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -69,7 +67,7 @@ private fun Header(tutorState: TutorState,
                                  String, String, Double, Double, String, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male))
+        stringResource(R.string.female), stringResource(R.string.male))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(

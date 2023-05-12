@@ -16,13 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -62,7 +60,7 @@ private fun Header(childState: ChildState,
                    onCreateChild: (String, String, Date, Int, String, String, String) -> Unit) {
 
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male))
+        stringResource(R.string.female), stringResource(R.string.male))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(

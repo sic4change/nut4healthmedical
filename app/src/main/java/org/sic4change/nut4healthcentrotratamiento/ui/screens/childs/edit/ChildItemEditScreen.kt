@@ -5,14 +5,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -21,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,7 +57,7 @@ fun ChildItemEditScreen(childState: ChildState, loading: Boolean = false,
 private fun Header(childState: ChildState,  onEditChild: (String, String, String, String, Date, Int, String, String, String) -> Unit) {
 
     val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.Male))
+        stringResource(R.string.female), stringResource(R.string.male))
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
