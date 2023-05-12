@@ -212,7 +212,10 @@ object FirebaseDataSource {
                 networkUserContainer.results[0].let { user ->
                     tutor.point = user.point
                     val tutorsRef = firestore.collection("tutors")
+                    val tutorDoc = tutorsRef.document(tutor.id).get().await()
+                    //Aqui podrias pillar el tutor y coger el createDate y luego hacer un update con ese valor
                     tutorsRef.document(tutor.id).set(tutor.toServerTutor()).await()
+                    tutorsRef.document(tutor.id).update("createDate", tutorDoc.get("createDate")).await()
                     Timber.d("update tutor result: ok")
                 }
 
