@@ -103,12 +103,12 @@ class TutorState(
         }
     }
 
-    /*fun clearWomanValues() {
+    fun clearWomanValues() {
         childMinor.value = ""
         selectedOptionChildMinor.value = ""
         pregnant.value = ""
         selectedOptionPregnant.value = ""
-        weeks.value = ""
+        weeks.value = "0"
         height.value = ""
         weight.value = ""
         status.value = ""
@@ -117,6 +117,6 @@ class TutorState(
     fun clearManValues() {
         maleRelation.value = ""
         selectedOptionMaleRelations.value = ""
-    }*/
+    }
 
 }

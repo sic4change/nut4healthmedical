@@ -290,6 +290,7 @@ private fun Header(tutorState: TutorState,
         }
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+            tutorState.clearWomanValues()
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -349,6 +350,7 @@ private fun Header(tutorState: TutorState,
         }
 
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+            tutorState.clearManValues()
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -494,6 +496,10 @@ private fun Header(tutorState: TutorState,
                     tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))
         ) {
             Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female)) &&
+                (tutorState.selectedOptionPregnant.value == stringResource(R.string.no_pregnant))) {
+            tutorState.weeks.value = "0"
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
                 tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
