@@ -40,15 +40,14 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     fun createTutor(name: String, surnames: String, address: String, phone: String,
                     birthdate: Date, ethnician: String, sex: String, maleRelation: String,
-                    childMinor: String,
-                    pregnang: String, weks: String, height: Double, weight: Double,
-                    status: String, observations: String) {
+                    womanStatus: String, weeks: String, childMinor: String, armCircunference: Double,
+                    babyAge: String, status: String, observations: String) {
         viewModelScope.launch {
             _state.value = UiState(loading = true, imc = _state.value.imc)
             val tutor = Tutor(phone,
-                name, surnames, sex, ethnician, birthdate, phone, address,
-                Date(), Date(), maleRelation, childMinor, pregnang, observations, weks, height, weight,
-                status,true, "")
+                name, surnames, sex, ethnician, birthdate, phone, address, Date(), Date(),
+                maleRelation, womanStatus, weeks, childMinor, armCircunference, Integer.parseInt(babyAge),
+                status, observations,true, "")
             _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
             FirebaseDataSource.createTutor(tutor)
             _state.value = UiState(created = true, loading = true, imc = _state.value.imc)

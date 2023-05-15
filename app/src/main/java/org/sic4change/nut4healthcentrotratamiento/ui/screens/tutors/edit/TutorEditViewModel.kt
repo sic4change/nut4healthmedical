@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CasesViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
 import java.util.*
 
 class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -35,25 +36,23 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         var imc: Double? = 0.0,
     )
 
+
     fun editTutor(id: String, name: String, surnames: String, address: String, phone: String,
-                    birthdate: Date, ethnician: String, sex: String, maleRelation: String,
-                  childMinor: String, pregnang: String, weeks: String, height: Double,
-                  weight: Double, status: String,
-                  observations: String) {
+                  birthdate: Date, ethnician: String, sex: String, maleRelation: String,
+                  womanStatus: String, weeks: String, childMinor: String, armCircunference: Double,
+                  babyAge: String, status: String, observations: String) {
         viewModelScope.launch {
+
             _state.value = UiState(loading = true, imc = _state.value.imc)
-            if (sex == "Masculino" || sex == "Homme") {
-                _state.value = UiState(
-                    tutor = _state.value.tutor,
-                    imc = FirebaseDataSource.checkAdultDesnutrition(height, weight),
-                )
-            }
-            val tutor = Tutor(id,
-                name, surnames, sex, ethnician, birthdate, phone, address,
-                Date(), Date(), maleRelation, childMinor, pregnang, observations, weeks, height, weight,
-                status,true, "")
+
+            val tutor = Tutor(id,name, surnames, sex, ethnician, birthdate, phone, address, Date(),
+                Date(), maleRelation, womanStatus, weeks, childMinor, armCircunference,
+                Integer.parseInt(babyAge), status, observations,true, "")
+
             _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
+
             FirebaseDataSource.updateTutor(tutor)
+
             _state.value = UiState(editTutor = true, loading = true, imc = _state.value.imc)
         }
     }

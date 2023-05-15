@@ -5,6 +5,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
+import java.util.Date
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Point as ServerPoint
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
@@ -25,15 +26,15 @@ fun ServerPoint.toDomainPoint() : Point = Point(
     id, name, fullName, phoneCode, phoneLength
 )
 
+
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, maleRelation,
-    childMinor, pregnant, observations, weeks.toString(), height, weight, status, active, point
+    womanStatus, weeks.toString(), childMinor, armCircunference, babyAge, status, observations, active, point
 )
 
 fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
-    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate,
-    maleRelation, childMinor, pregnant, observations, weeks.toInt(), height, weight, status,
-    active, point
+    id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, maleRelation,
+    womanStatus, weeks.toInt(), childMinor, armCircunference, babyAge, status, observations, active, point
 )
 
 fun ServerChild.toDomainChild() : Child = Child(

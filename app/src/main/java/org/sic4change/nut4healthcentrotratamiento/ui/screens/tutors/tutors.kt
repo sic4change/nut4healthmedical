@@ -43,6 +43,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorItemEditScreen
+import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
@@ -230,20 +231,20 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
             tutorDetailState.lastDate.value = viewModelState.tutor!!.lastDate
             tutorDetailState.createdDate.value = viewModelState.tutor!!.createDate
             tutorDetailState.sex.value = viewModelState.tutor!!.sex
-            tutorDetailState.maleRelation.value = viewModelState.tutor!!.maleRelation
-            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
-            tutorDetailState.childMinor.value = viewModelState.tutor!!.childMinor
-            tutorDetailState.pregnant.value = viewModelState.tutor!!.pregnant
-            tutorDetailState.height.value = viewModelState.tutor!!.height.toString()
-            tutorDetailState.weight.value = viewModelState.tutor!!.weight.toString()
-            tutorDetailState.status.value = viewModelState.tutor!!.status
-            tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
-            tutorDetailState.observations.value = viewModelState.tutor!!.observations
             tutorDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorDetailState.maleRelation.value = viewModelState.tutor!!.maleRelation
             tutorDetailState.selectedOptionMaleRelations.value = viewModelState.tutor!!.maleRelation
+            tutorDetailState.etnician.value = viewModelState.tutor!!.ethnicity
             tutorDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
-            tutorDetailState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+            tutorDetailState.womanStatus.value = viewModelState.tutor!!.womanStatus
+            tutorDetailState.selectedOptionWomanStatus.value = viewModelState.tutor!!.womanStatus
+            tutorDetailState.weeks.value = viewModelState.tutor!!.weeks
+            tutorDetailState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorDetailState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
+            tutorDetailState.armCircunference.value = viewModelState.tutor!!.armCircunference
+            tutorDetailState.babyAge.value = viewModelState.tutor!!.babyAge.toString()
+            tutorDetailState.status.value = viewModelState.tutor!!.status
+            tutorDetailState.observations.value = viewModelState.tutor!!.observations
         }
     }
 
@@ -278,35 +279,22 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
             tutorCreateState.lastDate.value = viewModelState.tutor!!.lastDate
             tutorCreateState.createdDate.value = viewModelState.tutor!!.createDate
             tutorCreateState.sex.value = viewModelState.tutor!!.sex
-            tutorCreateState.etnician.value = viewModelState.tutor!!.ethnicity
-            tutorCreateState.childMinor.value = viewModelState.tutor!!.childMinor
-            tutorCreateState.pregnant.value = viewModelState.tutor!!.pregnant
-            tutorCreateState.weeks.value = viewModelState.tutor!!.weeks
-            tutorCreateState.height.value = viewModelState.tutor!!.height.toString()
-            tutorCreateState.weight.value = viewModelState.tutor!!.weight.toString()
-            tutorCreateState.observations.value = viewModelState.tutor!!.observations
             tutorCreateState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            tutorCreateState.maleRelation.value = viewModelState.tutor!!.maleRelation
             tutorCreateState.selectedOptionMaleRelations.value = viewModelState.tutor!!.maleRelation
+            tutorCreateState.etnician.value = viewModelState.tutor!!.ethnicity
             tutorCreateState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
-            tutorCreateState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
+            tutorCreateState.womanStatus.value = viewModelState.tutor!!.womanStatus
+            tutorCreateState.selectedOptionWomanStatus.value = viewModelState.tutor!!.womanStatus
+            tutorCreateState.weeks.value = viewModelState.tutor!!.weeks
+            tutorCreateState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorCreateState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
+            tutorCreateState.armCircunference.value = viewModelState.tutor!!.armCircunference
+            tutorCreateState.babyAge.value = viewModelState.tutor!!.babyAge.toString()
+            tutorCreateState.status.value = viewModelState.tutor!!.status
+            tutorCreateState.observations.value = viewModelState.tutor!!.observations
         } else {
             tutorCreateState.phone.value = viewModelState.phone
-        }
-    }
-
-    LaunchedEffect(viewModelState.imc) {
-        tutorCreateState.imc.value = viewModelState.imc!!
-        if (tutorCreateState.imc.value.equals(18.5) ) {
-            tutorCreateState.status.value = "Normopeso"
-        } else if (tutorCreateState.imc.value.equals(18.0)) {
-            tutorCreateState.status.value = "Peso Objetivo"
-        } else if (tutorCreateState.imc.value.equals(17.0)) {
-            tutorCreateState.status.value = "Peso Objetivo"
-        } else if (tutorCreateState.imc.value.equals(16.0)) {
-            tutorCreateState.status.value = "Aguda Moderada"
-        } else {
-            tutorCreateState.status.value = "Aguda Severa"
         }
     }
 
@@ -344,35 +332,20 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
             tutorEditState.lastDate.value = viewModelState.tutor!!.lastDate
             tutorEditState.createdDate.value = viewModelState.tutor!!.createDate
             tutorEditState.sex.value = viewModelState.tutor!!.sex
+            tutorEditState.selectedOptionSex.value = viewModelState.tutor!!.sex
             tutorEditState.maleRelation.value = viewModelState.tutor!!.maleRelation
+            tutorEditState.selectedOptionMaleRelations.value = viewModelState.tutor!!.maleRelation
             tutorEditState.etnician.value = viewModelState.tutor!!.ethnicity
-            tutorEditState.childMinor.value = viewModelState.tutor!!.childMinor
-            tutorEditState.pregnant.value = viewModelState.tutor!!.pregnant
+            tutorEditState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            tutorEditState.womanStatus.value = viewModelState.tutor!!.womanStatus
+            tutorEditState.selectedOptionWomanStatus.value = viewModelState.tutor!!.womanStatus
             tutorEditState.weeks.value = viewModelState.tutor!!.weeks
-            tutorEditState.height.value = viewModelState.tutor!!.height.toString()
-            tutorEditState.weight.value = viewModelState.tutor!!.weight.toString()
+            tutorEditState.childMinor.value = viewModelState.tutor!!.childMinor
+            tutorEditState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
+            tutorEditState.armCircunference.value = viewModelState.tutor!!.armCircunference
+            tutorEditState.babyAge.value = viewModelState.tutor!!.babyAge.toString()
             tutorEditState.status.value = viewModelState.tutor!!.status
             tutorEditState.observations.value = viewModelState.tutor!!.observations
-            tutorEditState.selectedOptionSex.value = viewModelState.tutor!!.sex
-            tutorEditState.selectedOptionMaleRelations.value = viewModelState.tutor!!.maleRelation
-            tutorEditState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
-            tutorEditState.selectedOptionPregnant.value = viewModelState.tutor!!.pregnant
-            tutorEditState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
-        }
-    }
-
-    LaunchedEffect(viewModelState.imc) {
-        tutorEditState.imc.value = viewModelState.imc!!
-        if (tutorEditState.imc.value.equals(18.5) ) {
-            tutorEditState.status.value = "Normopeso"
-        } else if (tutorEditState.imc.value.equals(18.0)) {
-            tutorEditState.status.value = "Peso Objetivo"
-        } else if (tutorEditState.imc.value.equals(17.0)) {
-            tutorEditState.status.value = "Peso Objetivo"
-        } else if (tutorEditState.imc.value.equals(16.0)) {
-            tutorEditState.status.value = "Aguda Moderada"
-        } else {
-            tutorEditState.status.value = "Aguda Severa"
         }
     }
 

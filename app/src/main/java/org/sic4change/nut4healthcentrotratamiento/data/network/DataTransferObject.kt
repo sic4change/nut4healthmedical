@@ -46,13 +46,13 @@ data class Tutor(
     @Exclude val createDate: Date = Date(),
     @Exclude val lastDate: Date = Date(),
     @Exclude val maleRelation: String = "",
-    @Exclude val childMinor: String = "",
-    @Exclude val pregnant: String = "",
-    @Exclude val observations: String = "",
+    @Exclude val womanStatus: String = "",
     @Exclude val weeks: Int = 0,
-    @Exclude val height: Double = 0.0,
-    @Exclude  val weight: Double = 0.0,
+    @Exclude val childMinor: String = "",
+    @Exclude val armCircunference: Double = 0.0,
+    @Exclude  val babyAge: Int = 0,
     @Exclude  val status: String = "",
+    @Exclude val observations: String = "",
     @Exclude val active: Boolean = false,
     @Exclude val point: String? = ""
 )

@@ -3,6 +3,8 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringResource
+import org.sic4change.nut4healthcentrotratamiento.R
 import java.util.*
 
 
@@ -16,36 +18,36 @@ fun rememberTutorState(
     birthday: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
-    sex: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    maleRelation: MutableState<String> = rememberSaveable { mutableStateOf("") },
     etnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    pregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    childMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    weeks: MutableState<String> = rememberSaveable { mutableStateOf("0") },
-    height: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    weight: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    imc: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
-    status: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    expandedSex: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    expandedRelation: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    selectedOptionSex: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    selectedOptionMaleRelations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedEtnician: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionEtnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    expandedPregnant: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    sex: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedSex: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedOptionSex: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    maleRelation: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedMaleRelation: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedOptionMaleRelations: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    womanStatus: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedWomanStatus: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedOptionWomanStatus: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    weeks: MutableState<String> = rememberSaveable { mutableStateOf("0") },
+    childMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedChildMinor: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    selectedOptionPregnant: MutableState<String> = rememberSaveable { mutableStateOf("") },
     selectedOptionChildMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
+    babyAge: MutableState<String> = rememberSaveable { mutableStateOf("0") },
+    status: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     createdTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 
 
 ) = remember{ TutorState(
-    id, name, surnames, address, phone, birthday, lastDate, createdDate, sex, maleRelation, etnician, pregnant,
-    childMinor, weeks, height, weight, imc, status, observations, expandedSex, expandedRelation, selectedOptionSex,
-    selectedOptionMaleRelations, expandedEtnician, selectedOptionEtnician, expandedPregnant, expandedChildMinor,
-    selectedOptionPregnant, selectedOptionChildMinor, createdTutor, deleteTutor
+    id, name, surnames, address, phone, birthday, lastDate, createdDate, etnician, expandedEtnician,
+    selectedOptionEtnician, sex, expandedSex, selectedOptionSex, maleRelation, expandedMaleRelation,
+    selectedOptionMaleRelations, womanStatus, expandedWomanStatus, selectedOptionWomanStatus,
+    weeks, childMinor, expandedChildMinor, selectedOptionChildMinor, armCircunference, babyAge,
+    status, observations, createdTutor, deleteTutor
 ) }
 
 class TutorState(
@@ -57,60 +59,72 @@ class TutorState(
     val birthday: MutableState<Date>,
     val lastDate: MutableState<Date>,
     val createdDate: MutableState<Date>,
-    val sex: MutableState<String>,
-    val maleRelation: MutableState<String>,
     val etnician: MutableState<String>,
-    val pregnant: MutableState<String>,
-    val childMinor: MutableState<String>,
-    val weeks: MutableState<String>,
-    val height: MutableState<String>,
-    val weight: MutableState<String>,
-    val imc: MutableState<Double>,
-    val status: MutableState<String>,
-    val observations: MutableState<String>,
-    val expandedSex: MutableState<Boolean>,
-    val expandedMaleRelation: MutableState<Boolean>,
-    val selectedOptionSex: MutableState<String>,
-    val selectedOptionMaleRelations: MutableState<String>,
     val expandedEtnician: MutableState<Boolean>,
     val selectedOptionEtnician: MutableState<String>,
-    val expandedPregnant: MutableState<Boolean>,
+    val sex: MutableState<String>,
+    val expandedSex: MutableState<Boolean>,
+    val selectedOptionSex: MutableState<String>,
+    val maleRelation: MutableState<String>,
+    val expandedMaleRelation: MutableState<Boolean>,
+    val selectedOptionMaleRelations: MutableState<String>,
+    val womanStatus: MutableState<String>,
+    val expandedWomanStatus: MutableState<Boolean>,
+    val selectedOptionWomanStatus: MutableState<String>,
+    val weeks: MutableState<String>,
+    val childMinor: MutableState<String>,
     val expandedChildMinor: MutableState<Boolean>,
-    val selectedOptionPregnant: MutableState<String>,
     val selectedOptionChildMinor: MutableState<String>,
+    val armCircunference: MutableState<Double>,
+    val babyAge: MutableState<String>,
+    val status: MutableState<String>,
+    val observations: MutableState<String>,
     val createdTutor: MutableState<Boolean>,
     val deleteTutor: MutableState<Boolean>,
-
     ) {
 
     fun showDeleteQuestion() {
         deleteTutor.value = !deleteTutor.value
     }
 
-    fun formatHeightValue(value: String) {
-        val temp = value.replace(",", ".").
-        replace(" ", "").replace("-", "")
-        if (temp != "." && temp.filter { it == '.' }.count() < 2) {
-            height.value = temp
-        }
-    }
-
-    fun formatWeightValue(value: String) {
-        val temp = value.replace(",", ".").
-        replace(" ", "").replace("-", "")
-        if (temp != "." && temp.filter { it == '.' }.count() < 2) {
-            weight.value = temp
-        }
-    }
 
     fun clearWomanValues() {
-        childMinor.value = ""
-        selectedOptionChildMinor.value = ""
-        pregnant.value = ""
-        selectedOptionPregnant.value = ""
+        womanStatus.value = ""
+        expandedWomanStatus.value = false
+        selectedOptionWomanStatus.value = ""
         weeks.value = "0"
-        height.value = ""
-        weight.value = ""
+        childMinor.value = ""
+        expandedChildMinor.value = false
+        selectedOptionChildMinor.value = ""
+        armCircunference.value = 0.0
+        babyAge.value = "0"
+        status.value = ""
+    }
+
+    fun clearWomanPregnantStatusValue() {
+        babyAge.value = ""
+    }
+
+    fun clearWomanInfantStatusValue() {
+        childMinor.value = ""
+        expandedChildMinor.value = false
+        selectedOptionChildMinor.value = ""
+        weeks.value = "0"
+    }
+
+    fun clearWomanPregnantAndInfantStatusValue() {
+        childMinor.value = ""
+        expandedChildMinor.value = false
+        selectedOptionChildMinor.value = ""
+    }
+
+    fun clearWomanOtherStatusValue() {
+        weeks.value = "0"
+        childMinor.value = ""
+        expandedChildMinor.value = false
+        selectedOptionChildMinor.value = ""
+        armCircunference.value = 0.0
+        babyAge.value = "0"
         status.value = ""
     }
 

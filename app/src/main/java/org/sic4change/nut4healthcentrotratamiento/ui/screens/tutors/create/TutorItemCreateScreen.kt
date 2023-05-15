@@ -30,7 +30,7 @@ import java.util.*
 @Composable
 fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false,
 onCreateTutor: (String, String, String, String, Date, String, String, String, String, String,
-                String, Double, Double, String, String) -> Unit, onChangeWeightOrHeight: (String, String) -> Unit) {
+                String, Double, String, String, String) -> Unit, onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -48,10 +48,6 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, St
                     onCreateTutor = onCreateTutor,
                     onChangeWeightOrHeight = onChangeWeightOrHeight)
             }
-            /*item.references.forEach {
-                val (icon, @StringRes stringRes) = it.type.createUiData()
-                section(icon, stringRes, it.references)
-            }*/
         }
 
     }
@@ -63,25 +59,32 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, St
 @Composable
 private fun Header(tutorState: TutorState,
                    onCreateTutor: (String, String, String, String, Date, String, String, String,
-                                   String, String, String, Double, Double, String, String) -> Unit,
+                                   String, String, String, Double, String, String, String) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
-    val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.male))
+    val SEXS = listOf(
+        stringResource(R.string.female), stringResource(R.string.male)
+    )
 
-    val maleRelations = listOf(
+    val WOMANSTATUS = listOf(
+        stringResource(R.string.pregnant), stringResource(R.string.infant), stringResource(
+            R.string.pregnant_and_infant), stringResource(R.string.nothing)
+    )
+
+    val MALE_RELATIONS = listOf(
         stringResource(R.string.father), stringResource(R.string.grandfather), stringResource(
             R.string.brother), stringResource(R.string.uncle), stringResource(R.string.cousin),
-        stringResource(R.string.other))
+        stringResource(R.string.other)
+    )
 
-    val etnicians = listOf(
+    val ETNICIANS = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
             R.string.beydan), stringResource(R.string.haratin), stringResource(R.string.soninke),
-        stringResource(R.string.autre))
+        stringResource(R.string.autre)
+    )
 
-    val pregnants = listOf(stringResource(R.string.pregnant), stringResource(R.string.no_pregnant))
+    val CHILD_MINOR = listOf(stringResource(R.string.child_minor), stringResource(R.string.no_child_minor))
 
-    val childMinor = listOf(stringResource(R.string.child_minor), stringResource(R.string.no_child_minor))
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -223,7 +226,7 @@ private fun Header(tutorState: TutorState,
                     tutorState.expandedEtnician.value = false
                 }
             ) {
-                etnicians.forEach { selectionOption2 ->
+                ETNICIANS.forEach { selectionOption2 ->
                     DropdownMenuItem(
                         onClick = {
                             tutorState.selectedOptionEtnician.value = selectionOption2
@@ -276,7 +279,7 @@ private fun Header(tutorState: TutorState,
                     tutorState.expandedSex.value = false
                 }
             ) {
-                sexs.forEach { selectionOption2 ->
+                SEXS.forEach { selectionOption2 ->
                     DropdownMenuItem(
                         onClick = {
                             tutorState.selectedOptionSex.value = selectionOption2
@@ -290,7 +293,6 @@ private fun Header(tutorState: TutorState,
         }
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
-            tutorState.clearWomanValues()
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -331,7 +333,7 @@ private fun Header(tutorState: TutorState,
                         tutorState.expandedMaleRelation.value = false
                     }
                 ) {
-                    maleRelations.forEach { selectionOption2 ->
+                    MALE_RELATIONS.forEach { selectionOption2 ->
                         DropdownMenuItem(
                             onClick = {
                                 tutorState.selectedOptionMaleRelations.value = selectionOption2
@@ -350,7 +352,96 @@ private fun Header(tutorState: TutorState,
         }
 
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
-            tutorState.clearManValues()
+            ExposedDropdownMenuBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                expanded = tutorState.expandedWomanStatus.value,
+                onExpandedChange = {
+                    tutorState.expandedWomanStatus.value = !tutorState.expandedWomanStatus.value
+                }
+            ) {
+                TextField(
+                    readOnly = true,
+                    value = tutorState.selectedOptionWomanStatus.value,
+                    onValueChange = { tutorState.selectedOptionWomanStatus.value = it
+                        tutorState.womanStatus.value = it },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = tutorState.expandedWomanStatus.value
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.h5,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) }
+                )
+                ExposedDropdownMenu(
+                    expanded = tutorState.expandedWomanStatus.value,
+                    onDismissRequest = {
+                        tutorState.expandedWomanStatus.value = false
+                    }
+                ) {
+                    WOMANSTATUS.forEach { selectionOption2 ->
+                        DropdownMenuItem(
+                            onClick = {
+                                tutorState.selectedOptionWomanStatus.value = selectionOption2
+                                tutorState.expandedWomanStatus.value = false
+                            }
+                        ) {
+                            Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
+                        }
+                    }
+                }
+            }
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+            TextField(value = tutorState.weeks.value.toString(),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                onValueChange = {
+                    try {
+                        tutorState.weeks.value = it
+                    } catch (e: Exception) { } },
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) }
+
+            )
+
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -379,8 +470,7 @@ private fun Header(tutorState: TutorState,
                         focusedIndicatorColor = colorResource(R.color.colorAccent),
                         unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     leadingIcon = {
                         Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                     label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) }
@@ -391,7 +481,7 @@ private fun Header(tutorState: TutorState,
                         tutorState.expandedChildMinor.value = false
                     }
                 ) {
-                    childMinor.forEach { selectionOption2 ->
+                    CHILD_MINOR.forEach { selectionOption2 ->
                         DropdownMenuItem(
                             onClick = {
                                 tutorState.selectedOptionChildMinor.value = selectionOption2
@@ -404,70 +494,12 @@ private fun Header(tutorState: TutorState,
                 }
             }
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
-            ExposedDropdownMenuBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                expanded = tutorState.expandedPregnant.value,
-                onExpandedChange = {
-                    tutorState.expandedPregnant.value = !tutorState.expandedPregnant.value
-                }
-            ) {
-                TextField(
-                    readOnly = true,
-                    value = tutorState.selectedOptionPregnant.value,
-                    onValueChange = { tutorState.selectedOptionPregnant.value = it
-                        tutorState.pregnant.value = it },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                            expanded = tutorState.expandedPregnant.value
-                        )
-                    },
-                    textStyle = MaterialTheme.typography.h5,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.colorAccent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.colorAccent),
-                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    leadingIcon = {
-                        Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                    label = { Text(stringResource(R.string.pregnant), color = colorResource(R.color.disabled_color)) }
-                )
-                ExposedDropdownMenu(
-                    expanded = tutorState.expandedPregnant.value,
-                    onDismissRequest = {
-                        tutorState.expandedPregnant.value = false
-                    }
-                ) {
-                    pregnants.forEach { selectionOption2 ->
-                        DropdownMenuItem(
-                            onClick = {
-                                tutorState.selectedOptionPregnant.value = selectionOption2
-                                tutorState.expandedPregnant.value = false
-                            }
-                        ) {
-                            Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
-                        }
-                    }
-                }
-            }
-        }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        AnimatedVisibility(
-            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
-                tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))) {
-            TextField(value = tutorState.weeks.value.toString(),
+        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
+                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+            TextField(value = tutorState.babyAge.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -481,185 +513,22 @@ private fun Header(tutorState: TutorState,
                 ),
                 onValueChange = {
                     try {
-                        tutorState.weeks.value = it
+                        tutorState.babyAge.value = it
                     } catch (e: Exception) { } },
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
-                    Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
-        }
-        AnimatedVisibility(
-            visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female) &&
-                    tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant))
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female)) &&
-                (tutorState.selectedOptionPregnant.value == stringResource(R.string.no_pregnant))) {
-            tutorState.weeks.value = "0"
-        }
-        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
-                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
-            TextField(value = tutorState.height.value.toString(),
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {
-                    tutorState.formatHeightValue(it)
-                    onChangeWeightOrHeight(tutorState.height.value.filter { !it.isWhitespace() },
-                        tutorState.weight.value.filter { !it.isWhitespace() })
-                },
-                textStyle = MaterialTheme.typography.h5,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        AnimatedVisibility(
-            visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
-                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        AnimatedVisibility(visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
-                tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))) {
-            TextField(value = tutorState.weight.value.toString(),
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {
-                    tutorState.formatWeightValue(it)
-                    onChangeWeightOrHeight(tutorState.height.value.filter { !it.isWhitespace() },
-                        tutorState.weight.value.filter { !it.isWhitespace() })
-                },
-                textStyle = MaterialTheme.typography.h5,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        AnimatedVisibility(
-            visible = (tutorState.selectedOptionPregnant.value == stringResource(R.string.pregnant) ||
-                    tutorState.selectedOptionChildMinor.value == stringResource(R.string.child_minor))
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        AnimatedVisibility(visible = (tutorState.weight.value.isNotEmpty()
-                && tutorState.height.value.isNotEmpty() &&
-                !tutorState.createdTutor.value)) {
-            var statusFormated = ""
-            if (tutorState.status.value == "Normopeso" || tutorState.status.value == stringResource(R.string.adults_normal)) {
-                statusFormated = stringResource(R.string.adults_normal)
-            } else if (tutorState.status.value == "Peso Objetivo" || tutorState.status.value == stringResource(R.string.adults_marginal)) {
-                statusFormated = stringResource(R.string.adults_marginal)
-            } else if (tutorState.status.value == "Aguda Moderada" || tutorState.status.value == stringResource(R.string.adults_moderate)) {
-                statusFormated = stringResource(R.string.adults_moderate)
-            } else {
-                statusFormated = stringResource(R.string.adults_severe)
-            }
+                    Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) }
 
+            )
 
-            tutorState.status.value = statusFormated
-
-            if (tutorState.status.value == stringResource(R.string.adults_normal)) {
-                TextField(value = tutorState.status.value,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorAccent),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.colorAccent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.colorAccent),
-                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else if (tutorState.status.value == stringResource(R.string.adults_marginal)) {
-                TextField(value = tutorState.status.value,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.colorPrimary),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.colorPrimary),
-                        unfocusedIndicatorColor = colorResource(R.color.colorPrimary),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else if (tutorState.status.value == stringResource(R.string.adults_moderate)) {
-                TextField(value = tutorState.status.value,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.orange),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.orange),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.orange),
-                        unfocusedIndicatorColor = colorResource(R.color.orange),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            } else {
-                TextField(value = statusFormated,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.error),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.error),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.error),
-                        unfocusedIndicatorColor = colorResource(R.color.error),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-            }
-
+        }
+        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
+                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         TextField(value = tutorState.observations.value,
@@ -673,19 +542,33 @@ private fun Header(tutorState: TutorState,
             ),
             onValueChange = {tutorState.observations.value = it},
             textStyle = MaterialTheme.typography.h5,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                capitalization = KeyboardCapitalization.Sentences),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
             leadingIcon = {
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+
         Spacer(modifier = Modifier.height(16.dp))
+
         AnimatedVisibility(visible = (tutorState.name.value.isNotEmpty() &&
                 tutorState.surnames.value.isNotEmpty() &&
                 tutorState.phone.value.isNotEmpty() &&
                 tutorState.address.value.isNotEmpty())) {
+            if (tutorState.selectedOptionSex.value == stringResource(R.string.male)){
+                tutorState.clearWomanValues()
+            } else {
+                tutorState.clearManValues()
+                if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant)){
+                    tutorState.clearWomanPregnantStatusValue()
+                } else if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant)) {
+                    tutorState.clearWomanInfantStatusValue()
+                } else if(tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant)) {
+                    tutorState.clearWomanPregnantAndInfantStatusValue()
+                } else {
+                    tutorState.clearWomanOtherStatusValue()
+                }
+            }
             Button(
                 enabled = !tutorState.createdTutor.value,
                 modifier = Modifier
@@ -694,26 +577,11 @@ private fun Header(tutorState: TutorState,
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
                     tutorState.createdTutor.value = true
-                    var height = 0.0
-                    if (tutorState.height.value != ""){
-                        height = tutorState.height.value.filter { !it.isWhitespace() }.toDouble()
-                    }
-                    var weight = 0.0
-                    if (tutorState.weight.value != ""){
-                        weight = tutorState.weight.value.filter { !it.isWhitespace() }.toDouble()
-                    }
-                    var status = tutorState.status.value
-                    if (weight == 0.0 || height == 0.0) {
-                        status = ""
-                    }
                     onCreateTutor(tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
-                        tutorState.selectedOptionSex.value, tutorState.selectedOptionMaleRelations.value, tutorState.selectedOptionChildMinor.value,
-                        tutorState.selectedOptionPregnant.value, tutorState.weeks.value,
-                        height,
-                        weight,
-                        status,
-                        tutorState.observations.value)
+                        tutorState.selectedOptionSex.value, tutorState.selectedOptionMaleRelations.value,
+                        tutorState.selectedOptionWomanStatus.value, tutorState.weeks.value, tutorState.childMinor.value,
+                        0.0, tutorState.babyAge.value, "", tutorState.observations.value)
 
                 },
             ) {

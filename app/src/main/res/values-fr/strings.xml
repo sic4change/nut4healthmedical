@@ -34,6 +34,10 @@
     <string name="female">Femme</string>
     <string name="male">Homme</string>
     <string name="pregnant">Enceinte</string>
+    <string name="infant">Nourrisson</string>
+    <string name="pregnant_and_infant">Enceinte et nourrisson</string>
+    <string name="nothing">Aucun</string>
+    <string name="baby_age">Âge du bébé (mois)</string>
     <string name="no_pregnant">Pas enceinte</string>
     <string name="child">Enfant</string>
     <string name="observations">Observations</string>
