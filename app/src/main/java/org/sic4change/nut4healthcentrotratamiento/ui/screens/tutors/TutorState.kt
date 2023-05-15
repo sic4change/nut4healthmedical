@@ -102,7 +102,7 @@ class TutorState(
     }
 
     fun clearWomanPregnantStatusValue() {
-        babyAge.value = ""
+        babyAge.value = "0"
     }
 
     fun clearWomanInfantStatusValue() {
@@ -121,6 +121,7 @@ class TutorState(
     fun clearWomanOtherStatusValue() {
         weeks.value = "0"
         childMinor.value = ""
+        selectedOptionChildMinor.value = ""
         expandedChildMinor.value = false
         selectedOptionChildMinor.value = ""
         armCircunference.value = 0.0

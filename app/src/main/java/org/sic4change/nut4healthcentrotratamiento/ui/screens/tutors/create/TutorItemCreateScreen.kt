@@ -410,7 +410,7 @@ private fun Header(tutorState: TutorState,
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
                 tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
-            TextField(value = tutorState.weeks.value.toString(),
+            TextField(value = tutorState.weeks.value,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -422,9 +422,11 @@ private fun Header(tutorState: TutorState,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
-                onValueChange = {
+                onValueChange = { newText ->
                     try {
-                        tutorState.weeks.value = it
+                        if (newText.all { it.isDigit() }) {
+                            tutorState.weeks.value = newText
+                        }
                     } catch (e: Exception) { } },
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier
@@ -499,7 +501,7 @@ private fun Header(tutorState: TutorState,
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
                 tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
-            TextField(value = tutorState.babyAge.value.toString(),
+            TextField(value = tutorState.babyAge.value,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -511,9 +513,11 @@ private fun Header(tutorState: TutorState,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
-                onValueChange = {
+                onValueChange = { newText->
                     try {
-                        tutorState.babyAge.value = it
+                        if (newText.all { it.isDigit() }) {
+                            tutorState.babyAge.value = newText
+                        }
                     } catch (e: Exception) { } },
                 textStyle = MaterialTheme.typography.h5,
                 modifier = Modifier
@@ -565,7 +569,7 @@ private fun Header(tutorState: TutorState,
                     tutorState.clearWomanInfantStatusValue()
                 } else if(tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant)) {
                     tutorState.clearWomanPregnantAndInfantStatusValue()
-                } else {
+                } else if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.nothing)) {
                     tutorState.clearWomanOtherStatusValue()
                 }
             }
@@ -580,7 +584,7 @@ private fun Header(tutorState: TutorState,
                     onCreateTutor(tutorState.name.value, tutorState.surnames.value, tutorState.address.value,
                         tutorState.phone.value, tutorState.birthday.value, tutorState.selectedOptionEtnician.value,
                         tutorState.selectedOptionSex.value, tutorState.selectedOptionMaleRelations.value,
-                        tutorState.selectedOptionWomanStatus.value, tutorState.weeks.value, tutorState.childMinor.value,
+                        tutorState.selectedOptionWomanStatus.value, tutorState.weeks.value, tutorState.selectedOptionChildMinor.value,
                         0.0, tutorState.babyAge.value, "", tutorState.observations.value)
 
                 },

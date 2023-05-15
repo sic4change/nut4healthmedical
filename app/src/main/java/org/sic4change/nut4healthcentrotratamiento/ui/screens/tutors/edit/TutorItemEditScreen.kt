@@ -567,7 +567,7 @@ private fun Header(tutorState: TutorState,
                     tutorState.clearWomanInfantStatusValue()
                 } else if(tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant)) {
                     tutorState.clearWomanPregnantAndInfantStatusValue()
-                } else {
+                } else if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.nothing)) {
                     tutorState.clearWomanOtherStatusValue()
                 }
             }

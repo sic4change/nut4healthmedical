@@ -18,7 +18,7 @@ data class Tutor(
     val weeks: String,
     val childMinor: String,
     val armCircunference: Double,
-    val babyAge: Int,
+    val babyAge: String,
     val status: String,
     val observations: String,
     val active: Boolean,

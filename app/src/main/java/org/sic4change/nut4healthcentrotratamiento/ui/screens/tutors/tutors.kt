@@ -242,7 +242,7 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
             tutorDetailState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorDetailState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
             tutorDetailState.armCircunference.value = viewModelState.tutor!!.armCircunference
-            tutorDetailState.babyAge.value = viewModelState.tutor!!.babyAge.toString()
+            tutorDetailState.babyAge.value = viewModelState.tutor!!.babyAge
             tutorDetailState.status.value = viewModelState.tutor!!.status
             tutorDetailState.observations.value = viewModelState.tutor!!.observations
         }
@@ -290,7 +290,7 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
             tutorCreateState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorCreateState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
             tutorCreateState.armCircunference.value = viewModelState.tutor!!.armCircunference
-            tutorCreateState.babyAge.value = viewModelState.tutor!!.babyAge.toString()
+            tutorCreateState.babyAge.value = viewModelState.tutor!!.babyAge
             tutorCreateState.status.value = viewModelState.tutor!!.status
             tutorCreateState.observations.value = viewModelState.tutor!!.observations
         } else {
@@ -343,7 +343,7 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
             tutorEditState.childMinor.value = viewModelState.tutor!!.childMinor
             tutorEditState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
             tutorEditState.armCircunference.value = viewModelState.tutor!!.armCircunference
-            tutorEditState.babyAge.value = viewModelState.tutor!!.babyAge.toString()
+            tutorEditState.babyAge.value = viewModelState.tutor!!.babyAge
             tutorEditState.status.value = viewModelState.tutor!!.status
             tutorEditState.observations.value = viewModelState.tutor!!.observations
         }

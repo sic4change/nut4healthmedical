@@ -47,7 +47,7 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
             val tutor = Tutor(id,name, surnames, sex, ethnician, birthdate, phone, address, Date(),
                 Date(), maleRelation, womanStatus, weeks, childMinor, armCircunference,
-                Integer.parseInt(babyAge), status, observations,true, "")
+                babyAge, status, observations,true, "")
 
             _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
 
