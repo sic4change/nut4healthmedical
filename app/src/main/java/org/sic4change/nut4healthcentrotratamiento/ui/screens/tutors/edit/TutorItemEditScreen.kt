@@ -30,8 +30,7 @@ import java.util.*
 @Composable
 fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
                         onEditTutor: (String, String, String, String, String, Date, String, String,
-                                      String, String, String, String, Double, String, String, String) -> Unit,
-                        onChangeWeightOrHeight: (String, String) -> Unit) {
+                                      String, String, String, String, Double, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -46,8 +45,7 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
             item {
                 Header(
                     tutorState = tutorState,
-                    onEditTutor = onEditTutor,
-                    onChangeWeightOrHeight = onChangeWeightOrHeight)
+                    onEditTutor = onEditTutor)
             }
             /*item.references.forEach {
                 val (icon, @StringRes stringRes) = it.type.createUiData()
@@ -64,8 +62,7 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
 @Composable
 private fun Header(tutorState: TutorState,
                    onEditTutor: (String, String, String, String, String, Date, String, String, String,
-                                 String, String, String, Double, String, String, String) -> Unit,
-                   onChangeWeightOrHeight: (String, String) -> Unit) {
+                                 String, String, String, Double, String, String, String) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)

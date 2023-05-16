@@ -34,8 +34,7 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val phone: String = "",
         val loading: Boolean = false,
         val tutor: Tutor? = null,
-        val created: Boolean = false,
-        var imc: Double? = 0.0,
+        val created: Boolean = false
     )
 
     fun createTutor(name: String, surnames: String, address: String, phone: String,
@@ -43,33 +42,18 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     womanStatus: String, weeks: String, childMinor: String, armCircunference: Double,
                     babyAge: String, status: String, observations: String) {
         viewModelScope.launch {
-            _state.value = UiState(loading = true, imc = _state.value.imc)
+
+            _state.value = UiState(loading = true)
+
             val tutor = Tutor(phone,
                 name, surnames, sex, ethnician, birthdate, phone, address, Date(), Date(),
                 maleRelation, womanStatus, weeks, childMinor, armCircunference, babyAge,
                 status, observations,true, "")
-            _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
+            _state.value= UiState(tutor = tutor, loading = true)
             FirebaseDataSource.createTutor(tutor)
-            _state.value = UiState(created = true, loading = true, imc = _state.value.imc)
+            _state.value = UiState(created = true, loading = true)
         }
     }
 
-    fun checkDesnutrition(height: String, weight: String) {
-        viewModelScope.launch {
-            if (height.isNotEmpty() && weight.isNotEmpty()) {
-                try {
-                    _state.value= UiState(
-                        phone = _state.value.phone,
-                        imc = FirebaseDataSource.checkAdultDesnutrition(
-                            height.toDouble(),
-                            weight.toDouble()
-                        ),
-                    )
-                } catch (error: Error) {
-                    println("error: ${error}")
-                }
-            }
-        }
-    }
 
 }

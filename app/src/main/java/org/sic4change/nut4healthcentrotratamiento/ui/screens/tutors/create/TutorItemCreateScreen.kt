@@ -30,7 +30,7 @@ import java.util.*
 @Composable
 fun TutorItemCreateScreen(tutorState: TutorState, loading: Boolean = false,
 onCreateTutor: (String, String, String, String, Date, String, String, String, String, String,
-                String, Double, String, String, String) -> Unit, onChangeWeightOrHeight: (String, String) -> Unit) {
+                String, Double, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -45,8 +45,7 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, St
             item {
                 Header(
                     tutorState = tutorState,
-                    onCreateTutor = onCreateTutor,
-                    onChangeWeightOrHeight = onChangeWeightOrHeight)
+                    onCreateTutor = onCreateTutor)
             }
         }
 
@@ -59,8 +58,7 @@ onCreateTutor: (String, String, String, String, Date, String, String, String, St
 @Composable
 private fun Header(tutorState: TutorState,
                    onCreateTutor: (String, String, String, String, Date, String, String, String,
-                                   String, String, String, Double, String, String, String) -> Unit,
-                   onChangeWeightOrHeight: (String, String) -> Unit) {
+                                   String, String, String, Double, String, String, String) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)

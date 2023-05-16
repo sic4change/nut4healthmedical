@@ -307,8 +307,7 @@ fun TutorCreateScreen(viewModel: TutorCreateViewModel = viewModel(), onCreateTut
     TutorItemCreateScreen(
         loading = viewModelState.loading,
         tutorState = tutorCreateState,
-        onCreateTutor = viewModel::createTutor,
-        onChangeWeightOrHeight = viewModel::checkDesnutrition
+        onCreateTutor = viewModel::createTutor
     )
 }
 
@@ -359,8 +358,7 @@ fun TutorEditScreen(viewModel: TutorEditViewModel = viewModel(), onEditTutor: ()
     TutorItemEditScreen(
         loading = viewModelState.loading,
         tutorState = tutorEditState,
-        onEditTutor = viewModel::editTutor,
-        onChangeWeightOrHeight = viewModel::checkDesnutrition
+        onEditTutor = viewModel::editTutor
     )
 }
 

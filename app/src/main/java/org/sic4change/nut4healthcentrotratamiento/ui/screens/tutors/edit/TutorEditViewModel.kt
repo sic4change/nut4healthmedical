@@ -32,8 +32,7 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val tutor: Tutor? = null,
-        val editTutor: Boolean = false,
-        var imc: Double? = 0.0,
+        val editTutor: Boolean = false
     )
 
 
@@ -43,35 +42,17 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                   babyAge: String, status: String, observations: String) {
         viewModelScope.launch {
 
-            _state.value = UiState(loading = true, imc = _state.value.imc)
+            _state.value = UiState(loading = true)
 
             val tutor = Tutor(id,name, surnames, sex, ethnician, birthdate, phone, address, Date(),
                 Date(), maleRelation, womanStatus, weeks, childMinor, armCircunference,
                 babyAge, status, observations,true, "")
 
-            _state.value= UiState(tutor = tutor, loading = true, imc = _state.value.imc)
+            _state.value= UiState(tutor = tutor, loading = true)
 
             FirebaseDataSource.updateTutor(tutor)
 
-            _state.value = UiState(editTutor = true, loading = true, imc = _state.value.imc)
-        }
-    }
-
-    fun checkDesnutrition(height: String, weight: String) {
-        viewModelScope.launch {
-            if (height.isNotEmpty() && weight.isNotEmpty()) {
-                try {
-                    _state.value= UiState(
-                        tutor = _state.value.tutor,
-                        imc = FirebaseDataSource.checkAdultDesnutrition(
-                            height.toDouble(),
-                            weight.toDouble()
-                        ),
-                    )
-                } catch (error: Error) {
-                    println("error: ${error}")
-                }
-            }
+            _state.value = UiState(editTutor = true, loading = true)
         }
     }
 
