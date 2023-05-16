@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:seek="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvCm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_card"
+        android:textColor="@color/browser_actions_text_color"
+        android:fontFamily="@font/bariol_regular"
+        android:textSize="20sp"
+        android:text="Perímetro braquial"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_down"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="-15dp"
+        app:layout_constraintBottom_toTopOf="@id/rulerBackground"/>
+
+    <View
+        android:id="@+id/rulerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:visibility="visible"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="@dimen/margin_card"
+        android:background="@color/error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCm"/>
+
+    <org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
+        android:id="@+id/ruler"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="180dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="@dimen/margin_card"
+        seek:minValue ="6.0"
+        seek:maxValue ="28.0"
+        seek:intervalValue="0.1"
+        seek:retainLength ="5"
+        seek:rulerColor="@color/back_courses"
+        seek:textColor ="@color/back_courses"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCm" />
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_up"
+        android:layout_marginTop="-15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rulerBackground"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
