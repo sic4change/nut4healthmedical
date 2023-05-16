@@ -143,9 +143,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeCreate(Feature.CREATETUTOR)) {
-            TutorCreateScreen(onCreateTutor = {
+            TutorCreateScreen(onCreateTutor = { tutor ->
+                navController.popBackStack()
+                navController.popBackStack()
                 navController.navigate(
-                    NavCommand.ContentType(Feature.TUTORS).route
+                    NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor)
                 )
             })
         }
@@ -168,6 +170,16 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     )
                 }
             )
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.EDITTUTOR)) {
+            TutorEditScreen(onEditTutor = { tutor ->
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(
+                    NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor)
+                )
+            })
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.TUTORS)) {
@@ -209,13 +221,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 })
         }
 
-        composable(NavCommand.ContentTypeDetail(Feature.EDITTUTOR)) {
-            TutorEditScreen(onEditTutor = {
-                navController.navigate(
-                    NavCommand.ContentType(Feature.TUTORS).route
-                )
-            })
-        }
 
         composable(NavCommand.ContentTypeDetail(Feature.CHILDS)) {
             ChildsScreen(onClick =  { child ->

@@ -164,9 +164,33 @@ object FirebaseDataSource {
         }
     }
 
-    suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) {
+    suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) : String = withContext(Dispatchers.IO) {
+        Timber.d("try to create tutor with firebase")
+        try {
+            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+            val userRef = firestore.collection("users")
+            val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val result = query.get().await()
+            val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
+            networkUserContainer.results[0].let {
+                val user = it.toDomainUser()
+                tutor.point = user.point
+                val tutorsRef = firestore.collection("tutors")
+                val id = tutorsRef.add(tutor.toServerTutor()).await().id
+                tutorsRef.document(id).update("id", id,).await()
+                Timber.d("Create tutor result: ok")
+                id
+            }
+        } catch (ex : Exception) {
+            Timber.d("Create tutor result: false ${ex.message}")
+            "null"
+        }
+    }
+
+   /* suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) : String {
         withContext(Dispatchers.IO) {
             Timber.d("try to create tutor with firebase")
+            var id = ""
             try {
                 val firestoreAuth = NUT4HealthFirebaseService.fbAuth
                 val userRef = firestore.collection("users")
@@ -180,12 +204,14 @@ object FirebaseDataSource {
                     val id = tutorsRef.add(tutor.toServerTutor()).await().id
                     tutorsRef.document(id).update("id", id,).await()
                     Timber.d("Create tutor result: ok")
+                    id
                 }
             } catch (ex : Exception) {
                 Timber.d("Create tutor result: false ${ex.message}")
             }
         }
-    }
+        return id
+    }*/
 
     suspend fun deleteTutor(id: String) {
         withContext(Dispatchers.IO) {

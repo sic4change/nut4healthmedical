@@ -52,7 +52,7 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
             FirebaseDataSource.updateTutor(tutor)
 
-            _state.value = UiState(editTutor = true, loading = true)
+            _state.value = UiState(editTutor = true, loading = false)
         }
     }
 

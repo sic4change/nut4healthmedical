@@ -34,7 +34,8 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val phone: String = "",
         val loading: Boolean = false,
         val tutor: Tutor? = null,
-        val created: Boolean = false
+        val created: Boolean = false,
+        val id: String? = null
     )
 
     fun createTutor(name: String, surnames: String, address: String, phone: String,
@@ -45,13 +46,13 @@ class TutorCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
             _state.value = UiState(loading = true)
 
-            val tutor = Tutor(phone,
+            var tutor = Tutor(phone,
                 name, surnames, sex, ethnician, birthdate, phone, address, Date(), Date(),
                 maleRelation, womanStatus, weeks, childMinor, armCircunference, babyAge,
                 status, observations,true, "")
-            _state.value= UiState(tutor = tutor, loading = true)
-            FirebaseDataSource.createTutor(tutor)
-            _state.value = UiState(created = true, loading = true)
+            _state.value = UiState(tutor = tutor, loading = true)
+            val id = FirebaseDataSource.createTutor(tutor)
+            _state.value = UiState(id = id, created = true, loading = false)
         }
     }
 
