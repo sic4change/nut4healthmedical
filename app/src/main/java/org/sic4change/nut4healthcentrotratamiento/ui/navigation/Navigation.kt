@@ -159,9 +159,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
-                onChildClick = {
+                onChildClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentType(Feature.CHILDS).route
+                        NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutor.id)
                     )
                 },
                 onDeleteTutorClick = {
