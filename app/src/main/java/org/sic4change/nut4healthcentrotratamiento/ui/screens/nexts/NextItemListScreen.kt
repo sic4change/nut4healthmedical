@@ -94,6 +94,7 @@ fun NextItemsList(
 
     val nextState = rememberNextState()
 
+
     Column(
         modifier = Modifier.fillMaxWidth().background(colorResource(R.color.colorPrimaryDark))
     ) {

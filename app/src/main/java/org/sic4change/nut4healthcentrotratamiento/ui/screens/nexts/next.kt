@@ -80,6 +80,7 @@ fun NextScreen(
             if (!permission.hasPermission) {
                 permission.launchPermissionRequest()
             }
+
         }
     }
 
@@ -97,8 +98,7 @@ fun NextScreen(
                 viewModel.resetTutor()
                 nextState.phoneToCheck.value = ""
                 nextState.editPhoneToCheck.value = ""
-            }
-            if (!viewModelState.tutor!!.active) {
+            } else if (viewModelState.tutorChecked == "not_found") {
                 onCreateTutorClick(nextState.phoneCode.value + nextState.phoneToCheck.value)
                 viewModel.resetTutor()
                 nextState.phoneToCheck.value = ""

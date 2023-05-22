@@ -38,7 +38,7 @@ class NextsViewModel() : ViewModel() {
             if (tutor != null) {
                 _state.value = _state.value.copy(tutor = tutor, tutorChecked = "found")
             } else {
-                _state.value.copy(
+                _state.value = _state.value.copy(
                     tutor = Tutor(
                         "", "", "", "", "",
                         Date(), phone, "", Date(), Date(), "", "", "", "",
@@ -64,35 +64,35 @@ class NextsViewModel() : ViewModel() {
     }
 
     fun resetTutor() {
-        _state.value = UiState(tutor = null)
+        _state.value = _state.value.copy(tutor = null)
     }
 
     fun filterNext(value: Int) {
         viewModelScope.launch {
-            _state.value = UiState(cuadrants = emptyList())
-            _state.value = UiState(loading = true)
-            _state.value = UiState(cuadrants = FirebaseDataSource.getActiveCases().filterNotNull(), loading = false)
+            _state.value = _state.value.copy(cuadrants = emptyList())
+            _state.value = _state.value.copy(loading = true)
+            _state.value = _state.value.copy(cuadrants = FirebaseDataSource.getActiveCases().filterNotNull(), loading = false)
             if (value == 0) {
                 val todayVisits = _state.value.cuadrants.filter { isSameDay(Date(it!!.createdate.time + (14 * 24 * 60 * 60 * 1000)), Date()) }
                 if (todayVisits != null) {
-                    _state.value = UiState(cuadrants = todayVisits, loading = false)
+                    _state.value = _state.value.copy(cuadrants = todayVisits, loading = false)
                 } else {
-                    _state.value = UiState(cuadrants = emptyList(), loading = false)
+                    _state.value = _state.value.copy(cuadrants = emptyList(), loading = false)
                 }
 
             } else if (value == 1) {
                 val weekVisits = _state.value.cuadrants.filter { isSameWeek(Date(it!!.createdate.time + (14 * 24 * 60 * 60 * 1000)), Date()) }
                 if (weekVisits != null) {
-                    _state.value = UiState(cuadrants = weekVisits, loading = false)
+                    _state.value = _state.value.copy(cuadrants = weekVisits, loading = false)
                 } else {
-                    _state.value = UiState(cuadrants = emptyList(), loading = false)
+                    _state.value = _state.value.copy(cuadrants = emptyList(), loading = false)
                 }
             } else {
                 val monthVisits = _state.value.cuadrants.filter { isSameMonth(Date(it!!.createdate.time + (14 * 24 * 60 * 60 * 1000)), Date()) }
                 if (monthVisits != null) {
-                    _state.value = UiState(cuadrants = monthVisits, loading = false)
+                    _state.value = _state.value.copy(cuadrants = monthVisits, loading = false)
                 } else {
-                    _state.value = UiState(cuadrants = emptyList(), loading = false)
+                    _state.value = _state.value.copy(cuadrants = emptyList(), loading = false)
                 }
             }
         }
