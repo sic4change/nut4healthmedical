@@ -80,6 +80,7 @@ fun NextListItem(
 
                     if (item.visitsCuadrant != null && item.visitsCuadrant.isNotEmpty()) {
                         val nextVisit = item.visitsCuadrant[0].createdate.time + (14 * 24 * 60 * 60 * 1000)
+                        val visit = item.visitsCuadrant[0]
                         Row(
                             modifier = Modifier.padding(vertical = 2.dp)
                         ) {
@@ -87,175 +88,72 @@ fun NextListItem(
                                 Icon(
                                     tint = colorResource(R.color.frutorial_title),
                                     imageVector = Icons.Default.Add,
-                                    modifier = Modifier.size(20.dp),
+                                    modifier = Modifier.size(16.dp).weight(1f),
                                     contentDescription = null
                                 )
                             }
                             Text(
                                 color = colorResource(R.color.frutorial_title),
-                                text = stringResource(R.string.next_visit).capitalize(),
+                                text = stringResource(R.string.next_visit).capitalize() + ": " + "${SimpleDateFormat("dd/MM/yyyy").format(nextVisit)}",
                                 style = MaterialTheme.typography.body2,
-                                maxLines = 2,
+                                maxLines = 1,
                                 modifier = Modifier
-                                    .padding(8.dp, 16.dp)
-                                    .weight(1f)
+                                    .padding(2.dp, 16.dp)
+                                    .weight(2f)
                             )
-                            Text(
-                                color = colorResource(R.color.frutorial_title),
-                                text = "${SimpleDateFormat("dd/MM/yyyy").format(nextVisit)}",
-                                style = MaterialTheme.typography.body2,
-                                maxLines = 2,
-                                modifier = Modifier
-                                    .padding(8.dp, 16.dp)
-                                    .weight(1f)
-                            )
-                        }
-
-                        val visit = item.visitsCuadrant[0]
-                        Row(
-                            modifier = Modifier.padding(vertical = 2.dp)
-                        ) {
-
                             if (formatStatus(visit.status) == stringResource(R.string.normopeso)) {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        tint = colorResource(R.color.colorAccent),
-                                        imageVector = Icons.Default.EditCalendar,
-                                        modifier = Modifier.size(20.dp),
-                                        contentDescription = null
-                                    )
-                                }
                                 Text(
                                     color = colorResource(R.color.colorAccent),
                                     text = "${formatStatus(visit.status)}".toString().capitalize(),
                                     style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
+                                    maxLines = 1,
                                     modifier = Modifier
-                                        .padding(8.dp, 16.dp)
-                                        .weight(1f)
-                                )
-                                Text(
-                                    color = colorResource(R.color.colorAccent),
-                                    text = "${SimpleDateFormat("dd/MM/yyyy").format(visit.createdate)}",
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
-                                    modifier = Modifier
-                                        .padding(8.dp, 16.dp)
+                                        .padding(2.dp, 16.dp)
                                         .weight(1f)
                                 )
                             } else if (formatStatus(visit.status) == stringResource(R.string.objetive_weight)) {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        tint = colorResource(R.color.colorPrimary),
-                                        imageVector = Icons.Default.EditCalendar,
-                                        modifier = Modifier.size(20.dp),
-                                        contentDescription = null
-                                    )
-                                }
                                 Text(
                                     color = colorResource(R.color.colorPrimary),
                                     text = "${formatStatus(visit.status)}".toString().capitalize(),
                                     style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
+                                    maxLines = 1,
                                     modifier = Modifier
-                                        .padding(8.dp, 16.dp)
-                                        .weight(1f)
-                                )
-                                Text(
-                                    color = colorResource(R.color.colorPrimary),
-                                    text = "${SimpleDateFormat("dd/MM/yyyy").format(visit.createdate)}",
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
-                                    modifier = Modifier
-                                        .padding(8.dp, 16.dp)
+                                        .padding(2.dp, 16.dp)
                                         .weight(1f)
                                 )
                             } else if (formatStatus(visit.status) == stringResource(R.string.aguda_moderada)) {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        tint = colorResource(R.color.orange),
-                                        imageVector = Icons.Default.EditCalendar,
-                                        modifier = Modifier.size(20.dp),
-                                        contentDescription = null
-                                    )
-                                }
                                 Text(
                                     color = colorResource(R.color.orange),
-                                    text = "${formatStatus(visit.status)}".toString().capitalize(),
+                                    text = "MAM".toString().capitalize(),
                                     style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
+                                    maxLines = 1,
                                     modifier = Modifier
-                                        .padding(8.dp, 16.dp)
-                                        .weight(1f)
-                                )
-                                Text(
-                                    color = colorResource(R.color.orange),
-                                    text = "${SimpleDateFormat("dd/MM/yyyy").format(visit.createdate)}",
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
-                                    modifier = Modifier
-                                        .padding(8.dp, 16.dp)
+                                        .padding(2.dp, 16.dp)
                                         .weight(1f)
                                 )
                             } else {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        tint = colorResource(R.color.error),
-                                        imageVector = Icons.Default.EditCalendar,
-                                        modifier = Modifier.size(20.dp),
-                                        contentDescription = null
-                                    )
-                                }
                                 Text(
                                     color = colorResource(R.color.error),
-                                    text = "${formatStatus(visit.status)}".toString().capitalize(),
+                                    text = "MAS".toString().capitalize(),
                                     style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
+                                    maxLines = 1,
                                     modifier = Modifier
-                                        .padding(8.dp, 16.dp)
+                                        .padding(2.dp, 16.dp)
                                         .weight(1f)
                                 )
-                                Text(
-                                    color = colorResource(R.color.error),
-                                    text = "${SimpleDateFormat("dd/MM/yyyy").format(visit.createdate)}",
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 2,
-                                    modifier = Modifier
-                                        .padding(8.dp, 16.dp)
-                                        .weight(1f)
-                                )
+
                             }
-                        }
-                        Row(
-                            modifier = Modifier.padding(vertical = 2.dp)
-                        ) {
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    tint = colorResource(R.color.colorPrimary),
-                                    imageVector = Icons.Default.ConfirmationNumber,
-                                    modifier = Modifier.size(20.dp),
-                                    contentDescription = null
-                                )
-                            }
+
                             Text(
-                                color = colorResource(R.color.colorPrimary),
-                                text = stringResource(R.string.total_visits),
+                                color = colorResource(R.color.frutorial_title),
+                                text = stringResource(R.string.visitas).capitalize() + ": " +item.visitsCuadrant.size.toString(),
                                 style = MaterialTheme.typography.body2,
-                                maxLines = 2,
                                 modifier = Modifier
-                                    .padding(8.dp, 16.dp)
-                                    .weight(1f)
-                            )
-                            Text(
-                                color = colorResource(R.color.colorPrimary),
-                                text = item.visitsCuadrant.size.toString(),
-                                style = MaterialTheme.typography.body2,
-                                maxLines = 2,
-                                modifier = Modifier
-                                    .padding(8.dp, 16.dp)
+                                    .padding(0.dp, 16.dp)
                                     .weight(1f)
                             )
                         }
+
                     }
 
                 }
