@@ -124,13 +124,18 @@
     <string name="adults_severe">Maigreur sévère</string>
 
     //Relations
-    <string name="relation">Lien avec le fils/la fille</string>
+    <string name="relation">Lien avec l\'enfant</string>
     <string name="father">Père</string>
     <string name="grandfather">Grand-père</string>
     <string name="uncle">Oncle</string>
     <string name="brother">Frère</string>
     <string name="cousin">Cousin</string>
     <string name="other">Autre</string>
+
+    <string name="boy">Garçon</string>
+    <string name="girl">Fille</string>
+    <string name="woman">Femme</string>
+    <string name="man">Homme</string>
 
 
 </resources>

@@ -124,12 +124,17 @@
     <string name="adults_severe">Delgadez severa</string>
 
     //Relations
-    <string name="relation">Vínculo con hijo/a</string>
+    <string name="relation">Vínculo con niño/a</string>
     <string name="father">Padre</string>
     <string name="grandfather">Abuelo</string>
     <string name="uncle">Tío</string>
     <string name="brother">Hermano</string>
     <string name="cousin">Primo</string>
     <string name="other">Otro</string>
+
+    <string name="boy">Niño</string>
+    <string name="girl">Niña</string>
+    <string name="woman">Mujer</string>
+    <string name="man">Hombre</string>
 
 </resources>

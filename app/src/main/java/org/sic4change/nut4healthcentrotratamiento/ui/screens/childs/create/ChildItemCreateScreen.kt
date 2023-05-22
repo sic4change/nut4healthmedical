@@ -14,11 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
+import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
@@ -59,8 +61,9 @@ onCreateChild: (String, String, Date, Int, String, String, String) -> Unit) {
 private fun Header(childState: ChildState,
                    onCreateChild: (String, String, Date, Int, String, String, String) -> Unit) {
 
-    val sexs = listOf(
-        stringResource(R.string.female), stringResource(R.string.male))
+    val SEXS = listOf(
+        stringResource(R.string.female), stringResource(R.string.male)
+    )
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
@@ -234,56 +237,31 @@ private fun Header(childState: ChildState,
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ExposedDropdownMenuBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            expanded = childState.expandedSex.value,
-            onExpandedChange = {
-                childState.expandedSex.value = !childState.expandedSex.value
-            }
+        Column(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
-            TextField(
-                readOnly = true,
-                value = childState.selectedOptionSex.value,
-                onValueChange = { childState.selectedOptionSex.value = it
-                    childState.sex.value = it },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = childState.expandedSex.value
-                    )
-                },
-                textStyle = MaterialTheme.typography.h5,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+            Text(text = stringResource(R.string.sex), color = colorResource(R.color.disabled_color))
+        }
+        Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
+            .padding(16.dp, 0.dp),) {
+            RowToggleButtonGroup(
+                modifier = Modifier,
+                buttonCount = 2,
+                borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                selectedColor = colorResource(R.color.colorPrimary),
+                unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                selectedContentColor = colorResource(R.color.white),
+                unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
+                buttonIcons = arrayOf(
+                    painterResource(id = R.drawable.female),
+                    painterResource(id = R.drawable.male),
                 ),
-                modifier = Modifier
-                    .fillMaxWidth(),
-                leadingIcon = {
-                    Icon(Icons.Filled.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) }
-            )
-            ExposedDropdownMenu(
-                expanded = childState.expandedSex.value,
-                onDismissRequest = {
-                    childState.expandedSex.value = false
-                }
-            ) {
-                sexs.forEach { selectionOption2 ->
-                    DropdownMenuItem(
-                        onClick = {
-                            childState.selectedOptionSex.value = selectionOption2
-                            childState.expandedSex.value = false
-                        }
-                    ) {
-                        Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
-                    }
-                }
+
+                ) { index ->
+                val selectionOption = SEXS[index]
+                childState.selectedOptionSex.value = selectionOption
+                childState.expandedSex.value = false
             }
         }
         Spacer(modifier = Modifier.height(16.dp))

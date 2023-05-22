@@ -11,9 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
+import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
@@ -82,6 +84,10 @@ fun ChildItemDetailScreen(
 @ExperimentalCoilApi
 @Composable
 private fun Header(childState: ChildState) {
+
+    val SEXS = listOf(
+        stringResource(R.string.female), stringResource(R.string.male)
+    )
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -222,24 +228,59 @@ private fun Header(childState: ChildState) {
                 Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                     label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = childState.sex.value,
-            onValueChange = {}, readOnly = true,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.full_transparent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.full_transparent),
-                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-            ),
-            textStyle = MaterialTheme.typography.h5,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            leadingIcon = {
-                Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-                    label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
-                    Spacer(modifier = Modifier.height(16.dp))
+        Column(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = stringResource(R.string.sex), color = colorResource(R.color.disabled_color))
+        }
+        Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
+            .padding(16.dp, 0.dp),) {
+            if (childState.selectedOptionSex.value == SEXS[0]) {
+                RowToggleButtonGroup(
+                    enabled = false,
+                    primarySelection = 0,
+                    modifier = Modifier,
+                    buttonCount = 2,
+                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedColor = colorResource(R.color.colorPrimary),
+                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedContentColor = colorResource(R.color.white),
+                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
+                    buttonIcons = arrayOf(
+                        painterResource(id = R.drawable.female),
+                        painterResource(id = R.drawable.male),
+                    ),
+                ) { index ->
+                    val selectionOption = SEXS[index]
+                    childState.selectedOptionSex.value = selectionOption
+                    childState.expandedSex.value = false
+                }
+            } else if (childState.selectedOptionSex.value == SEXS[1]) {
+                RowToggleButtonGroup(
+                    enabled = false,
+                    primarySelection = 1,
+                    modifier = Modifier,
+                    buttonCount = 2,
+                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedColor = colorResource(R.color.colorPrimary),
+                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedContentColor = colorResource(R.color.white),
+                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
+                    buttonIcons = arrayOf(
+                        painterResource(id = R.drawable.female),
+                        painterResource(id = R.drawable.male),
+                    ),
+                ) { index ->
+                    val selectionOption = SEXS[index]
+                    childState.selectedOptionSex.value = selectionOption
+                    childState.expandedSex.value = false
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(value = childState.observations.value,
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(

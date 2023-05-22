@@ -11,9 +11,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
+import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
@@ -77,6 +79,10 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(tutorState: TutorState) {
+
+    val SEXS = listOf(
+        stringResource(R.string.female), stringResource(R.string.male)
+    )
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -230,7 +236,60 @@ private fun Header(tutorState: TutorState) {
                 Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = tutorState.sex.value,
+        Column(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = stringResource(R.string.sex), color = colorResource(R.color.disabled_color))
+        }
+        Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
+            .padding(16.dp, 0.dp),) {
+            if (tutorState.selectedOptionSex.value == SEXS[0]) {
+                RowToggleButtonGroup(
+                    enabled = false,
+                    primarySelection = 0,
+                    modifier = Modifier,
+                    buttonCount = 2,
+                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedColor = colorResource(R.color.colorPrimary),
+                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedContentColor = colorResource(R.color.white),
+                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
+                    buttonIcons = arrayOf(
+                        painterResource(id = R.drawable.female),
+                        painterResource(id = R.drawable.male),
+                    ),
+                ) { index ->
+                    val selectionOption = SEXS[index]
+                    tutorState.selectedOptionSex.value = selectionOption
+                    tutorState.expandedSex.value = false
+                }
+            } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
+                RowToggleButtonGroup(
+                    enabled = false,
+                    primarySelection = 1,
+                    modifier = Modifier,
+                    buttonCount = 2,
+                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedColor = colorResource(R.color.colorPrimary),
+                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    selectedContentColor = colorResource(R.color.white),
+                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
+                    buttonIcons = arrayOf(
+                        painterResource(id = R.drawable.female),
+                        painterResource(id = R.drawable.male),
+                    ),
+                ) { index ->
+                    val selectionOption = SEXS[index]
+                    tutorState.selectedOptionSex.value = selectionOption
+                    tutorState.expandedSex.value = false
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        /*TextField(value = tutorState.sex.value,
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -245,9 +304,8 @@ private fun Header(tutorState: TutorState) {
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
             leadingIcon = {
-                Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-            label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
-        Spacer(modifier = Modifier.height(16.dp))
+                Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { *//* .. *//*})},
+            label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })*/
         AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {
             TextField(value = tutorState.maleRelation.value,
                 onValueChange = {}, readOnly = true,
@@ -270,7 +328,7 @@ private fun Header(tutorState: TutorState) {
         AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
             TextField(value = tutorState.womanStatus.value,
                 onValueChange = {}, readOnly = true,
                 colors = TextFieldDefaults.textFieldColors(
@@ -289,7 +347,7 @@ private fun Header(tutorState: TutorState) {
                     Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
@@ -310,7 +368,7 @@ private fun Header(tutorState: TutorState) {
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
                     Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.child_minor), color = colorResource(R.color.disabled_color)) })
+                label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
                 tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
@@ -332,8 +390,8 @@ private fun Header(tutorState: TutorState) {
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
-                    Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.child_minor), color = colorResource(R.color.disabled_color)) })
+                    Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) })
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -356,7 +414,7 @@ private fun Header(tutorState: TutorState) {
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
                     Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.child_minor), color = colorResource(R.color.disabled_color)) })
+                label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) })
         }
         AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
                 tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
