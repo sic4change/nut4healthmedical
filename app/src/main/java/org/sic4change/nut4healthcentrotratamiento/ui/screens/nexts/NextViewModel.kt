@@ -7,7 +7,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import java.util.*
 
 class NextsViewModel() : ViewModel() {
@@ -18,7 +22,35 @@ class NextsViewModel() : ViewModel() {
     init {
         viewModelScope.launch {
             filterNext(0)
+            _state.value = UiState(user = FirebaseDataSource.getLoggedUser())
         }
+    }
+
+    fun getPoint(pointId: String?) {
+        viewModelScope.launch {
+            _state.value = UiState(point = FirebaseDataSource.getPoint(pointId))
+        }
+    }
+
+    fun checkTutorByPhone(phone: String) {
+        viewModelScope.launch {
+            val tutor = FirebaseDataSource.checkTutorByPhone(phone)
+            if (tutor != null) {
+                _state.value = UiState(tutor = tutor, tutorChecked = "found")
+            } else {
+                _state.value = UiState(
+                    tutor = Tutor(
+                        "", "", "", "", "",
+                        Date(), phone, "", Date(), Date(), "", "", "", "",
+                        0.0, "", "", "", false, ""
+                    ), tutorChecked = "not_found"
+                )
+            }
+        }
+    }
+
+    fun resetTutor() {
+        _state.value = UiState(tutor = null)
     }
 
     fun filterNext(value: Int) {
@@ -89,6 +121,10 @@ class NextsViewModel() : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val cuadrants: List<Cuadrant?> = emptyList(),
+        val user: User? = null,
+        val point: Point? = null,
+        val tutor: Tutor? = null,
+        val tutorChecked: String = "",
     )
 
 }

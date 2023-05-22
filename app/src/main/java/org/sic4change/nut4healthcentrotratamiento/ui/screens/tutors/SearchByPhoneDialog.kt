@@ -92,9 +92,9 @@ fun SearchByPhoneDialog(
 
             Button(
                 onClick = {
-                    message.value = editMessage.value
+                    message.value = "${editMessage.value}"
                     openDialog.value = false
-                    onCheckTutor(message.value)
+                    onCheckTutor("${phoneCode.value}${editMessage.value}" )
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
             ) {

@@ -73,7 +73,6 @@ class MainViewModel() : ViewModel() {
 
     fun checkTutorByPhone(phone: String) {
         viewModelScope.launch {
-            //FirebaseDataSource.checkDiagnosis(phone)
             val tutor = FirebaseDataSource.checkTutorByPhone(phone)
             if (tutor != null) {
                 _state.value = UiState(tutor = tutor, tutorChecked = "found")

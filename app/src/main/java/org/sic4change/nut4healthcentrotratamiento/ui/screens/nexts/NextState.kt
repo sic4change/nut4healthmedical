@@ -20,8 +20,16 @@ fun rememberNextState(
     cuadrants:  MutableState<List<Cuadrant?>> = rememberSaveable { mutableStateOf(emptyList()) },
     cuadrantsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     filterValue: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
+    phoneToCheck: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    openDialogSearchByPhone: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    editPhoneToCheck: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    point: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    phoneCode: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    phoneLength: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
+    pointId: MutableState<String> = rememberSaveable { mutableStateOf("") },
 ) = remember{ NextState(id, childId, name, status, visits, lastDate, createdDate, observations,
-    cuadrants, cuadrantsSize, filterValue) }
+    cuadrants, cuadrantsSize, filterValue, phoneToCheck, openDialogSearchByPhone,
+    editPhoneToCheck,point, phoneCode, phoneLength, pointId,) }
 
 class NextState(
     val id: MutableState<String>,
@@ -34,7 +42,14 @@ class NextState(
     val observations: MutableState<String>,
     val cases: MutableState<List<Cuadrant?>>,
     val casesSize: MutableState<Int>,
-    val filterValue: MutableState<Int>
+    val filterValue: MutableState<Int>,
+    val phoneToCheck: MutableState<String>,
+    val openDialogSearchByPhone: MutableState<Boolean>,
+    val editPhoneToCheck: MutableState<String>,
+    val point: MutableState<String>,
+    val phoneCode: MutableState<String>,
+    val phoneLength: MutableState<Int>,
+    val pointId: MutableState<String>,
 ) {
 
 

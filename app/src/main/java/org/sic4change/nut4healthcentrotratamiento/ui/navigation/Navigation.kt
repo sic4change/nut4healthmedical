@@ -109,15 +109,26 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             NextScreen(
                 onItemClick = { cuadrant ->
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(cuadrant.visitsCuadrant[0].caseId)
+                        NavCommand.ContentTypeDetail(Feature.VISITS)
+                            .createRoute(cuadrant.visitsCuadrant[0].caseId)
                     )
-            },
-            onCreateVisitClick = { caseId ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(caseId)
-                )
-            })
-
+                },
+                onCreateVisitClick = { caseId ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(caseId)
+                    )
+                },
+                onClick = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
+                    )
+                },
+                onCreateTutorClick = { phone ->
+                    navController.navigate(
+                        NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
+                    )
+                },
+            )
         }
 
         composable(NavCommand.ContentType(Feature.CUADRANTE)) {

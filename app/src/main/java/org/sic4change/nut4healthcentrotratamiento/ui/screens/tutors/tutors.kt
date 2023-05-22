@@ -53,7 +53,8 @@ import java.util.Date
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Unit,
+fun TutorsScreen(viewModel: MainViewModel = viewModel(),
+                 onClick: (Tutor) -> Unit,
                  onCreateTutorClick: (String) -> Unit,
                  onNotificationChildClick: (String) -> Unit,
                  onLogout: () -> Unit) {
@@ -120,12 +121,13 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(), onClick: (Tutor) -> Uni
         Scaffold(
             floatingActionButton = {
                 Row {
-                    FloatingActionButton(
+                    ExtendedFloatingActionButton(
                         onClick = {
                             mainState.openDialogSearchByPhone.value = true
                         },
+                        text = { Text(stringResource(R.string.new_tutor), color = colorResource(R.color.white)) },
                         backgroundColor = colorResource(R.color.colorPrimary),
-                        content = {
+                        icon = {
                             Icon(Icons.Filled.Add,"", tint = Color.White)
                         }
                     )
