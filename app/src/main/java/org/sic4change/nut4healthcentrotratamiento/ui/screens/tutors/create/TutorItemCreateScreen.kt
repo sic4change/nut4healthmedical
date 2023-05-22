@@ -270,6 +270,11 @@ private fun Header(tutorState: TutorState,
                 val selectionOption = SEXS[index]
                 tutorState.selectedOptionSex.value = selectionOption
                 tutorState.expandedSex.value = false
+                if (tutorState.selectedOptionSex.value == SEXS[0]) {
+                    tutorState.clearManValues()
+                } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
+                    tutorState.clearWomanValues()
+                }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
