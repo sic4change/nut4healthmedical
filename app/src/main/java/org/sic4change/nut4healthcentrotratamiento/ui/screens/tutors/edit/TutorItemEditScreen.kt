@@ -424,7 +424,14 @@ private fun Header(tutorState: TutorState,
                 onValueChange = {newText ->
                     try {
                         if (newText.all { it.isDigit() }) {
-                            tutorState.weeks.value = newText
+                            if (newText.isEmpty()) {
+                                tutorState.weeks.value = newText
+                            } else {
+                                val number = newText.toIntOrNull()
+                                if (number != null && number in 1..53) {
+                                    tutorState.weeks.value = newText
+                                }
+                            }
                         }
                     } catch (e: Exception) { } },
                 textStyle = MaterialTheme.typography.h5,
