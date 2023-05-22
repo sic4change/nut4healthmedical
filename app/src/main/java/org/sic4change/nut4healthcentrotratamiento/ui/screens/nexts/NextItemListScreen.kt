@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 
@@ -42,6 +43,7 @@ fun NextItemsListScreen(
     loading: Boolean = false,
     items: List<Cuadrant?>,
     onClick: (Cuadrant) -> Unit,
+    onCreateVisitClick: (String) -> Unit,
     onFilter: (Int) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Cuadrant?>(null) }
@@ -72,6 +74,7 @@ fun NextItemsListScreen(
                 loading = loading,
                 items = items,
                 onItemClick = onClick,
+                onCreateVisitClick = onCreateVisitClick,
                 onFilter = onFilter
             )
         }
@@ -84,6 +87,7 @@ fun NextItemsList(
     loading: Boolean,
     items: List<Cuadrant?>,
     onItemClick: (Cuadrant) -> Unit,
+    onCreateVisitClick: (String) -> Unit,
     onFilter: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -129,7 +133,8 @@ fun NextItemsList(
                                     item = it,
                                     modifier = Modifier.clickable {
                                         onItemClick(it!!)
-                                    }
+                                    },
+                                    onCreateVisitClick = onCreateVisitClick
                                 )
                             }
                         }

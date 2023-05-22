@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
@@ -18,6 +19,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 @Composable
 fun NextScreen(
     onItemClick: (Cuadrant) -> Unit,
+    onCreateVisitClick: (String) -> Unit,
     viewModel: NextsViewModel= viewModel()) {
     val nextState = rememberNextState()
     val viewModelState by viewModel.state.collectAsState()
@@ -36,6 +38,7 @@ fun NextScreen(
                 loading = viewModelState.loading,
                 items = nextState.cases.value,
                 onClick = onItemClick,
+                onCreateVisitClick = onCreateVisitClick,
                 onFilter = viewModel::filterNext
             )
         }

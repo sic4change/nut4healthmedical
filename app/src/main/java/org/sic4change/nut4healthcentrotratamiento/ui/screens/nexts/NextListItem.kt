@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import java.text.SimpleDateFormat
@@ -21,7 +22,8 @@ import java.text.SimpleDateFormat
 @Composable
 fun NextListItem(
     item: Cuadrant?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCreateVisitClick: (String) -> Unit,
 ) {
     if (item != null) {
         Column(
@@ -33,7 +35,7 @@ fun NextListItem(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { }) {
+                        IconButton(onClick = {}) {
                             Icon(
                                 tint = colorResource(R.color.colorPrimary),
                                 imageVector = Icons.Default.Person,
@@ -53,7 +55,7 @@ fun NextListItem(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { }) {
+                        IconButton(onClick = {}) {
                             Icon(
                                 tint = colorResource(R.color.colorPrimary),
                                 imageVector = Icons.Default.ChildCare,
@@ -84,7 +86,9 @@ fun NextListItem(
                         Row(
                             modifier = Modifier.padding(vertical = 2.dp)
                         ) {
-                            IconButton(onClick = {}) {
+                            IconButton(onClick = {
+                                onCreateVisitClick(item.visitsCuadrant[0].caseId)
+                            }) {
                                 Icon(
                                     tint = colorResource(R.color.frutorial_title),
                                     imageVector = Icons.Default.Add,
