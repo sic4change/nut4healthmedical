@@ -44,12 +44,6 @@ class MainViewModel() : ViewModel() {
         }
     }
 
-    fun subscribeToPointNotifications() {
-        viewModelScope.launch {
-            FirebaseDataSource.subscribeToPointNotifications()
-        }
-    }
-
     fun unsubscribeToPointNotifications(point: String) {
         viewModelScope.launch {
             FirebaseDataSource.unsubscribeToPointNotifications(point)

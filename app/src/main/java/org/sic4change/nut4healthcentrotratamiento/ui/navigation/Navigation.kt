@@ -107,6 +107,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentType(Feature.NEXT_VISITS)) {
             NextScreen(
+                onNotificationChildClick =  { childId ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(childId)
+                    )
+                },
                 onItemClick = { cuadrant ->
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.VISITS)
@@ -128,6 +133,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
                     )
                 },
+                onLogout = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.LOGIN).route
+                    )
+                }
             )
         }
 
@@ -137,11 +147,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
             TutorsScreen(
-                onNotificationChildClick =  { childId ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(childId)
-                    )
-                },
                 onCreateTutorClick = { phone ->
                     navController.navigate(
                         NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)

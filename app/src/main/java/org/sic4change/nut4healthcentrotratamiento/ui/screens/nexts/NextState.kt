@@ -27,12 +27,20 @@ fun rememberNextState(
     phoneCode: MutableState<String> = rememberSaveable { mutableStateOf("") },
     phoneLength: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     pointId: MutableState<String> = rememberSaveable { mutableStateOf("") },
-) = remember{ NextState(id, childId, name, status, visits, lastDate, createdDate, observations,
-    cuadrants, cuadrantsSize, filterValue, phoneToCheck, openDialogSearchByPhone,
-    editPhoneToCheck,point, phoneCode, phoneLength, pointId,) }
+    roleError: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    username: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    email: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    role: MutableState<String> = rememberSaveable { mutableStateOf("") },
+) = remember{ NextState(id, username, email, role, roleError, childId, name, status, visits,
+    lastDate, createdDate, observations, cuadrants, cuadrantsSize, filterValue, phoneToCheck,
+    openDialogSearchByPhone, editPhoneToCheck,point, phoneCode, phoneLength, pointId, ) }
 
 class NextState(
     val id: MutableState<String>,
+    val username: MutableState<String>,
+    val email: MutableState<String>,
+    val role: MutableState<String>,
+    val roleError: MutableState<Boolean>,
     val childId: MutableState<String>,
     val name: MutableState<String>,
     val status: MutableState<String>,
@@ -52,6 +60,9 @@ class NextState(
     val pointId: MutableState<String>,
 ) {
 
+    fun showRoleError() {
+        roleError.value = !roleError.value
+    }
 
 
 }

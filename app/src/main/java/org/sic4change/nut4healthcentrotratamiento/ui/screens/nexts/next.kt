@@ -1,8 +1,11 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.nexts
 
-
+import android.app.Activity
+import android.Manifest
 import android.os.Build
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -18,35 +21,65 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.rememberPermissionState
 import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.MessageErrorRole
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.SearchByPhoneDialog
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
+    ExperimentalComposeUiApi::class, ExperimentalPermissionsApi::class
+)
 @Composable
 fun NextScreen(
     onItemClick: (Cuadrant) -> Unit,
     onCreateVisitClick: (String) -> Unit,
     onClick: (Tutor) -> Unit,
     onCreateTutorClick: (String) -> Unit,
-    viewModel: NextsViewModel= viewModel()) {
+    onNotificationChildClick: (String) -> Unit,
+    onLogout: () -> Unit,
+    viewModel: NextsViewModel = viewModel()) {
+
+
     val nextState = rememberNextState()
     val viewModelState by viewModel.state.collectAsState()
+
+    val activity = (LocalContext.current as? Activity)
+
+    val permission: PermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
             nextState.id.value = viewModelState.user!!.id
+            nextState.role.value = viewModelState.user!!.role
+            nextState.email.value = viewModelState.user!!.email
+            nextState.username.value = viewModelState.user!!.username
             viewModel.getPoint(viewModelState.user!!.point)
+            if (MainActivity.notificationChildId.isNotEmpty()) {
+                onNotificationChildClick(MainActivity.notificationChildId)
+            }
+            if (nextState.role.value != "Servicio Salud") {
+                nextState.showRoleError()
+            } else {
+                viewModel.subscribeToPointNotifications()
+            }
+
+            if (!permission.hasPermission) {
+                permission.launchPermissionRequest()
+            }
         }
     }
 
@@ -81,6 +114,10 @@ fun NextScreen(
             nextState.phoneCode.value = viewModelState.point!!.phoneCode
             nextState.phoneLength.value = viewModelState.point!!.phoneLength
         }
+    }
+
+    BackHandler {
+        activity?.finish()
     }
 
     NUT4HealthScreen {
@@ -132,6 +169,7 @@ fun NextScreen(
                 }
             }
         }
+        MessageErrorRole(nextState.roleError.value, nextState::showRoleError, viewModel::logout, onLogout)
 
     }
 

@@ -1,10 +1,7 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 
-import android.Manifest
-import android.app.Activity
 import android.os.Build
-import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -15,7 +12,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -30,10 +26,11 @@ import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
-import org.sic4change.nut4healthcentrotratamiento.MainActivity
+
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.MessageErrorRole
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
@@ -56,13 +53,10 @@ import java.util.Date
 fun TutorsScreen(viewModel: MainViewModel = viewModel(),
                  onClick: (Tutor) -> Unit,
                  onCreateTutorClick: (String) -> Unit,
-                 onNotificationChildClick: (String) -> Unit,
                  onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
-    val activity = (LocalContext.current as? Activity)
 
-    val permission: PermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
@@ -71,18 +65,6 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
             mainState.email.value = viewModelState.user!!.email
             mainState.username.value = viewModelState.user!!.username
             viewModel.getPoint(viewModelState.user!!.point)
-            if (MainActivity.notificationChildId.isNotEmpty()) {
-                onNotificationChildClick(MainActivity.notificationChildId)
-            }
-            if (mainState.role.value != "Servicio Salud") {
-                mainState.showRoleError()
-            } else {
-                viewModel.subscribeToPointNotifications()
-            }
-
-            if (!permission.hasPermission) {
-                permission.launchPermissionRequest()
-            }
         }
     }
 
@@ -112,9 +94,6 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
         }
     }
 
-    BackHandler {
-        activity?.finish()
-    }
 
     NUT4HealthScreen {
 
@@ -165,35 +144,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
 }
 
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun MessageErrorRole(showDialog: Boolean, setShowDialog: () -> Unit, onLogout: () -> Unit, onLogoutSelected: () -> Unit) {
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = {
-            },
-            title = {
-                Text(stringResource(R.string.nut4health))
-            },
-            confirmButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                        onLogout()
-                        onLogoutSelected()
-                    },
-                ) {
-                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
-                }
-            },
-            text = {
-                Text(stringResource(R.string.credential_error))
-            },
-        )
-    }
 
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterialApi

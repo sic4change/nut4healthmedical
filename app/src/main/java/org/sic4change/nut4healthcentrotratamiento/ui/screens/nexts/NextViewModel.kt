@@ -28,7 +28,7 @@ class NextsViewModel() : ViewModel() {
 
     fun getPoint(pointId: String?) {
         viewModelScope.launch {
-            _state.value = UiState(point = FirebaseDataSource.getPoint(pointId))
+            _state.value = _state.value.copy(point = FirebaseDataSource.getPoint(pointId))
         }
     }
 
@@ -36,9 +36,9 @@ class NextsViewModel() : ViewModel() {
         viewModelScope.launch {
             val tutor = FirebaseDataSource.checkTutorByPhone(phone)
             if (tutor != null) {
-                _state.value = UiState(tutor = tutor, tutorChecked = "found")
+                _state.value = _state.value.copy(tutor = tutor, tutorChecked = "found")
             } else {
-                _state.value = UiState(
+                _state.value.copy(
                     tutor = Tutor(
                         "", "", "", "", "",
                         Date(), phone, "", Date(), Date(), "", "", "", "",
@@ -46,6 +46,20 @@ class NextsViewModel() : ViewModel() {
                     ), tutorChecked = "not_found"
                 )
             }
+        }
+    }
+
+    fun subscribeToPointNotifications() {
+        viewModelScope.launch {
+            FirebaseDataSource.subscribeToPointNotifications()
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            FirebaseDataSource.logout()
+            _state.value = UiState(user = null)
+            _state.value = UiState(logout = true)
         }
     }
 
@@ -125,6 +139,7 @@ class NextsViewModel() : ViewModel() {
         val point: Point? = null,
         val tutor: Tutor? = null,
         val tutorChecked: String = "",
+        val logout: Boolean = false,
     )
 
 }
