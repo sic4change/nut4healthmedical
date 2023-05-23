@@ -28,9 +28,10 @@ fun rememberChildsState(
     childsSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     createdChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    showDateDialog:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ ChildState(id, tutorId, name, surnames, birthday, brothers, selectedOptionBrothers,
     expandedBrothers, lastDate, createdDate, sex, etnician, observations, expandedSex, selectedOptionSex,
-    expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild) }
+    expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild, showDateDialog,) }
 
 class ChildState(
     val id: MutableState<String>,
@@ -53,6 +54,7 @@ class ChildState(
     val childsSize: MutableState<Int>,
     val createdChild: MutableState<Boolean>,
     val deleteChild: MutableState<Boolean>,
+    val showDateDialog: MutableState<Boolean>,
 ) {
 
     fun showDeleteQuestion() {

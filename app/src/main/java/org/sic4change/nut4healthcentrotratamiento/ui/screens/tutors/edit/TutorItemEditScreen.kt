@@ -26,7 +26,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import coil.annotation.ExperimentalCoilApi
 import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -179,12 +181,30 @@ private fun Header(tutorState: TutorState,
                 Icon(Icons.Filled.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        DatePickerView(
-            showMonths = false,
-            context = LocalContext.current,
-            value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
-            setValue = { tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
-        )
+        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
+            enabled = false,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)},
+            textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone
+            ),
+            modifier = Modifier
+                .clickable {
+                    tutorState.showDateDialog.value = true
+                }
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Cake, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.birthdate), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
         ExposedDropdownMenuBox(
             modifier = Modifier
@@ -703,6 +723,16 @@ private fun Header(tutorState: TutorState,
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(visible = tutorState.showDateDialog.value) {
+            CustomDatePickerDialog(
+                value = formatDateToString(tutorState.birthday.value, "dd/MM/yyyy"),
+                onDismissRequest = {
+                    tutorState.showDateDialog.value = false
+                    tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)
+                },
+            )
+        }
 
         AnimatedVisibility(visible = (tutorState.name.value.isNotEmpty() &&
                 tutorState.surnames.value.isNotEmpty() &&

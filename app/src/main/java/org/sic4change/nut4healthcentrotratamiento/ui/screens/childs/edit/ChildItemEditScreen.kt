@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -15,11 +16,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
 import java.util.*
@@ -116,12 +120,36 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.surnames), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        DatePickerView(
+        /*DatePickerView(
             context = LocalContext.current,
             showMonths = true,
             value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
             setValue = { childState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
-        )
+        )*/
+        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
+            enabled = false,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {childState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)},
+            textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone
+            ),
+            modifier = Modifier
+                .clickable {
+                    childState.showDateDialog.value = true
+                }
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Cake, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.birthdate), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
         ExposedDropdownMenuBox(
             modifier = Modifier
@@ -298,6 +326,18 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(visible = childState.showDateDialog.value) {
+            CustomDatePickerDialog(
+                value = formatDateToString(childState.birthday.value, "dd/MM/yyyy"),
+                onDismissRequest = {
+                    childState.showDateDialog.value = false
+                    var date = SimpleDateFormat("dd-MM-yyyy").parse(it)
+                    childState.birthday.value = date
+                },
+            )
+        }
+
         AnimatedVisibility(visible = (childState.name.value.isNotEmpty() &&
                 childState.surnames.value.isNotEmpty())) {
             Button(
