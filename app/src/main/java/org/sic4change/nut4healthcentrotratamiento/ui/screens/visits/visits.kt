@@ -96,6 +96,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.imc.value = viewModelState.visit!!.imc
             visitDetailState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitDetailState.status.value = viewModelState.visit!!.status
+            visitDetailState.selectedEdema.value = viewModelState.visit!!.edema
             visitDetailState.observations.value = viewModelState.visit!!.observations
             visitDetailState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitDetailState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated

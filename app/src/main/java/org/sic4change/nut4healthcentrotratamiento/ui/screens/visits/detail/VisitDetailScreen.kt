@@ -239,6 +239,26 @@ private fun Header(visitState: VisitState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        TextField(value = visitState.selectedEdema.value,
+            onValueChange = {}, readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.EggAlt, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+            label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()

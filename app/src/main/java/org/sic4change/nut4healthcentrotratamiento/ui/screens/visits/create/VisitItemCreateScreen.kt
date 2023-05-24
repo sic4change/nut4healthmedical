@@ -403,8 +403,7 @@ private fun Header(visitState: VisitState,
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    // TODO: Proper icon
-                    Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(Icons.Filled.EggAlt, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                 label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
             )
             ExposedDropdownMenu(
