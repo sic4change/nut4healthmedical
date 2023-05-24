@@ -13,6 +13,7 @@ data class Visit(
     var imc: Double,
     val armCircunference: Double,
     var status: String,
+    val edema: String,
     val measlesVaccinated: Boolean,
     val vitamineAVaccinated: Boolean,
     val symtoms: MutableList<Symtom>,

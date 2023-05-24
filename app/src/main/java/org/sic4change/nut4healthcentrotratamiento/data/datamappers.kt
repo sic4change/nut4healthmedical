@@ -94,13 +94,13 @@ fun Treatment.toServerTreatment() : ServerTreatment = ServerTreatment(
 )
 
 fun ServerVisit.toDomainVisit() : Visit {
-    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
+    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toDomainSymtom() }.toMutableList(),
         treatments.map { it.toDomainTreatment() }.toMutableList(), observations, point)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status,
+    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
         treatments.map { it.toServerTreatment() }, observations, point)
 }

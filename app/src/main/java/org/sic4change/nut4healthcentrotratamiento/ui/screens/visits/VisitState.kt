@@ -21,6 +21,8 @@ fun rememberVisitsState(
     imc: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
     armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(30.0) },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    selectedEdema: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedEdema: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -32,8 +34,8 @@ fun rememberVisitsState(
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
-    status, measlesVaccinated, vitamineAVaccinated, observations, childDateMillis, symtoms, treatments, createdDate,
-    createdVisit,visitsSize, deleteVisit ) }
+    status, selectedEdema, expandedEdema, measlesVaccinated, vitamineAVaccinated, observations,
+    childDateMillis, symtoms, treatments, createdDate, createdVisit,visitsSize, deleteVisit, ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -45,6 +47,8 @@ class VisitState(
     val imc: MutableState<Double>,
     val armCircunference: MutableState<Double>,
     val status: MutableState<String>,
+    val selectedEdema: MutableState<String>,
+    val expandedEdema: MutableState<Boolean>,
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val observations: MutableState<String>,

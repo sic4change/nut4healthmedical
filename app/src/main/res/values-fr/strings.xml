@@ -96,6 +96,13 @@
     <string name="height">Taille (cm)</string>
     <string name="imc">IMC</string>
     <string name="arm_circunference">Périmètre brachial (cm)</string>
+    <string name="edema">Oedemes</string>
+    <string-array name="edemaOptions">
+        <item>Non</item>
+        <item>Bénin</item>
+        <item>Modéré</item>
+        <item>Grave</item>
+    </string-array>
     <string name="delete_visit_question">Êtes-vous sûr de vouloir éliminer cette visite? Les données associées seront perdues</string>
     <string name="symtoms">Symptômes</string>
     <string name="treatments">Traitements</string>

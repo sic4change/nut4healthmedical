@@ -76,12 +76,12 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun editVisit(height: Double,
-                  weight: Double, arm_circunference: Double, status: String,
+                  weight: Double, arm_circunference: Double, status: String, edema: String,
                   measlesVaccinated: Boolean, vitamineAVaccinated: Boolean, symtoms: List<Symtom>,
                   treatments: List<Treatment>, observations: String) {
         viewModelScope.launch {
             val visit = Visit(id, _state.value.visit!!.caseId, childId, _state.value.visit!!.tutorId, Date(), height, weight, 0.0,
-                arm_circunference, status, measlesVaccinated, vitamineAVaccinated,
+                arm_circunference, status, edema, measlesVaccinated, vitamineAVaccinated,
                 symtoms.filter { it -> it.selected}.toMutableList(), treatments.filter { it -> it.selected}.toMutableList(),
                 observations, "")
             _state.value= UiState(visit = visit)

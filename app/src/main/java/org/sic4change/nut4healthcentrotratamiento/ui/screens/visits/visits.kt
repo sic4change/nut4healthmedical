@@ -222,6 +222,7 @@ fun VisitEditScreen(viewModel: VisitEditViewModel = viewModel(), onEditVisit: (S
             visitEditState.height.value = viewModelState.visit!!.height.toString()
             visitEditState.weight.value = viewModelState.visit!!.weight.toString()
             visitEditState.status.value = viewModelState.visit!!.status
+            visitEditState.selectedEdema.value = viewModelState.visit!!.edema
             visitEditState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitEditState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitEditState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
