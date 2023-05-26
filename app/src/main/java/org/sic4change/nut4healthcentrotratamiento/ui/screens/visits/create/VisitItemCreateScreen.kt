@@ -30,6 +30,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
@@ -47,7 +48,7 @@ import java.util.*
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
                           onCreateVisit: (Double, Double, Double, String, String, Boolean, Boolean,
-                                          symtoms: List<Symtom>, treatments: List<Treatment>,
+                                          symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
                                           String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
@@ -84,8 +85,11 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onCreateVisit: (Double, Double, Double, String, String, Boolean, Boolean,
-                                   symtoms: List<Symtom>, treatments: List<Treatment>, String) -> Unit,
+                   onCreateVisit: (
+                       Double, Double, Double, String, String, Boolean, Boolean,
+                       symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                       String,
+                   ) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     Column(
@@ -529,6 +533,43 @@ private fun Header(visitState: VisitState,
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp),
+            elevation = 0.dp,
+            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+        )
+        {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),)
+
+                visitState.complications.value.forEach { complication ->
+                    ItemListComplications(complication = complication, checked = complication.selected) {
+                        val complicationsToUpdate: MutableList<Complication> = mutableListOf()
+                        visitState.complications.value.forEach { item ->
+                            if (item.id == complication.id) {
+                                item.selected = it
+                            }
+                            complicationsToUpdate.add(item)
+                        }
+                        visitState.complications.value = mutableListOf()
+                        visitState.complications.value.addAll(complicationsToUpdate)
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         TextField(value = visitState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -561,8 +602,8 @@ private fun Header(visitState: VisitState,
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
                         visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
-                        visitState.symtoms.value, visitState.treatments.value,
-                        visitState.observations.value)
+                        visitState.symtoms.value, visitState.treatments.value, visitState.complications.value,
+                        visitState.observations.value,)
 
                 },
             ) {
@@ -605,6 +646,47 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
 
 
     }
+}
+
+@Composable
+fun ItemListComplications(complication: Complication, checked: Boolean, onCheckedChange : (Boolean) -> Unit) {
+
+    val language = LocaleListCompat.getDefault()[0]!!.toLanguageTag()
+    var complicationTag = ""
+    if (language.contains("es-")) {
+        complicationTag = complication.name
+    } else if(language.contains("en-")) {
+        complicationTag = complication.name_en
+    } else {
+        complicationTag = complication.name_fr
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp)
+            .clickable(
+                onClick = {
+                    onCheckedChange(!checked)
+                }),
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = complicationTag,
+            style = MaterialTheme.typography.body1,
+        )
+
+    }
+
 }
 
 @Composable

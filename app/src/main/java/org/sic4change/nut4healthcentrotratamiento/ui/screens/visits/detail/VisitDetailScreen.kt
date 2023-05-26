@@ -360,6 +360,42 @@ private fun Header(visitState: VisitState) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp),
+            elevation = 0.dp,
+            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+        )
+        {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),)
+                visitState.complications.value.forEach {
+                    val complication = if (language.contains("es-")) {
+                        it.name
+                    } else if(language.contains("en-")) {
+                        it.name_en
+                    } else {
+                        it.name_fr
+                    }
+                    ListItem(
+                        icon = { Icon(imageVector = Icons.Filled.Coronavirus, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
+                        text = { Text(text = complication, color = colorResource(R.color.colorPrimary)) }
+                    )
+                }
+            }
+
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(value = visitState.observations.value,
             onValueChange = {}, readOnly = true,
             colors = TextFieldDefaults.textFieldColors(

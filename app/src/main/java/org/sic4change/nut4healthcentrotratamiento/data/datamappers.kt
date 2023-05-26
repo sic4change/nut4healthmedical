@@ -16,6 +16,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.MalNutritionChild
 import org.sic4change.nut4healthcentrotratamiento.data.network.MalNutritionTeenagerTable as ServerMalNutritionTeenagerTable
 import org.sic4change.nut4healthcentrotratamiento.data.network.Symtom as ServerSymtom
 import org.sic4change.nut4healthcentrotratamiento.data.network.Treatment as ServerTreatment
+import org.sic4change.nut4healthcentrotratamiento.data.network.Complication as ServerComplication
 import org.sic4change.nut4healthcentrotratamiento.data.network.Visit as ServerVisit
 
 fun ServerUser.toDomainUser() : User = User(
@@ -93,15 +94,24 @@ fun Treatment.toServerTreatment() : ServerTreatment = ServerTreatment(
     id, name, name_en, name_fr, active, price
 )
 
+fun ServerComplication.toDomainComplication() : Complication = Complication(
+    id, name, name_en, name_fr, false
+)
+
+fun Complication.toServerComplication() : ServerComplication = ServerComplication(
+    id, name, name_en, name_fr
+)
+
 fun ServerVisit.toDomainVisit() : Visit {
     return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
         measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toDomainSymtom() }.toMutableList(),
-        treatments.map { it.toDomainTreatment() }.toMutableList(), observations, point)
+        treatments.map { it.toDomainTreatment() }.toMutableList(), complications.map { it.toDomainComplication() }.toMutableList(),
+        observations, point)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
     return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
-        measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
+        complications.map { it.toServerComplication() }, measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
         treatments.map { it.toServerTreatment() }, observations, point)
 }
 

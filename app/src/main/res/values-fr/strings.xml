@@ -103,6 +103,7 @@
         <item>Modéré</item>
         <item>Grave</item>
     </string-array>
+    <string name="complications">Complications</string>
     <string name="delete_visit_question">Êtes-vous sûr de vouloir éliminer cette visite? Les données associées seront perdues</string>
     <string name="symtoms">Symptômes</string>
     <string name="treatments">Traitements</string>

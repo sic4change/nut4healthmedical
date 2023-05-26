@@ -30,6 +30,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
@@ -45,9 +46,10 @@ import java.time.temporal.ChronoUnit
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemEditScreen(visitState: VisitState, loading: Boolean = false,
-                          onEditVisit: (Double, Double, Double, String, String, Boolean, Boolean,
-                                          symtoms: List<Symtom>, treatments: List<Treatment>,
-                                          String) -> Unit,
+                          onEditVisit: (
+                              Double, Double, Double, String, String, Boolean, Boolean,
+                              symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                              String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -79,8 +81,11 @@ fun VisitItemEditScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onEditVisit: (Double, Double, Double, String, String, Boolean, Boolean,
-                                   symtoms: List<Symtom>, treatments: List<Treatment>, String) -> Unit,
+                   onEditVisit: (
+                       Double, Double, Double, String, String, Boolean, Boolean,
+                       symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                       String
+                   ) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     Column(
@@ -557,7 +562,7 @@ private fun Header(visitState: VisitState,
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
                         visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
-                        visitState.symtoms.value, visitState.treatments.value,
+                        visitState.symtoms.value, visitState.treatments.value, visitState.complications.value,
                         visitState.observations.value)
 
                 },
