@@ -20,6 +20,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -91,6 +92,8 @@ private fun Header(visitState: VisitState,
                        String,
                    ) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
+
+    val context = LocalContext.current;
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -240,11 +243,19 @@ private fun Header(visitState: VisitState,
                         tvCm.text = df.format(value).toString() + " cm"
                         visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
 
-                        if (value < 11.5) {
-                            rulerBackground.setBackgroundResource(R.color.error)
+                        if (value < 11.5 || (visitState.selectedEdema.value.isNotEmpty() && visitState.selectedEdema.value != "No")) {
+                            if (value < 11.5) {
+                                rulerBackground.setBackgroundResource(R.color.error)
+                            }
+                            else if (value in 11.5..12.5) {
+                                rulerBackground.setBackgroundResource(R.color.orange)
+                            }
+                            else {
+                                rulerBackground.setBackgroundResource(R.color.colorAccent)
+                            }
                             tvCm.setTextColor(R.color.error)
                             visitState.status.value = "Aguda Severa"
-                        } else if (value >= 11.5 && value <= 12.5) {
+                        } else if (value in 11.5..12.5) {
                             rulerBackground.setBackgroundResource(R.color.orange)
                             tvCm.setTextColor(R.color.orange)
                             if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
@@ -420,6 +431,24 @@ private fun Header(visitState: VisitState,
                     DropdownMenuItem(
                         onClick = {
                             visitState.selectedEdema.value = selectedEdema
+                            if (selectedEdema != "No") {
+                                visitState.status.value = context.getString(R.string.aguda_severa)
+                            } else {
+                                if (visitState.armCircunference.value < 11.5) {
+                                    visitState.status.value = "Aguda Severa"
+                                } else if (visitState.armCircunference.value in 11.5..12.5) {
+                                    if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                                        || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                        visitState.status.value = "Aguda Moderada"
+                                    }
+                                } else {
+                                    if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                        visitState.status.value = "Normopeso"
+                                    } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                                        visitState.status.value = "Peso Objetivo"
+                                    }
+                                }
+                            }
                             visitState.expandedEdema.value = false
                         }
                     ) {
