@@ -243,7 +243,10 @@ private fun Header(visitState: VisitState,
                         tvCm.text = df.format(value).toString() + " cm"
                         visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
 
-                        if (value < 11.5 || (visitState.selectedEdema.value.isNotEmpty() && visitState.selectedEdema.value != "No")) {
+                        if (value < 11.5
+                                || (visitState.selectedEdema.value.isNotEmpty() && visitState.selectedEdema.value != "No")
+                                || (visitState.complications.value.any{it.selected})
+                        ) {
                             if (value < 11.5) {
                                 rulerBackground.setBackgroundResource(R.color.error)
                             }
@@ -592,6 +595,24 @@ private fun Header(visitState: VisitState,
                         }
                         visitState.complications.value = mutableListOf()
                         visitState.complications.value.addAll(complicationsToUpdate)
+                        if (complicationsToUpdate.any{ it.selected }) {
+                            visitState.status.value = context.getString(R.string.aguda_severa)
+                        } else {
+                            if (visitState.armCircunference.value < 11.5) {
+                                visitState.status.value = "Aguda Severa"
+                            } else if (visitState.armCircunference.value in 11.5..12.5) {
+                                if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                                    || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                    visitState.status.value = "Aguda Moderada"
+                                }
+                            } else {
+                                if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                    visitState.status.value = "Normopeso"
+                                } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                                    visitState.status.value = "Peso Objetivo"
+                                }
+                            }
+                        }
                     }
                 }
             }
