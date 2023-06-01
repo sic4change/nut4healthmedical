@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +30,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
@@ -44,9 +46,10 @@ import java.time.temporal.ChronoUnit
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemEditScreen(visitState: VisitState, loading: Boolean = false,
-                          onEditVisit: (Double, Double, Double, String, Boolean, Boolean,
-                                          symtoms: List<Symtom>, treatments: List<Treatment>,
-                                          String) -> Unit,
+                          onEditVisit: (
+                              Double, Double, Double, String, String, Boolean, Boolean,
+                              symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                              String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -78,8 +81,11 @@ fun VisitItemEditScreen(visitState: VisitState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun Header(visitState: VisitState,
-                   onEditVisit: (Double, Double, Double, String, Boolean, Boolean,
-                                   symtoms: List<Symtom>, treatments: List<Treatment>, String) -> Unit,
+                   onEditVisit: (
+                       Double, Double, Double, String, String, Boolean, Boolean,
+                       symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                       String
+                   ) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
 
     Column(
@@ -366,6 +372,63 @@ private fun Header(visitState: VisitState,
             Spacer(modifier = Modifier.height(16.dp))
         }
 
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            expanded = visitState.expandedEdema.value,
+            onExpandedChange = {
+                visitState.expandedEdema.value = !visitState.expandedEdema.value
+            }
+        ) {
+            TextField(
+                readOnly = true,
+                value = visitState.selectedEdema.value,
+                onValueChange = {
+                    visitState.selectedEdema.value = it
+                },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = visitState.expandedEdema.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    // TODO: Proper icon
+                    Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = visitState.expandedEdema.value,
+                onDismissRequest = {
+                    visitState.expandedEdema.value = false
+                }
+            ) {
+                stringArrayResource(id = R.array.edemaOptions).forEach { selectedEdema ->
+                    DropdownMenuItem(
+                        onClick = {
+                            visitState.selectedEdema.value = selectedEdema
+                            visitState.expandedEdema.value = false
+                        }
+                    ) {
+                        Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -497,9 +560,9 @@ private fun Header(visitState: VisitState,
                 onClick = {
                     onEditVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                        visitState.armCircunference.value, visitState.status.value,
+                        visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
                         visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
-                        visitState.symtoms.value, visitState.treatments.value,
+                        visitState.symtoms.value, visitState.treatments.value, visitState.complications.value,
                         visitState.observations.value)
 
                 },

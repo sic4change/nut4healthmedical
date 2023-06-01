@@ -2,7 +2,6 @@ package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import com.google.firebase.firestore.Exclude
 import com.squareup.moshi.JsonClass
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Item
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -175,6 +174,18 @@ data class Treatment(
 )
 
 @JsonClass(generateAdapter = true)
+data class NetworkComplicationContainer(val results: List<Complication>)
+
+@JsonClass(generateAdapter = true)
+data class Complication(
+    @Exclude val id: String = "",
+    @Exclude val name: String = "",
+    @Exclude val name_en: String = "",
+    @Exclude val name_fr: String = "",
+    @Exclude val active: Boolean = false,
+)
+
+@JsonClass(generateAdapter = true)
 data class NetworkVisitContainer(val results: List<Visit>)
 
 @JsonClass(generateAdapter = true)
@@ -189,6 +200,8 @@ data class Visit(
     @Exclude val imc: Double = 0.0,
     @Exclude val armCircunference: Double = 0.0,
     @Exclude val status: String = "",
+    @Exclude val edema: String = "",
+    @Exclude var complications: List<Complication> = emptyList(),
     @Exclude val measlesVaccinated: Boolean = false,
     @Exclude val vitamineAVaccinated: Boolean = false,
     @Exclude var symtoms: List<Symtom> = emptyList(),

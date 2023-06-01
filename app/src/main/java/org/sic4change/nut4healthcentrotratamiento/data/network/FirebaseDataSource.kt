@@ -501,6 +501,14 @@ object FirebaseDataSource {
         networkTreatmentContainer.results.map { it.toDomainTreatment() }
     }
 
+    suspend fun getComplications(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication> = withContext(Dispatchers.IO) {
+        val casesRef = firestore.collection("complications")
+        val query = casesRef.whereNotEqualTo("name", "")
+        val result = query.get().await()
+        val networkComplicationContainer = NetworkComplicationContainer(result.toObjects(Complication::class.java))
+        networkComplicationContainer.results.map { it.toDomainComplication() }
+    }
+
     suspend fun getVisits(caseId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = withContext(Dispatchers.IO) {
         val visitsRef = firestore.collection("visits")
         val query = visitsRef.whereEqualTo("caseId", caseId).orderBy("createdate", Query.Direction.DESCENDING )
@@ -552,10 +560,11 @@ object FirebaseDataSource {
                     val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
                     networkCasesContainer.results[0].let { case ->
                         val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
-                            visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.measlesVaccinated,
-                            visit.vitamineAVaccinated,
+                            visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.edema,
+                            visit.measlesVaccinated, visit.vitamineAVaccinated,
                             visit.symtoms.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>,
                             visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
+                            visit.complications.filter { it.selected }.toMutableList(),
                             visit.observations, user.point)
                         val visitsRef = firestore.collection("visits")
                         val id = visitsRef.add(visitToUpdate.toServerVisit()).await().id
