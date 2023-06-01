@@ -342,20 +342,7 @@ private fun Header(visitState: VisitState) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),)
-                visitState.symtoms.value.forEach {
-                    var symtom = ""
-                    if (language.contains("es-")) {
-                        symtom = it.name
-                    } else if(language.contains("en-")) {
-                        symtom = it.name_en
-                    } else {
-                        symtom = it.name_fr
-                    }
-                    ListItem(
-                        icon = { Icon(imageVector = Icons.Filled.LocalHospital, tint = colorResource(R.color.colorPrimary), contentDescription = null) },
-                        text = { Text(text = symtom, color = colorResource(R.color.colorPrimary)) }
-                    )
-                }
+                //TODO: Add symptoms
             }
 
         }

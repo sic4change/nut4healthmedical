@@ -16,7 +16,6 @@ data class Visit(
     val edema: String,
     val measlesVaccinated: Boolean,
     val vitamineAVaccinated: Boolean,
-    val symtoms: MutableList<Symtom>,
     val treatments: MutableList<Treatment>,
     val complications: MutableList<Complication>,
     var observations: String,

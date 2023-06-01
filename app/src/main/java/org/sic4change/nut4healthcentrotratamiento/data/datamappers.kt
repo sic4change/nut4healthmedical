@@ -104,14 +104,13 @@ fun Complication.toServerComplication() : ServerComplication = ServerComplicatio
 
 fun ServerVisit.toDomainVisit() : Visit {
     return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
-        measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toDomainSymtom() }.toMutableList(),
-        treatments.map { it.toDomainTreatment() }.toMutableList(), complications.map { it.toDomainComplication() }.toMutableList(),
-        observations, point)
+        measlesVaccinated, vitamineAVaccinated, treatments.map { it.toDomainTreatment() }.toMutableList(),
+        complications.map { it.toDomainComplication() }.toMutableList(), observations, point)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
     return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
-        complications.map { it.toServerComplication() }, measlesVaccinated, vitamineAVaccinated, symtoms.map { it.toServerSymtom() },
+        complications.map { it.toServerComplication() }, measlesVaccinated, vitamineAVaccinated,
         treatments.map { it.toServerTreatment() }, observations, point)
 }
 

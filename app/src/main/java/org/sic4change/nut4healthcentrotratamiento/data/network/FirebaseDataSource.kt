@@ -562,7 +562,6 @@ object FirebaseDataSource {
                         val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
                             visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.edema,
                             visit.measlesVaccinated, visit.vitamineAVaccinated,
-                            visit.symtoms.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom>,
                             visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
                             visit.complications.filter { it.selected }.toMutableList(),
                             visit.observations, user.point)

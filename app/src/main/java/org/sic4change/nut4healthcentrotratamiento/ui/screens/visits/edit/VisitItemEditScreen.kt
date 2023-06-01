@@ -48,7 +48,7 @@ import java.time.temporal.ChronoUnit
 fun VisitItemEditScreen(visitState: VisitState, loading: Boolean = false,
                           onEditVisit: (
                               Double, Double, Double, String, String, Boolean, Boolean,
-                              symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                              treatments: List<Treatment>, complications: List<Complication>,
                               String) -> Unit,
                           onChangeWeightOrHeight: (String, String) -> Unit) {
     Box(
@@ -83,7 +83,7 @@ fun VisitItemEditScreen(visitState: VisitState, loading: Boolean = false,
 private fun Header(visitState: VisitState,
                    onEditVisit: (
                        Double, Double, Double, String, String, Boolean, Boolean,
-                       symtoms: List<Symtom>, treatments: List<Treatment>, complications: List<Complication>,
+                       treatments: List<Treatment>, complications: List<Complication>,
                        String
                    ) -> Unit,
                    onChangeWeightOrHeight: (String, String) -> Unit) {
@@ -477,19 +477,7 @@ private fun Header(visitState: VisitState,
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),)
 
-                visitState.symtoms.value.forEach { symtom ->
-                    ItemListSymtoms(symtom = symtom, checked = symtom.selected, {
-                        var symtomsToUpdate : MutableList<Symtom> = mutableListOf()
-                        visitState.symtoms.value.forEach { item ->
-                            if (item.id == symtom.id) {
-                                item.selected = it
-                            }
-                            symtomsToUpdate.add(item)
-                        }
-                        visitState.symtoms.value = mutableListOf()
-                        visitState.symtoms.value.addAll(symtomsToUpdate)
-                    })
-                }
+                //TODO: Add symptoms
             }
         }
 
@@ -562,7 +550,7 @@ private fun Header(visitState: VisitState,
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
                         visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
-                        visitState.symtoms.value, visitState.treatments.value, visitState.complications.value,
+                        visitState.treatments.value, visitState.complications.value,
                         visitState.observations.value)
 
                 },

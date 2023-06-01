@@ -204,7 +204,6 @@ data class Visit(
     @Exclude var complications: List<Complication> = emptyList(),
     @Exclude val measlesVaccinated: Boolean = false,
     @Exclude val vitamineAVaccinated: Boolean = false,
-    @Exclude var symtoms: List<Symtom> = emptyList(),
     @Exclude var treatments: List<Treatment> = emptyList(),
     @Exclude var observations: String = "",
     @Exclude var point: String? = "",

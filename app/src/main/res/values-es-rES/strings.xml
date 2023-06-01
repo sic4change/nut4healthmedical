@@ -160,4 +160,28 @@
     <string name="november">Noviembre</string>
     <string name="december">Diciembre</string>
 
+    //Symthoms
+    <string name="infection">Infección (piel, ojos, oídos)</string>
+    <string name="eyes">Ojos con deficiencia de VitA</string>
+    <string name="deshidratation">Deshidratación</string>
+    <string name="vomits">Vómitos</string>
+    <string name="diarrea">Diarrea</string>
+    <string name="fiebre">Fiebre</string>
+    <string name="temperature">Temperatura corporal</string>
+
+    //Yes no options
+    <string-array name="yesnooptions">
+        <item>Sí</item>
+        <item>No</item>
+    </string-array>
+
+    //Frecuency
+    <string-array name="frecuencyOptions">
+        <item>No</item>
+        <item>1 vez por día</item>
+        <item>2 veces por día</item>
+        <item>3 veces por día</item>
+        <item>más de 3 veces por día</item>
+    </string-array>
+
 </resources>

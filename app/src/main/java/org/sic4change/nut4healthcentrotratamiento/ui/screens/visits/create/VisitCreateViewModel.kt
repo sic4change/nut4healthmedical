@@ -56,12 +56,12 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun createVisit(height: Double, weight: Double, arm_circunference: Double, status: String, edema: String,
-                    measlesVaccinated: Boolean, vitamineAVaccinated: Boolean, symtoms: List<Symtom>,
+                    measlesVaccinated: Boolean, vitamineAVaccinated: Boolean,
                     treatments: List<Treatment>, complications: List<Complication>,  observations: String) {
         viewModelScope.launch {
             val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
                 arm_circunference, status, edema, measlesVaccinated, vitamineAVaccinated,
-                symtoms.toMutableList(), treatments.toMutableList(), complications.toMutableList(),
+                treatments.toMutableList(), complications.toMutableList(),
                 observations, "")
             _state.value= UiState(visit = visit)
             FirebaseDataSource.createVisit(visit)
