@@ -84,4 +84,8 @@ class VisitState(
         }
     }
 
+    fun isOneComplicationSelected(): Boolean {
+        return complications.value.filter { it.selected }.count() > 0
+    }
+
 }

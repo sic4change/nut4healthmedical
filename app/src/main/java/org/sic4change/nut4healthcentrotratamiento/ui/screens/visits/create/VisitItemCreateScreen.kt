@@ -282,9 +282,134 @@ private fun Header(visitState: VisitState,
             )
         }
 
-        AnimatedVisibility(visible = (monthsBetween >= 6 && monthsBetween <= 60)) {
-            Spacer(modifier = Modifier.height(16.dp))
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            expanded = visitState.expandedEdema.value,
+            onExpandedChange = {
+                visitState.expandedEdema.value = !visitState.expandedEdema.value
+            }
+        ) {
+            TextField(
+                readOnly = true,
+                value = visitState.selectedEdema.value,
+                onValueChange = {
+                    visitState.selectedEdema.value = it
+                },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = visitState.expandedEdema.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    Icon(Icons.Filled.EggAlt, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = visitState.expandedEdema.value,
+                onDismissRequest = {
+                    visitState.expandedEdema.value = false
+                }
+            ) {
+                stringArrayResource(id = R.array.edemaOptions).forEach { selectedEdema ->
+                    DropdownMenuItem(
+                        onClick = {
+                            visitState.selectedEdema.value = selectedEdema
+                            if (selectedEdema != "No") {
+                                visitState.status.value = context.getString(R.string.aguda_severa)
+                            } else {
+                                if (visitState.armCircunference.value < 11.5) {
+                                    visitState.status.value = "Aguda Severa"
+                                } else if (visitState.armCircunference.value in 11.5..12.5) {
+                                    if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                                        || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                        visitState.status.value = "Aguda Moderada"
+                                    }
+                                } else {
+                                    if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                        visitState.status.value = "Normopeso"
+                                    } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                                        visitState.status.value = "Peso Objetivo"
+                                    }
+                                }
+                            }
+                            visitState.expandedEdema.value = false
+                        }
+                    ) {
+                        Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                    }
+                }
+            }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp),
+            elevation = 0.dp,
+            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+        )
+        {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),)
+
+                visitState.complications.value.forEach { complication ->
+                    ItemListComplications(complication = complication, checked = complication.selected) {
+                        val complicationsToUpdate: MutableList<Complication> = mutableListOf()
+                        visitState.complications.value.forEach { item ->
+                            if (item.id == complication.id) {
+                                item.selected = it
+                            }
+                            complicationsToUpdate.add(item)
+                        }
+                        visitState.complications.value = mutableListOf()
+                        visitState.complications.value.addAll(complicationsToUpdate)
+                        if (complicationsToUpdate.any{ it.selected }) {
+                            visitState.status.value = context.getString(R.string.aguda_severa)
+                        } else {
+                            if (visitState.armCircunference.value < 11.5) {
+                                visitState.status.value = "Aguda Severa"
+                            } else if (visitState.armCircunference.value in 11.5..12.5) {
+                                if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
+                                    || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                    visitState.status.value = "Aguda Moderada"
+                                }
+                            } else {
+                                if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
+                                    visitState.status.value = "Normopeso"
+                                } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
+                                    visitState.status.value = "Peso Objetivo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
             var statusFormated = ""
@@ -303,6 +428,18 @@ private fun Header(visitState: VisitState,
             } else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5 &&
                 (statusFormated == stringResource(R.string.normopeso) || statusFormated == stringResource(R.string.objetive_weight))) {
                 statusFormated = stringResource(R.string.aguda_moderada)
+            }
+
+            if (visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [0]) {
+                statusFormated = stringResource(R.string.normopeso)
+            } else if (visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [1]
+                || visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [2]
+                || visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [3]) {
+                statusFormated = stringResource(R.string.aguda_severa)
+            }
+
+            if (visitState.isOneComplicationSelected()) {
+                statusFormated = stringResource(R.string.aguda_severa)
             }
 
             visitState.status.value = statusFormated
@@ -381,84 +518,6 @@ private fun Header(visitState: VisitState,
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
             }
 
-        }
-
-        AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ExposedDropdownMenuBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            expanded = visitState.expandedEdema.value,
-            onExpandedChange = {
-                visitState.expandedEdema.value = !visitState.expandedEdema.value
-            }
-        ) {
-            TextField(
-                readOnly = true,
-                value = visitState.selectedEdema.value,
-                onValueChange = {
-                    visitState.selectedEdema.value = it
-                },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = visitState.expandedEdema.value
-                    )
-                },
-                textStyle = MaterialTheme.typography.h5,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                ),
-                modifier = Modifier
-                    .fillMaxWidth(),
-                leadingIcon = {
-                    Icon(Icons.Filled.EggAlt, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
-            )
-            ExposedDropdownMenu(
-                expanded = visitState.expandedEdema.value,
-                onDismissRequest = {
-                    visitState.expandedEdema.value = false
-                }
-            ) {
-                stringArrayResource(id = R.array.edemaOptions).forEach { selectedEdema ->
-                    DropdownMenuItem(
-                        onClick = {
-                            visitState.selectedEdema.value = selectedEdema
-                            if (selectedEdema != "No") {
-                                visitState.status.value = context.getString(R.string.aguda_severa)
-                            } else {
-                                if (visitState.armCircunference.value < 11.5) {
-                                    visitState.status.value = "Aguda Severa"
-                                } else if (visitState.armCircunference.value in 11.5..12.5) {
-                                    if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
-                                        || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                                        visitState.status.value = "Aguda Moderada"
-                                    }
-                                } else {
-                                    if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                                        visitState.status.value = "Normopeso"
-                                    } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
-                                        visitState.status.value = "Peso Objetivo"
-                                    }
-                                }
-                            }
-                            visitState.expandedEdema.value = false
-                        }
-                    ) {
-                        Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
-                    }
-                }
-            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -559,61 +618,6 @@ private fun Header(visitState: VisitState,
                         visitState.treatments.value = mutableListOf()
                         visitState.treatments.value.addAll(treatmentsToUpdate)
                     })
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Card(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp),
-            elevation = 0.dp,
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-        )
-        {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(16.dp)
-            ) {
-                Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),)
-
-                visitState.complications.value.forEach { complication ->
-                    ItemListComplications(complication = complication, checked = complication.selected) {
-                        val complicationsToUpdate: MutableList<Complication> = mutableListOf()
-                        visitState.complications.value.forEach { item ->
-                            if (item.id == complication.id) {
-                                item.selected = it
-                            }
-                            complicationsToUpdate.add(item)
-                        }
-                        visitState.complications.value = mutableListOf()
-                        visitState.complications.value.addAll(complicationsToUpdate)
-                        if (complicationsToUpdate.any{ it.selected }) {
-                            visitState.status.value = context.getString(R.string.aguda_severa)
-                        } else {
-                            if (visitState.armCircunference.value < 11.5) {
-                                visitState.status.value = "Aguda Severa"
-                            } else if (visitState.armCircunference.value in 11.5..12.5) {
-                                if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
-                                    || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                                    visitState.status.value = "Aguda Moderada"
-                                }
-                            } else {
-                                if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                                    visitState.status.value = "Normopeso"
-                                } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
-                                    visitState.status.value = "Peso Objetivo"
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
