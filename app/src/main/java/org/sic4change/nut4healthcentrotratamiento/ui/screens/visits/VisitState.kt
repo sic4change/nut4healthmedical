@@ -32,6 +32,10 @@ fun rememberVisitsState(
     expandedDeshidratation: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedVomitos: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedVomitos: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedDiarrea: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedDiarrea: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedFiebre: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedFiebre: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -44,9 +48,9 @@ fun rememberVisitsState(
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
     status, selectedEdema, expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes,
-    selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos, measlesVaccinated,
-    vitamineAVaccinated, observations, childDateMillis, treatments, complications, createdDate,
-    createdVisit, visitsSize,deleteVisit, ) }
+    selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
+    selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, measlesVaccinated, vitamineAVaccinated, observations,
+    childDateMillis, treatments, complications, createdDate, createdVisit, visitsSize,deleteVisit, ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -68,6 +72,10 @@ class VisitState(
     val expandedDeshidratation: MutableState<Boolean>,
     val selectedVomitos: MutableState<String>,
     val expandedVomitos: MutableState<Boolean>,
+    val selectedDiarrea: MutableState<String>,
+    val expandedDiarrea: MutableState<Boolean>,
+    val selectedFiebre: MutableState<String>,
+    val expandedFiebre: MutableState<Boolean>,
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val observations: MutableState<String>,
