@@ -25,6 +25,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -507,6 +509,114 @@ private fun Header(visitState: VisitState,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),
+                    expanded = visitState.expandedRespiration.value,
+                    onExpandedChange = {
+                        visitState.expandedRespiration.value = !visitState.expandedRespiration.value
+                    }
+                ) {
+                    TextField(
+                        readOnly = true,
+                        value = visitState.selectedRespiration.value,
+                        onValueChange = {
+                            visitState.selectedRespiration.value = it
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = visitState.expandedRespiration.value
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h5,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Air, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = visitState.expandedRespiration.value,
+                        onDismissRequest = {
+                            visitState.expandedRespiration.value = false
+                        }
+                    ) {
+                        stringArrayResource(id = R.array.respirationOptions).forEach { selectedRespiration ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    visitState.selectedRespiration.value = selectedRespiration
+                                    visitState.expandedRespiration.value = false
+                                }
+                            ) {
+                                Text(text = selectedRespiration, color = colorResource(R.color.colorPrimary))
+                            }
+                        }
+                    }
+                }
+
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    expanded = visitState.expandedApetit.value,
+                    onExpandedChange = {
+                        visitState.expandedApetit.value = !visitState.expandedApetit.value
+                    }
+                ) {
+                    TextField(
+                        readOnly = true,
+                        value = visitState.selectedApetit.value,
+                        onValueChange = {
+                            visitState.selectedApetit.value = it
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = visitState.expandedApetit.value
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h5,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(Icons.Filled.BreakfastDining, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        label = { Text(stringResource(R.string.apetit), color = colorResource(R.color.disabled_color)) }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = visitState.expandedApetit.value,
+                        onDismissRequest = {
+                            visitState.expandedApetit.value = false
+                        }
+                    ) {
+                        stringArrayResource(id = R.array.apetitOptions).forEach { selectedRespiration ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    visitState.selectedApetit.value = selectedRespiration
+                                    visitState.expandedApetit.value = false
+                                }
+                            ) {
+                                Text(text = selectedRespiration, color = colorResource(R.color.colorPrimary))
+                            }
+                        }
+                    }
+                }
+
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
                     expanded = visitState.expandedInfecction.value,
                     onExpandedChange = {
                         visitState.expandedInfecction.value = !visitState.expandedInfecction.value
@@ -827,10 +937,119 @@ private fun Header(visitState: VisitState,
                     }
                 }
 
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    expanded = visitState.expandedTos.value,
+                    onExpandedChange = {
+                        visitState.expandedTos.value = !visitState.expandedTos.value
+                    }
+                ) {
+                    TextField(
+                        readOnly = true,
+                        value = visitState.selectedTos.value,
+                        onValueChange = {
+                            visitState.selectedTos.value = it
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = visitState.expandedTos.value
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h5,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(Icons.Filled.PersonalInjury, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        label = { Text(stringResource(R.string.tos), color = colorResource(R.color.disabled_color)) }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = visitState.expandedTos.value,
+                        onDismissRequest = {
+                            visitState.expandedTos.value = false
+                        }
+                    ) {
+                        stringArrayResource(id = R.array.yesnooptions).forEach { selectedInfection ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    visitState.selectedTos.value = selectedInfection
+                                    visitState.expandedTos.value = false
+                                }
+                            ) {
+                                Text(text = selectedInfection, color = colorResource(R.color.colorPrimary))
+                            }
+                        }
+                    }
+                }
+
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    expanded = visitState.expandedTemperature.value,
+                    onExpandedChange = {
+                        visitState.expandedTemperature.value = !visitState.expandedTemperature.value
+                    }
+                ) {
+                    TextField(
+                        readOnly = true,
+                        value = visitState.selectedTemperature.value,
+                        onValueChange = {
+                            visitState.selectedTemperature.value = it
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = visitState.expandedTemperature.value
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h5,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        label = { Text(stringResource(R.string.temperature), color = colorResource(R.color.disabled_color)) }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = visitState.expandedTemperature.value,
+                        onDismissRequest = {
+                            visitState.expandedTemperature.value = false
+                        }
+                    ) {
+                        stringArrayResource(id = R.array.temperatureoptions).forEach { selectedInfection ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    visitState.selectedTemperature.value = selectedInfection
+                                    visitState.expandedTemperature.value = false
+                                }
+                            ) {
+                                Text(text = selectedInfection, color = colorResource(R.color.colorPrimary))
+                            }
+                        }
+                    }
+                }
+
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
 
         Card(
             modifier = Modifier
