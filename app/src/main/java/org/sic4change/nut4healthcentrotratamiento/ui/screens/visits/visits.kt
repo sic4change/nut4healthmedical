@@ -133,6 +133,12 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
         }
     }
 
+    LaunchedEffect(viewModelState.case) {
+        if (viewModelState.case != null) {
+            visitCreateState.visitsSize.value = viewModelState.case!!.visits.toInt()
+        }
+    }
+
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {
             visitCreateState.id.value = viewModelState.visit!!.id

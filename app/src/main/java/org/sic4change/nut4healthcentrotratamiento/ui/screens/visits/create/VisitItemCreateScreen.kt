@@ -1060,35 +1060,61 @@ private fun Header(visitState: VisitState,
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            elevation = 0.dp,
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && visitState.visitsSize.value == 0) {
+            Card(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .padding(0.dp, 16.dp)
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                elevation = 0.dp,
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
             ) {
-                CheckNUT4H(text = stringResource(id = R.string.measlesVaccinated), visitState.measlesVaccinated.value) {
-                    visitState.measlesVaccinated.value = it
-                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(0.dp, 16.dp)
+                ) {
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
-                    visitState.vitamineAVaccinated.value = it
+                    CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
+                        visitState.vitamineAVaccinated.value = it
+                    }
+
+                    AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                    AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 0.dp)
+                        ) {
+                            Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.colorPrimary))
+                            if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
+                                Text(stringResource(R.string.vitamine_blue), color = colorResource(R.color.colorPrimary))
+                            } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
+                                Text(stringResource(R.string.vitamine_red), color = colorResource(R.color.colorPrimary))
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+
+
+        /*Spacer(modifier = Modifier.height(16.dp))
 
         Card(modifier = Modifier
             .fillMaxWidth()
@@ -1123,7 +1149,7 @@ private fun Header(visitState: VisitState,
                     })
                 }
             }
-        }
+        }*/
 
         Spacer(modifier = Modifier.height(16.dp))
 

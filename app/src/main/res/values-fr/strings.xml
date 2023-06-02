@@ -172,6 +172,10 @@
     <string name="temperature">Température corporelle(º)</string>
     <string name="apetit">Test d\'appétit</string>
 
+    <string name="vitamine_dosis">La dose à administrer est :</string>
+    <string name="vitamine_blue">Capsule bleue (100 000 UI)</string>
+    <string name="vitamine_red">Capsule rouge (200 000 UI)</string>
+
     <string-array name="yesnooptions">
         <item>Oui</item>
         <item>Non</item>

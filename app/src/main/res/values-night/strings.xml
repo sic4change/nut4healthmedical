@@ -164,6 +164,11 @@
     <string name="temperature">Temperatura corporal(º)</string>
     <string name="apetit">Prueba de apetito</string>
 
+
+    <string name="vitamine_dosis">La dosis que debe administrarse es de:</string>
+    <string name="vitamine_blue">Cápsula azul (100.000 UI)</string>
+    <string name="vitamine_red">Cápsula roja (200.000 UI) </string>
+
     //Yes no options
     <string-array name="yesnooptions">
         <item>Sí</item>
