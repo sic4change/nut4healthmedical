@@ -176,6 +176,17 @@
     <string name="vitamine_blue">Capsule bleue (100 000 UI)</string>
     <string name="vitamine_red">Capsule rouge (200 000 UI)</string>
 
+    <string name="admin_dosis">Administrer la dose de :</string>
+    <string name="abendazol_400_half">Albendazole 400 mg : ½ comprimé</string>
+    <string name="mebendazol_400_half">Mebendazole 500 mg : ½ comprimé</string>
+    <string name="abendazol_400_full">Albendazole 400 mg : 1 comprimé</string>
+    <string name="mebendazol_400_full">Mebendazole 500 mg : 1 comprimé</string>
+
+    <string name="hierro_folico">Fer et acide folique</string>
+    <string name="capsules_hierro_folico_one">1 capsule toutes les 2 semaines</string>
+    <string name="capsules_hierro_folico_tow">2 capsules toutes les 2 semaines</string>
+    <string name="capsules_hierro_folico_checked">Avez-vous suivi un traitement à l\'acide folique et au fer ?</string>
+
     <string-array name="yesnooptions">
         <item>Oui</item>
         <item>Non</item>

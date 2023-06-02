@@ -37,6 +37,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.edit.CheckNUT4H
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -1085,8 +1086,14 @@ private fun Header(visitState: VisitState,
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
-                        visitState.vitamineAVaccinated.value = it
+                    Box(
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                            .fillMaxSize()
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
+                            visitState.vitamineAVaccinated.value = it
+                        }
                     }
 
                     AnimatedVisibility(visitState.vitamineAVaccinated.value) {
@@ -1111,6 +1118,118 @@ private fun Header(visitState: VisitState,
                 }
             }
         }
+
+        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && visitState.visitsSize.value == 0) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && visitState.visitsSize.value == 0) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                elevation = 0.dp,
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(0.dp, 16.dp)
+                ) {
+                    if ((monthsBetween >= 12 && monthsBetween < 24)) {
+                        Text(
+                            stringResource(R.string.admin_dosis),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        Text(
+                            stringResource(R.string.abendazol_400_half),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        Text("o", color = colorResource(R.color.colorPrimary))
+                        Text(
+                            stringResource(R.string.mebendazol_400_half),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                    } else if ((monthsBetween >= 24)) {
+                        Text(
+                            stringResource(R.string.admin_dosis),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        Text(
+                            stringResource(R.string.abendazol_400_full),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        Text("o", color = colorResource(R.color.colorPrimary))
+                        Text(
+                            stringResource(R.string.mebendazol_400_full),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                    }
+                }
+            }
+        }
+
+            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                    && visitState.status.value == stringResource(R.string.aguda_moderada)
+                    && visitState.visitsSize.value == 0) {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                    && visitState.status.value == stringResource(R.string.aguda_moderada)
+                    && visitState.visitsSize.value == 0) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    elevation = 0.dp,
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterVertically
+                        ),
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(0.dp, 16.dp)
+                    ) {
+                        Text(
+                            stringResource(R.string.hierro_folico),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        if ((visitState.weight.value.toInt() < 10)) {
+                            Text(
+                                stringResource(R.string.capsules_hierro_folico_one),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else {
+                            Text(
+                                stringResource(R.string.capsules_hierro_folico_tow),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        }
+                        Box(
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                                .fillMaxSize()
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            CheckNUT4H(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value) {
+                                visitState.capsulesFerro.value = it
+                            }
+                        }
+
+                    }
+                }
+            }
+
 
 
 

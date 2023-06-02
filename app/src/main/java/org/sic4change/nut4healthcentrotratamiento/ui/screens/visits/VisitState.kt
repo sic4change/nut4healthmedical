@@ -46,6 +46,7 @@ fun rememberVisitsState(
     expandedTemperature: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    capsulesFerro: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     childDateMillis: MutableState<Long> = rememberSaveable { mutableStateOf(0) },
     treatments: MutableState<MutableList<Treatment>> = rememberSaveable {mutableStateOf(mutableListOf<Treatment>())},
@@ -59,7 +60,7 @@ fun rememberVisitsState(
     selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
     selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
-    measlesVaccinated, vitamineAVaccinated, observations, childDateMillis, treatments, complications,
+    measlesVaccinated, vitamineAVaccinated, capsulesFerro, observations, childDateMillis, treatments, complications,
     createdDate, createdVisit, visitsSize,deleteVisit ) }
 
 class VisitState(
@@ -96,6 +97,7 @@ class VisitState(
     val expandedTemperature: MutableState<Boolean>,
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
+    val capsulesFerro: MutableState<Boolean>,
     val observations: MutableState<String>,
     val childDateMillis: MutableState<Long>,
     val treatments: MutableState<MutableList<Treatment>>,
