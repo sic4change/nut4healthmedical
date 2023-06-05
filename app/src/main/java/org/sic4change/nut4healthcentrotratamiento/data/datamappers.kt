@@ -102,15 +102,21 @@ fun Complication.toServerComplication() : ServerComplication = ServerComplicatio
     id, name, name_en, name_fr
 )
 
+
+
 fun ServerVisit.toDomainVisit() : Visit {
-    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
-        measlesVaccinated, vitamineAVaccinated, treatments.map { it.toDomainTreatment() }.toMutableList(),
+    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference,
+        status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
+        vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
+        vaccinationCard,rubeolaVaccinated,  treatments.map { it.toDomainTreatment() }.toMutableList(),
         complications.map { it.toDomainComplication() }.toMutableList(), observations, point)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference, status, edema,
-        complications.map { it.toServerComplication() }, measlesVaccinated, vitamineAVaccinated,
+    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference,
+        status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
+        vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
+        vaccinationCard,rubeolaVaccinated, complications.map { it.toServerComplication() },
         treatments.map { it.toServerTreatment() }, observations, point)
 }
 

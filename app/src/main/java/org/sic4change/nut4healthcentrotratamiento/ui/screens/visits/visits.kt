@@ -98,7 +98,6 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.status.value = viewModelState.visit!!.status
             visitDetailState.selectedEdema.value = viewModelState.visit!!.edema
             visitDetailState.observations.value = viewModelState.visit!!.observations
-            visitDetailState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitDetailState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitDetailState.treatments.value = viewModelState.visit!!.treatments
             visitDetailState.complications.value = viewModelState.visit!!.complications
@@ -148,7 +147,6 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.height.value = viewModelState.visit!!.height.toString()
             visitCreateState.weight.value = viewModelState.visit!!.weight.toString()
             visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
-            visitCreateState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitCreateState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
             visitCreateState.treatments.value = viewModelState.visit!!.treatments
@@ -156,13 +154,6 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
         }
     }
-
-    LaunchedEffect(viewModelState.treatments) {
-        if (viewModelState.treatments != null) {
-            visitCreateState.treatments.value = viewModelState.treatments.toMutableList()
-        }
-    }
-
 
     LaunchedEffect(viewModelState.complications) {
         visitCreateState.complications.value = viewModelState.complications.toMutableList()
@@ -230,7 +221,6 @@ fun VisitEditScreen(viewModel: VisitEditViewModel = viewModel(), onEditVisit: (S
             visitEditState.status.value = viewModelState.visit!!.status
             visitEditState.selectedEdema.value = viewModelState.visit!!.edema
             visitEditState.armCircunference.value = viewModelState.visit!!.armCircunference
-            visitEditState.measlesVaccinated.value = viewModelState.visit!!.measlesVaccinated
             visitEditState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitEditState.observations.value = viewModelState.visit!!.observations
             visitEditState.treatments.value = viewModelState.visit!!.treatments

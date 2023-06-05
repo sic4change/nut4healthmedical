@@ -51,10 +51,12 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
-                          onCreateVisit: (Double, Double, Double, String, String, Boolean, Boolean,
-                                          treatments: List<Treatment>, complications: List<Complication>,
-                                          String) -> Unit,
-                          onChangeWeightOrHeight: (String, String) -> Unit) {
+                          onCreateVisit: (Double, Double, Double, String, String, String, String,
+                                          String, String, String, String, String, String, String,
+                                          String, Boolean, Boolean, String, String, treatments: List<Treatment>,
+                                          complications: List<Complication>, String) -> Unit,
+                          onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -90,11 +92,12 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
 @Composable
 private fun Header(visitState: VisitState,
                    onCreateVisit: (
-                       Double, Double, Double, String, String, Boolean, Boolean,
-                       treatments: List<Treatment>, complications: List<Complication>,
-                       String,
+                       Double, Double, Double, String, String, String, String,
+                       String, String, String, String, String, String, String,
+                       String, Boolean, Boolean, String, String, treatments: List<Treatment>,
+                       complications: List<Complication>, String
                    ) -> Unit,
-                   onChangeWeightOrHeight: (String, String) -> Unit) {
+                   onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -119,7 +122,8 @@ private fun Header(visitState: VisitState,
             onValueChange = {
                 visitState.formatHeightValue(it)
                 onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                    visitState.weight.value.filter { !it.isWhitespace() })
+                    visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                visitState.complications.value)
             },
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions(
@@ -144,7 +148,8 @@ private fun Header(visitState: VisitState,
             onValueChange = {
                 visitState.formatWeightValue(it)
                 onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                    visitState.weight.value.filter { !it.isWhitespace() })
+                    visitState.weight.value.filter { !it.isWhitespace() },
+                visitState.selectedEdema.value, visitState.complications.value)
             },
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions(
@@ -297,6 +302,9 @@ private fun Header(visitState: VisitState,
                 value = visitState.selectedEdema.value,
                 onValueChange = {
                     visitState.selectedEdema.value = it
+                    onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                        visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                        visitState.complications.value)
                 },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
@@ -329,6 +337,9 @@ private fun Header(visitState: VisitState,
                         onClick = {
                             visitState.selectedEdema.value = selectedEdema
                             visitState.expandedEdema.value = false
+                            onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                                visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                                visitState.complications.value)
                         }
                     ) {
                         Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
@@ -356,20 +367,27 @@ private fun Header(visitState: VisitState,
                 Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp, 0.dp),)
+                        .padding(16.dp, 0.dp))
 
                 visitState.complications.value.forEach { complication ->
-                    ItemListComplications(complication = complication, checked = complication.selected) {
-                        val complicationsToUpdate: MutableList<Complication> = mutableListOf()
-                        visitState.complications.value.forEach { item ->
-                            if (item.id == complication.id) {
-                                item.selected = it
+                    ItemListComplications(
+                        complication = complication,
+                        checked = complication.selected,
+                        onCheckedChange = {
+                            val complicationsToUpdate: MutableList<Complication> = mutableListOf()
+                            visitState.complications.value.forEach { item ->
+                                if (item.id == complication.id) {
+                                    item.selected = it
+                                }
+                                complicationsToUpdate.add(item)
                             }
-                            complicationsToUpdate.add(item)
+                            visitState.complications.value = mutableListOf()
+                            visitState.complications.value.addAll(complicationsToUpdate)
+                            onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+                                visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                                visitState.complications.value)
                         }
-                        visitState.complications.value = mutableListOf()
-                        visitState.complications.value.addAll(complicationsToUpdate)
-                    }
+                    )
                 }
             }
         }
@@ -393,18 +411,6 @@ private fun Header(visitState: VisitState,
             } else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5 &&
                 (statusFormated == stringResource(R.string.normopeso) || statusFormated == stringResource(R.string.objetive_weight))) {
                 statusFormated = stringResource(R.string.aguda_moderada)
-            }
-
-            if (visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [0]) {
-                statusFormated = stringResource(R.string.normopeso)
-            } else if (visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [1]
-                || visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [2]
-                || visitState.selectedEdema.value == stringArrayResource(R.array.edemaOptions) [3]) {
-                statusFormated = stringResource(R.string.aguda_severa)
-            }
-
-            if (visitState.isOneComplicationSelected()) {
-                statusFormated = stringResource(R.string.aguda_severa)
             }
 
             visitState.status.value = statusFormated
@@ -1205,7 +1211,7 @@ private fun Header(visitState: VisitState,
                             stringResource(R.string.hierro_folico),
                             color = colorResource(R.color.colorPrimary)
                         )
-                        if ((visitState.weight.value.toInt() < 10)) {
+                        if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
                             Text(
                                 stringResource(R.string.capsules_hierro_folico_one),
                                 color = colorResource(R.color.colorPrimary)
@@ -1470,9 +1476,15 @@ private fun Header(visitState: VisitState,
                     onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                         visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                        visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
+                        visitState.selectedRespiration.value, visitState.selectedApetit.value,
+                        visitState.selectedInfection.value, visitState.selectedEyes.value,
+                        visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
+                        visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
+                        visitState.selectedTos.value, visitState.selectedTemperature.value,
+                        visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
+                        visitState.selectedCartilla.value, visitState.selectedRubeola.value,
                         visitState.treatments.value, visitState.complications.value,
-                        visitState.observations.value,)
+                        visitState.observations.value)
 
                 },
             ) {

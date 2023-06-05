@@ -559,9 +559,13 @@ object FirebaseDataSource {
                     val resultCase = queryCase.get().await()
                     val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
                     networkCasesContainer.results[0].let { case ->
-                        val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit("", case.id, case.childId, case.tutorId, visit.createdate,
-                            visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status, visit.edema,
-                            visit.measlesVaccinated, visit.vitamineAVaccinated,
+                        val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit(
+                            "", case.id, case.childId, case.tutorId, visit.createdate,
+                            visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status,
+                            visit.edema, visit.respiratonStatus, visit.appetiteTest, visit.infection,
+                            visit.eyesDeficiency, visit.deshidratation, visit.vomiting, visit.diarrhea,
+                            visit.fever, visit.cough, visit.temperature, visit.vitamineAVaccinated,
+                            visit.acidfolicAndFerroVaccinated, visit.vaccinationCard, visit.rubeolaVaccinated,
                             visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
                             visit.complications.filter { it.selected }.toMutableList(),
                             visit.observations, user.point)

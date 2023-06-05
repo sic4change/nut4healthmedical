@@ -201,12 +201,24 @@ data class Visit(
     @Exclude val armCircunference: Double = 0.0,
     @Exclude val status: String = "",
     @Exclude val edema: String = "",
-    @Exclude var complications: List<Complication> = emptyList(),
-    @Exclude val measlesVaccinated: Boolean = false,
+    @Exclude val respiratonStatus: String = "",
+    @Exclude val appetiteTest: String = "",
+    @Exclude val infection: String = "",
+    @Exclude val eyesDeficiency: String = "",
+    @Exclude val deshidratation: String = "",
+    @Exclude val vomiting: String = "",
+    @Exclude val diarrhea: String = "",
+    @Exclude val fever: String = "",
+    @Exclude val cough: String = "",
+    @Exclude val temperature: String = "",
     @Exclude val vitamineAVaccinated: Boolean = false,
+    @Exclude val acidfolicAndFerroVaccinated: Boolean = false,
+    @Exclude val vaccinationCard: String = "",
+    @Exclude val rubeolaVaccinated: String = "",
+    @Exclude var complications: List<Complication> = emptyList(),
     @Exclude var treatments: List<Treatment> = emptyList(),
     @Exclude var observations: String = "",
-    @Exclude var point: String? = "",
+    @Exclude var point: String? = ""
 )
 
 

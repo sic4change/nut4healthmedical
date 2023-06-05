@@ -26,15 +26,11 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(
                 loading = true,
                 case = FirebaseDataSource.getCase(caseId),
-                symtoms = FirebaseDataSource.getSymtoms(),
-                treatments = FirebaseDataSource.getTreatments(),
                 complications = FirebaseDataSource.getComplications(),
             )
             _state.value = UiState(
                 loading = true,
                 case = _state.value.case,
-                symtoms = _state.value.symtoms,
-                treatments = _state.value.treatments,
                 complications = _state.value.complications,
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId)?.birthdate?.time }
             )
@@ -46,8 +42,6 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val case: Case? = null,
         val childDateMillis: Long? = 0,
         val visit: Visit? = null,
-        val symtoms: List<Symtom> = emptyList(),
-        val treatments: List<Treatment> = emptyList(),
         val complications: List<Complication> = emptyList(),
         val height: Double? = null,
         val weight: Double? = null,
@@ -56,11 +50,16 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     )
 
     fun createVisit(height: Double, weight: Double, arm_circunference: Double, status: String, edema: String,
-                    measlesVaccinated: Boolean, vitamineAVaccinated: Boolean,
-                    treatments: List<Treatment>, complications: List<Complication>,  observations: String) {
+                    respiratonStatus: String, appetiteTest: String, infection: String, eyesDeficiency: String,
+                    deshidratation: String, vomiting: String, diarrhea: String, fever: String, cough: String,
+                    temperature: String, vitamineAVaccinated: Boolean, acidfolicAndFerroVaccinated: Boolean,
+                    vaccinationCard: String, rubeolaVaccinated: String, treatments: List<Treatment>,
+                    complications: List<Complication>, observations: String) {
         viewModelScope.launch {
             val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
-                arm_circunference, status, edema, measlesVaccinated, vitamineAVaccinated,
+                arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
+                eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
+                vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
                 treatments.toMutableList(), complications.toMutableList(),
                 observations, "")
             _state.value= UiState(visit = visit)
@@ -69,16 +68,19 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
-    fun checkDesnutrition(height: String, weight: String) {
+    fun checkDesnutrition(height: String, weight: String, edema: String, complications: List<Complication>) {
         viewModelScope.launch {
             if (height.isNotEmpty() && weight.isNotEmpty()) {
+
                 try {
                     _state.value= UiState(
-                        symtoms = _state.value.symtoms,
-                        treatments = _state.value.treatments,
                         complications = _state.value.complications,
                         imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()),
                         childDateMillis = state.value.childDateMillis)
+
+                    if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "No" && edema != "Non")) {
+                        _state.value = _state.value.copy(imc = -3.0)
+                    }
                 } catch (error: Error) {
                     println("error: ${error}")
                 }

@@ -441,34 +441,6 @@ private fun Header(visitState: VisitState,
                 verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(0.dp, 16.dp)
-            ) {
-                CheckNUT4H(text = stringResource(id = R.string.measlesVaccinated), visitState.measlesVaccinated.value) {
-                    visitState.measlesVaccinated.value = it
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
-                    visitState.vitamineAVaccinated.value = it
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            elevation = 0.dp,
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                modifier = Modifier
-                    .wrapContentSize()
                     .padding(16.dp)
             ) {
 
@@ -546,12 +518,7 @@ private fun Header(visitState: VisitState,
                     .padding(16.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
-                    onEditVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                        visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                        visitState.measlesVaccinated.value, visitState.vitamineAVaccinated.value,
-                        visitState.treatments.value, visitState.complications.value,
-                        visitState.observations.value)
+                    //TODO: Edit visit
 
                 },
             ) {

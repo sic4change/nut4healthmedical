@@ -80,15 +80,7 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                   weight: Double, arm_circunference: Double, status: String, edema: String,
                   measlesVaccinated: Boolean, vitamineAVaccinated: Boolean,
                   treatments: List<Treatment>, complications: List<Complication>, observations: String) {
-        viewModelScope.launch {
-            val visit = Visit(id, _state.value.visit!!.caseId, childId, _state.value.visit!!.tutorId, Date(), height, weight, 0.0,
-                arm_circunference, status, edema, measlesVaccinated, vitamineAVaccinated,
-                treatments.filter {it.selected}.toMutableList(), complications.filter {it.selected}.toMutableList(),
-                observations, "")
-            _state.value= UiState(visit = visit)
-            FirebaseDataSource.updateVisit(visit)
-            _state.value = UiState(editVisit = true)
-        }
+        //TODO: edit visit
     }
 
     fun checkDesnutrition(height: String, weight: String) {

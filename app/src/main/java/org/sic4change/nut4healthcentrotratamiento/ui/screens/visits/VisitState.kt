@@ -3,7 +3,9 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
@@ -44,7 +46,6 @@ fun rememberVisitsState(
     expandedApetit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedTemperature: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedTemperature: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     capsulesFerro: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedCartilla: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -64,7 +65,7 @@ fun rememberVisitsState(
     selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
     selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
-    measlesVaccinated, vitamineAVaccinated, capsulesFerro, selectedCartilla, expandedCartilla,
+    vitamineAVaccinated, capsulesFerro, selectedCartilla, expandedCartilla,
     selectedRubeola, expandedRubeola, observations, childDateMillis, treatments, complications,
     createdDate, createdVisit, visitsSize,deleteVisit ) }
 
@@ -100,7 +101,6 @@ class VisitState(
     val expandedApetit: MutableState<Boolean>,
     val selectedTemperature: MutableState<String>,
     val expandedTemperature: MutableState<Boolean>,
-    val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val capsulesFerro: MutableState<Boolean>,
     val selectedCartilla: MutableState<String>,
@@ -140,5 +140,6 @@ class VisitState(
     fun isOneComplicationSelected(): Boolean {
         return complications.value.filter { it.selected }.count() > 0
     }
+
 
 }
