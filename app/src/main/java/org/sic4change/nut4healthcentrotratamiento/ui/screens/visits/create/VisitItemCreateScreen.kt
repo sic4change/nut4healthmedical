@@ -1406,7 +1406,7 @@ private fun Header(visitState: VisitState,
 
         }
 
-        
+
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(value = visitState.observations.value,
@@ -1426,6 +1426,36 @@ private fun Header(visitState: VisitState,
             leadingIcon = {
                 Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AnimatedVisibility(visible = (
+                visitState.weight.value.isNotEmpty()
+                        && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)
+                )) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.plumpy_one),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                    Text(
+                        text = stringResource(R.string.plumpy_fiveteeen),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                }
+
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty())) {

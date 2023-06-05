@@ -191,6 +191,9 @@
     <string name="rubeola">Vacciné contre la rubéole?</string>
     <string name="must_rubeola">Vous devez vous faire vacciner contre la rubéole</string>
 
+    <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est :</string>
+    <string name="plumpy_fiveteeen">15 sachets (1 sachet par jour)</string>
+
     <string-array name="yesnooptions">
         <item>Oui</item>
         <item>Non</item>

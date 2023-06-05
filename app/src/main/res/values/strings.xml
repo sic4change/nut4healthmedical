@@ -191,6 +191,10 @@
     <string name="rubeola">¿Vacunado contra la rubeola?</string>
     <string name="must_rubeola">Debe vacunarse contra la rubeola</string>
 
+    <string name="plumpy_one">El número de bolsas de plumpy\'sup que hay que tomar es:</string>
+    <string name="plumpy_fiveteeen">15 sobres (1 sobre al día)</string>
+
+
     //Yes no options
     <string-array name="yesnooptions">
         <item>Sí</item>
