@@ -180,6 +180,10 @@
     <string name="capsules_hierro_folico_tow">2 cápsulas cada 2 semanas</string>
     <string name="capsules_hierro_folico_checked">¿Ha tomado tratamiento con ácido fólico y hierro?</string>
 
+    <string name="cartilla">Cartilla de vacunación:</string>
+    <string name="rubeola">¿Vacunado contra la rubeola?</string>
+    <string name="must_rubeola">Debe vacunarse contra la rubeola</string>
+
     //Yes no options
     <string-array name="yesnooptions">
         <item>Sí</item>

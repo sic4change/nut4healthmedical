@@ -47,6 +47,10 @@ fun rememberVisitsState(
     measlesVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     vitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     capsulesFerro: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedCartilla: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedCartilla: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedRubeola: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedRubeola: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     childDateMillis: MutableState<Long> = rememberSaveable { mutableStateOf(0) },
     treatments: MutableState<MutableList<Treatment>> = rememberSaveable {mutableStateOf(mutableListOf<Treatment>())},
@@ -60,7 +64,8 @@ fun rememberVisitsState(
     selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
     selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
-    measlesVaccinated, vitamineAVaccinated, capsulesFerro, observations, childDateMillis, treatments, complications,
+    measlesVaccinated, vitamineAVaccinated, capsulesFerro, selectedCartilla, expandedCartilla,
+    selectedRubeola, expandedRubeola, observations, childDateMillis, treatments, complications,
     createdDate, createdVisit, visitsSize,deleteVisit ) }
 
 class VisitState(
@@ -98,6 +103,10 @@ class VisitState(
     val measlesVaccinated: MutableState<Boolean>,
     val vitamineAVaccinated: MutableState<Boolean>,
     val capsulesFerro: MutableState<Boolean>,
+    val selectedCartilla: MutableState<String>,
+    val expandedCartilla: MutableState<Boolean>,
+    val selectedRubeola: MutableState<String>,
+    val expandedRubeola: MutableState<Boolean>,
     val observations: MutableState<String>,
     val childDateMillis: MutableState<Long>,
     val treatments: MutableState<MutableList<Treatment>>,

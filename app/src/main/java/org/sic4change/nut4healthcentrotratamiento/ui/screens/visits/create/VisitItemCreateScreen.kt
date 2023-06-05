@@ -1230,46 +1230,183 @@ private fun Header(visitState: VisitState,
                 }
             }
 
+        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && monthsBetween >= 9) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
-
-
-        /*Spacer(modifier = Modifier.height(16.dp))
-
-        Card(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp),
-            elevation = 0.dp,
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-        )
-        {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && monthsBetween >= 9) {
+            Card(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                elevation = 0.dp,
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
             ) {
-                Text(text = stringResource(R.string.treatments), color = colorResource(R.color.disabled_color),
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),)
-
-                visitState.treatments.value.forEach { treatment ->
-                    ItemListTreatments(treatment = treatment, checked = treatment.selected,  {
-                        var treatmentsToUpdate : MutableList<Treatment> = mutableListOf()
-                        visitState.treatments.value.forEach { item ->
-                            if (item.id == treatment.id) {
-                                item.selected = it
-                            }
-                            treatmentsToUpdate.add(item)
+                        .wrapContentSize()
+                        .padding(0.dp, 16.dp)
+                ) {
+                    ExposedDropdownMenuBox(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        expanded = visitState.expandedCartilla.value,
+                        onExpandedChange = {
+                            visitState.expandedCartilla.value = !visitState.expandedCartilla.value
                         }
-                        visitState.treatments.value = mutableListOf()
-                        visitState.treatments.value.addAll(treatmentsToUpdate)
-                    })
+                    ) {
+                        TextField(
+                            readOnly = true,
+                            value = visitState.selectedCartilla.value,
+                            onValueChange = {
+                                visitState.selectedCartilla.value = it
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = visitState.expandedCartilla.value
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.h5,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            leadingIcon = {
+                                Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
+                        )
+                        ExposedDropdownMenu(
+                            expanded = visitState.expandedCartilla.value,
+                            onDismissRequest = {
+                                visitState.expandedCartilla.value = false
+                            }
+                        ) {
+                            stringArrayResource(id = R.array.yesnooptions).forEach { selectedEdema ->
+                                DropdownMenuItem(
+                                    onClick = {
+                                        visitState.selectedCartilla.value = selectedEdema
+                                        visitState.expandedCartilla.value = false
+                                    }
+                                ) {
+                                    Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                                }
+                            }
+                        }
+                    }
+                    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                            && visitState.status.value == stringResource(R.string.aguda_moderada)
+                            && monthsBetween >= 9
+                            && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
+
+                        ExposedDropdownMenuBox(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            expanded = visitState.expandedRubeola.value,
+                            onExpandedChange = {
+                                visitState.expandedRubeola.value = !visitState.expandedRubeola.value
+                            }
+                        ) {
+                            TextField(
+                                readOnly = true,
+                                value = visitState.selectedRubeola.value,
+                                onValueChange = {
+                                    visitState.selectedRubeola.value = it
+                                },
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(
+                                        expanded = visitState.expandedRubeola.value
+                                    )
+                                },
+                                textStyle = MaterialTheme.typography.h5,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = colorResource(R.color.colorPrimary),
+                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    cursorColor = colorResource(R.color.colorAccent),
+                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = visitState.expandedRubeola.value,
+                                onDismissRequest = {
+                                    visitState.expandedRubeola.value = false
+                                }
+                            ) {
+                                stringArrayResource(id = R.array.yesnooptions).forEach { selectedEdema ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            visitState.selectedRubeola.value = selectedEdema
+                                            visitState.expandedRubeola.value = false
+                                        }
+                                    ) {
+                                        Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                            && visitState.status.value == stringResource(R.string.aguda_moderada)
+                            && monthsBetween >= 9
+                            && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 16.dp)
+                        ) {
+                            Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.colorPrimary))
+                        }
+
+                    }
+
+                    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                            && visitState.status.value == stringResource(R.string.aguda_moderada)
+                            && monthsBetween >= 9
+                            && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
+                            && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 16.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.must_rubeola),
+                                color = colorResource(R.color.colorPrimary),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        }
+                    }
                 }
             }
-        }*/
 
+        }
+
+        
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(value = visitState.observations.value,

@@ -187,6 +187,10 @@
     <string name="capsules_hierro_folico_tow">2 capsules toutes les 2 semaines</string>
     <string name="capsules_hierro_folico_checked">Avez-vous suivi un traitement à l\'acide folique et au fer ?</string>
 
+    <string name="cartilla">Carnet de vaccination:</string>
+    <string name="rubeola">Vacciné contre la rubéole?</string>
+    <string name="must_rubeola">Vous devez vous faire vacciner contre la rubéole</string>
+
     <string-array name="yesnooptions">
         <item>Oui</item>
         <item>Non</item>
