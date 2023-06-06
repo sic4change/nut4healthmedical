@@ -10,6 +10,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import java.util.*
 
 
@@ -58,6 +59,7 @@ fun rememberVisitsState(
     complications: MutableState<MutableList<Complication>> = rememberSaveable {mutableStateOf(mutableListOf())},
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdVisit:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    visits: MutableState<MutableList<Visit>> = rememberSaveable {mutableStateOf(mutableListOf<Visit>())},
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
@@ -67,7 +69,7 @@ fun rememberVisitsState(
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
     vitamineAVaccinated, capsulesFerro, selectedCartilla, expandedCartilla,
     selectedRubeola, expandedRubeola, observations, childDateMillis, treatments, complications,
-    createdDate, createdVisit, visitsSize,deleteVisit ) }
+    createdDate, createdVisit, visitsSize, visits, deleteVisit ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -114,6 +116,7 @@ class VisitState(
     val createdDate: MutableState<Date>,
     val createdVisit: MutableState<Boolean>,
     val visitsSize: MutableState<Int>,
+    val visits: MutableState<MutableList<Visit>>,
     val deleteVisit: MutableState<Boolean>,
 ) {
 

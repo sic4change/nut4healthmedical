@@ -27,11 +27,13 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 loading = true,
                 case = FirebaseDataSource.getCase(caseId),
                 complications = FirebaseDataSource.getComplications(),
+                visits = FirebaseDataSource.getVisits(caseId)
             )
             _state.value = UiState(
-                loading = true,
+                loading = false,
                 case = _state.value.case,
                 complications = _state.value.complications,
+                visits = _state.value.visits,
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId)?.birthdate?.time }
             )
         }
@@ -40,6 +42,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val case: Case? = null,
+        val visits: List<Visit> = emptyList(),
         val childDateMillis: Long? = 0,
         val visit: Visit? = null,
         val complications: List<Complication> = emptyList(),
@@ -53,18 +56,19 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     respiratonStatus: String, appetiteTest: String, infection: String, eyesDeficiency: String,
                     deshidratation: String, vomiting: String, diarrhea: String, fever: String, cough: String,
                     temperature: String, vitamineAVaccinated: Boolean, acidfolicAndFerroVaccinated: Boolean,
-                    vaccinationCard: String, rubeolaVaccinated: String, treatments: List<Treatment>,
+                    vaccinationCard: String, rubeolaVaccinated: String,
                     complications: List<Complication>, observations: String) {
         viewModelScope.launch {
+            _state.value= UiState(loading = true)
             val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
                 arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
-                treatments.toMutableList(), complications.toMutableList(),
+                complications.toMutableList(),
                 observations, "")
-            _state.value= UiState(visit = visit)
+            _state.value= UiState(visit = visit, loading = true)
             FirebaseDataSource.createVisit(visit)
-            _state.value = UiState(created = true)
+            _state.value = UiState(created = true, loading = false)
         }
     }
 

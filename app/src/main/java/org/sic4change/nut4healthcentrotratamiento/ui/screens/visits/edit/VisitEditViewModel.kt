@@ -31,19 +31,9 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(
                 loading = true,
                 visit = FirebaseDataSource.getVisit(id),
-                treatments = FirebaseDataSource.getTreatments(),
                 complications = FirebaseDataSource.getComplications(),
             )
             childId = _state.value.visit?.childId ?: "0"
-            _state.value.treatments.forEach {
-                if (_state.value.visit != null) {
-                    _state.value.visit!!.treatments.forEach { treatment ->
-                        if (it.id == treatment.id) {
-                            it.selected = true
-                        }
-                    }
-                }
-            }
             _state.value.complications.forEach {
                 if (_state.value.visit != null) {
                     _state.value.visit!!.complications.forEach { complication ->
@@ -56,7 +46,6 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(
                 loading = true,
                 visit = _state.value.visit,
-                treatments = _state.value.treatments,
                 complications = _state.value.complications,
                 childDateMillis = FirebaseDataSource.getChild(childId)?.birthdate?.time
             )
@@ -68,7 +57,6 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val loading: Boolean = false,
         val childDateMillis: Long? = 0,
         val visit: Visit? = null,
-        val treatments: List<Treatment> = emptyList(),
         val complications: List<Complication> = emptyList(),
         val height: Double? = null,
         val weight: Double? = null,
@@ -90,7 +78,6 @@ class VisitEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     _state.value= UiState(
                         visit = _state.value.visit,
                         childDateMillis = _state.value.childDateMillis,
-                        treatments = _state.value.treatments,
                         complications = _state.value.complications,
                         imc = FirebaseDataSource.checkDesnutrition(
                             height.toDouble(),

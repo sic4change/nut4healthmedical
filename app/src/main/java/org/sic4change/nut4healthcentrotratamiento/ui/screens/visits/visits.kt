@@ -99,7 +99,6 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.selectedEdema.value = viewModelState.visit!!.edema
             visitDetailState.observations.value = viewModelState.visit!!.observations
             visitDetailState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
-            visitDetailState.treatments.value = viewModelState.visit!!.treatments
             visitDetailState.complications.value = viewModelState.visit!!.complications
         }
     }
@@ -138,6 +137,12 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
         }
     }
 
+    LaunchedEffect(viewModelState.visits) {
+        if (viewModelState.visits != null) {
+            visitCreateState.visits.value = viewModelState.visits.toMutableList()
+        }
+    }
+
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {
             visitCreateState.id.value = viewModelState.visit!!.id
@@ -149,7 +154,6 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitCreateState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
-            visitCreateState.treatments.value = viewModelState.visit!!.treatments
             visitCreateState.complications.value = viewModelState.visit!!.complications
             visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
         }
@@ -223,17 +227,9 @@ fun VisitEditScreen(viewModel: VisitEditViewModel = viewModel(), onEditVisit: (S
             visitEditState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitEditState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitEditState.observations.value = viewModelState.visit!!.observations
-            visitEditState.treatments.value = viewModelState.visit!!.treatments
             visitEditState.complications.value = viewModelState.visit!!.complications
         }
     }
-
-    LaunchedEffect(viewModelState.treatments) {
-        if (viewModelState.treatments != null) {
-            visitEditState.treatments.value = viewModelState.treatments.toMutableList()
-        }
-    }
-
 
     LaunchedEffect(viewModelState.complications) {
         visitEditState.complications.value = viewModelState.complications.toMutableList()

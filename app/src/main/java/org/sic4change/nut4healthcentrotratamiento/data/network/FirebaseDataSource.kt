@@ -566,7 +566,6 @@ object FirebaseDataSource {
                             visit.eyesDeficiency, visit.deshidratation, visit.vomiting, visit.diarrhea,
                             visit.fever, visit.cough, visit.temperature, visit.vitamineAVaccinated,
                             visit.acidfolicAndFerroVaccinated, visit.vaccinationCard, visit.rubeolaVaccinated,
-                            visit.treatments.filter { it.selected } as MutableList<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment>,
                             visit.complications.filter { it.selected }.toMutableList(),
                             visit.observations, user.point)
                         val visitsRef = firestore.collection("visits")
