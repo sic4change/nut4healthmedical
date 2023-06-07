@@ -1,7 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail
 
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,14 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.CheckNUT4H
 import java.text.SimpleDateFormat
 
 @ExperimentalCoilApi

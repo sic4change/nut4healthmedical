@@ -533,31 +533,7 @@ private fun Header(visitState: VisitState,
     }
 }
 
-@Composable
-fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp)
-            .clickable(
-                onClick = {
-                    onCheckedChange(!checked)
-                }
-            ),
-        verticalAlignment = Alignment.CenterVertically,
 
-        ) {
-        Text(
-            color = colorResource(R.color.colorPrimary),
-            text = text,
-            style = MaterialTheme.typography.body1,
-        )
-
-        Checkbox(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
-        )
-    }
-}
 
 @Composable
 fun ItemListSymtoms(symtom: Symtom, checked: Boolean, onCheckedChangeSymtom : (Boolean) -> Unit) {

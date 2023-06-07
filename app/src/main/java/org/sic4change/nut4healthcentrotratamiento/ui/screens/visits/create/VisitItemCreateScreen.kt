@@ -36,11 +36,10 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4H
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.edit.CheckNUT4H
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.temporal.ChronoUnit
@@ -1435,6 +1434,100 @@ private fun Header(loading: Boolean, visitState: VisitState,
                     Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
 
+
+
+            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                    && visitState.status.value == stringResource(R.string.aguda_severa)
+                    && visitState.visitsSize.value == 0) {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                    && visitState.status.value == stringResource(R.string.aguda_severa)
+                    && visitState.visitsSize.value == 0) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    elevation = 0.dp,
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterVertically
+                        ),
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(0.dp, 16.dp)
+                    ) {
+                        Text(
+                            stringResource(R.string.amoxicilina),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 5.0)) {
+                            Text(
+                                stringResource(R.string.amoxicilina_125),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 10.0)) {
+                            Text(
+                                stringResource(R.string.amoxicilina_250),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 20.0)) {
+                            Text(
+                                stringResource(R.string.amoxicilina_500),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 20.0 && visitState.weight.value.toDouble() < 35.0)) {
+                            Text(
+                                stringResource(R.string.amoxicilina_750),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else {
+                            Text(
+                                stringResource(R.string.amoxicilina_1000),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        }
+                        Box(
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                                .fillMaxSize()
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            CheckNUT4H(text = stringResource(id = R.string.amoxicilina_question), visitState.amoxicilina.value) {
+                                visitState.amoxicilina.value = it
+                            }
+                        }
+                        TextField(value = visitState.othersTratments.value.toString(),
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                            ),
+                            onValueChange = {
+                                visitState.othersTratments.value = it
+                            },
+                            textStyle = MaterialTheme.typography.h5,
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                            label = { Text(stringResource(R.string.another_tratements), color = colorResource(R.color.disabled_color)) })
+
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             AnimatedVisibility(visible = (
@@ -1460,6 +1553,84 @@ private fun Header(loading: Boolean, visitState: VisitState,
                         color = colorResource(R.color.colorAccent),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth())
+                }
+
+            }
+
+            AnimatedVisibility(visible = (
+                    visitState.weight.value.isNotEmpty()
+                            && visitState.height.value.isNotEmpty()
+                            && visitState.status.value == stringResource(R.string.aguda_severa)
+                    )) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.plumpy_one),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+
+                    if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_8),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_10),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_15),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_20),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_30),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_35),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_40),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_50),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_55),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+                    }
                 }
 
             }
@@ -1502,35 +1673,6 @@ private fun Header(loading: Boolean, visitState: VisitState,
 
 }
 
-@Composable
-fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp)
-            .clickable(
-                onClick = {
-                    onCheckedChange(!checked)
-                }
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-
-        ) {
-        Checkbox(
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
-        )
-
-        Text(
-            color = colorResource(R.color.colorPrimary),
-            text = text,
-            style = MaterialTheme.typography.body1,
-        )
-
-
-    }
-}
 
 @Composable
 fun ItemListComplications(complication: Complication, checked: Boolean, onCheckedChange : (Boolean) -> Unit) {

@@ -187,12 +187,32 @@
     <string name="capsules_hierro_folico_tow">2 cápsulas cada 2 semanas</string>
     <string name="capsules_hierro_folico_checked">¿Ha tomado tratamiento con ácido fólico y hierro?</string>
 
+    <string name="amoxicilina">Amoxicilina: La dosis a administrar es:</string>
+    <string name="amoxicilina_125">125 mg * 2 veces/día durante 7 días</string>
+    <string name="amoxicilina_250">250 mg * 2 veces al día durante 7 días</string>
+    <string name="amoxicilina_500">500 mg *2 veces al día durante 7 días </string>
+    <string name="amoxicilina_750">750 mg *2 veces al día durante 7 días</string>
+    <string name="amoxicilina_1000">1000 mg *2 veces al día durante 7 días</string>
+
+    <string name="amoxicilina_question">¿Le dio amoxicilina al menor?</string>
+    <string name="another_tratements">Otros tratamientos administrados</string>
+
     <string name="cartilla">Cartilla de vacunación:</string>
     <string name="rubeola">¿Vacunado contra la rubeola?</string>
     <string name="must_rubeola">Debe vacunarse contra la rubeola</string>
 
     <string name="plumpy_one">El número de bolsas de plumpy\'sup que hay que tomar es:</string>
     <string name="plumpy_fiveteeen">15 sobres (1 sobre al día)</string>
+
+    <string name="plumpy_mas_8">8 sobres (1 ¼ de sobre al día)</string>
+    <string name="plumpy_mas_10">10 sobres (1 ½ sobres al día)</string>
+    <string name="plumpy_mas_15">15 sobres (2 sobres al día)</string>
+    <string name="plumpy_mas_20">20 sobres (3 sobres al día)</string>
+    <string name="plumpy_mas_30">30 sobres (4 sobres al día)</string>
+    <string name="plumpy_mas_35">35 sobres (5 sobres al día)</string>
+    <string name="plumpy_mas_40">40 sobres (6 sobres al día)</string>
+    <string name="plumpy_mas_50">50 sobres (7 sobres al día)</string>
+    <string name="plumpy_mas_55">55 sobres (8 sobres al día)</string>
 
     //Yes no options
     <string-array name="yesnooptions">

@@ -187,12 +187,32 @@
     <string name="capsules_hierro_folico_tow">2 capsules toutes les 2 semaines</string>
     <string name="capsules_hierro_folico_checked">Avez-vous suivi un traitement à l\'acide folique et au fer ?</string>
 
+    <string name="amoxicilina">Amoxicilline: La dose à administrer est:</string>
+    <string name="amoxicilina_125">125 mg * 2 fois par jour pendant 7 jours</string>
+    <string name="amoxicilina_250">250 mg * 2 fois par jour pendant 7 jours</string>
+    <string name="amoxicilina_500">500 mg *2 fois par jour pendant 7 jours </string>
+    <string name="amoxicilina_750">750 mg *2 fois par jour pendant 7 jours</string>
+    <string name="amoxicilina_1000">1000 mg *2 fois par jour pendant 7 jours</string>
+
+    <string name="amoxicilina_question">Avez-vous donné de l\'amoxicilline à l\'enfant?</string>
+    <string name="another_tratements">Autres traitements administrés</string>
+
     <string name="cartilla">Carnet de vaccination:</string>
     <string name="rubeola">Vacciné contre la rubéole?</string>
     <string name="must_rubeola">Vous devez vous faire vacciner contre la rubéole</string>
 
     <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est :</string>
     <string name="plumpy_fiveteeen">15 sachets (1 sachet par jour)</string>
+
+    <string name="plumpy_mas_8">8 sachets (1 ¼ sachet par jour)</string>
+    <string name="plumpy_mas_10">10 sachets (1 ½ sachets par jour)</string>
+    <string name="plumpy_mas_15">15 sachets (2 sachets par jour)</string>
+    <string name="plumpy_mas_20">20 sachets (3 sachets par jour)</string>
+    <string name="plumpy_mas_30">30 sachets (4 sachets par jour)</string>
+    <string name="plumpy_mas_35">35 sachets (5 sachets par jour)</string>
+    <string name="plumpy_mas_40">40 sachets (6 sachets par jour)</string>
+    <string name="plumpy_mas_50">50 sachets (7 sachets par jour)</string>
+    <string name="plumpy_mas_55">55 sachets (8 sachets par jour)</string>
 
     <string-array name="yesnooptions">
         <item>Oui</item>
