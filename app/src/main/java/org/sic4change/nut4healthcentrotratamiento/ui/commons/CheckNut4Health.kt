@@ -42,3 +42,26 @@ fun CheckNUT4H(text: String, checked: Boolean, onCheckedChange : (Boolean) -> Un
         )
     }
 }
+
+
+@Composable
+fun CheckNUT4HDisabled(text: String, checked: Boolean) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+
+    ) {
+        Text(
+            color = colorResource(R.color.colorPrimary),
+            text = text,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Checkbox(
+            checked = checked,
+            onCheckedChange = null,
+            colors = CheckboxDefaults.colors(colorResource(R.color.colorPrimaryDark)),
+        )
+    }
+}

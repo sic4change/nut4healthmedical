@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -86,6 +87,24 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     val visitDetailState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
+    LaunchedEffect(viewModelState.childDateMillis) {
+        if (viewModelState.childDateMillis != null) {
+            visitDetailState.childDateMillis.value = viewModelState.childDateMillis!!
+        }
+    }
+
+    LaunchedEffect(viewModelState.case) {
+        if (viewModelState.case != null) {
+            visitDetailState.visitsSize.value = viewModelState.case!!.visits.toInt()
+        }
+    }
+
+    LaunchedEffect(viewModelState.visits) {
+        if (viewModelState.visits != null) {
+            visitDetailState.visits.value = viewModelState.visits.toMutableList()
+        }
+    }
+
     LaunchedEffect(viewModelState.visit) {
         if (viewModelState.visit != null) {
             visitDetailState.id.value = viewModelState.visit!!.id
@@ -97,6 +116,22 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitDetailState.status.value = viewModelState.visit!!.status
             visitDetailState.selectedEdema.value = viewModelState.visit!!.edema
+            visitDetailState.selectedInfection.value = viewModelState.visit!!.infection
+            visitDetailState.selectedEyes.value = viewModelState.visit!!.eyesDeficiency
+            visitDetailState.selectedDeshidratation.value = viewModelState.visit!!.deshidratation
+            visitDetailState.selectedVomitos.value = viewModelState.visit!!.vomiting
+            visitDetailState.selectedDiarrea.value = viewModelState.visit!!.diarrhea
+            visitDetailState.selectedFiebre.value = viewModelState.visit!!.fever
+            visitDetailState.selectedTos.value = viewModelState.visit!!.cough
+            visitDetailState.selectedRespiration.value = viewModelState.visit!!.respiratonStatus
+            visitDetailState.selectedApetit.value = viewModelState.visit!!.appetiteTest
+            visitDetailState.selectedTemperature.value = viewModelState.visit!!.temperature
+            visitDetailState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
+            visitDetailState.capsulesFerro.value = viewModelState.visit!!.acidfolicAndFerroVaccinated
+            visitDetailState.amoxicilina.value = viewModelState.visit!!.amoxicilina
+            visitDetailState.othersTratments.value = viewModelState.visit!!.otherTratments
+            visitDetailState.selectedCartilla.value = viewModelState.visit!!.vaccinationCard
+            visitDetailState.selectedRubeola.value = viewModelState.visit!!.rubeolaVaccinated
             visitDetailState.observations.value = viewModelState.visit!!.observations
             visitDetailState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitDetailState.complications.value = viewModelState.visit!!.complications
