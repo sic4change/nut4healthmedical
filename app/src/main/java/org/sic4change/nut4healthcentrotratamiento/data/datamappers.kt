@@ -108,16 +108,16 @@ fun ServerVisit.toDomainVisit() : Visit {
     return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
-        vaccinationCard,rubeolaVaccinated, complications.map { it.toDomainComplication() }.toMutableList(),
-        observations, point)
+        vaccinationCard, rubeolaVaccinated, amoxicilina, otherTratments,
+        complications.map { it.toDomainComplication() }.toMutableList(), observations, point)
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
     return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
-        vaccinationCard,rubeolaVaccinated, complications.map { it.toServerComplication() },
-        observations, point)
+        vaccinationCard, rubeolaVaccinated,  amoxicilina, otherTratments,
+        complications.map { it.toServerComplication() }, observations, point)
 }
 
 

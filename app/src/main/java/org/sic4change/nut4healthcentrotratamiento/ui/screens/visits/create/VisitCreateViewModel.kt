@@ -56,7 +56,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     respiratonStatus: String, appetiteTest: String, infection: String, eyesDeficiency: String,
                     deshidratation: String, vomiting: String, diarrhea: String, fever: String, cough: String,
                     temperature: String, vitamineAVaccinated: Boolean, acidfolicAndFerroVaccinated: Boolean,
-                    vaccinationCard: String, rubeolaVaccinated: String,
+                    vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: Boolean, otherTratments: String,
                     complications: List<Complication>, observations: String) {
         viewModelScope.launch {
             _state.value= UiState(loading = true)
@@ -64,8 +64,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
-                complications.toMutableList(),
-                observations, "")
+                amoxicilina, otherTratments, complications.toMutableList(), observations, "")
             _state.value= UiState(visit = visit, loading = true)
             FirebaseDataSource.createVisit(visit)
             _state.value = UiState(created = true, loading = false)

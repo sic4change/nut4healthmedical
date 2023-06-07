@@ -52,7 +52,7 @@ import java.util.*
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false,
                           onCreateVisit: (Double, Double, Double, String, String, String, String,
                                           String, String, String, String, String, String, String,
-                                          String, Boolean, Boolean, String, String,
+                                          String, Boolean, Boolean, String, String, Boolean, String,
                                           complications: List<Complication>, String) -> Unit,
                           onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
 
@@ -94,7 +94,7 @@ private fun Header(loading: Boolean, visitState: VisitState,
                    onCreateVisit: (
                        Double, Double, Double, String, String, String, String,
                        String, String, String, String, String, String, String,
-                       String, Boolean, Boolean, String, String,
+                       String, Boolean, Boolean, String, String, Boolean, String,
                        complications: List<Complication>, String
                    ) -> Unit,
                    onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
@@ -1127,14 +1127,16 @@ private fun Header(loading: Boolean, visitState: VisitState,
             }
 
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && visitState.visitsSize.value == 0) {
+                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                    && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                    && visitState.visitsSize.value == 1)) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && visitState.visitsSize.value == 0) {
+                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                    && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                    && visitState.visitsSize.value == 1)) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1413,29 +1415,6 @@ private fun Header(loading: Boolean, visitState: VisitState,
 
             }
 
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextField(value = visitState.observations.value,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {visitState.observations.value = it},
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
-
-
-
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_severa)
                     && visitState.visitsSize.value == 0) {
@@ -1515,7 +1494,7 @@ private fun Header(loading: Boolean, visitState: VisitState,
                             },
                             textStyle = MaterialTheme.typography.h5,
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
+                                keyboardType = KeyboardType.Text
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -1527,6 +1506,29 @@ private fun Header(loading: Boolean, visitState: VisitState,
                     }
                 }
             }
+
+
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextField(value = visitState.observations.value,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                ),
+                onValueChange = {visitState.observations.value = it},
+                textStyle = MaterialTheme.typography.h5,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                leadingIcon = {
+                    Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -1656,6 +1658,7 @@ private fun Header(loading: Boolean, visitState: VisitState,
                             visitState.selectedTos.value, visitState.selectedTemperature.value,
                             visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
                             visitState.selectedCartilla.value, visitState.selectedRubeola.value,
+                            visitState.amoxicilina.value, visitState.othersTratments.value,
                             visitState.complications.value, visitState.observations.value)
 
                     },

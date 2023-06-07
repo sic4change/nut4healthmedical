@@ -215,6 +215,8 @@ data class Visit(
     @Exclude val acidfolicAndFerroVaccinated: Boolean = false,
     @Exclude val vaccinationCard: String = "",
     @Exclude val rubeolaVaccinated: String = "",
+    @Exclude val amoxicilina: Boolean = false,
+    @Exclude val otherTratments: String = "",
     @Exclude var complications: List<Complication> = emptyList(),
     @Exclude var observations: String = "",
     @Exclude var point: String? = ""

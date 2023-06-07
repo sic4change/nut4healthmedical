@@ -28,6 +28,8 @@ data class Visit(
     val acidfolicAndFerroVaccinated: Boolean,
     val vaccinationCard: String,
     val rubeolaVaccinated: String,
+    val amoxicilina: Boolean,
+    val otherTratments: String,
     val complications: MutableList<Complication>,
     var observations: String,
     var point: String?,
