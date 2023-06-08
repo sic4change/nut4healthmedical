@@ -174,7 +174,7 @@
 
     <string name="vitamine_dosis">La dose à administrer est :</string>
     <string name="vitamine_blue">Capsule bleue (100 000 UI)</string>
-    <string name="vitamine_red">Capsule rouge (200 000 UI)</string>
+    <string name="vitamine_red">Capsule rouge (200 000 UI) ou deux capsules bleues (100 000*2)</string>
 
     <string name="admin_dosis">Administrer la dose de :</string>
     <string name="abendazol_400_half">Albendazole 400 mg : ½ comprimé</string>

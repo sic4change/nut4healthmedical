@@ -1104,11 +1104,23 @@ private fun Header(loading: Boolean, visitState: VisitState,
                                     .wrapContentSize()
                                     .padding(0.dp, 0.dp)
                             ) {
-                                Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.colorPrimary))
+                                Text(stringResource(
+                                    R.string.vitamine_dosis),
+                                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
                                 if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
-                                    Text(stringResource(R.string.vitamine_blue), color = colorResource(R.color.colorPrimary))
+                                    Text(
+                                        stringResource(R.string.vitamine_blue),
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                                        color = colorResource(R.color.colorPrimary)
+                                    )
                                 } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
-                                    Text(stringResource(R.string.vitamine_red), color = colorResource(R.color.colorPrimary))
+                                    Text(stringResource(
+                                        R.string.vitamine_red),
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                                        color = colorResource(R.color.colorPrimary)
+                                    )
                                 }
                             }
                         }
@@ -1230,14 +1242,14 @@ private fun Header(loading: Boolean, visitState: VisitState,
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_moderada)
                     && monthsBetween >= 9
-                    && visitState.visits.value.filter { it.rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1] }.size == visitState.visitsSize.value) {
+                    && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_moderada)
                     && monthsBetween >= 9
-                    && visitState.visits.value.filter { it.rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1] }.size == visitState.visitsSize.value) {
+                    && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1638,6 +1650,18 @@ private fun Header(loading: Boolean, visitState: VisitState,
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
                         visitState.createdVisit.value = true
+                        if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
+                            visitState.selectedCartilla.value = visitState.visits.value[visitState.visits.value.size -1].vaccinationCard
+                        }
+
+                        if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
+                            visitState.selectedRubeola.value = visitState.visits.value[visitState.visits.value.size -1].rubeolaVaccinated
+                        }
+
+                        if (visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
+                            visitState.vitamineAVaccinated.value = visitState.visits.value[visitState.visits.value.size -1].vitamineAVaccinated
+                        }
+
                         onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                             visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                             visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,

@@ -29,11 +29,8 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 complications = FirebaseDataSource.getComplications(),
                 visits = FirebaseDataSource.getVisits(caseId)
             )
-            _state.value = UiState(
+            _state.value = _state.value.copy(
                 loading = false,
-                case = _state.value.case,
-                complications = _state.value.complications,
-                visits = _state.value.visits,
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId)?.birthdate?.time }
             )
         }
@@ -59,28 +56,26 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: Boolean, otherTratments: String,
                     complications: List<Complication>, observations: String) {
         viewModelScope.launch {
-            _state.value= UiState(loading = true)
+            _state.value = _state.value.copy(loading = true)
             val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
                 arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
                 amoxicilina, otherTratments, complications.toMutableList(), observations, "")
-            _state.value= UiState(visit = visit, loading = true)
+            _state.value = _state.value.copy(loading = true, visit = visit)
             FirebaseDataSource.createVisit(visit)
-            _state.value = UiState(created = true, loading = false)
+            _state.value = _state.value.copy(loading = true, created = true)
         }
     }
 
     fun checkDesnutrition(height: String, weight: String, edema: String, complications: List<Complication>) {
         viewModelScope.launch {
             if (height.isNotEmpty() && weight.isNotEmpty()) {
-
                 try {
-                    _state.value= UiState(
+                    _state.value = _state.value.copy(
                         complications = _state.value.complications,
                         imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()),
                         childDateMillis = state.value.childDateMillis)
-
                     if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "No" && edema != "Non")) {
                         _state.value = _state.value.copy(imc = -3.0)
                     }

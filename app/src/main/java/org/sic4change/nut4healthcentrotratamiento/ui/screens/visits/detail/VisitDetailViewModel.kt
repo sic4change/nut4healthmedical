@@ -25,15 +25,17 @@ class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = UiState(visit = FirebaseDataSource.getVisit(id), loading = false)
 
-            /*_state.value = UiState(
+            _state.value = UiState(
+                visit = _state.value.visit,
                 case = FirebaseDataSource.getCase(_state.value.visit!!.caseId),
                 visits = FirebaseDataSource.getVisits(_state.value.visit!!.caseId)
             )
             _state.value = UiState(
+                visit = _state.value.visit,
                 case = _state.value.case,
                 visits = _state.value.visits,
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId)?.birthdate?.time }
-            )*/
+            )
         }
     }
 
