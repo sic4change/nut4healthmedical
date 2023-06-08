@@ -1651,15 +1651,15 @@ private fun Header(loading: Boolean, visitState: VisitState,
                     onClick = {
                         visitState.createdVisit.value = true
                         if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
-                            visitState.selectedCartilla.value = visitState.visits.value[visitState.visits.value.size -1].vaccinationCard
+                            visitState.selectedCartilla.value = visitState.visits.value[0].vaccinationCard
                         }
 
                         if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
-                            visitState.selectedRubeola.value = visitState.visits.value[visitState.visits.value.size -1].rubeolaVaccinated
+                            visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
                         }
 
-                        if (visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
-                            visitState.vitamineAVaccinated.value = visitState.visits.value[visitState.visits.value.size -1].vitamineAVaccinated
+                        if (!visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
+                            visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
                         }
 
                         onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),

@@ -643,8 +643,7 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
             }
 
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && visitState.visitsSize.value == 0) {
+                    && visitState.status.value == stringResource(R.string.aguda_moderada)) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -807,15 +806,13 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
 
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && monthsBetween >= 9
-                    && visitState.visits.value.filter { it.rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1] }.size == visitState.visitsSize.value) {
+                    && monthsBetween >= 9) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
             AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && monthsBetween >= 9
-                    && visitState.visits.value.filter { it.rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1] }.size == visitState.visitsSize.value) {
+                    && monthsBetween >= 9) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
