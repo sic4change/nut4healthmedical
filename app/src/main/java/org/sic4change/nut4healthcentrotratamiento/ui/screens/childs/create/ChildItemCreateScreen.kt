@@ -21,9 +21,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
@@ -271,25 +272,14 @@ private fun Header(childState: ChildState,
         }
         Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
             .padding(16.dp, 0.dp),) {
-            RowToggleButtonGroup(
-                modifier = Modifier,
-                buttonCount = 2,
-                borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                selectedColor = colorResource(R.color.colorPrimary),
-                unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                selectedContentColor = colorResource(R.color.white),
-                unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
-                buttonIcons = arrayOf(
-                    painterResource(id = R.drawable.female),
-                    painterResource(id = R.drawable.male),
-                ),
-
-                ) { index ->
-                val selectionOption = SEXS[index]
-                childState.selectedOptionSex.value = selectionOption
-                childState.expandedSex.value = false
-            }
+            GenderToggleButton(
+                defaultGender = if (childState.selectedOptionSex.value == SEXS[1]) Gender.MALE else Gender.FEMALE,
+                enabled = true,
+                onGenderSelected = {
+                    val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
+                    childState.selectedOptionSex.value = selectionOption
+                    childState.expandedSex.value = false
+                })
         }
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = childState.observations.value,

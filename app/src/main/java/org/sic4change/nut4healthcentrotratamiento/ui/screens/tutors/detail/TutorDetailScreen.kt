@@ -15,10 +15,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
@@ -244,68 +244,13 @@ private fun Header(tutorState: TutorState) {
         Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
             .padding(16.dp, 0.dp),) {
             if (tutorState.selectedOptionSex.value == SEXS[0]) {
-                RowToggleButtonGroup(
-                    enabled = false,
-                    primarySelection = 0,
-                    modifier = Modifier,
-                    buttonCount = 2,
-                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedColor = colorResource(R.color.colorPrimary),
-                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedContentColor = colorResource(R.color.white),
-                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
-                    buttonIcons = arrayOf(
-                        painterResource(id = R.drawable.female),
-                        painterResource(id = R.drawable.male),
-                    ),
-                ) { index ->
-                    val selectionOption = SEXS[index]
-                    tutorState.selectedOptionSex.value = selectionOption
-                    tutorState.expandedSex.value = false
-                }
+                GenderToggleButton(defaultGender = Gender.FEMALE, enabled = false, onGenderSelected = { })
             } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
-                RowToggleButtonGroup(
-                    enabled = false,
-                    primarySelection = 1,
-                    modifier = Modifier,
-                    buttonCount = 2,
-                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedColor = colorResource(R.color.colorPrimary),
-                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedContentColor = colorResource(R.color.white),
-                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
-                    buttonIcons = arrayOf(
-                        painterResource(id = R.drawable.female),
-                        painterResource(id = R.drawable.male),
-                    ),
-                ) { index ->
-                    val selectionOption = SEXS[index]
-                    tutorState.selectedOptionSex.value = selectionOption
-                    tutorState.expandedSex.value = false
-                }
+                GenderToggleButton(defaultGender = Gender.MALE, enabled = false, onGenderSelected = { })
             }
 
         }
         Spacer(modifier = Modifier.height(16.dp))
-        /*TextField(value = tutorState.sex.value,
-            onValueChange = {}, readOnly = true,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.full_transparent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.full_transparent),
-                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-            ),
-            textStyle = MaterialTheme.typography.h5,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            leadingIcon = {
-                Icon(Icons.Default.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { *//* .. *//*})},
-            label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })*/
         AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {
             TextField(value = tutorState.maleRelation.value,
                 onValueChange = {}, readOnly = true,

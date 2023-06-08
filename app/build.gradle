@@ -15,8 +15,8 @@ android {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
         minSdk 26
         targetSdk 33
-        versionCode 5
-        versionName "1.5"
+        versionCode 6
+        versionName "1.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -117,9 +117,6 @@ dependencies {
     implementation("androidx.camera:camera-video:1.2.2")
     implementation("androidx.camera:camera-view:1.2.2")
     implementation("androidx.camera:camera-extensions:1.2.2")
-
-    //Button Toggle Group
-    implementation("com.robertlevonyan.compose:buttontogglegroup:1.1.0")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

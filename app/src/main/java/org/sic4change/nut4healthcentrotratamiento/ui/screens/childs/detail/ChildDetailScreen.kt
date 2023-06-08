@@ -15,10 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
@@ -236,7 +237,17 @@ private fun Header(childState: ChildState) {
         Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
             .padding(16.dp, 0.dp),) {
             if (childState.selectedOptionSex.value == SEXS[0]) {
-                RowToggleButtonGroup(
+                GenderToggleButton(
+                    defaultGender = Gender.FEMALE,
+                    enabled = false,
+                    onGenderSelected = { })
+            } else if (childState.selectedOptionSex.value == SEXS[1]) {
+                GenderToggleButton(
+                    defaultGender = Gender.MALE,
+                    enabled = false,
+                    onGenderSelected = { })
+            }
+               /* RowToggleButtonGroup(
                     enabled = false,
                     primarySelection = 0,
                     modifier = Modifier,
@@ -276,8 +287,8 @@ private fun Header(childState: ChildState) {
                     val selectionOption = SEXS[index]
                     childState.selectedOptionSex.value = selectionOption
                     childState.expandedSex.value = false
-                }
-            }
+                }*/
+            //}
 
         }
         Spacer(modifier = Modifier.height(16.dp))

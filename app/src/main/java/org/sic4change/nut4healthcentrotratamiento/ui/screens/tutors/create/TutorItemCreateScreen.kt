@@ -1,6 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create
 
-import DatePickerView
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
@@ -15,7 +14,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,11 +23,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.annotation.ExperimentalCoilApi
-import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.addMonthToDate
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.DecimalFormat
@@ -273,22 +271,11 @@ private fun Header(tutorState: TutorState,
         }
         Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
             .padding(16.dp, 0.dp),) {
-            RowToggleButtonGroup(
-                modifier = Modifier,
-                buttonCount = 2,
-                borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                selectedColor = colorResource(R.color.colorPrimary),
-                unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                selectedContentColor = colorResource(R.color.white),
-                unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
-                buttonIcons = arrayOf(
-                    painterResource(id = R.drawable.female),
-                    painterResource(id = R.drawable.male),
-                ),
-
-            ) { index ->
-                val selectionOption = SEXS[index]
+            GenderToggleButton(
+                defaultGender = if (tutorState.selectedOptionSex.value == SEXS[1]) Gender.MALE else Gender.FEMALE,
+                enabled = true,
+                onGenderSelected = {
+                val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
                 tutorState.selectedOptionSex.value = selectionOption
                 tutorState.expandedSex.value = false
                 if (tutorState.selectedOptionSex.value == SEXS[0]) {
@@ -296,7 +283,8 @@ private fun Header(tutorState: TutorState,
                 } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
                     tutorState.clearWomanValues()
                 }
-            }
+            })
+
         }
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {

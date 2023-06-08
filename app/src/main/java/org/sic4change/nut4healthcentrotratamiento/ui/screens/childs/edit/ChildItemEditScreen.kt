@@ -1,6 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit
 
-import DatePickerView
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,7 +11,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,9 +18,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.robertlevonyan.compose.buttontogglegroup.RowToggleButtonGroup
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
@@ -265,45 +264,17 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
         Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
             .padding(16.dp, 0.dp),) {
             if (childState.selectedOptionSex.value == SEXS[0]) {
-                RowToggleButtonGroup(
-                    primarySelection = 0,
-                    modifier = Modifier,
-                    buttonCount = 2,
-                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedColor = colorResource(R.color.colorPrimary),
-                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedContentColor = colorResource(R.color.white),
-                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
-                    buttonIcons = arrayOf(
-                        painterResource(id = R.drawable.female),
-                        painterResource(id = R.drawable.male),
-                    ),
-                ) { index ->
-                    val selectionOption = SEXS[index]
+                GenderToggleButton(defaultGender = Gender.FEMALE, enabled = true, onGenderSelected = {
+                    val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
                     childState.selectedOptionSex.value = selectionOption
                     childState.expandedSex.value = false
-                }
+                })
             } else if (childState.selectedOptionSex.value == SEXS[1]) {
-                RowToggleButtonGroup(
-                    primarySelection = 1,
-                    modifier = Modifier,
-                    buttonCount = 2,
-                    borderColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedColor = colorResource(R.color.colorPrimary),
-                    unselectedColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    selectedContentColor = colorResource(R.color.white),
-                    unselectedContentColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    elevation = ButtonDefaults.elevation(0.dp), // elevation of toggle group buttons
-                    buttonIcons = arrayOf(
-                        painterResource(id = R.drawable.female),
-                        painterResource(id = R.drawable.male),
-                    ),
-                ) { index ->
-                    val selectionOption = SEXS[index]
+                GenderToggleButton(defaultGender = Gender.MALE, enabled = true, onGenderSelected = {
+                    val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
                     childState.selectedOptionSex.value = selectionOption
                     childState.expandedSex.value = false
-                }
+                })
             }
 
         }
