@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -102,42 +103,53 @@ fun  TutorItemsList(
     val mainState = rememberMainState()
 
     Column(
-        modifier = Modifier.fillMaxWidth().background(colorResource(R.color.colorPrimaryDark))
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = stringResource(R.string.tutors_title),
-            color = colorResource(R.color.white),
+            color = colorResource(R.color.colorPrimary),
             style = MaterialTheme.typography.h4,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = mainState.filterText.value,
+            shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                 cursorColor = colorResource(R.color.colorAccent),
                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
             ),
+            leadingIcon = { Icon(Icons.Filled.Search, null, tint = colorResource(R.color.disabled_color)) },
             trailingIcon = {if (mainState.filterText.value.isNotBlank()) {
-                Icon(Icons.Filled.Clear, null, tint = colorResource(R.color.colorPrimary),
+                Icon(Icons.Filled.Clear, null, tint = colorResource(R.color.disabled_color),
                     modifier = Modifier.clickable {
                         mainState.filterText.value = ""
                         onSearch("")
                     })} else{ null}},
             onValueChange = {
-                mainState.filterText.value = it
-                onSearch(it) },
+                if (it.isNotEmpty()) {
+                    mainState.filterText.value = it
+                    onSearch(it)
+                } else {
+                    mainState.filterText.value = ""
+                    onSearch("")
+                }
+                },
             textStyle = MaterialTheme.typography.h5,
             keyboardOptions = KeyboardOptions.Default.copy(
                 capitalization = KeyboardCapitalization.Sentences),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
-            label = { Text(stringResource(R.string.searchByNameAndSurnames), color = colorResource(R.color.disabled_color)) })
-        Spacer(modifier = Modifier.height(16.dp))
+            label = {
+                Text(stringResource(R.string.searchByNameAndSurnames),
+                    color = colorResource(R.color.disabled_color),
+                modifier = Modifier.wrapContentHeight().padding(16.dp))
+            })
         Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
@@ -149,12 +161,10 @@ fun  TutorItemsList(
             if (items.isNotEmpty()) {
 
                 Card(
-                    shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    shape = RoundedCornerShape(topEnd = 0.dp, topStart = 0.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
                     modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                 ) {
                     LazyColumn(
-                        //cells = GridCells.Adaptive(4000.dp),
                         contentPadding = PaddingValues(top = 32.dp, bottom = 0.dp, end = 0.dp, start = 0.dp),
                     ) {
                         items(items) {
