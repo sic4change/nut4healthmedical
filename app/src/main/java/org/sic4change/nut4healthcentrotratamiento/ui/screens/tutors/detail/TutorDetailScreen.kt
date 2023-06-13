@@ -38,8 +38,7 @@ import java.time.temporal.ChronoUnit
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
-                          tutorItem: Tutor?, childs: List<Child>, onEditClick: (Tutor) -> Unit,
-                          onDeleteClick: () -> Unit) {
+                          tutorItem: Tutor?, childs: List<Child>, onEditClick: (Tutor) -> Unit) {
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -414,21 +413,42 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(R.string.childs),
-                    color = colorResource(R.color.colorPrimary),
-                    style = MaterialTheme.typography.h4,
-                    textAlign = TextAlign.Center
-                )
-                Image(
-                    modifier = Modifier.size(64.dp),
-                    painter = painterResource(id = R.mipmap.ic_childs),
-                    contentDescription = null
-                )
+            if (childs.isEmpty()) {
+                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.no_childs),
+                        color = colorResource(R.color.colorPrimary),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 3
+                    )
+                    Image(
+                        modifier = Modifier.size(78.dp).weight(1f),
+                        painter = painterResource(id = R.mipmap.ic_childs),
+                        contentDescription = null,
+                    )
+                }
+            } else {
+                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.childs),
+                        color = colorResource(R.color.colorPrimary),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Center
+                    )
+                    Image(
+                        modifier = Modifier.size(64.dp),
+                        painter = painterResource(id = R.mipmap.ic_childs),
+                        contentDescription = null
+                    )
+                }
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
         }

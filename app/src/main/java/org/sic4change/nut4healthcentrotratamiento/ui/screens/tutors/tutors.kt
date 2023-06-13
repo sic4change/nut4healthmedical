@@ -201,19 +201,12 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         }
     }
 
-    LaunchedEffect(viewModelState.childs) {
-        if (viewModelState.childs != null) {
-
-        }
-    }
-
     TutorItemDetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         childs = viewModelState.childs,
         tutorState = tutorDetailState,
         onEditClick = onEditTutorClick,
-        onDeleteClick = onDeleteTutorClick
     )
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
