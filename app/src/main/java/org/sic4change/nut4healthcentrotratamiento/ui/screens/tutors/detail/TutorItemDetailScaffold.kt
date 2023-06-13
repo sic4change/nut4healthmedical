@@ -29,34 +29,6 @@ fun TutorItemDetailScaffold(
     ) {
 
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = colorResource(R.color.colorAccent),
-                onClick = { onChildClick(tutorItem) },
-                shape = MaterialTheme.shapes.small
-            ) {
-                //Icon(imageVector = Icons.Default.ChildCare, contentDescription = null, tint = colorResource(R.color.white))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Icon(
-                        modifier = Modifier.size(40.dp),
-                        imageVector = Icons.Default.ChildCare,
-                        contentDescription = null,
-                        tint = colorResource(R.color.white)
-                    )
-                    Text(
-                        text = stringResource(R.string.childs_title),
-                        color = colorResource(R.color.white),
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier.padding(4.dp)
-                            .wrapContentHeight(Alignment.CenterVertically)
-                    )
-                }
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
         bottomBar = {
             BottomAppBar(
                 backgroundColor = colorResource(R.color.colorPrimary),
@@ -68,7 +40,6 @@ fun TutorItemDetailScaffold(
                 Spacer(modifier = Modifier.weight(1f))
                 AppBarIcon(imageVector = Icons.Default.Delete, onClick = {
                     tutorState.showDeleteQuestion()
-                    //onClickDelete(tutorItem)
                 })
             }
         },

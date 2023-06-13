@@ -1,11 +1,15 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropDownCircle
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.ChildCare
+import androidx.compose.material.icons.filled.Expand
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
@@ -24,15 +28,15 @@ import org.sic4change.nut4healthcentrotratamiento.ui.commons.circleLayout
 
 @ExperimentalCoilApi
 @Composable
-fun  TutorListItem(
+fun TutorSummaryItem(
     item: Tutor,
-    onItemMore : (Tutor) -> Unit,
+    expanded: Boolean = false,
+    onExpandDetail : (Tutor) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.padding(8.dp)
     ) {
-        Card {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -44,26 +48,43 @@ fun  TutorListItem(
                     modifier = Modifier
                         .background(colorResource(R.color.colorAccent), shape = CircleShape)
                         .circleLayout()
-                        .padding(8.dp, 8.dp)
+                        .padding(12.dp, 12.dp)
                 )
-                Text(
-                    color = colorResource(R.color.colorPrimary),
-                    text = "${item.name} ${item.surnames}"  ,
-                    style = MaterialTheme.typography.h5,
-                    maxLines = 2,
-                    modifier = Modifier
-                        .padding(8.dp, 16.dp)
-                        .weight(1f)
-                )
-                IconButton(onClick = { onItemMore(item) }) {
+                Column( modifier = Modifier
+                    .weight(1f)) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        color = colorResource(R.color.colorPrimary),
+                        text = "${item.name} ${item.surnames}"  ,
+                        style = MaterialTheme.typography.h5,
+                        maxLines = 2,
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        color = colorResource(R.color.disabled_color),
+                        text = item.address ,
+                        style = MaterialTheme.typography.caption,
+                        maxLines = 2,
+                    )
+
+                }
+
+                IconButton(onClick = { onExpandDetail(item) }) {
                     Icon(
                         tint = colorResource(R.color.colorPrimary),
-                        imageVector = Icons.Default.MoreVert,
+                        imageVector = if (!expanded) Icons.Default.ArrowDropDown else Icons.Default.ArrowDropUp,
                         contentDescription = stringResource(R.string.more_actions)
                     )
                 }
             }
-        }
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider(color = colorResource(androidx.browser.R.color.browser_actions_bg_grey), thickness = 1.dp)
+
+
 
     }
 }

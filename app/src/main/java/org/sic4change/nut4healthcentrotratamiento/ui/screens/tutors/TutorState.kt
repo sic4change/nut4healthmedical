@@ -11,6 +11,7 @@ import java.util.*
 @Composable
 fun rememberTutorState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     surnames: MutableState<String> = rememberSaveable { mutableStateOf("") },
     address: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -42,7 +43,7 @@ fun rememberTutorState(
     deleteTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showDateDialog:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ TutorState(
-    id, name, surnames, address, phone, birthday, lastDate, createdDate, etnician, expandedEtnician,
+    id, expandedDetail, name, surnames, address, phone, birthday, lastDate, createdDate, etnician, expandedEtnician,
     selectedOptionEtnician, sex, expandedSex, selectedOptionSex, maleRelation, expandedMaleRelation,
     selectedOptionMaleRelations, womanStatus, expandedWomanStatus, selectedOptionWomanStatus,
     weeks, childMinor, expandedChildMinor, selectedOptionChildMinor, armCircunference, babyAge,
@@ -51,6 +52,7 @@ fun rememberTutorState(
 
 class TutorState(
     val id: MutableState<String>,
+    val expandedDetail: MutableState<Boolean>,
     val name: MutableState<String>,
     val surnames: MutableState<String>,
     val address: MutableState<String>,
@@ -82,6 +84,10 @@ class TutorState(
     val deleteTutor: MutableState<Boolean>,
     val showDateDialog: MutableState<Boolean>,
     ) {
+
+    fun expandContractDetail() {
+        expandedDetail.value = !expandedDetail.value
+    }
 
     fun showDeleteQuestion() {
         deleteTutor.value = !deleteTutor.value
