@@ -39,7 +39,7 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                           tutorItem: Tutor?, childs: List<Child>, onEditClick: (Tutor) -> Unit,
-                          onCreateChildClick: (Tutor) -> Unit) {
+                          onCreateChildClick: (Tutor) -> Unit, onItemClick: (Child) -> Unit) {
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -65,7 +65,7 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                         .padding(padding)
                 ) {
                     TutorView(tutorItem = tutorItem, tutorState = tutorState, childs = childs,
-                    onItemClick = {}, onItemMore = {}, onCreateChildClick = onCreateChildClick)
+                    onItemClick = onItemClick, onItemMore = {}, onCreateChildClick = onCreateChildClick)
                 }
             }
 

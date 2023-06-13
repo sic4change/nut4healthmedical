@@ -187,6 +187,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
                 },
+                onItemClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                    )
+                },
                 onCreateChildClick = { tutor ->
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
@@ -217,6 +222,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
                     )
                 },
+                onItemClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                    )
+                },
                 onDeleteTutorClick = {
                     navController.navigate(
                         NavCommand.ContentType(Feature.TUTORS).route
@@ -235,6 +245,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onCreateChildClick = { tutor ->
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
+                    )
+                },
+                onItemClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
                     )
                 },
                 onDeleteTutorClick = {

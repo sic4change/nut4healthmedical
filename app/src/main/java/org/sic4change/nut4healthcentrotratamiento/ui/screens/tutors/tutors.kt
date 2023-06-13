@@ -28,6 +28,7 @@ import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
 
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.MessageErrorRole
@@ -168,7 +169,7 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit,
 @Composable
 fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
                       onEditTutorClick: (Tutor) -> Unit, onCreateChildClick: (Tutor) -> Unit,
-                      onDeleteTutorClick: () -> Unit) {
+                      onItemClick: (Child) -> Unit, onDeleteTutorClick: () -> Unit) {
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -208,6 +209,7 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         tutorState = tutorDetailState,
         onEditClick = onEditTutorClick,
         onCreateChildClick = onCreateChildClick,
+        onItemClick = onItemClick
     )
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
