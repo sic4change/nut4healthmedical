@@ -60,7 +60,20 @@ fun TutorItemsListScreen(
         }
     }
 
-    ModalBottomSheetLayout(sheetContent = {
+    TutorItemsList(
+        loading = loading,
+        items = items,
+        onSearch = onSearch,
+        onItemClick = onClick,
+        onItemMore = {
+            bottomSheetItem = it
+            scope.launch {
+                sheetState.show()
+            }
+        }
+    )
+
+    /*ModalBottomSheetLayout(sheetContent = {
             TutorItemBottomPreview(
                 item = bottomSheetItem,
                 onGoToDetail = {
@@ -83,7 +96,7 @@ fun TutorItemsListScreen(
                     }
                 }
             )
-    }
+    }*/
 
 
 }
