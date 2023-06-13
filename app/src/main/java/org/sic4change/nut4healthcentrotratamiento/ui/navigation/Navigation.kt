@@ -182,14 +182,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
-                onChildClick = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutor.id)
-                    )
-                },
                 onDeleteTutorClick = {
                     navController.navigate(
                         NavCommand.ContentType(Feature.TUTORS).route
+                    )
+                },
+                onCreateChildClick = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
                     )
                 }
             )
@@ -212,9 +212,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
-                onChildClick = { tutor ->
+                onCreateChildClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutor.id)
+                        NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
                     )
                 },
                 onDeleteTutorClick = {
@@ -232,9 +232,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
-                onChildClick = {
+                onCreateChildClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentType(Feature.CHILDS).route
+                        NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
                     )
                 },
                 onDeleteTutorClick = {
@@ -284,7 +284,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 navController.popBackStack()
                 navController.popBackStack()
                 navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
+                    NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutorId)
                 )
             })
         }

@@ -38,7 +38,8 @@ import java.time.temporal.ChronoUnit
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
-                          tutorItem: Tutor?, childs: List<Child>, onEditClick: (Tutor) -> Unit) {
+                          tutorItem: Tutor?, childs: List<Child>, onEditClick: (Tutor) -> Unit,
+                          onCreateChildClick: (Tutor) -> Unit) {
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -64,7 +65,7 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                         .padding(padding)
                 ) {
                     TutorView(tutorItem = tutorItem, tutorState = tutorState, childs = childs,
-                    onItemClick = {}, onItemMore = {})
+                    onItemClick = {}, onItemMore = {}, onCreateChildClick = onCreateChildClick)
                 }
             }
 
@@ -77,7 +78,8 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
 @ExperimentalCoilApi
 @Composable
 private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Child>,
-                      onItemClick: (Child) -> Unit, onItemMore: (Child) -> Unit,)  {
+                      onItemClick: (Child) -> Unit, onItemMore: (Child) -> Unit,
+                      onCreateChildClick: (Tutor) -> Unit)  {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -469,7 +471,7 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
             ) {
                 Button(
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {},
+                    onClick = {onCreateChildClick(tutorItem)},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)

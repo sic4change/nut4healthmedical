@@ -167,7 +167,7 @@ fun TutorsScreen(onItemClick: (Tutor) -> Unit,
 @ExperimentalMaterialApi
 @Composable
 fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
-                      onEditTutorClick: (Tutor) -> Unit, onChildClick: (Tutor) -> Unit,
+                      onEditTutorClick: (Tutor) -> Unit, onCreateChildClick: (Tutor) -> Unit,
                       onDeleteTutorClick: () -> Unit) {
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
@@ -207,6 +207,7 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         childs = viewModelState.childs,
         tutorState = tutorDetailState,
         onEditClick = onEditTutorClick,
+        onCreateChildClick = onCreateChildClick,
     )
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
