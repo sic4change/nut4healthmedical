@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChildCare
+import androidx.compose.material.icons.filled.ChildFriendly
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.People
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.Image
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
@@ -30,14 +33,11 @@ fun  ChildListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { onItemMore(item) }) {
-                    Icon(
-                        tint = colorResource(R.color.colorPrimary),
-                        imageVector = Icons.Default.ChildCare,
-                        contentDescription = null
-                    )
-                }
-
+                Spacer(modifier = Modifier.width(8.dp))
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_child),
+                    contentDescription = null
+                )
                 Text(
                     color = colorResource(R.color.colorPrimary),
                     text = "${item.name} ${item.surnames}"  ,

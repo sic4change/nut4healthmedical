@@ -44,6 +44,7 @@ fun TutorSummaryItem(
                 Text(
                     text = "${item.name.slice(0..0)} ${item.surnames.slice(0..0)}",
                     textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h5,
                     color = Color.White,
                     modifier = Modifier
                         .background(colorResource(R.color.colorAccent), shape = CircleShape)
@@ -67,7 +68,7 @@ fun TutorSummaryItem(
                             .padding(16.dp, 0.dp),
                         color = colorResource(R.color.disabled_color),
                         text = item.address ,
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.h6,
                         maxLines = 2,
                     )
 

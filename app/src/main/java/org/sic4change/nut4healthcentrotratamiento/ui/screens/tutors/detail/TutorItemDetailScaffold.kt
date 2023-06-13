@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.AppBarIcon
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 
 @ExperimentalMaterialApi
@@ -22,8 +23,6 @@ fun TutorItemDetailScaffold(
     tutorState: TutorState,
     tutorItem: Tutor,
     onClickEdit: (Tutor) -> Unit,
-    onChildClick: (Tutor) -> Unit,
-    onClickDelete: () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 
     ) {
