@@ -32,7 +32,7 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val child: Child? = null,
-        val cases: List<Case> = emptyList(),
+        val cases: List<Case>? = null,
         val updateTutor: Boolean = false,
     )
 

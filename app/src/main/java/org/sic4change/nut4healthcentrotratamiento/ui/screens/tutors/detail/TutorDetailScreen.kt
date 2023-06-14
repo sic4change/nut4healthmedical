@@ -33,7 +33,7 @@ import java.time.temporal.ChronoUnit
 @ExperimentalMaterialApi
 @Composable
 fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
-                          tutorItem: Tutor?, childs: List<Child>, onEditClick: (Tutor) -> Unit,
+                          tutorItem: Tutor?, childs: List<Child>?, onEditClick: (Tutor) -> Unit,
                           onCreateChildClick: (Tutor) -> Unit, onItemClick: (Child) -> Unit) {
     if (loading) {
         Box(
@@ -72,7 +72,7 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Child>,
+private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Child>?,
                       onItemClick: (Child) -> Unit, onItemMore: (Child) -> Unit,
                       onCreateChildClick: (Tutor) -> Unit)  {
 
@@ -410,7 +410,7 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            if (childs.isEmpty()) {
+            if (childs != null && childs.isEmpty()) {
                 Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {
@@ -428,7 +428,7 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                         contentDescription = null,
                     )
                 }
-            } else {
+            } else if (childs != null && childs.isNotEmpty()){
                 Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {
@@ -446,14 +446,23 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
+            if (childs == null) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+                }
+            }
         }
-
-        items(childs) {
-            ChildListItem(
-                item = it,
-                modifier = Modifier.clickable { onItemClick(it) },
-                onItemMore = onItemMore
-            )
+        if (childs != null){
+            items(childs) {
+                ChildListItem(
+                    item = it,
+                    modifier = Modifier.clickable { onItemClick(it) },
+                    onItemMore = onItemMore
+                )
+            }
         }
 
         item {

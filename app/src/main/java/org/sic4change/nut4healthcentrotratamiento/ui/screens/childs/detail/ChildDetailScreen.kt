@@ -22,10 +22,7 @@ import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseListItem
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
 
@@ -35,7 +32,7 @@ import java.text.SimpleDateFormat
 @Composable
 fun ChildItemDetailScreen(
     childState: ChildState, loading: Boolean = false,
-    childItem: Child?, cases: List<Case>, onEditClick: (Child) -> Unit,
+    childItem: Child?, cases: List<Case>?, onEditClick: (Child) -> Unit,
     onDeleteClick: (String) -> Unit, onCreateCaseClick: (Child) -> Unit, onItemClick: (Case) -> Unit) {
 
     if (loading) {
@@ -80,7 +77,7 @@ fun ChildItemDetailScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case>,
+private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case>?,
                       onItemClick: (Case) -> Unit, onItemMore: (Case) -> Unit,
                       onCreateCaseClick: (Child) -> Unit) {
 
@@ -215,7 +212,7 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                 Spacer(modifier = Modifier.height(16.dp))
 
             }
-            if (cases.isEmpty()) {
+            if (cases != null && cases.isEmpty()) {
                 Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {
@@ -233,7 +230,7 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                         contentDescription = null,
                     )
                 }
-            } else {
+            } else if (cases != null && cases.isNotEmpty()){
                 Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {
@@ -251,16 +248,26 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
+            if (cases == null) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+                }
+            }
         }
 
-        items(cases) {
-            CaseListItem(
-                item = it,
-                modifier = Modifier.clickable { onItemClick(it) },
-                onItemMore = onItemMore
-            )
+        if (cases != null){
+            items(cases) {
+                CaseListItem(
+                    item = it,
+                    modifier = Modifier.clickable { onItemClick(it) },
+                    onItemMore = onItemMore
+                )
+            }
         }
-
+        
         item {
             Spacer(modifier = Modifier.height(16.dp))
             Box(

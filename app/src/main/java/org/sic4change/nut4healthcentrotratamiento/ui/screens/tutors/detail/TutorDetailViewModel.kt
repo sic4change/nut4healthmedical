@@ -33,7 +33,7 @@ class TutorDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val tutor: Tutor? = null,
-        val childs: List<Child> = emptyList(),
+        val childs: List<Child>? = null,
         val updateTutor: Boolean = false,
     )
 
