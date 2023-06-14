@@ -23,42 +23,11 @@ fun CaseItemDetailScaffold(
     caseState: CaseState,
     caseItem: Case,
     onClickEdit: (Case) -> Unit,
-    onVisitsClick: (Case) -> Unit,
-    onClickDelete: (String) -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 
     ) {
 
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = colorResource(R.color.colorAccent),
-                onClick = { onVisitsClick(caseItem) },
-                shape = MaterialTheme.shapes.small
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                Icon(
-                    modifier = Modifier.size(40.dp),
-                    imageVector = Icons.Default.EditCalendar,
-                    contentDescription = null,
-                    tint = colorResource(R.color.white)
-                )
-                Text(
-                   text = stringResource(R.string.visits_title),
-                    color = colorResource(R.color.white),
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.padding(4.dp)
-                        .wrapContentHeight(Alignment.CenterVertically)
-                )
-            }
-
-
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
         bottomBar = {
             BottomAppBar(
                 backgroundColor = colorResource(R.color.colorPrimary),

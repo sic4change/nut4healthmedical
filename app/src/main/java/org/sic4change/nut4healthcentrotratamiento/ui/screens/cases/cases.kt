@@ -96,9 +96,7 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
         loading = viewModelState.loading,
         caseItem = viewModelState.case,
         caseState = caseDetailState,
-        onEditClick = onEditCaseClick,
-        onVisitsClick = onVisitsClick,
-        onDeleteClick = onDeleteCaseClick
+        onEditClick = onEditCaseClick
     )
     MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
         caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)

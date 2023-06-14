@@ -25,9 +25,7 @@ import java.text.SimpleDateFormat
 @Composable
 fun CaseItemDetailScreen(
     caseState: CaseState, loading: Boolean = false,
-    caseItem: Case?, onEditClick: (Case) -> Unit,
-    onDeleteClick: (String) -> Unit,
-    onVisitsClick: (Case) -> Unit) {
+    caseItem: Case?, onEditClick: (Case) -> Unit) {
 
     if (loading) {
         Box(
@@ -47,9 +45,7 @@ fun CaseItemDetailScreen(
             CaseItemDetailScaffold(
                 caseState = caseState,
                 caseItem = caseItem,
-                onClickEdit = onEditClick,
-                onVisitsClick = onVisitsClick,
-                onClickDelete = onDeleteClick
+                onClickEdit = onEditClick
             ) { padding ->
                 LazyColumn(
                     modifier = Modifier
@@ -59,10 +55,6 @@ fun CaseItemDetailScreen(
                     item {
                         Header(caseState = caseState)
                     }
-                    /*item.references.forEach {
-                        val (icon, @StringRes stringRes) = it.type.createUiData()
-                        section(icon, stringRes, it.references)
-                    }*/
                 }
             }
 

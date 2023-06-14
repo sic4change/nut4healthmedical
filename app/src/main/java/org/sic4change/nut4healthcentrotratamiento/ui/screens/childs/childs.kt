@@ -109,7 +109,6 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
         cases = viewModelState.cases,
         childState = childDetailState,
         onEditClick = onEditChildClick,
-        onDeleteClick = onDeleteChildClick,
         onCreateCaseClick = onCreateCaseClick,
         onItemClick = onItemClick
     )

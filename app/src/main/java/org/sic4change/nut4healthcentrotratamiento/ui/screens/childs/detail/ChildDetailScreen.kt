@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat
 fun ChildItemDetailScreen(
     childState: ChildState, loading: Boolean = false,
     childItem: Child?, cases: List<Case>?, onEditClick: (Child) -> Unit,
-    onDeleteClick: (String) -> Unit, onCreateCaseClick: (Child) -> Unit, onItemClick: (Case) -> Unit) {
+    onCreateCaseClick: (Child) -> Unit, onItemClick: (Case) -> Unit) {
 
     if (loading) {
         Box(
@@ -267,7 +267,7 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                 )
             }
         }
-        
+
         item {
             Spacer(modifier = Modifier.height(16.dp))
             Box(

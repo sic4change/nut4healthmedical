@@ -284,7 +284,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                     navController.popBackStack()
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
+                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutorId)
                     )
                 },
                 onItemClick = { case ->

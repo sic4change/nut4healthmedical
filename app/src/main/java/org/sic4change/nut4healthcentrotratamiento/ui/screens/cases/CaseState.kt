@@ -11,6 +11,7 @@ import java.util.*
 @Composable
 fun rememberCasesState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     childId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -24,11 +25,12 @@ fun rememberCasesState(
     casesSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     createdCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ CaseState(id, childId, name, status, expandedStatus, selectedOptionStatus,
+) = remember{ CaseState(id, expandedDetail, childId, name, status, expandedStatus, selectedOptionStatus,
     visits, lastDate, createdDate, observations, cases, casesSize, createdCase, deleteCase) }
 
 class CaseState(
     val id: MutableState<String>,
+    val expandedDetail: MutableState<Boolean>,
     val childId: MutableState<String>,
     val name: MutableState<String>,
     val status: MutableState<String>,
