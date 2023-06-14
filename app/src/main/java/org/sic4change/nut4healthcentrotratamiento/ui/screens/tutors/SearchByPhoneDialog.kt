@@ -8,6 +8,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -20,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 
@@ -41,7 +44,12 @@ fun SearchByPhoneDialog(
         Column(
             modifier = Modifier.padding(16.dp),
         ) {
-            Text(text = stringResource(R.string.check_tutor), color = colorResource(R.color.colorPrimary))
+            Text(
+                text = stringResource(R.string.check_tutor),
+                color = colorResource(R.color.colorPrimary),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -54,16 +62,17 @@ fun SearchByPhoneDialog(
                                     }
                                 },
                 singleLine = true,
+                shape = RoundedCornerShape(8.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                     cursorColor = colorResource(R.color.colorAccent),
                     disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                    focusedIndicatorColor = colorResource(R.color.full_transparent),
+                    unfocusedIndicatorColor = colorResource(R.color.full_transparent),
                 ),
                 visualTransformation = PrefixTransformation("+${phoneCode.value}"),
-
+                leadingIcon = { Icon(Icons.Filled.Search, null, tint = colorResource(R.color.disabled_color)) },
                 textStyle = MaterialTheme.typography.h5,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone

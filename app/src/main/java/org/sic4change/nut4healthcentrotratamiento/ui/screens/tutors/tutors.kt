@@ -121,7 +121,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
                         .background(
                             color = contentColorFor(MaterialTheme.colors.background)
                                 .copy(alpha = 0.6f)
-                        )
+                        ).padding(16.dp)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
