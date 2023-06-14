@@ -56,6 +56,32 @@ fun DatePickerUI(
             val chosenMonth = remember { mutableStateOf(value.split("/")[1].toInt()) }
             val chosenDay = remember { mutableStateOf(value.split("/")[0].toInt()) }
 
+            Row(
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    stringResource(R.string.day),
+                    style = MaterialTheme.typography.h5,
+                     color = colorResource(R.color.colorPrimary),
+                    textAlign = TextAlign.Center
+                )
+
+                Text(
+                    stringResource(R.string.month),
+                    style = MaterialTheme.typography.h5,
+                    color = colorResource(R.color.colorPrimary),
+                    textAlign = TextAlign.Center
+                )
+
+                Text(
+                    stringResource(R.string.year),
+                    style = MaterialTheme.typography.h5,
+                    color = colorResource(R.color.colorPrimary),
+                    textAlign = TextAlign.Center
+                )
+            }
+
             DateSelectionSection(
                 value = value,
                 onYearChosen = { chosenYear.value = it.toInt() },

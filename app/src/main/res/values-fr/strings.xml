@@ -346,5 +346,8 @@
         <item>plus de 3 fois par jour</item>
     </string-array>
 
+    <string name="day">Jour</string>
+    <string name="month">Mois</string>
+    <string name="year">Année</string>
 
 </resources>
