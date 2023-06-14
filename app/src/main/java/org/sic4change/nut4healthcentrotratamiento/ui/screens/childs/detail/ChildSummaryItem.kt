@@ -57,7 +57,7 @@ fun ChildSummaryItem(
                             .padding(16.dp, 0.dp),
                         color = colorResource(R.color.colorPrimary),
                         text = "${item.name} ${item.surnames}"  ,
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.h5,
                         maxLines = 2,
                     )
                     val splitDate = SimpleDateFormat("dd/MM/yyyy").format(item.birthdate).split("/")
@@ -74,7 +74,7 @@ fun ChildSummaryItem(
                             .padding(16.dp, 0.dp),
                         color = colorResource(R.color.disabled_color),
                         text = "${SimpleDateFormat("dd/MM/yyyy").format(item.birthdate)} ≈${yearsLabel} ${stringResource(R.string.years)} ${monthsLabel} ${stringResource(R.string.months)}",
-                        style = MaterialTheme.typography.h6,
+                        style = MaterialTheme.typography.caption,
                         maxLines = 2,
                     )
 

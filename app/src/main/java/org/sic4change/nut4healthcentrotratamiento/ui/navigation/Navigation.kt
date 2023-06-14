@@ -288,10 +288,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     )
                 },
                 onItemClick = { case ->
-
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
+                    )
                 },
-                onCreateCaseClick = {child ->
-
+                onCreateCaseClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CREATECASE).createRoute(child.id)
+                    )
                 }
             )
         }
