@@ -17,7 +17,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
@@ -74,8 +76,10 @@ fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> U
 @ExperimentalMaterialApi
 @Composable
 fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
-                      onEditChildClick: (Child) -> Unit, onCasesClick: (Child) -> Unit,
-                      onDeleteChildClick: (String) -> Unit) {
+                      onEditChildClick: (Child) -> Unit,
+                      onCreateCaseClick: (Child) -> Unit,
+                      onItemClick: (Case) -> Unit,
+                      onDeleteChildClick: (String) -> Unit, ) {
     val childDetailState = rememberChildsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -102,10 +106,12 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
     ChildItemDetailScreen(
         loading = viewModelState.loading,
         childItem = viewModelState.child,
+        cases = viewModelState.cases,
         childState = childDetailState,
         onEditClick = onEditChildClick,
-        onCasesClick = onCasesClick,
-        onDeleteClick = onDeleteChildClick
+        onDeleteClick = onDeleteChildClick,
+        onCreateCaseClick = onCreateCaseClick,
+        onItemClick = onItemClick
     )
     MessageDeleteChild(childDetailState.deleteChild.value, childDetailState::showDeleteQuestion,
         childDetailState.id.value, childDetailState.tutorId.value, viewModel::deleteChild, onDeleteChildClick)

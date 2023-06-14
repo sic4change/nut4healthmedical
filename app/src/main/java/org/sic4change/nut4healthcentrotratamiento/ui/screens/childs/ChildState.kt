@@ -9,6 +9,7 @@ import java.util.*
 @Composable
 fun rememberChildsState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     tutorId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     surnames: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -29,12 +30,13 @@ fun rememberChildsState(
     createdChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showDateDialog:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ ChildState(id, tutorId, name, surnames, birthday, brothers, selectedOptionBrothers,
+) = remember{ ChildState(id, expandedDetail, tutorId, name, surnames, birthday, brothers, selectedOptionBrothers,
     expandedBrothers, lastDate, createdDate, sex, etnician, observations, expandedSex, selectedOptionSex,
     expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild, showDateDialog,) }
 
 class ChildState(
     val id: MutableState<String>,
+    val expandedDetail: MutableState<Boolean>,
     val tutorId: MutableState<String>,
     val name: MutableState<String>,
     val surnames: MutableState<String>,
@@ -56,6 +58,10 @@ class ChildState(
     val deleteChild: MutableState<Boolean>,
     val showDateDialog: MutableState<Boolean>,
 ) {
+
+    fun expandContractDetail() {
+        expandedDetail.value = !expandedDetail.value
+    }
 
     fun showDeleteQuestion() {
         deleteChild.value = !deleteChild.value

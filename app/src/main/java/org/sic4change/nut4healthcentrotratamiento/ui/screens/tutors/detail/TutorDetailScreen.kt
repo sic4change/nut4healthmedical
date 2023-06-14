@@ -7,8 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -20,17 +18,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildItemsListScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
-import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -450,8 +445,6 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                     )
                 }
             }
-
-
             Spacer(modifier = Modifier.height(16.dp))
         }
 

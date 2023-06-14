@@ -45,9 +45,6 @@ import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
-@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class,
-    ExperimentalPermissionsApi::class
-)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable

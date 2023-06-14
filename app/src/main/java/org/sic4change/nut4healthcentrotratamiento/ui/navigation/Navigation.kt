@@ -274,24 +274,26 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL)) {
-            ChildDetailScreen(onEditChildClick = { child ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
-                )
-            },
-            onCasesClick = { child ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CASES).createRoute(child.id)
-                )
+            ChildDetailScreen(
+                onEditChildClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
+                    )
+                },
+                onDeleteChildClick = { tutorId ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
+                    )
+                },
+                onItemClick = { case ->
 
-            },
-            onDeleteChildClick = { tutorId ->
-                navController.popBackStack()
-                navController.popBackStack()
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CHILDS).createRoute(tutorId)
-                )
-            })
+                },
+                onCreateCaseClick = {child ->
+
+                }
+            )
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CREATECHILD)) {
