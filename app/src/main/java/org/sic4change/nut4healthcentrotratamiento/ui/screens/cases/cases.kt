@@ -19,6 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
@@ -76,7 +78,9 @@ fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit
 @ExperimentalMaterialApi
 @Composable
 fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
-                     onEditCaseClick: (Case) -> Unit, onVisitsClick: (Case) -> Unit,
+                     onEditCaseClick: (Case) -> Unit,
+                     onCreateVisitClick: (Case) -> Unit,
+                     onItemClick: (Visit) -> Unit,
                      onDeleteCaseClick: (String) -> Unit) {
     val caseDetailState = rememberCasesState()
     val viewModelState by viewModel.state.collectAsState()
@@ -95,8 +99,12 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
     CaseItemDetailScreen(
         loading = viewModelState.loading,
         caseItem = viewModelState.case,
+        child = viewModelState.child,
+        visits = viewModelState.visits,
         caseState = caseDetailState,
-        onEditClick = onEditCaseClick
+        onEditClick = onEditCaseClick,
+        onCreateVisitClick = onCreateVisitClick,
+        onItemClick = onItemClick
     )
     MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
         caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)
@@ -149,7 +157,7 @@ fun CaseEditScreen(viewModel: CaseEditViewModel = viewModel(), onEditCase: (Stri
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             caseEditState.id.value = viewModelState.case!!.id
-            caseEditState.childId.value = viewModelState.case!!.tutorId
+            caseEditState.childId.value = viewModelState.case!!.childId
             caseEditState.name.value = viewModelState.case!!.name
             caseEditState.status.value = viewModelState.case!!.status
             caseEditState.visits.value = viewModelState.case!!.visits
@@ -162,7 +170,7 @@ fun CaseEditScreen(viewModel: CaseEditViewModel = viewModel(), onEditCase: (Stri
 
     LaunchedEffect(viewModelState.editCase) {
         if (viewModelState.editCase) {
-            onEditCase(caseEditState.id.value)
+            onEditCase(caseEditState.childId.value)
             viewModel.resetUpdateCase()
         }
     }

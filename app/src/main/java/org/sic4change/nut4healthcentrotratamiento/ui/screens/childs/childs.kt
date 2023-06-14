@@ -79,7 +79,7 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onEditChildClick: (Child) -> Unit,
                       onCreateCaseClick: (Child) -> Unit,
                       onItemClick: (Case) -> Unit,
-                      onDeleteChildClick: (String) -> Unit, ) {
+                      onDeleteChildClick: (String) -> Unit) {
     val childDetailState = rememberChildsState()
     val viewModelState by viewModel.state.collectAsState()
 

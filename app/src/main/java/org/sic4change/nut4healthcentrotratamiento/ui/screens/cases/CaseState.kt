@@ -46,6 +46,10 @@ class CaseState(
     val deleteCase: MutableState<Boolean>,
 ) {
 
+    fun expandContractDetail() {
+        expandedDetail.value = !expandedDetail.value
+    }
+
     fun showDeleteQuestion() {
         deleteCase.value = !deleteCase.value
     }

@@ -343,27 +343,33 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 navController.popBackStack()
                 navController.popBackStack()
                 navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CASES).createRoute(childId)
+                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(childId)
                 )
             })
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CASE_DETAIL)) {
-            CaseDetailScreen(onEditCaseClick = { case ->
+            CaseDetailScreen(
+                onEditCaseClick = { case ->
                 navController.navigate(
                     NavCommand.ContentTypeDetail(Feature.EDITCASE).createRoute(case.id)
                 )
-            },
-                onVisitsClick = { case ->
+                },
+                onCreateVisitClick = { case ->
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(case.id)
+                        NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(case.id)
+                    )
+                },
+                onItemClick = { visit ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL).createRoute(visit.id)
                     )
                 },
                 onDeleteCaseClick = { childId ->
                     navController.popBackStack()
                     navController.popBackStack()
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CASES).createRoute(childId)
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(childId)
                     )
                 })
         }
@@ -372,8 +378,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             CaseEditScreen( onEditCase = { id ->
                 navController.popBackStack()
                 navController.popBackStack()
+                navController.popBackStack()
                 navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(id)
+                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(id)
                 )
             })
         }
@@ -419,7 +426,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                     navController.popBackStack()
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(caseId)
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
                 },
                 onChangeWeightOrHeight = { height, weight ->
