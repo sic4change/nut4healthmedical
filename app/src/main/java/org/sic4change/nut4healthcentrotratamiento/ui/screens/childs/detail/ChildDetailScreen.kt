@@ -33,7 +33,8 @@ import java.text.SimpleDateFormat
 fun ChildItemDetailScreen(
     childState: ChildState, loading: Boolean = false,
     childItem: Child?, cases: List<Case>?, onEditClick: (Child) -> Unit,
-    onCreateCaseClick: (Child) -> Unit, onItemClick: (Case) -> Unit) {
+    onCreateCaseClick: (String, String, String) -> Unit,
+    onItemClick: (Case) -> Unit) {
 
     if (loading) {
         Box(
@@ -79,7 +80,7 @@ fun ChildItemDetailScreen(
 @Composable
 private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case>?,
                       onItemClick: (Case) -> Unit, onItemMore: (Case) -> Unit,
-                      onCreateCaseClick: (Child) -> Unit) {
+                      onCreateCaseClick: (String, String, String) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -274,9 +275,11 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
+                val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
+                val status = stringResource(R.string.open)
                 Button(
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {onCreateCaseClick(childItem)},
+                    onClick = {onCreateCaseClick(name, status, "" )},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)

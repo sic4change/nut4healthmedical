@@ -23,7 +23,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(
+            _state.value = _state.value.copy(
                 loading = true,
                 case = FirebaseDataSource.getCase(caseId),
                 complications = FirebaseDataSource.getComplications(),

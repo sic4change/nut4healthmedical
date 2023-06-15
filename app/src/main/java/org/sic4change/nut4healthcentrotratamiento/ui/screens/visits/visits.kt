@@ -190,7 +190,6 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
             visitCreateState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
             visitCreateState.complications.value = viewModelState.visit!!.complications
-            visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
         }
     }
 

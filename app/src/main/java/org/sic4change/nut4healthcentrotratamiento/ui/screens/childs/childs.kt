@@ -77,7 +77,7 @@ fun ChildsScreen(viewModel: ChildsViewModel = viewModel(), onClick: (Child) -> U
 @Composable
 fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onEditChildClick: (Child) -> Unit,
-                      onCreateCaseClick: (Child) -> Unit,
+                      onCaseCreated:(Case) -> Unit,
                       onItemClick: (Case) -> Unit,
                       onDeleteChildClick: (String) -> Unit) {
     val childDetailState = rememberChildsState()
@@ -103,13 +103,19 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
         }
     }
 
+    LaunchedEffect(viewModelState.newCaseCreated) {
+        if (viewModelState.newCaseCreated) {
+            onCaseCreated(viewModelState.newCase!!)
+        }
+    }
+
     ChildItemDetailScreen(
         loading = viewModelState.loading,
         childItem = viewModelState.child,
         cases = viewModelState.cases,
         childState = childDetailState,
         onEditClick = onEditChildClick,
-        onCreateCaseClick = onCreateCaseClick,
+        onCreateCaseClick = viewModel::createCase,
         onItemClick = onItemClick
     )
     MessageDeleteChild(childDetailState.deleteChild.value, childDetailState::showDeleteQuestion,
