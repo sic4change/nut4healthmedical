@@ -337,37 +337,42 @@ object FirebaseDataSource {
         networkCasesContainer.results.map { it.toDomainCase() }
     }
 
-    suspend fun createCase(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) {
-        withContext(Dispatchers.IO) {
-            Timber.d("try to create case with firebase")
-            try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
-                val userRef = firestore.collection("users")
-                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
-                val resultUser = queryUser.get().await()
-                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
-                networkUserContainer.results[0].let { user ->
-                    val childsRef = firestore.collection("childs")
-                    val queryChild = childsRef.whereEqualTo("id", case.childId)
-                    val resultChild = queryChild.get().await()
-                    val networkChildsContainer = NetworkChildsContainer(resultChild.toObjects(Child::class.java))
-                    networkChildsContainer.results[0].let {
-                        val tutorId = it.toDomainChild().tutorId
-                        val pointId = user.point
-                        val caseToUpload = org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
+    suspend fun createCase(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) : org.sic4change.nut4healthcentrotratamiento.data.entitities.Case?
+            = withContext(Dispatchers.IO) {
+        Timber.d("try to create case with firebase")
+        try {
+            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
+            val userRef = firestore.collection("users")
+            val queryUser =
+                userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val resultUser = queryUser.get().await()
+            val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+            networkUserContainer.results[0].let { user ->
+                val childsRef = firestore.collection("childs")
+                val queryChild = childsRef.whereEqualTo("id", case.childId)
+                val resultChild = queryChild.get().await()
+                val networkChildsContainer =
+                    NetworkChildsContainer(resultChild.toObjects(Child::class.java))
+                networkChildsContainer.results[0].let {
+                    val tutorId = it.toDomainChild().tutorId
+                    val pointId = user.point
+                    val caseToUpload =
+                        org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
                             case.id, case.childId, tutorId, case.name, case.status, case.createdate,
-                            case.lastdate, case.visits, case.observations, pointId)
-                        val casesRef = firestore.collection("cases")
-                        val id = casesRef.add(caseToUpload.toServerCase()).await().id
-                        caseToUpload.id = id
-                        casesRef.document(id).set(caseToUpload.toServerCase()).await()
-                        Timber.d("Create case result: ok")
-                    }
+                            case.lastdate, case.visits, case.observations, pointId
+                        )
+                    val casesRef = firestore.collection("cases")
+                    val id = casesRef.add(caseToUpload.toServerCase()).await().id
+                    caseToUpload.id = id
+                    casesRef.document(id).set(caseToUpload.toServerCase()).await()
+                    Timber.d("Create case result: ok")
+                    caseToUpload
                 }
-
-            } catch (ex : Exception) {
-                Timber.d("Create case result: false ${ex.message}")
             }
+
+        } catch (ex: Exception) {
+            Timber.d("Create case result: false ${ex.message}")
+            null
         }
     }
 

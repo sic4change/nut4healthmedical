@@ -12,6 +12,8 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
+import java.util.Date
 
 class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -34,7 +36,19 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val child: Child? = null,
         val cases: List<Case>? = null,
         val updateTutor: Boolean = false,
+        val newCase: Case? = null,
+        val newCaseCreated: Boolean = false,
     )
+
+    fun createCase(name: String, status: String, observations: String) {
+        viewModelScope.launch {
+            val case = Case(_state.value.child!!.id, _state.value.child!!.id, _state.value.child!!.id,
+                name, status, Date(), Date(), "0", observations, "")
+            _state.value= _state.value.copy(newCase = case)
+            FirebaseDataSource.createCase(case)
+            _state.value = _state.value.copy(newCaseCreated = true)
+        }
+    }
 
     fun deleteChild(id: String) {
         viewModelScope.launch {
