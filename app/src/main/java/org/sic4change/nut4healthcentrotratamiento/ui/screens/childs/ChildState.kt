@@ -30,9 +30,11 @@ fun rememberChildsState(
     createdChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showDateDialog:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    disabledView:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ ChildState(id, expandedDetail, tutorId, name, surnames, birthday, brothers, selectedOptionBrothers,
     expandedBrothers, lastDate, createdDate, sex, etnician, observations, expandedSex, selectedOptionSex,
-    expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild, showDateDialog,) }
+    expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild, showDateDialog,
+    disabledView) }
 
 class ChildState(
     val id: MutableState<String>,
@@ -57,10 +59,15 @@ class ChildState(
     val createdChild: MutableState<Boolean>,
     val deleteChild: MutableState<Boolean>,
     val showDateDialog: MutableState<Boolean>,
+    val disabledView: MutableState<Boolean>,
 ) {
 
     fun expandContractDetail() {
         expandedDetail.value = !expandedDetail.value
+    }
+
+    fun enableDisableView() {
+        disabledView.value = !disabledView.value
     }
 
     fun showDeleteQuestion() {

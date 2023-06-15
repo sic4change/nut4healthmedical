@@ -318,7 +318,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, visits
             }
 
         }
-        
+
     }
 }
 

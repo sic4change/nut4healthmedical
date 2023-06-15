@@ -87,179 +87,180 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
     )
 
     LazyColumn(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxSize()
     ) {
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            ChildSummaryItem(
-                item = childItem,
-                expanded = childState.expandedDetail.value,
-                onExpandDetail = { childState.expandContractDetail() }
-            )
-            if (childState.expandedDetail.value) {
-                TextField(value = childState.brothers.value.toString(),
-                    onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.full_transparent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.Numbers, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-                    label = { Text(stringResource(R.string.child_brothers), color = colorResource(R.color.disabled_color)) })
-
+        if (!childState.disabledView.value){
+            item {
                 Spacer(modifier = Modifier.height(16.dp))
-                TextField(value = SimpleDateFormat("dd/MM/yyyy").format(childState.createdDate.value),
-                    onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.full_transparent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-                    label = { Text(stringResource(R.string.creation_date), color = colorResource(R.color.disabled_color)) })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextField(value = SimpleDateFormat("dd/MM/yyyy HH:mm").format(childState.lastDate.value),
-                    onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.full_transparent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-                    label = { Text(stringResource(R.string.last_date), color = colorResource(R.color.disabled_color)) })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextField(value = childState.etnician.value,
-                    onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.full_transparent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-                    label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextField(value = childState.sex.value,
-                    onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.full_transparent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        if (childState.selectedOptionSex.value == SEXS[0]) Icon(Icons.Filled.Female, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})
-                        else Icon(Icons.Filled.Male, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextField(value = childState.observations.value,
-                    onValueChange = {}, readOnly = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorPrimary),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.colorAccent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.colorAccent),
-                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                    ),
-                    maxLines = 5,
-                    singleLine = false,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
-                    label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) }
+                ChildSummaryItem(
+                    item = childItem,
+                    expanded = childState.expandedDetail.value,
+                    onExpandDetail = { childState.expandContractDetail() }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                if (childState.expandedDetail.value) {
+                    TextField(value = childState.brothers.value.toString(),
+                        onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Numbers, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                        label = { Text(stringResource(R.string.child_brothers), color = colorResource(R.color.disabled_color)) })
 
-            }
-            if (cases != null && cases.isEmpty()) {
-                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = stringResource(R.string.no_cases),
-                        color = colorResource(R.color.colorPrimary),
-                        style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.weight(1f),
-                        maxLines = 3
+                    Spacer(modifier = Modifier.height(16.dp))
+                    TextField(value = SimpleDateFormat("dd/MM/yyyy").format(childState.createdDate.value),
+                        onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        leadingIcon = {
+                            Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                        label = { Text(stringResource(R.string.creation_date), color = colorResource(R.color.disabled_color)) })
+                    Spacer(modifier = Modifier.height(16.dp))
+                    TextField(value = SimpleDateFormat("dd/MM/yyyy HH:mm").format(childState.lastDate.value),
+                        onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        leadingIcon = {
+                            Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                        label = { Text(stringResource(R.string.last_date), color = colorResource(R.color.disabled_color)) })
+                    Spacer(modifier = Modifier.height(16.dp))
+                    TextField(value = childState.etnician.value,
+                        onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                        label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) })
+                    Spacer(modifier = Modifier.height(16.dp))
+                    TextField(value = childState.sex.value,
+                        onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        textStyle = MaterialTheme.typography.h5,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        leadingIcon = {
+                            if (childState.selectedOptionSex.value == SEXS[0]) Icon(Icons.Filled.Female, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})
+                            else Icon(Icons.Filled.Male, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                        label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
+                    Spacer(modifier = Modifier.height(16.dp))
+                    TextField(value = childState.observations.value,
+                        onValueChange = {}, readOnly = true,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        maxLines = 5,
+                        singleLine = false,
+                        textStyle = MaterialTheme.typography.h5,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                        label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) }
                     )
-                    Image(
-                        modifier = Modifier.size(78.dp).weight(1f),
-                        painter = painterResource(id = R.mipmap.ic_cases),
-                        contentDescription = null,
-                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
                 }
-            } else if (cases != null && cases.isNotEmpty()){
-                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = stringResource(R.string.casos),
-                        color = colorResource(R.color.colorPrimary),
-                        style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center
-                    )
-                    Image(
-                        modifier = Modifier.size(64.dp),
-                        painter = painterResource(id = R.mipmap.ic_cases),
-                        contentDescription = null
-                    )
+                if (cases != null && cases.isEmpty()) {
+                    Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(R.string.no_cases),
+                            color = colorResource(R.color.colorPrimary),
+                            style = MaterialTheme.typography.h4,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.weight(1f),
+                            maxLines = 3
+                        )
+                        Image(
+                            modifier = Modifier.size(78.dp).weight(1f),
+                            painter = painterResource(id = R.mipmap.ic_cases),
+                            contentDescription = null,
+                        )
+                    }
+                } else if (cases != null && cases.isNotEmpty()){
+                    Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(R.string.casos),
+                            color = colorResource(R.color.colorPrimary),
+                            style = MaterialTheme.typography.h4,
+                            textAlign = TextAlign.Center
+                        )
+                        Image(
+                            modifier = Modifier.size(64.dp),
+                            painter = painterResource(id = R.mipmap.ic_cases),
+                            contentDescription = null
+                        )
+                    }
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            if (cases == null) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+                Spacer(modifier = Modifier.height(16.dp))
+                if (cases == null) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+                    }
                 }
             }
         }
 
-        if (cases != null){
+        if (cases != null && !childState.disabledView.value){
             items(cases) {
                 CaseListItem(
                     item = it,
@@ -269,33 +270,35 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
             }
         }
 
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
-                val status = stringResource(R.string.open)
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {onCreateCaseClick(name, status, "" )},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+        if (!childState.disabledView.value){
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        stringResource(R.string.create_case),
-                        color = colorResource(R.color.white),
-                        style = MaterialTheme.typography.h5,
-                    )
+                    val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
+                    val status = stringResource(R.string.open)
+                    Button(
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                        onClick = {
+                            onCreateCaseClick(name, status, "")
+                            childState.enableDisableView()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        Text(
+                            stringResource(R.string.create_case),
+                            color = colorResource(R.color.white),
+                            style = MaterialTheme.typography.h5,
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
-            Spacer(modifier = Modifier.height(16.dp))
         }
-
-
-
     }
 }
 
