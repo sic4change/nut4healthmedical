@@ -1,27 +1,17 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.cases
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
-import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
@@ -30,49 +20,6 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.Messag
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.edit.CaseEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.edit.CaseItemEditScreen
 
-
-@RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
-@Composable
-fun CasesScreen(viewModel: CasesViewModel = viewModel(), onClick: (Case) -> Unit,
-                onCreateCaseClick: (String) -> Unit, onGoToDetailClick: (Case) -> Unit) {
-    val casesState = rememberCasesState()
-    val viewModelState by viewModel.state.collectAsState()
-
-    LaunchedEffect(viewModelState.cases) {
-        if (viewModelState.cases != null) {
-            casesState.casesSize.value = viewModelState.cases!!.size
-            casesState.cases.value = viewModelState.cases
-        }
-    }
-
-
-    NUT4HealthScreen {
-
-        Scaffold(
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        onCreateCaseClick(viewModelState.childId)
-                    },
-                    backgroundColor = colorResource(R.color.colorPrimary),
-                    content = {
-                        Icon(Icons.Filled.Add,"", tint = Color.White)
-                    }
-                )
-            },
-        ) {
-            CaseItemsListScreen(
-                loading = viewModelState.loading,
-                items = casesState.cases.value,
-                onClick = onClick,
-                onGoToDetailClick = onGoToDetailClick
-            )
-        }
-
-    }
-
-}
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi

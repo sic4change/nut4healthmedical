@@ -16,11 +16,9 @@ import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseEditScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CasesScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildEditScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildsScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cuadrante.CuadrantsScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
@@ -29,8 +27,6 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsSc
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitEditScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -259,20 +255,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 })
         }
 
-
-        composable(NavCommand.ContentTypeDetail(Feature.CHILDS)) {
-            ChildsScreen(onClick =  { child ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
-                )
-            },
-            onCreateChildClick = { tutorId ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutorId)
-                )
-            })
-        }
-
         composable(NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL)) {
             ChildDetailScreen(
                 onEditChildClick = { child ->
@@ -316,24 +298,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 navController.popBackStack()
                 navController.navigate(
                     NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(id)
-                )
-            })
-        }
-
-        composable(NavCommand.ContentTypeDetail(Feature.CASES)) {
-            CasesScreen(onClick =  { case ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(case.id)
-                )
-            },
-                onCreateCaseClick = { child ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CREATECASE).createRoute(child)
-                    )
-            },
-            onGoToDetailClick = { case ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
                 )
             })
         }
@@ -385,22 +349,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             })
         }
 
-        composable(NavCommand.ContentTypeDetail(Feature.VISITS)) {
-            VisitsScreen(onClick =  { visit ->
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL).createRoute(visit.id)
-                )
-
-            },
-                onCreateVisitClick = { case ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(case)
-                    )
-                }
-            )
-
-        }
-
         composable(NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL)) {
             VisitDetailScreen(
                 onEditVisitClick = { visit ->
@@ -429,20 +377,6 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
                 },
-                onChangeWeightOrHeight = { height, weight ->
-
-                },
-            )
-        }
-
-        composable(NavCommand.ContentTypeDetail(Feature.EDITVISIT)) {
-            VisitEditScreen( onEditVisit = { id ->
-                navController.popBackStack()
-                navController.popBackStack()
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.VISIT_DETAIL).createRoute(id)
-                )
-            },
                 onChangeWeightOrHeight = { height, weight ->
 
                 },
