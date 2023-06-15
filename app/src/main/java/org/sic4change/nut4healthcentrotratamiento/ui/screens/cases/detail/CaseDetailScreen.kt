@@ -294,29 +294,31 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, visits
         }
 
         item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {onCreateVisitClick(caseItem)},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+            if (caseItem.status == stringResource(R.string.open)) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        stringResource(R.string.create_visit),
-                        color = colorResource(R.color.white),
-                        style = MaterialTheme.typography.h5,
-                    )
+                    Button(
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                        onClick = { onCreateVisitClick(caseItem) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        Text(
+                            stringResource(R.string.create_visit),
+                            color = colorResource(R.color.white),
+                            style = MaterialTheme.typography.h5,
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
         }
-
-
+        
     }
 }
 
