@@ -11,6 +11,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,10 +20,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,11 +33,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
+import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4H
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -56,14 +63,13 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false, chil
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
         if (loading) {
             CircularProgressIndicator(color = colorResource(R.color.colorPrimary))
         }
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             VisitView(
                 loading = loading,
@@ -104,20 +110,25 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
         stringResource(R.string.step4)
     )
 
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
 
     if (!loading) {
         LazyColumn(
+            state = listState,
             modifier = Modifier.fillMaxWidth()
         ) {
-            if (child != null) {
+            //if (child != null) {
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
                     ChildSummaryItem(
-                        item = child,
+                        item = child!!,
                         expanded = visitState.expandedDetail.value,
                         onExpandDetail = { visitState.expandContractDetail() }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
                     Stepper(
                         modifier = Modifier.fillMaxWidth(),
                         numberOfSteps = numberStep,
@@ -127,8 +138,10 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                         unSelectedColor= colorResource(R.color.disabled_color)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
                     if (visitState.expandedDetail.value) {
-                        TextField(value = child.brothers.toString(),
+                        TextField(value = child!!.brothers.toString(),
                             onValueChange = {}, readOnly = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 textColor = colorResource(R.color.colorPrimary),
@@ -242,6 +255,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                     }
+                }
+                item {
                     Text(stringResource(R.string.create_visit),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
@@ -298,6 +313,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         visitState.amoxicilina.value, visitState.othersTratments.value,
                                         visitState.complications.value, visitState.observations.value)
                                 } else {
+                                    coroutineScope.launch {
+                                        listState.animateScrollToItem(index = 0)
+                                    }
                                     visitState.incrementStep()
                                 }
 
@@ -311,9 +329,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
-            }
-
-
+           // }
 
         }
     }
@@ -361,9 +377,60 @@ fun ItemListComplications(complication: Complication, checked: Boolean, onChecke
     }
 
 }
+
+
+@ExperimentalCoilApi
+@Composable
+fun CurrenStatusView(
+    visitState: VisitState,
+    modifier: Modifier = Modifier
+) {
+    var colorBackground : Color = Color.White
+    if (formatStatus(visitState.status.value)  == stringResource(R.string.normopeso)) {
+        colorBackground = colorResource(R.color.colorAccent)
+    } else if (formatStatus(visitState.status.value)  == stringResource(R.string.objetive_weight)) {
+        colorBackground = colorResource(R.color.colorPrimary)
+    } else if (formatStatus(visitState.status.value)  == stringResource(R.string.aguda_moderada)) {
+        colorBackground = colorResource(R.color.orange)
+    } else {
+        colorBackground = colorResource(R.color.error)
+    }
+    Column(
+        modifier = modifier.padding(8.dp)
+    ) {
+        Card(
+            backgroundColor = colorBackground,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = {}) {
+                    Icon(
+                        tint = colorResource(R.color.white),
+                        imageVector = Icons.Default.Folder,
+                        contentDescription = null
+                    )
+                }
+                Text(
+                    color = colorResource(R.color.white),
+                    text = "${formatStatus(visitState.status.value) }".toString().capitalize()  ,
+                    style = MaterialTheme.typography.h6,
+                    maxLines = 2,
+                    modifier = Modifier
+                        .padding(8.dp, 16.dp)
+                        .weight(1f)
+                )
+
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NutritionalView(visitState: VisitState) {
+    CurrenStatusView(visitState = visitState)
+    Spacer(modifier = Modifier.height(16.dp))
     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
             || visitState.status.value == stringResource(R.string.aguda_severa))){
@@ -389,14 +456,29 @@ fun NutritionalView(visitState: VisitState) {
         ) {
             Text(
                 text = stringResource(R.string.plumpy_one),
-                color = colorResource(R.color.colorAccent),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth())
-            Text(
-                text = stringResource(R.string.plumpy_fiveteeen),
-                color = colorResource(R.color.colorAccent),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth())
+                color = colorResource(R.color.black),
+                textAlign = TextAlign.Left,
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold)
+
+            Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    modifier = Modifier.size(78.dp).weight(1f),
+                    painter = painterResource(id = R.mipmap.ic_plumpy),
+                    contentDescription = null,
+                )
+
+                Text(
+                    text = stringResource(R.string.plumpy_fiveteeen),
+                    color = colorResource(R.color.colorPrimary),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h5,
+                    fontWeight = FontWeight.Bold)
+            }
+
         }
 
     }
@@ -416,65 +498,79 @@ fun NutritionalView(visitState: VisitState) {
         ) {
             Text(
                 text = stringResource(R.string.plumpy_one),
-                color = colorResource(R.color.colorAccent),
+                color = colorResource(R.color.black),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth())
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold)
 
-            if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_8),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_10),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_15),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_20),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_30),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_35),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_40),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_50),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
-            } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
-                Text(
-                    text = stringResource(R.string.plumpy_mas_55),
-                    color = colorResource(R.color.colorAccent),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth())
+            Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    modifier = Modifier.size(78.dp).weight(1f),
+                    painter = painterResource(id = R.mipmap.ic_plumpy),
+                    contentDescription = null,
+                )
+
+                if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_8),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_10),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_15),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_20),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_30),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_35),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_40),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_50),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
+                    Text(
+                        text = stringResource(R.string.plumpy_mas_55),
+                        color = colorResource(R.color.colorAccent),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth())
+                }
+
             }
+
+
         }
 
     }
@@ -491,6 +587,9 @@ fun SistemicView(visitState: VisitState) {
     val monthsBetween = ChronoUnit.MONTHS.between(
         YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
     )
+
+    CurrenStatusView(visitState = visitState)
+    Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
@@ -954,6 +1053,8 @@ fun SistemicView(visitState: VisitState) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SymtomsView(visitState: VisitState) {
+    CurrenStatusView(visitState = visitState)
+    Spacer(modifier = Modifier.height(16.dp))
     AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
         Spacer(modifier = Modifier.height(32.dp))

@@ -211,7 +211,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, visits
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-            Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+            Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
