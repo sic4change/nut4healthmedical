@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitItemCreateScreen
@@ -93,7 +94,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @ExperimentalMaterialApi
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
-onChangeWeightOrHeight: (String, String) -> Unit) {
+                      onChangeWeightOrHeight: (String, String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -167,6 +168,7 @@ onChangeWeightOrHeight: (String, String) -> Unit) {
     VisitItemCreateScreen(
         loading = viewModelState.loading,
         visitState = visitCreateState,
+        child = viewModelState.child,
         onCreateVisit = viewModel::createVisit,
         onChangeWeightOrHeight = viewModel::checkDesnutrition
     )

@@ -3,12 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
-import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import java.util.*
@@ -17,6 +12,7 @@ import java.util.*
 @Composable
 fun rememberVisitsState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     caseId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     childId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     tutorId: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -64,7 +60,7 @@ fun rememberVisitsState(
     visits: MutableState<MutableList<Visit>> = rememberSaveable {mutableStateOf(mutableListOf<Visit>())},
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ VisitState(id, caseId, childId, tutorId, height, weight, imc, armCircunference,
+) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, height, weight, imc, armCircunference,
     status, selectedEdema, expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes,
     selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
     selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
@@ -75,6 +71,7 @@ fun rememberVisitsState(
 
 class VisitState(
     val id: MutableState<String>,
+    val expandedDetail: MutableState<Boolean>,
     val caseId: MutableState<String>,
     val childId: MutableState<String>,
     val tutorId: MutableState<String>,
@@ -123,6 +120,10 @@ class VisitState(
     val visits: MutableState<MutableList<Visit>>,
     val deleteVisit: MutableState<Boolean>,
 ) {
+
+    fun expandContractDetail() {
+        expandedDetail.value = !expandedDetail.value
+    }
 
     fun showDeleteQuestion() {
         deleteVisit.value = !deleteVisit.value

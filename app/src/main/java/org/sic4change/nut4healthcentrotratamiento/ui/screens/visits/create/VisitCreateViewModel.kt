@@ -27,8 +27,11 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 loading = true,
                 case = FirebaseDataSource.getCase(caseId),
                 complications = FirebaseDataSource.getComplications(),
-                visits = FirebaseDataSource.getVisits(caseId)
+                visits = FirebaseDataSource.getVisits(caseId),
             )
+            if (_state.value.case?.childId != null) {
+                _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId))
+            }
             _state.value = _state.value.copy(
                 loading = false,
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId)?.birthdate?.time }
@@ -39,6 +42,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val case: Case? = null,
+        val child: Child? = null,
         val visits: List<Visit> = emptyList(),
         val childDateMillis: Long? = 0,
         val visit: Visit? = null,
