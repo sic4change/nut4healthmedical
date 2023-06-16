@@ -61,41 +61,6 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun CaseCreateScreen(viewModel: CaseCreateViewModel = viewModel(), onCreateCase: (String) -> Unit) {
-    val caseCreateState = rememberCasesState()
-    val viewModelState by viewModel.state.collectAsState()
-    val casePref = stringResource(R.string.caso)
-
-    LaunchedEffect(viewModelState.case) {
-        if (viewModelState.case != null) {
-            caseCreateState.id.value = viewModelState.case!!.id
-            caseCreateState.childId.value = viewModelState.case!!.childId
-            caseCreateState.name.value = viewModelState.case!!.name
-            caseCreateState.observations.value = viewModelState.case!!.observations
-        }
-    }
-
-    LaunchedEffect(viewModelState.casesNumber) {
-        caseCreateState.name.value = casePref + " " + viewModelState.casesNumber
-    }
-
-    LaunchedEffect(viewModelState.created) {
-        if (viewModelState.created) {
-            onCreateCase(caseCreateState.childId.value)
-            viewModel.resetCreateCase()
-        }
-    }
-
-    CaseItemCreateScreen(
-        loading = viewModelState.loading,
-        caseState = caseCreateState,
-        onCreateCase = viewModel::createCase
-    )
-}
-
-@ExperimentalCoilApi
-@ExperimentalMaterialApi
-@Composable
 fun CaseEditScreen(viewModel: CaseEditViewModel = viewModel(), onEditCase: (String) -> Unit) {
     val caseEditState = rememberCasesState()
     val viewModelState by viewModel.state.collectAsState()
