@@ -249,14 +249,18 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    AntropometricosView(visitState, onChangeWeightOrHeight)
-                    SymtomsView(visitState)
-                    SistemicView(visitState)
-                    NutritionalView(visitState)
-
-
-
-
+                    if (visitState.currentStep.value == 1) {
+                        AntropometricosView(visitState, onChangeWeightOrHeight)
+                    }
+                    else if (visitState.currentStep.value == 2) {
+                        SymtomsView(visitState)
+                    }
+                    else if (visitState.currentStep.value == 3) {
+                        SistemicView(visitState)
+                    }
+                    else if (visitState.currentStep.value == 4) {
+                        NutritionalView(visitState)
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
 
                     AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty())) {
@@ -267,31 +271,35 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                 .padding(16.dp, 0.dp),
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = {
-                                visitState.createdVisit.value = true
-                                if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
-                                    visitState.selectedCartilla.value = visitState.visits.value[0].vaccinationCard
-                                }
+                                if (visitState.currentStep.value == 4) {
+                                    visitState.createdVisit.value = true
+                                    if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
+                                        visitState.selectedCartilla.value = visitState.visits.value[0].vaccinationCard
+                                    }
 
-                                if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
-                                    visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
-                                }
+                                    if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
+                                        visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
+                                    }
 
-                                if (!visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
-                                    visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
-                                }
+                                    if (!visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
+                                        visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
+                                    }
 
-                                onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                                    visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                                    visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                                    visitState.selectedRespiration.value, visitState.selectedApetit.value,
-                                    visitState.selectedInfection.value, visitState.selectedEyes.value,
-                                    visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
-                                    visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
-                                    visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                    visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
-                                    visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                    visitState.amoxicilina.value, visitState.othersTratments.value,
-                                    visitState.complications.value, visitState.observations.value)
+                                    onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                                        visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
+                                        visitState.selectedRespiration.value, visitState.selectedApetit.value,
+                                        visitState.selectedInfection.value, visitState.selectedEyes.value,
+                                        visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
+                                        visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
+                                        visitState.selectedTos.value, visitState.selectedTemperature.value,
+                                        visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
+                                        visitState.selectedCartilla.value, visitState.selectedRubeola.value,
+                                        visitState.amoxicilina.value, visitState.othersTratments.value,
+                                        visitState.complications.value, visitState.observations.value)
+                                } else {
+                                    visitState.incrementStep()
+                                }
 
                             },
                         ) {
@@ -363,6 +371,8 @@ fun NutritionalView(visitState: VisitState) {
         SteptTitle(R.mipmap.ic_step_four, stringResource(R.string.step4_title))
         Spacer(modifier = Modifier.height(32.dp))
     }
+
+    Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visible = (
             visitState.weight.value.isNotEmpty()
@@ -490,7 +500,7 @@ fun SistemicView(visitState: VisitState) {
         Spacer(modifier = Modifier.height(32.dp))
     }
 
-
+    Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
@@ -509,8 +519,6 @@ fun SistemicView(visitState: VisitState) {
                     .wrapContentSize()
                     .padding(0.dp, 16.dp)
             ) {
-
-                Spacer(modifier = Modifier.height(16.dp))
 
                 Box(
                     modifier = Modifier.padding(horizontal = 16.dp)
@@ -952,6 +960,8 @@ fun SymtomsView(visitState: VisitState) {
         SteptTitle(R.mipmap.ic_step_two, stringResource(R.string.step2_title))
         Spacer(modifier = Modifier.height(32.dp))
     }
+
+    Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {

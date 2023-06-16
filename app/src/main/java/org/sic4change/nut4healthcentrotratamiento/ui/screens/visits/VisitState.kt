@@ -123,6 +123,14 @@ class VisitState(
     val currentStep: MutableState<Int>
 ) {
 
+    fun incrementStep() {
+        currentStep.value += 1
+    }
+
+    fun decrementStep() {
+        currentStep.value -= 1
+    }
+
     fun expandContractDetail() {
         expandedDetail.value = !expandedDetail.value
     }
