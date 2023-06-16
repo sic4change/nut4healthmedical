@@ -3,38 +3,18 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
-import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
-import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseItemCreateScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseDetailViewModel
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.CaseItemDetailScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.rememberCasesState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.MessageDeleteVisit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.VisitItemDetailScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.edit.VisitEditViewModel
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.edit.VisitItemEditScreen
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi

@@ -12,7 +12,6 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.create.CaseCreateViewModel
 
 class CaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
