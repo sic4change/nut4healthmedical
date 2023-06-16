@@ -344,4 +344,14 @@
     <string name="month">Mes</string>
     <string name="year">Año</string>
 
+    //Steps
+    <string name="step1">D.antropométricos</string>
+    <string name="step2">Síntomas</string>
+    <string name="step3">Tr.sistémico</string>
+    <string name="step4">Tr.nutricional</string>
+    <string name="step1_title">Datos antropométricos</string>
+    <string name="step2_title">Síntomas</string>
+    <string name="step3_title">Tratamiento sistémico</string>
+    <string name="step4_title">Tratamiento nutricional</string>
+
 </resources>

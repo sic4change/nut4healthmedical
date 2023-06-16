@@ -60,6 +60,7 @@ fun rememberVisitsState(
     visits: MutableState<MutableList<Visit>> = rememberSaveable {mutableStateOf(mutableListOf<Visit>())},
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) }
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, height, weight, imc, armCircunference,
     status, selectedEdema, expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes,
     selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
@@ -67,7 +68,7 @@ fun rememberVisitsState(
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
     vitamineAVaccinated, capsulesFerro, amoxicilina, othersTratments, selectedCartilla, expandedCartilla,
     selectedRubeola, expandedRubeola, observations, childDateMillis, treatments, complications,
-    createdDate, createdVisit, visitsSize, visits, deleteVisit ) }
+    createdDate, createdVisit, visitsSize, visits, deleteVisit, currentStep ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -119,6 +120,7 @@ class VisitState(
     val visitsSize: MutableState<Int>,
     val visits: MutableState<MutableList<Visit>>,
     val deleteVisit: MutableState<Boolean>,
+    val currentStep: MutableState<Int>
 ) {
 
     fun expandContractDetail() {

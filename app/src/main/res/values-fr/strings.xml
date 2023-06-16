@@ -350,4 +350,16 @@
     <string name="month">Mois</string>
     <string name="year">Année</string>
 
+    //Étapes
+    <string name="step1">D.anthropométriques</string>
+    <string name="step2">Symptômes</string>
+    <string name="step3">Tr.systémique</string>
+    <string name="step4">Tr.nutritionnel</string>
+    <string name="step1_title">Données anthropométriques</string>
+    <string name="step2_title">Symptômes</string>
+    <string name="step3_title">Traitement systémique</string>
+    <string name="step4_title">Traitement nutritionnel</string>
+
+
+
 </resources>
