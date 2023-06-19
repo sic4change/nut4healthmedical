@@ -635,6 +635,8 @@ fun SistemicView(visitState: VisitState) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
             Spacer(modifier = Modifier.width(16.dp))
+            Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -715,6 +717,8 @@ fun SistemicView(visitState: VisitState) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
             Spacer(modifier = Modifier.width(16.dp))
+            Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
+            Spacer(modifier = Modifier.width(16.dp))
             Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -782,6 +786,8 @@ fun SistemicView(visitState: VisitState) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
             Spacer(modifier = Modifier.width(16.dp))
+            Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+            Spacer(modifier = Modifier.width(16.dp))
             Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -842,6 +848,8 @@ fun SistemicView(visitState: VisitState) {
             && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
         Spacer(modifier = Modifier.height(16.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Icon(painterResource(R.mipmap.ic_inyection), null, tint = colorResource(R.color.disabled_color))
             Spacer(modifier = Modifier.width(16.dp))
             Text(stringResource(R.string.vaccine_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
         }
@@ -1005,14 +1013,11 @@ fun SistemicView(visitState: VisitState) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .wrapContentSize()
                             .padding(0.dp, 16.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.must_rubeola),
-                            color = colorResource(R.color.colorPrimary),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
+                        Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                        Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
                     }
                 }
             }
