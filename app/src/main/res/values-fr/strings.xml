@@ -114,6 +114,10 @@
     <string name="objetive_weight">Poids Cible</string>
     <string name="measlesVaccinated">L’enfant est-il vacciné contre la rougeole?</string>
     <string name="vitamineAVaccinated">L’enfant suit-il un programme de vaccination à la vitamine A depuis 4 mois?</string>
+    <string name="vitamine_a_title">Vitamine A</string>
+    <string name="albendazole_a_title">Albendazole / Mebendazole</string>
+    <string name="ferro_title">Fer et acide folique</string>
+    <string name="vaccine_title">Vaccins</string>
     <string name="edit_visit">Modifier visite</string>
     <string name="years">années</string>
     <string name="months">mois</string>

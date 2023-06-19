@@ -113,6 +113,10 @@
     <string name="aguda_severa">Desnutrición Aguda Severa</string>
     <string name="objetive_weight">Peso objetivo</string>
     <string name="measlesVaccinated">¿Está el niño/a vacunado de sarampión?</string>
+    <string name="vitamine_a_title">Vitamina A</string>
+    <string name="albendazole_a_title">Albendazole / Mebendazole</string>
+    <string name="ferro_title">Hierro y ácido fólico</string>
+    <string name="vaccine_title">Vacunas</string>
     <string name="vitamineAVaccinated">¿Ha estado durante los últimos 4 meses en un programa de vacunación de Vitamina A?</string>
     <string name="edit_visit">Editar Visita</string>
     <string name="years">años</string>

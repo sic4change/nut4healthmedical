@@ -632,6 +632,19 @@ fun SistemicView(visitState: VisitState) {
     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && visitState.visitsSize.value == 0) {
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+    }
+
+
+    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && visitState.visitsSize.value == 0) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -670,19 +683,16 @@ fun SistemicView(visitState: VisitState) {
                     ) {
                         Text(stringResource(
                             R.string.vitamine_dosis),
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            color = colorResource(R.color.colorPrimary)
+                            color = colorResource(R.color.black)
                         )
                         if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
                             Text(
                                 stringResource(R.string.vitamine_blue),
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
                                 color = colorResource(R.color.colorPrimary)
                             )
                         } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
                             Text(stringResource(
                                 R.string.vitamine_red),
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
                                 color = colorResource(R.color.colorPrimary)
                             )
                         }
@@ -697,6 +707,18 @@ fun SistemicView(visitState: VisitState) {
             && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
             && visitState.visitsSize.value == 1)) {
         Spacer(modifier = Modifier.height(16.dp))
+    }
+
+    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && visitState.visitsSize.value == 0) {
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
     }
 
     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
@@ -720,7 +742,7 @@ fun SistemicView(visitState: VisitState) {
                 if ((monthsBetween >= 12 && monthsBetween < 24)) {
                     Text(
                         stringResource(R.string.admin_dosis),
-                        color = colorResource(R.color.colorPrimary)
+                        color = colorResource(R.color.black)
                     )
                     Text(
                         stringResource(R.string.abendazol_400_half),
@@ -734,7 +756,7 @@ fun SistemicView(visitState: VisitState) {
                 } else if ((monthsBetween >= 24)) {
                     Text(
                         stringResource(R.string.admin_dosis),
-                        color = colorResource(R.color.colorPrimary)
+                        color = colorResource(R.color.black)
                     )
                     Text(
                         stringResource(R.string.abendazol_400_full),
@@ -757,6 +779,17 @@ fun SistemicView(visitState: VisitState) {
 
     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+    }
+
+    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+            && visitState.status.value == stringResource(R.string.aguda_moderada)) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -775,8 +808,8 @@ fun SistemicView(visitState: VisitState) {
                     .padding(0.dp, 16.dp)
             ) {
                 Text(
-                    stringResource(R.string.hierro_folico),
-                    color = colorResource(R.color.colorPrimary)
+                    stringResource(R.string.admin_dosis),
+                    color = colorResource(R.color.black)
                 )
                 if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
                     Text(
@@ -807,6 +840,11 @@ fun SistemicView(visitState: VisitState) {
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(stringResource(R.string.vaccine_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+        }
         Spacer(modifier = Modifier.height(16.dp))
     }
 
@@ -952,7 +990,8 @@ fun SistemicView(visitState: VisitState) {
                             .wrapContentSize()
                             .padding(0.dp, 16.dp)
                     ) {
-                        Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.colorPrimary))
+                        Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                        Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
                     }
 
                 }
