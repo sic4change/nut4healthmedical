@@ -113,7 +113,7 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                             .fillMaxWidth()
                             .padding(16.dp, 0.dp),
                         leadingIcon = {
-                            Icon(Icons.Filled.Numbers, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                            Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                         label = { Text(stringResource(R.string.child_brothers), color = colorResource(R.color.disabled_color)) })
 
                     Spacer(modifier = Modifier.height(16.dp))

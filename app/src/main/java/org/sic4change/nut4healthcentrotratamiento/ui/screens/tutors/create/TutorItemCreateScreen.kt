@@ -316,10 +316,9 @@ private fun Header(tutorState: TutorState,
                         focusedIndicatorColor = colorResource(R.color.colorAccent),
                         unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     leadingIcon = {
-                        Icon(Icons.Filled.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                     label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) }
                 )
                 ExposedDropdownMenu(

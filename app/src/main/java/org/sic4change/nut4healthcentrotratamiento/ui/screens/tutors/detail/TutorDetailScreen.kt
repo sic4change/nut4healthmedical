@@ -221,7 +221,7 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                             .fillMaxWidth()
                             .padding(16.dp, 0.dp),
                         leadingIcon = {
-                            Icon(Icons.Filled.EmojiPeople, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                            Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                         label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
                 }
                 AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {
