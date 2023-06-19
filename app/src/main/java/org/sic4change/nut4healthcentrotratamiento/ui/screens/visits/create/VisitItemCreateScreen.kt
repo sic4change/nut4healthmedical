@@ -1180,8 +1180,9 @@ fun SymtomsView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(Icons.Filled.Air, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(painterResource(R.mipmap.ic_respiration), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                             label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
+
                         )
                         ExposedDropdownMenu(
                             expanded = visitState.expandedRespiration.value,
@@ -1237,7 +1238,7 @@ fun SymtomsView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(Icons.Filled.BreakfastDining, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(painterResource(R.mipmap.ic_apetit), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                             label = { Text(stringResource(R.string.apetit), color = colorResource(R.color.disabled_color)) }
                         )
                         ExposedDropdownMenu(
@@ -1292,7 +1293,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.RemoveRedEye, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_infeccion), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                         label = { Text(stringResource(R.string.infection), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1400,7 +1401,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.WaterDrop, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_deshidratation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                         label = { Text(stringResource(R.string.deshidratation), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1454,7 +1455,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.PersonalInjury, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                         label = { Text(stringResource(R.string.vomits), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1508,7 +1509,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.PersonalInjury, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                         label = { Text(stringResource(R.string.diarrea), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1562,7 +1563,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.PersonalInjury, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                         label = { Text(stringResource(R.string.fiebre), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1617,7 +1618,7 @@ fun SymtomsView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(Icons.Filled.PersonalInjury, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(painterResource(R.mipmap.ic_tos), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                             label = { Text(stringResource(R.string.tos), color = colorResource(R.color.disabled_color)) }
                         )
                         ExposedDropdownMenu(
