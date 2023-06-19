@@ -279,6 +279,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                     Spacer(modifier = Modifier.height(16.dp))
 
                     AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty())) {
+                        val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
+                            visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
                             enabled = !visitState.createdVisit.value,
                             modifier = Modifier
@@ -286,20 +288,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                 .padding(16.dp, 0.dp),
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = {
-                                if (visitState.currentStep.value == 4) {
-                                    visitState.createdVisit.value = true
-                                    if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
-                                        visitState.selectedCartilla.value = visitState.visits.value[0].vaccinationCard
-                                    }
-
-                                    if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
-                                        visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
-                                    }
-
-                                    if (!visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
-                                        visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
-                                    }
-
+                                if (lastStep) {
                                     onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                                         visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
@@ -313,11 +302,40 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         visitState.amoxicilina.value, visitState.othersTratments.value,
                                         visitState.complications.value, visitState.observations.value)
                                 } else {
-                                    coroutineScope.launch {
-                                        listState.animateScrollToItem(index = 0)
+                                    if (visitState.currentStep.value == 4) {
+                                        visitState.createdVisit.value = true
+                                        if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
+                                            visitState.selectedCartilla.value = visitState.visits.value[0].vaccinationCard
+                                        }
+
+                                        if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
+                                            visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
+                                        }
+
+                                        if (!visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
+                                            visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
+                                        }
+
+                                        onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                                            visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                                            visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
+                                            visitState.selectedRespiration.value, visitState.selectedApetit.value,
+                                            visitState.selectedInfection.value, visitState.selectedEyes.value,
+                                            visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
+                                            visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
+                                            visitState.selectedTos.value, visitState.selectedTemperature.value,
+                                            visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
+                                            visitState.selectedCartilla.value, visitState.selectedRubeola.value,
+                                            visitState.amoxicilina.value, visitState.othersTratments.value,
+                                            visitState.complications.value, visitState.observations.value)
+                                    } else {
+                                        coroutineScope.launch {
+                                            listState.animateScrollToItem(index = 0)
+                                        }
+                                        visitState.incrementStep()
                                     }
-                                    visitState.incrementStep()
                                 }
+
 
                             },
                         ) {
@@ -499,7 +517,8 @@ fun NutritionalView(visitState: VisitState) {
             Text(
                 text = stringResource(R.string.plumpy_one),
                 color = colorResource(R.color.black),
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Left,
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 style = MaterialTheme.typography.h5,
                 fontWeight = FontWeight.Bold)
 
@@ -515,57 +534,66 @@ fun NutritionalView(visitState: VisitState) {
                 if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_8),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_10),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_15),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_20),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_30),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_35),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_40),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_50),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_55),
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Bold)
                 }
 
             }
