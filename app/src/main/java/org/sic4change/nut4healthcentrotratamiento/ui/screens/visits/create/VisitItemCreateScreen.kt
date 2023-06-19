@@ -1754,7 +1754,7 @@ fun AntropometricosView(visitState: VisitState,
             .fillMaxWidth()
             .padding(16.dp, 0.dp),
         leadingIcon = {
-            Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            Icon(painterResource(R.mipmap.ic_weight), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
         label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
     Spacer(modifier = Modifier.height(16.dp))
 
@@ -1918,7 +1918,7 @@ fun AntropometricosView(visitState: VisitState,
             modifier = Modifier
                 .fillMaxWidth(),
             leadingIcon = {
-                Icon(Icons.Filled.EggAlt, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
             label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
         )
         ExposedDropdownMenu(
@@ -1947,22 +1947,31 @@ fun AntropometricosView(visitState: VisitState,
 
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp, 0.dp),
+        .padding(0.dp, 0.dp),
         elevation = 0.dp,
         backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
     )
     {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             modifier = Modifier
                 .wrapContentSize()
-                .padding(16.dp)
+                .padding(0.dp, 16.dp, 16.dp, 16.dp)
         ) {
-            Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(16.dp, 0.dp)
+            ) {
+                Icon(painterResource(R.mipmap.ic_complications), null, tint = colorResource(R.color.colorPrimary))
+
+                Spacer(Modifier.width(8.dp))
+
+                Text(
+                    text = stringResource(R.string.complications),
+                    color = colorResource(R.color.disabled_color)
+                )
+            }
+
 
             visitState.complications.value.forEach { complication ->
                 ItemListComplications(

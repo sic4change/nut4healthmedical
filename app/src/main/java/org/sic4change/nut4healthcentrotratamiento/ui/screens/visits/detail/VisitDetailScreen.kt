@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -147,7 +148,7 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
-                    Icon(Icons.Filled.SpaceBar, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                    Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -237,7 +238,7 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
-                    Icon(Icons.Filled.EggAlt, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
                 label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
             )
 
