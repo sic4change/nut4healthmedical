@@ -39,6 +39,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainSt
 fun CuadrantItemsListScreen(
     loading: Boolean = false,
     items: List<Cuadrant?>,
+    onClick: (Cuadrant) -> Unit,
+    onCreateVisitClick: (String) -> Unit,
     onSearch: (String) -> Unit
 ) {
         var bottomSheetItem by remember { mutableStateOf<Cuadrant?>(null) }
@@ -68,6 +70,8 @@ fun CuadrantItemsListScreen(
             CuadrantItemsList(
                 loading = loading,
                 items = items,
+                onItemClick = onClick,
+                onCreateVisitClick = onCreateVisitClick,
                 onSearch = onSearch
             )
         }
@@ -103,6 +107,8 @@ fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
 fun CuadrantItemsList(
     loading: Boolean,
     items: List<Cuadrant?>,
+    onItemClick: (Cuadrant) -> Unit,
+    onCreateVisitClick: (String) -> Unit,
     onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -168,7 +174,10 @@ fun CuadrantItemsList(
                         items(items) {
                             CuadrantListItem(
                                 item = it,
-                                modifier = Modifier.clickable {  }
+                                modifier = Modifier.clickable {
+                                    onItemClick(it!!)
+                                },
+                                onCreateVisitClick = onCreateVisitClick
                             )
                         }
                     }

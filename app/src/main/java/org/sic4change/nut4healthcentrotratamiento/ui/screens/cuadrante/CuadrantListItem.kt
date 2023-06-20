@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 @Composable
 fun  CuadrantListItem(
     item: Cuadrant?,
+    onCreateVisitClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (item != null) {
@@ -81,7 +82,7 @@ fun  CuadrantListItem(
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(onClick = {}) {
+                            IconButton(onClick = {onCreateVisitClick(item.visitsCuadrant[0].caseId)}) {
                                 Icon(
                                     tint = colorResource(R.color.frutorial_title),
                                     imageVector = Icons.Default.Add,
