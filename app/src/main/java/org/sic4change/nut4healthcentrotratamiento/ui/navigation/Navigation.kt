@@ -109,8 +109,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
                 onItemClick = { cuadrant ->
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.VISITS)
-                            .createRoute(cuadrant.visitsCuadrant[0].caseId)
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(cuadrant.visitsCuadrant[0].caseId)
                     )
                 },
                 onCreateVisitClick = { caseId ->
