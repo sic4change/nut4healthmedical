@@ -3,9 +3,6 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -25,19 +22,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4H
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4HDisabled
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.ItemListComplications
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
@@ -47,7 +40,7 @@ import java.time.temporal.ChronoUnit
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemDetailScreen(
-    visitState: VisitState, loading: Boolean = false,
+    visitState: VisitState, loading: Boolean = false, child: Child?,
     visitItem: Visit?, onEditClick: (Visit) -> Unit,
     onDeleteClick: (String) -> Unit) {
 
@@ -71,15 +64,11 @@ fun VisitItemDetailScreen(
                 onClickEdit = onEditClick,
                 onClickDelete = onDeleteClick
             ) { padding ->
-                LazyColumn(
-                    modifier = Modifier
+                Column(modifier = Modifier
                         .fillMaxWidth()
                         .padding(padding)
                 ) {
-                    item {
-                        Header(visitState = visitState, loading = loading)
-                    }
-
+                    VisitView(visitState = visitState, loading = loading, child = child,)
                 }
             }
 
@@ -95,7 +84,12 @@ fun VisitItemDetailScreen(
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun Header(loading: Boolean, visitState: VisitState, ) {
+private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
+
+    val SEXS = listOf(
+        stringResource(R.string.female), stringResource(R.string.male)
+    )
+
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
 
@@ -103,303 +97,281 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
         YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
     )
     if (!loading) {
-        Column(
+        LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(value = visitState.height.value.toString(),
-                enabled = false,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {},
-                textStyle = MaterialTheme.typography.h5,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(value = visitState.weight.value.toString(),
-                enabled = false,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {},
-                textStyle = MaterialTheme.typography.h5,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
-            Spacer(modifier = Modifier.height(16.dp))
+            item {
+                if (child != null) {
+                    ChildSummaryItem(
+                        item = child,
+                        expanded = visitState.expandedDetail.value,
+                        onExpandDetail = { visitState.expandContractDetail() }
+                    )
+                    if (visitState.expandedDetail.value) {
+                        TextField(value = child.brothers.toString(),
+                            onValueChange = {}, readOnly = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.full_transparent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                            label = { Text(stringResource(R.string.child_brothers), color = colorResource(R.color.disabled_color)) })
 
-            AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) && (monthsBetween >= 6 && monthsBetween <= 60))) {
-                if (visitState.armCircunference.value < 11.5) {
-                    TextField(value = visitState.armCircunference.value.toString(),
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.error),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.error),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.error),
-                            unfocusedIndicatorColor = colorResource(R.color.error),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                }  else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5) {
-                    TextField(value = visitState.armCircunference.value.toString(),
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.orange),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.orange),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.orange),
-                            unfocusedIndicatorColor = colorResource(R.color.orange),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                } else {
-                    TextField(value = visitState.armCircunference.value.toString(),
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.colorAccent),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.colorAccent),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.colorAccent),
-                            unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                }
-
-            }
-
-            AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            TextField(
-                enabled = false,
-                readOnly = true,
-                value = if (visitState.selectedEdema.value != "") visitState.selectedEdema.value else stringArrayResource(R.array.edemaOptions)[0],
-                onValueChange = {
-                    visitState.selectedEdema.value = it
-                },
-                textStyle = MaterialTheme.typography.h5,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
-            )
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Card(modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-                elevation = 0.dp,
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-            )
-            {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(16.dp)
-                ) {
-                    Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp))
-
-                    visitState.complications.value.forEach { complication ->
-                        ItemListComplicationsDisabled(
-                            complication = complication,
-                            checked = complication.selected,
-                            onCheckedChange = {
-                                val complicationsToUpdate: MutableList<Complication> = mutableListOf()
-                                visitState.complications.value.forEach { item ->
-                                    if (item.id == complication.id) {
-                                        item.selected = it
-                                    }
-                                    complicationsToUpdate.add(item)
-                                }
-                                visitState.complications.value = mutableListOf()
-                                visitState.complications.value.addAll(complicationsToUpdate)
-                            }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(child.createDate),
+                            onValueChange = {}, readOnly = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.full_transparent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                            label = { Text(stringResource(R.string.creation_date), color = colorResource(R.color.disabled_color)) })
+                        Spacer(modifier = Modifier.height(16.dp))
+                        TextField(value = SimpleDateFormat("dd/MM/yyyy HH:mm").format(child.lastDate),
+                            onValueChange = {}, readOnly = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.full_transparent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Default.CalendarToday, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                            label = { Text(stringResource(R.string.last_date), color = colorResource(R.color.disabled_color)) })
+                        Spacer(modifier = Modifier.height(16.dp))
+                        TextField(value = child.ethnicity,
+                            onValueChange = {}, readOnly = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.full_transparent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                            label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) })
+                        Spacer(modifier = Modifier.height(16.dp))
+                        TextField(value = child.sex,
+                            onValueChange = {}, readOnly = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.full_transparent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                if (child.sex == SEXS[0]) Icon(Icons.Filled.Female, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})
+                                else Icon(Icons.Filled.Male, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                            label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
+                        Spacer(modifier = Modifier.height(16.dp))
+                        TextField(value = child.observations,
+                            onValueChange = {}, readOnly = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            maxLines = 5,
+                            singleLine = false,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
+                            label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) }
                         )
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
-                var statusFormated = ""
-                if (visitState.status.value == "Normopeso" || visitState.status.value == stringResource(R.string.normopeso)) {
-                    statusFormated = stringResource(R.string.normopeso)
-                } else if (visitState.status.value == "Peso Objetivo" || visitState.status.value == stringResource(R.string.objetive_weight)) {
-                    statusFormated = stringResource(R.string.objetive_weight)
-                } else if (visitState.status.value == "Aguda Moderada" || visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                    statusFormated = stringResource(R.string.aguda_moderada)
-                } else {
-                    statusFormated = stringResource(R.string.aguda_severa)
-                }
-
-                if (visitState.armCircunference.value < 11.5) {
-                    statusFormated = stringResource(R.string.aguda_severa)
-                } else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5 &&
-                    (statusFormated == stringResource(R.string.normopeso) || statusFormated == stringResource(R.string.objetive_weight))) {
-                    statusFormated = stringResource(R.string.aguda_moderada)
-                }
-
-                visitState.status.value = statusFormated
-
-                if (visitState.status.value == stringResource(R.string.normopeso)) {
-                    TextField(value = visitState.status.value,
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.colorAccent),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.colorAccent),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.colorAccent),
-                            unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-                } else if (visitState.status.value == stringResource(R.string.objetive_weight)) {
-                    TextField(value = visitState.status.value,
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.colorPrimary),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.colorPrimary),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.colorPrimary),
-                            unfocusedIndicatorColor = colorResource(R.color.colorPrimary),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-                } else if (visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                    TextField(value = visitState.status.value,
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.orange),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.orange),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.orange),
-                            unfocusedIndicatorColor = colorResource(R.color.orange),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-                } else {
-                    TextField(value = statusFormated,
-                        enabled = false,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.error),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.error),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.error),
-                            unfocusedIndicatorColor = colorResource(R.color.error),
-                        ),
-                        onValueChange = {}, readOnly = true,
-                        textStyle = MaterialTheme.typography.h5,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 0.dp),
-                        leadingIcon = {
-                            Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                        label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
-                }
-
-            }
-
-            AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+           item {
                 Spacer(modifier = Modifier.height(16.dp))
-            }
+                TextField(value = visitState.height.value.toString(),
+                    enabled = false,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                    ),
+                    onValueChange = {},
+                    textStyle = MaterialTheme.typography.h5,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary))},
+                    label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(value = visitState.weight.value.toString(),
+                    enabled = false,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                    ),
+                    onValueChange = {},
+                    textStyle = MaterialTheme.typography.h5,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary))},
+                    label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+                Spacer(modifier = Modifier.height(16.dp))
 
-            AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) && (monthsBetween >= 6 && monthsBetween <= 60))) {
+                    if (visitState.armCircunference.value < 11.5) {
+                        TextField(value = visitState.armCircunference.value.toString(),
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.error),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.error),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.error),
+                                unfocusedIndicatorColor = colorResource(R.color.error),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+                    }  else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5) {
+                        TextField(value = visitState.armCircunference.value.toString(),
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.orange),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.orange),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.orange),
+                                unfocusedIndicatorColor = colorResource(R.color.orange),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+                    } else {
+                        TextField(value = visitState.armCircunference.value.toString(),
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorAccent),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+                    }
+
+                }
+
+                AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                TextField(
+                    enabled = false,
+                    readOnly = true,
+                    value = if (visitState.selectedEdema.value != "") visitState.selectedEdema.value else stringArrayResource(R.array.edemaOptions)[0],
+                    onValueChange = {
+                        visitState.selectedEdema.value = it
+                    },
+                    textStyle = MaterialTheme.typography.h5,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    leadingIcon = {
+                        Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
+                )
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Card(modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                     elevation = 0.dp,
                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
+                )
+                {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -407,35 +379,183 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
                             .wrapContentSize()
                             .padding(16.dp)
                     ) {
-                        Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.disabled_color),
+                        Text(text = stringResource(R.string.complications), color = colorResource(R.color.disabled_color),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp, 0.dp),)
+                                .padding(16.dp, 0.dp))
 
-                        AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
-                            TextField(
-                                enabled = false,
-                                readOnly = true,
-                                value = if (visitState.selectedRespiration.value == "") stringArrayResource(R.array.respirationOptions)[0] else visitState.selectedRespiration.value,
-                                onValueChange = {},
-                                textStyle = MaterialTheme.typography.h5,
-                                colors = TextFieldDefaults.textFieldColors(
-                                    textColor = colorResource(R.color.colorPrimary),
-                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                    cursorColor = colorResource(R.color.colorAccent),
-                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                leadingIcon = {
-                                    Icon(Icons.Filled.Air, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                                label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
+                        visitState.complications.value.forEach { complication ->
+                            ItemListComplicationsDisabled(
+                                complication = complication,
+                                checked = complication.selected,
+                                onCheckedChange = {
+                                    val complicationsToUpdate: MutableList<Complication> = mutableListOf()
+                                    visitState.complications.value.forEach { item ->
+                                        if (item.id == complication.id) {
+                                            item.selected = it
+                                        }
+                                        complicationsToUpdate.add(item)
+                                    }
+                                    visitState.complications.value = mutableListOf()
+                                    visitState.complications.value.addAll(complicationsToUpdate)
+                                }
                             )
                         }
+                    }
+                }
 
-                        AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                Spacer(modifier = Modifier.height(16.dp))
+
+                AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+                    var statusFormated = ""
+                    if (visitState.status.value == "Normopeso" || visitState.status.value == stringResource(R.string.normopeso)) {
+                        statusFormated = stringResource(R.string.normopeso)
+                    } else if (visitState.status.value == "Peso Objetivo" || visitState.status.value == stringResource(R.string.objetive_weight)) {
+                        statusFormated = stringResource(R.string.objetive_weight)
+                    } else if (visitState.status.value == "Aguda Moderada" || visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                        statusFormated = stringResource(R.string.aguda_moderada)
+                    } else {
+                        statusFormated = stringResource(R.string.aguda_severa)
+                    }
+
+                    if (visitState.armCircunference.value < 11.5) {
+                        statusFormated = stringResource(R.string.aguda_severa)
+                    } else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5 &&
+                        (statusFormated == stringResource(R.string.normopeso) || statusFormated == stringResource(R.string.objetive_weight))) {
+                        statusFormated = stringResource(R.string.aguda_moderada)
+                    }
+
+                    visitState.status.value = statusFormated
+
+                    if (visitState.status.value == stringResource(R.string.normopeso)) {
+                        TextField(value = visitState.status.value,
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorAccent),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+                    } else if (visitState.status.value == stringResource(R.string.objetive_weight)) {
+                        TextField(value = visitState.status.value,
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorPrimary),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorPrimary),
+                                unfocusedIndicatorColor = colorResource(R.color.colorPrimary),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+                    } else if (visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                        TextField(value = visitState.status.value,
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.orange),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.orange),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.orange),
+                                unfocusedIndicatorColor = colorResource(R.color.orange),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+                    } else {
+                        TextField(value = statusFormated,
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.error),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.error),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.error),
+                                unfocusedIndicatorColor = colorResource(R.color.error),
+                            ),
+                            onValueChange = {}, readOnly = true,
+                            textStyle = MaterialTheme.typography.h5,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            leadingIcon = {
+                                Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary))},
+                            label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+                    }
+
+                }
+
+                AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                    Card(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                        elevation = 0.dp,
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(16.dp)
+                        ) {
+                            Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.disabled_color),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp, 0.dp),)
+
+                            AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                                TextField(
+                                    enabled = false,
+                                    readOnly = true,
+                                    value = if (visitState.selectedRespiration.value == "") stringArrayResource(R.array.respirationOptions)[0] else visitState.selectedRespiration.value,
+                                    onValueChange = {},
+                                    textStyle = MaterialTheme.typography.h5,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    leadingIcon = {
+                                        Icon(Icons.Filled.Air, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                    label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
+                                )
+                            }
+
+                            AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
                                 TextField(
                                     enabled = false,
                                     readOnly = true,
@@ -590,7 +710,7 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
                             )
 
 
-                        AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                            AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
                                 TextField(
                                     enabled = false,
                                     readOnly = true,
@@ -613,253 +733,227 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
                                 )
                             }
 
-                        TextField(
-                            enabled = false,
-                            readOnly = true,
-                            value = if (visitState.selectedTemperature.value == "") "-" else visitState.selectedTemperature.value,
-                            onValueChange = {},
-                            textStyle = MaterialTheme.typography.h5,
-                            colors = TextFieldDefaults.textFieldColors(
-                                textColor = colorResource(R.color.colorPrimary),
-                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                cursorColor = colorResource(R.color.colorAccent),
-                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            leadingIcon = {
-                                Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                            label = { Text(stringResource(R.string.temperature), color = colorResource(R.color.disabled_color)) }
-                        )
+                            TextField(
+                                enabled = false,
+                                readOnly = true,
+                                value = if (visitState.selectedTemperature.value == "") "-" else visitState.selectedTemperature.value,
+                                onValueChange = {},
+                                textStyle = MaterialTheme.typography.h5,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = colorResource(R.color.colorPrimary),
+                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    cursorColor = colorResource(R.color.colorAccent),
+                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                label = { Text(stringResource(R.string.temperature), color = colorResource(R.color.disabled_color)) }
+                            )
                         }
 
                     }
                 }
 
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
 
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                    Card(
                         modifier = Modifier
-                            .wrapContentSize()
-                            .padding(0.dp, 16.dp)
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        elevation = 0.dp,
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
                     ) {
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Box(
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                                .fillMaxSize()
-                                .align(Alignment.CenterHorizontally)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 16.dp)
                         ) {
-                            CheckNUT4HDisabled(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value)
-                        }
 
-                        AnimatedVisibility(visitState.vitamineAVaccinated.value) {
                             Spacer(modifier = Modifier.height(16.dp))
-                        }
 
-                        AnimatedVisibility(visitState.vitamineAVaccinated.value) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(0.dp, 0.dp)
+                            Box(
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                                    .fillMaxSize()
+                                    .align(Alignment.CenterHorizontally)
                             ) {
-                                Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.colorPrimary))
-                                if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
-                                    Text(stringResource(R.string.vitamine_blue), color = colorResource(R.color.colorPrimary))
-                                } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
-                                    Text(stringResource(R.string.vitamine_red), color = colorResource(R.color.colorPrimary))
+                                CheckNUT4HDisabled(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value)
+                            }
+
+                            AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+                            AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .padding(0.dp, 0.dp)
+                                ) {
+                                    Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.colorPrimary))
+                                    if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
+                                        Text(stringResource(R.string.vitamine_blue), color = colorResource(R.color.colorPrimary))
+                                    } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
+                                        Text(stringResource(R.string.vitamine_red), color = colorResource(R.color.colorPrimary))
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
-                    && visitState.visitsSize.value == 1)) {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
-                    && visitState.visitsSize.value == 1)) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(0.dp, 16.dp)
-                    ) {
-                        if ((monthsBetween >= 12 && monthsBetween < 24)) {
-                            Text(
-                                stringResource(R.string.admin_dosis),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                            Text(
-                                stringResource(R.string.abendazol_400_half),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                            Text("o", color = colorResource(R.color.colorPrimary))
-                            Text(
-                                stringResource(R.string.mebendazol_400_half),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        } else if ((monthsBetween >= 24)) {
-                            Text(
-                                stringResource(R.string.admin_dosis),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                            Text(
-                                stringResource(R.string.abendazol_400_full),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                            Text("o", color = colorResource(R.color.colorPrimary))
-                            Text(
-                                stringResource(R.string.mebendazol_400_full),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        }
-                    }
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                        && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                        && visitState.visitsSize.value == 1)) {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-            }
 
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            Alignment.CenterVertically
-                        ),
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                        && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                        && visitState.visitsSize.value == 1)) {
+                    Card(
                         modifier = Modifier
-                            .wrapContentSize()
-                            .padding(0.dp, 16.dp)
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        elevation = 0.dp,
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
                     ) {
-                        Text(
-                            stringResource(R.string.hierro_folico),
-                            color = colorResource(R.color.colorPrimary)
-                        )
-                        if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
-                            Text(
-                                stringResource(R.string.capsules_hierro_folico_one),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        } else {
-                            Text(
-                                stringResource(R.string.capsules_hierro_folico_tow),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        }
-                        Box(
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                                .fillMaxSize()
-                                .align(Alignment.CenterHorizontally)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 16.dp)
                         ) {
-                            CheckNUT4HDisabled(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value)
+                            if ((monthsBetween >= 12 && monthsBetween < 24)) {
+                                Text(
+                                    stringResource(R.string.admin_dosis),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                                Text(
+                                    stringResource(R.string.abendazol_400_half),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                                Text("o", color = colorResource(R.color.colorPrimary))
+                                Text(
+                                    stringResource(R.string.mebendazol_400_half),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else if ((monthsBetween >= 24)) {
+                                Text(
+                                    stringResource(R.string.admin_dosis),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                                Text(
+                                    stringResource(R.string.abendazol_400_full),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                                Text("o", color = colorResource(R.color.colorPrimary))
+                                Text(
+                                    stringResource(R.string.mebendazol_400_full),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            }
                         }
-
                     }
                 }
-            }
 
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
 
-
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && monthsBetween >= 9) {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    && monthsBetween >= 9) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                    Card(
                         modifier = Modifier
-                            .wrapContentSize()
-                            .padding(0.dp, 16.dp)
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        elevation = 0.dp,
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
                     ) {
-                        TextField(
-                            enabled = false,
-                            readOnly = true,
-                            value = visitState.selectedCartilla.value,
-                            onValueChange = {
-                                visitState.selectedCartilla.value = it
-                            },
-                            textStyle = MaterialTheme.typography.h5,
-                            colors = TextFieldDefaults.textFieldColors(
-                                textColor = colorResource(R.color.colorPrimary),
-                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                cursorColor = colorResource(R.color.colorAccent),
-                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterVertically
                             ),
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            leadingIcon = {
-                                Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                            label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
-                        )
-                        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                                && visitState.status.value == stringResource(R.string.aguda_moderada)
-                                && monthsBetween >= 9
-                                && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
+                                .wrapContentSize()
+                                .padding(0.dp, 16.dp)
+                        ) {
+                            Text(
+                                stringResource(R.string.hierro_folico),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                            if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
+                                Text(
+                                    stringResource(R.string.capsules_hierro_folico_one),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else {
+                                Text(
+                                    stringResource(R.string.capsules_hierro_folico_tow),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            }
+                            Box(
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                                    .fillMaxSize()
+                                    .align(Alignment.CenterHorizontally)
+                            ) {
+                                CheckNUT4HDisabled(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value)
+                            }
+
+                        }
+                    }
+                }
+
+
+
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)
+                        && monthsBetween >= 9) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_moderada)
+                        && monthsBetween >= 9) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        elevation = 0.dp,
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 16.dp)
+                        ) {
                             TextField(
                                 enabled = false,
                                 readOnly = true,
-                                value = visitState.selectedRubeola.value,
+                                value = visitState.selectedCartilla.value,
                                 onValueChange = {
-                                    visitState.selectedRubeola.value = it
+                                    visitState.selectedCartilla.value = it
                                 },
                                 textStyle = MaterialTheme.typography.h5,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -873,276 +967,304 @@ private fun Header(loading: Boolean, visitState: VisitState, ) {
                                 modifier = Modifier
                                     .fillMaxWidth(),
                                 leadingIcon = {
-                                    Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                                label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                    Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
                             )
-                            Text(text = visitState.selectedRubeola.value, color = colorResource(R.color.colorPrimary))
+                            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                    && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                    && monthsBetween >= 9
+                                    && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
+                                TextField(
+                                    enabled = false,
+                                    readOnly = true,
+                                    value = visitState.selectedRubeola.value,
+                                    onValueChange = {
+                                        visitState.selectedRubeola.value = it
+                                    },
+                                    textStyle = MaterialTheme.typography.h5,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    leadingIcon = {
+                                        Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                    label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                )
+                                Text(text = visitState.selectedRubeola.value, color = colorResource(R.color.colorPrimary))
 
-                        }
-
-                        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                                && visitState.status.value == stringResource(R.string.aguda_moderada)
-                                && monthsBetween >= 9
-                                && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(0.dp, 16.dp)
-                            ) {
-                                Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.colorPrimary))
                             }
 
-                        }
+                            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                    && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                    && monthsBetween >= 9
+                                    && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .padding(0.dp, 16.dp)
+                                ) {
+                                    Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.colorPrimary))
+                                }
 
-                        AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                                && visitState.status.value == stringResource(R.string.aguda_moderada)
-                                && monthsBetween >= 9
-                                && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
-                                && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            }
+
+                            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                    && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                    && monthsBetween >= 9
+                                    && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
+                                    && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 16.dp)
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.must_rubeola),
+                                        color = colorResource(R.color.colorPrimary),
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth())
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_severa)
+                        && visitState.visitsSize.value == 0) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                        && visitState.status.value == stringResource(R.string.aguda_severa)
+                        && visitState.visitsSize.value == 0) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        elevation = 0.dp,
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterVertically
+                            ),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 16.dp)
+                        ) {
+                            Text(
+                                stringResource(R.string.amoxicilina),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                            if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 5.0)) {
+                                Text(
+                                    stringResource(R.string.amoxicilina_125),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 10.0)) {
+                                Text(
+                                    stringResource(R.string.amoxicilina_250),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 20.0)) {
+                                Text(
+                                    stringResource(R.string.amoxicilina_500),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 20.0 && visitState.weight.value.toDouble() < 35.0)) {
+                                Text(
+                                    stringResource(R.string.amoxicilina_750),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else {
+                                Text(
+                                    stringResource(R.string.amoxicilina_1000),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            }
+                            Box(
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                                    .fillMaxSize()
+                                    .align(Alignment.CenterHorizontally)
+                            ) {
+                                CheckNUT4HDisabled(text = stringResource(id = R.string.amoxicilina_question), visitState.amoxicilina.value)
+                            }
+                            TextField(value = visitState.othersTratments.value.toString(),
+                                enabled = false,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = colorResource(R.color.colorPrimary),
+                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    cursorColor = colorResource(R.color.colorAccent),
+                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                ),
+                                onValueChange = {
+                                    visitState.othersTratments.value = it
+                                },
+                                textStyle = MaterialTheme.typography.h5,
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(0.dp, 16.dp)
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.must_rubeola),
-                                    color = colorResource(R.color.colorPrimary),
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.fillMaxWidth())
-                            }
+                                    .padding(16.dp, 0.dp),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary))},
+                                label = { Text(stringResource(R.string.another_tratements), color = colorResource(R.color.disabled_color)) })
+
                         }
                     }
                 }
 
-            }
 
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_severa)
-                    && visitState.visitsSize.value == 0) {
+
                 Spacer(modifier = Modifier.height(16.dp))
-            }
 
-            AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_severa)
-                    && visitState.visitsSize.value == 0) {
-                Card(
+                TextField(value = visitState.observations.value,
+                    enabled = false,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = colorResource(R.color.colorPrimary),
+                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        cursorColor = colorResource(R.color.colorAccent),
+                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                    ),
+                    onValueChange = {visitState.observations.value = it},
+                    textStyle = MaterialTheme.typography.h5,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
+                    leadingIcon = {
+                        Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary))},
+                    label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                AnimatedVisibility(visible = (
+                        visitState.weight.value.isNotEmpty()
+                                && visitState.height.value.isNotEmpty()
+                                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                        )) {
+
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            Alignment.CenterVertically
-                        ),
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                         modifier = Modifier
-                            .wrapContentSize()
+                            .fillMaxWidth()
                             .padding(0.dp, 16.dp)
                     ) {
                         Text(
-                            stringResource(R.string.amoxicilina),
-                            color = colorResource(R.color.colorPrimary)
-                        )
-                        if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 5.0)) {
-                            Text(
-                                stringResource(R.string.amoxicilina_125),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 10.0)) {
-                            Text(
-                                stringResource(R.string.amoxicilina_250),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 20.0)) {
-                            Text(
-                                stringResource(R.string.amoxicilina_500),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 20.0 && visitState.weight.value.toDouble() < 35.0)) {
-                            Text(
-                                stringResource(R.string.amoxicilina_750),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        } else {
-                            Text(
-                                stringResource(R.string.amoxicilina_1000),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        }
-                        Box(
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                                .fillMaxSize()
-                                .align(Alignment.CenterHorizontally)
-                        ) {
-                            CheckNUT4HDisabled(text = stringResource(id = R.string.amoxicilina_question), visitState.amoxicilina.value)
-                        }
-                        TextField(value = visitState.othersTratments.value.toString(),
-                            enabled = false,
-                            colors = TextFieldDefaults.textFieldColors(
-                                textColor = colorResource(R.color.colorPrimary),
-                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                cursorColor = colorResource(R.color.colorAccent),
-                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                            ),
-                            onValueChange = {
-                                visitState.othersTratments.value = it
-                            },
-                            textStyle = MaterialTheme.typography.h5,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp, 0.dp),
-                            leadingIcon = {
-                                Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                            label = { Text(stringResource(R.string.another_tratements), color = colorResource(R.color.disabled_color)) })
-
-                    }
-                }
-            }
-
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextField(value = visitState.observations.value,
-                enabled = false,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {visitState.observations.value = it},
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            AnimatedVisibility(visible = (
-                    visitState.weight.value.isNotEmpty()
-                            && visitState.height.value.isNotEmpty()
-                            && visitState.status.value == stringResource(R.string.aguda_moderada)
-                    )) {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 16.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.plumpy_one),
-                        color = colorResource(R.color.colorAccent),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
-                    Text(
-                        text = stringResource(R.string.plumpy_fiveteeen),
-                        color = colorResource(R.color.colorAccent),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
-                }
-
-            }
-
-            AnimatedVisibility(visible = (
-                    visitState.weight.value.isNotEmpty()
-                            && visitState.height.value.isNotEmpty()
-                            && visitState.status.value == stringResource(R.string.aguda_severa)
-                    )) {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 16.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.plumpy_one),
-                        color = colorResource(R.color.colorAccent),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth())
-
-                    if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_8),
+                            text = stringResource(R.string.plumpy_one),
                             color = colorResource(R.color.colorAccent),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
                         Text(
-                            text = stringResource(R.string.plumpy_mas_10),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_15),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_20),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_30),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_35),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_40),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_50),
-                            color = colorResource(R.color.colorAccent),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth())
-                    } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
-                        Text(
-                            text = stringResource(R.string.plumpy_mas_55),
+                            text = stringResource(R.string.plumpy_fiveteeen),
                             color = colorResource(R.color.colorAccent),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth())
                     }
+
                 }
 
+                AnimatedVisibility(visible = (
+                        visitState.weight.value.isNotEmpty()
+                                && visitState.height.value.isNotEmpty()
+                                && visitState.status.value == stringResource(R.string.aguda_severa)
+                        )) {
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 16.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.plumpy_one),
+                            color = colorResource(R.color.colorAccent),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth())
+
+                        if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_8),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_10),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_15),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_20),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_30),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_35),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_40),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_50),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
+                            Text(
+                                text = stringResource(R.string.plumpy_mas_55),
+                                color = colorResource(R.color.colorAccent),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 

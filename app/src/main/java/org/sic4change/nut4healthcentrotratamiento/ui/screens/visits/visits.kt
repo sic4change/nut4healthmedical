@@ -80,6 +80,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     VisitItemDetailScreen(
         loading = viewModelState.loading,
         visitItem = viewModelState.visit,
+        child = viewModelState.child,
         visitState = visitDetailState,
         onEditClick = onEditVisitClick,
         onDeleteClick = onDeleteVisitClick
