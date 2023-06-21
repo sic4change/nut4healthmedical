@@ -41,6 +41,9 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     LaunchedEffect(viewModelState.visits) {
         if (viewModelState.visits != null) {
             visitDetailState.visits.value = viewModelState.visits.toMutableList()
+            if (viewModelState.visit != null) {
+                visitDetailState.visitNumber.value = viewModel.getVisitNumber()
+            }
         }
     }
 
@@ -74,6 +77,9 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
             visitDetailState.observations.value = viewModelState.visit!!.observations
             visitDetailState.vitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
             visitDetailState.complications.value = viewModelState.visit!!.complications
+            if (viewModelState.visits != null && viewModelState.visits.isNotEmpty()) {
+                visitDetailState.visitNumber.value = viewModel.getVisitNumber()
+            }
         }
     }
 

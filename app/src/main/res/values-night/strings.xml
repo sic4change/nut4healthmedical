@@ -68,6 +68,7 @@
     <string name="no_visits_found">Sin visitas</string>
     <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>
+    <string name="visit">"Visita"</string>
     <string name="last_visits">Última visita:</string>
     <string name="tutors_title">Acompañantes</string>
     <string name="no_tutors">Sin perfiles acompañantes todavía</string>
@@ -96,6 +97,15 @@
     <string name="height">Altura (cm)</string>
     <string name="imc">IMC</string>
     <string name="arm_circunference">Perímetro braquial (cm)</string>
+    <string name="edema">Edema</string>
+    <string-array name="edemaOptions">
+        <item>No</item>
+        <item>Leve</item>
+        <item>Moderado</item>
+        <item>Grave</item>
+    </string-array>
+    <string name="complications">Complicaciones</string>
+    <string name="no_complications">Sin complicaciones</string>
     <string name="delete_visit_question">¿Está seguro que quiere eliminar esa visita? Se perderán los datos asociados</string>
     <string name="symtoms">Síntomas</string>
     <string name="treatments">Tratamientos</string>
@@ -105,11 +115,11 @@
     <string name="aguda_severa">Desnutrición Aguda Severa</string>
     <string name="objetive_weight">Peso objetivo</string>
     <string name="measlesVaccinated">¿Está el niño/a vacunado de sarampión?</string>
-    <string name="vitamineAVaccinated">¿Ha estado durante los últimos 4 meses en un programa de vacunación de Vitamina A?</string>
     <string name="vitamine_a_title">Vitamina A</string>
     <string name="albendazole_a_title">Albendazole / Mebendazole</string>
     <string name="ferro_title">Hierro y ácido fólico</string>
     <string name="vaccine_title">Vacunas</string>
+    <string name="vitamineAVaccinated">¿Ha estado durante los últimos 4 meses en un programa de vacunación de Vitamina A?</string>
     <string name="edit_visit">Editar Visita</string>
     <string name="years">años</string>
     <string name="months">meses</string>
@@ -164,10 +174,9 @@
     <string name="diarrea">Diarrea</string>
     <string name="fiebre">Fiebre</string>
     <string name="tos">Tos</string>
-    <string name="respiration">Respiración</string>
     <string name="temperature">Temperatura corporal(º)</string>
+    <string name="respiration">Respiración</string>
     <string name="apetit">Prueba de apetito</string>
-
 
     <string name="vitamine_dosis">La dosis que debe administrarse es de:</string>
     <string name="vitamine_blue">Cápsula azul (100.000 UI)</string>
@@ -184,6 +193,10 @@
     <string name="capsules_hierro_folico_tow">2 cápsulas cada 2 semanas</string>
     <string name="capsules_hierro_folico_checked">¿Ha tomado tratamiento con ácido fólico y hierro?</string>
 
+    <string name="cartilla">Cartilla de vacunación:</string>
+    <string name="rubeola">¿Vacunado contra la rubeola?</string>
+    <string name="must_rubeola">Debe vacunarse contra la rubeola</string>
+
     <string name="amoxicilina">Amoxicilina: La dosis a administrar es:</string>
     <string name="amoxicilina_125">125 mg * 2 veces/día durante 7 días</string>
     <string name="amoxicilina_250">250 mg * 2 veces al día durante 7 días</string>
@@ -193,10 +206,6 @@
 
     <string name="amoxicilina_question">¿Le dio amoxicilina al menor?</string>
     <string name="another_tratements">Otros tratamientos administrados</string>
-
-    <string name="cartilla">Cartilla de vacunación:</string>
-    <string name="rubeola">¿Vacunado contra la rubeola?</string>
-    <string name="must_rubeola">Debe vacunarse contra la rubeola</string>
 
     <string name="plumpy_one">El número de bolsas de plumpy\'sup que hay que tomar es:</string>
     <string name="plumpy_fiveteeen">15 sobres (1 sobre al día)</string>
@@ -322,17 +331,17 @@
         <item>44.0</item>
     </string-array>
 
-    //Respiration options
-    <string-array name="respirationOptions">
-        <item>Normal</item>
-        <item>Rápida</item>
-    </string-array>
-
     //Apetit options
     <string-array name="apetitOptions">
         <item>Bien</item>
         <item>Medio</item>
         <item>Bajo</item>
+    </string-array>
+
+    //Respiration options
+    <string-array name="respirationOptions">
+        <item>Normal</item>
+        <item>Rápida</item>
     </string-array>
 
     //Frecuency

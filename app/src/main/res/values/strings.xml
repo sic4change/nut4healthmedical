@@ -68,6 +68,7 @@
     <string name="no_visits_found">Sin visitas</string>
     <string name="visits_title">"Visitas"</string>
     <string name="visits">"Visitas: "</string>
+    <string name="visit">"Visita"</string>
     <string name="last_visits">Última visita:</string>
     <string name="tutors_title">Acompañantes</string>
     <string name="no_tutors">Sin perfiles acompañantes todavía</string>
@@ -104,6 +105,7 @@
         <item>Grave</item>
     </string-array>
     <string name="complications">Complicaciones</string>
+    <string name="no_complications">Sin complicaciones</string>
     <string name="delete_visit_question">¿Está seguro que quiere eliminar esa visita? Se perderán los datos asociados</string>
     <string name="symtoms">Síntomas</string>
     <string name="treatments">Tratamientos</string>

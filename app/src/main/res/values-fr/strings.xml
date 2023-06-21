@@ -68,6 +68,7 @@
     <string name="next_visit">Prochaine visite</string>
     <string name="visits_title">"Visites"</string>
     <string name="visits">"Visites: "</string>
+    <string name="visit">"Visite"</string>
     <string name="last_visits">Dernière visite:</string>
     <string name="tutors_title">Profil de l’accompagnant ou FEFA</string>
     <string name="no_tutors">Pas encore de profils d\'accompagnateurs</string>
@@ -104,6 +105,7 @@
         <item>Grave</item>
     </string-array>
     <string name="complications">Complications</string>
+    <string name="no_complications">Non complicaciones</string>
     <string name="delete_visit_question">Êtes-vous sûr de vouloir éliminer cette visite? Les données associées seront perdues</string>
     <string name="symtoms">Symptômes</string>
     <string name="treatments">Traitements</string>

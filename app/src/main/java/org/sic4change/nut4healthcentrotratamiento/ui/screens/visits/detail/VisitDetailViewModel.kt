@@ -49,6 +49,10 @@ class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val updateCase: Boolean = false,
     )
 
+    fun getVisitNumber(): Int {
+        return state.value.visits.reversed().indexOfFirst { _state.value.visit!!.id == it.id } + 1
+    }
+
     fun deleteVisit(id: String) {
         viewModelScope.launch {
             FirebaseDataSource.deleteVisit(id)
