@@ -318,7 +318,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
                          Spacer(modifier = Modifier.height(16.dp))
 
-                         AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) && (monthsBetween >= 6 && monthsBetween <= 60))) {
+                         AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) )) {
                              if (visitState.armCircunference.value < 11.5) {
                                  TextField(value = visitState.armCircunference.value.toString(),
                                      enabled = false,
@@ -380,7 +380,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
                              Spacer(modifier = Modifier.height(16.dp))
                          }
 
@@ -462,13 +462,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          Spacer(modifier = Modifier.height(16.dp))
 
-                         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty())) {
                              CurrenStatusView(visitState = visitState)
                          }
 
                          Spacer(modifier = Modifier.height(16.dp))
 
-                         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                  && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
                              Column{
                                  Divider(color = Color.Gray, thickness = 1.dp)
@@ -478,7 +478,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              }
                          }
 
-                         AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                  && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
                              Card(modifier = Modifier
                                  .fillMaxWidth()
@@ -721,7 +721,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              }
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)) {
                              Column{
                                  Divider(color = Color.Gray, thickness = 1.dp)
@@ -732,7 +732,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                          }
 
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && visitState.visitNumber.value == 1) {
 
@@ -747,7 +747,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                          }
 
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && visitState.visitNumber.value == 1) {
                              Card(
@@ -805,14 +805,14 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              }
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
                                  && visitState.visitNumber.value == 2)) {
                              Spacer(modifier = Modifier.height(16.dp))
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  &&  (visitState.status.value == stringResource(R.string.aguda_severa)
                                  && visitState.visitNumber.value == 2)) {
                              Column{
@@ -823,23 +823,22 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              }
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                                 && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                 && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
-                                 && visitState.visitNumber.value == 2)) {
-
-                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                 Spacer(modifier = Modifier.width(16.dp))
-                                 Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
-                                 Spacer(modifier = Modifier.width(16.dp))
-                                 Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                 && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                 && visitState.visitsSize.value == 0) {
+                             if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+                                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                     Spacer(modifier = Modifier.width(16.dp))
+                                     Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
+                                     Spacer(modifier = Modifier.width(16.dp))
+                                     Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                                     Spacer(modifier = Modifier.width(16.dp))
+                                 }
                              }
-                             Spacer(modifier = Modifier.height(16.dp))
-
                          }
 
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
                                  && visitState.visitNumber.value == 2)) {
@@ -890,12 +889,12 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              }
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)) {
                              Spacer(modifier = Modifier.height(16.dp))
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)) {
 
                              Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -908,7 +907,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)) {
                              Card(
                                  modifier = Modifier
@@ -957,13 +956,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                          }
 
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && monthsBetween >= 9) {
                              Spacer(modifier = Modifier.height(16.dp))
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && monthsBetween >= 9
                                  && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
@@ -977,7 +976,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              Spacer(modifier = Modifier.height(16.dp))
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  && monthsBetween >= 9
                                  && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
@@ -1034,7 +1033,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              }
                                          }
                                      }
-                                     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                     AnimatedVisibility(visitState.status.value.isNotEmpty()
                                              && visitState.status.value == stringResource(R.string.aguda_moderada)
                                              && monthsBetween >= 9
                                              && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
@@ -1077,7 +1076,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          }
                                      }
 
-                                     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                     AnimatedVisibility(visitState.status.value.isNotEmpty()
                                              && visitState.status.value == stringResource(R.string.aguda_moderada)
                                              && monthsBetween >= 9
                                              && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
@@ -1094,7 +1093,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                                      }
 
-                                     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                     AnimatedVisibility(visitState.status.value.isNotEmpty()
                                              && visitState.status.value == stringResource(R.string.aguda_moderada)
                                              && monthsBetween >= 9
                                              && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
@@ -1115,7 +1114,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_severa)
                                  && visitState.visitNumber.value == 1) {
                              Column {
@@ -1128,7 +1127,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visitState.status.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_severa)
                                  && visitState.visitNumber.value == 1) {
                              Card(
@@ -1238,9 +1237,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          Spacer(modifier = Modifier.height(16.dp))
 
-                         AnimatedVisibility(visible = (
-                                 visitState.weight.value.isNotEmpty()
-                                         && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                          && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  )) {
                              Column{
@@ -1253,9 +1250,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visible = (
-                                 visitState.weight.value.isNotEmpty()
-                                         && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                          && visitState.status.value == stringResource(R.string.aguda_moderada)
                                  )) {
 
@@ -1295,9 +1290,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visible = (
-                                 visitState.weight.value.isNotEmpty()
-                                         && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                          && visitState.status.value == stringResource(R.string.aguda_severa)
                                  )) {
                              Column{
@@ -1310,9 +1303,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          }
 
-                         AnimatedVisibility(visible = (
-                                 visitState.weight.value.isNotEmpty()
-                                         && visitState.height.value.isNotEmpty()
+                         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                          && visitState.status.value == stringResource(R.string.aguda_severa)
                                  )) {
 

@@ -361,7 +361,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                     navController.popBackStack()
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.VISITS).createRoute(caseId)
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
                 },
             )

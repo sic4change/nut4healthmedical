@@ -278,7 +278,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty())) {
+                    AnimatedVisibility(visible = visitState.status.value.isNotEmpty()) {
                         val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
                             visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
@@ -343,7 +343,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                         }
                     }
 
-                    AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+                    AnimatedVisibility(visible = visitState.status.value.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
@@ -449,7 +449,7 @@ fun CurrenStatusView(
 fun NutritionalView(visitState: VisitState) {
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
             || visitState.status.value == stringResource(R.string.aguda_severa))){
         Spacer(modifier = Modifier.height(16.dp))
@@ -459,9 +459,7 @@ fun NutritionalView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    AnimatedVisibility(visible = (
-            visitState.weight.value.isNotEmpty()
-                    && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_moderada)
             )) {
 
@@ -501,9 +499,7 @@ fun NutritionalView(visitState: VisitState) {
 
     }
 
-    AnimatedVisibility(visible = (
-            visitState.weight.value.isNotEmpty()
-                    && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                     && visitState.status.value == stringResource(R.string.aguda_severa)
             )) {
 
@@ -619,7 +615,7 @@ fun SistemicView(visitState: VisitState) {
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
             || visitState.status.value == stringResource(R.string.aguda_severa))){
         Spacer(modifier = Modifier.height(32.dp))
@@ -629,7 +625,7 @@ fun SistemicView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && visitState.visitsSize.value == 0) {
 
@@ -644,7 +640,7 @@ fun SistemicView(visitState: VisitState) {
     }
 
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && visitState.visitsSize.value == 0) {
         Card(
@@ -704,84 +700,88 @@ fun SistemicView(visitState: VisitState) {
         }
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
             && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
             && visitState.visitsSize.value == 1)) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && visitState.visitsSize.value == 0) {
-
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+        if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                Spacer(modifier = Modifier.width(16.dp))
+                Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
-        Spacer(modifier = Modifier.height(16.dp))
-
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
             && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
             && visitState.visitsSize.value == 1)) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            elevation = 0.dp,
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+
+        if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+            Card(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .padding(0.dp, 16.dp)
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                elevation = 0.dp,
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
             ) {
-                if ((monthsBetween >= 12 && monthsBetween < 24)) {
-                    Text(
-                        stringResource(R.string.admin_dosis),
-                        color = colorResource(R.color.black)
-                    )
-                    Text(
-                        stringResource(R.string.abendazol_400_half),
-                        color = colorResource(R.color.colorPrimary)
-                    )
-                    Text("o", color = colorResource(R.color.colorPrimary))
-                    Text(
-                        stringResource(R.string.mebendazol_400_half),
-                        color = colorResource(R.color.colorPrimary)
-                    )
-                } else if ((monthsBetween >= 24)) {
-                    Text(
-                        stringResource(R.string.admin_dosis),
-                        color = colorResource(R.color.black)
-                    )
-                    Text(
-                        stringResource(R.string.abendazol_400_full),
-                        color = colorResource(R.color.colorPrimary)
-                    )
-                    Text("o", color = colorResource(R.color.colorPrimary))
-                    Text(
-                        stringResource(R.string.mebendazol_400_full),
-                        color = colorResource(R.color.colorPrimary)
-                    )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(0.dp, 16.dp)
+                ) {
+                    if ((monthsBetween >= 12 && monthsBetween < 24)) {
+                        Text(
+                            stringResource(R.string.admin_dosis),
+                            color = colorResource(R.color.black)
+                        )
+                        Text(
+                            stringResource(R.string.abendazol_400_half),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        Text("o", color = colorResource(R.color.colorPrimary))
+                        Text(
+                            stringResource(R.string.mebendazol_400_half),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                    } else if ((monthsBetween >= 24)) {
+                        Text(
+                            stringResource(R.string.admin_dosis),
+                            color = colorResource(R.color.black)
+                        )
+                        Text(
+                            stringResource(R.string.abendazol_400_full),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                        Text("o", color = colorResource(R.color.colorPrimary))
+                        Text(
+                            stringResource(R.string.mebendazol_400_full),
+                            color = colorResource(R.color.colorPrimary)
+                        )
+                    }
                 }
             }
         }
+
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -794,7 +794,7 @@ fun SistemicView(visitState: VisitState) {
 
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)) {
         Card(
             modifier = Modifier
@@ -842,7 +842,7 @@ fun SistemicView(visitState: VisitState) {
         }
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
@@ -856,7 +856,7 @@ fun SistemicView(visitState: VisitState) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
@@ -927,7 +927,7 @@ fun SistemicView(visitState: VisitState) {
                         }
                     }
                 }
-                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
                         && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
@@ -987,7 +987,7 @@ fun SistemicView(visitState: VisitState) {
                     }
                 }
 
-                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
                         && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
@@ -1004,7 +1004,7 @@ fun SistemicView(visitState: VisitState) {
 
                 }
 
-                AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
                         && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
@@ -1025,13 +1025,13 @@ fun SistemicView(visitState: VisitState) {
 
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_severa)
             && visitState.visitsSize.value == 0) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_severa)
             && visitState.visitsSize.value == 0) {
         Card(
@@ -1127,7 +1127,7 @@ fun SistemicView(visitState: VisitState) {
 fun SymtomsView(visitState: VisitState) {
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
-    AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
             && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
         Spacer(modifier = Modifier.height(32.dp))
         SteptTitle(R.mipmap.ic_step_two, stringResource(R.string.step2_title))
@@ -1136,7 +1136,7 @@ fun SymtomsView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
             && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
         Card(modifier = Modifier
             .fillMaxWidth()
@@ -1830,12 +1830,11 @@ fun AntropometricosView(visitState: VisitState,
 
     }
 
-    AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    AnimatedVisibility(visible = (monthsBetween >= 6 && monthsBetween <= 60)) {
-        AndroidView(
+    AndroidView(
             factory = {
                 val view = LayoutInflater.from(it)
                     .inflate(R.layout.muac_view, null, false)
@@ -1886,8 +1885,7 @@ fun AntropometricosView(visitState: VisitState,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
-        )
-    }
+    )
 
     ExposedDropdownMenuBox(
         modifier = Modifier
@@ -2004,7 +2002,7 @@ fun AntropometricosView(visitState: VisitState,
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty() )) {
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty())) {
         var statusFormated = ""
         if (visitState.status.value == "Normopeso" || visitState.status.value == stringResource(R.string.normopeso)) {
             statusFormated = stringResource(R.string.normopeso)
