@@ -584,9 +584,15 @@ object FirebaseDataSource {
                         val networkCaseContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
                         networkCaseContainer.results[0].let { case ->
                             val visits = case.visits
+                            var status = case.status
+                            if (visits == 0 && (visit.status == "Poids Normal" || visit.status == "Poids Cible")) {
+                                status = "Fermé"
+                            } else if (visits == 0 && (visit.status == "Normopeso" || visit.status == "Peso objetivo")) {
+                                status = "Cerrado"
+                            }
                             caseRef.document(visit.caseId)
                                 .update(
-                                    "visits", visits + 1,
+                                    "visits", visits + 1, "status", status,
                                     "lastdate", Date()
                                 ).await()
                         }
