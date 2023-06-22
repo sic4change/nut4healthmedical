@@ -201,8 +201,26 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                         .fillMaxWidth()
                         .padding(16.dp, 0.dp),
                     leadingIcon = {
-                        if (tutorState.selectedOptionSex.value == SEXS[0]) Icon(Icons.Filled.Female, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})
-                        else Icon(Icons.Filled.Male, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                        if (tutorState.selectedOptionSex.value == SEXS[0]) {
+                            Icon(
+                                Icons.Filled.Female,
+                                null,
+                                tint = colorResource(R.color.colorPrimary),
+                                modifier = Modifier.clickable { /* .. */ })
+                        } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
+                            Icon(
+                                Icons.Filled.Male,
+                                null,
+                                tint = colorResource(R.color.colorPrimary),
+                                modifier = Modifier.clickable { /* .. */ })
+                        } else {
+                            Icon(
+                                Icons.Filled.Circle,
+                                null,
+                                tint = colorResource(R.color.colorPrimary),
+                                modifier = Modifier.clickable { /* .. */ })
+                        }
+                    },
                     label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                 Spacer(modifier = Modifier.height(16.dp))
                 AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {

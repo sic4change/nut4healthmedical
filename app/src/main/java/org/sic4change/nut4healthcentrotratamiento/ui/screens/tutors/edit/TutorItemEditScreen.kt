@@ -258,37 +258,76 @@ private fun Header(tutorState: TutorState,
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Column(
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = stringResource(R.string.sex), color = colorResource(R.color.disabled_color))
-        }
-        Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
-            .padding(16.dp, 0.dp),) {
-            if (tutorState.selectedOptionSex.value == SEXS[0]) {
-                GenderToggleButton(defaultGender = Gender.FEMALE, enabled = true, onGenderSelected = {
-                    val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
-                    tutorState.selectedOptionSex.value = selectionOption
-                    tutorState.expandedSex.value = false
-                    if (tutorState.selectedOptionSex.value == SEXS[0]) {
-                        tutorState.clearManValues()
-                    } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
-                        tutorState.clearWomanValues()
-                    }
-                })
-            } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
-                GenderToggleButton(defaultGender = Gender.MALE, enabled = true, onGenderSelected = {
-                    val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
-                    tutorState.selectedOptionSex.value = selectionOption
-                    tutorState.expandedSex.value = false
-                    if (tutorState.selectedOptionSex.value == SEXS[0]) {
-                        tutorState.clearManValues()
-                    } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
-                        tutorState.clearWomanValues()
-                    }
-                })
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            expanded = tutorState.expandedSex.value,
+            onExpandedChange = {
+                tutorState.expandedSex.value = !tutorState.expandedSex.value
             }
-
+        ) {
+            TextField(
+                readOnly = true,
+                value = tutorState.selectedOptionSex.value,
+                onValueChange = { tutorState.selectedOptionSex.value = it
+                    tutorState.sex.value = it },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = tutorState.expandedSex.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    if (tutorState.selectedOptionSex.value == SEXS[0]) {
+                        Icon(
+                            Icons.Filled.Female,
+                            null,
+                            tint = colorResource(R.color.colorPrimary),
+                            modifier = Modifier.clickable { /* .. */ })
+                    } else if (tutorState.selectedOptionSex.value == SEXS[1]) {
+                        Icon(
+                            Icons.Filled.Male,
+                            null,
+                            tint = colorResource(R.color.colorPrimary),
+                            modifier = Modifier.clickable { /* .. */ })
+                    } else {
+                        Icon(
+                            Icons.Filled.Circle,
+                            null,
+                            tint = colorResource(R.color.colorPrimary),
+                            modifier = Modifier.clickable { /* .. */ })
+                    }
+                },
+                label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = tutorState.expandedSex.value,
+                onDismissRequest = {
+                    tutorState.expandedSex.value = false
+                }
+            ) {
+                SEXS.forEach { selectionOption2 ->
+                    DropdownMenuItem(
+                        onClick = {
+                            tutorState.selectedOptionSex.value = selectionOption2
+                            tutorState.expandedSex.value = false
+                        }
+                    ) {
+                        Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
+                    }
+                }
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
 
