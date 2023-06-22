@@ -750,7 +750,7 @@ object FirebaseDataSource {
             val visits = networkVisitsContainer.results.map { it.toDomainVisit() }
 
             val casesRef = firestore.collection("cases")
-            val query = casesRef.whereIn("status", listOf("Abierta", "Ouvert"))
+            val query = casesRef.whereIn("status", listOf("Abierto", "Ouvert"))
                 .orderBy("lastdate", Query.Direction.DESCENDING)
             val result = query.get().await()
             val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
