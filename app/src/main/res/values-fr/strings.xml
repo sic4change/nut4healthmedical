@@ -99,10 +99,10 @@
     <string name="arm_circunference">Périmètre brachial (cm)</string>
     <string name="edema">Oedemes</string>
     <string-array name="edemaOptions">
-        <item>Non</item>
-        <item>Bénin</item>
-        <item>Modéré</item>
-        <item>Grave</item>
+        <item>(0) Non</item>
+        <item>(+) Bénin</item>
+        <item>(++) Modéré</item>
+        <item>(++) Grave</item>
     </string-array>
     <string name="complications">Complications</string>
     <string name="no_complications">Non complicaciones</string>
@@ -207,9 +207,10 @@
     <string name="rubeola">Vacciné contre la rubéole?</string>
     <string name="must_rubeola">Vous devez vous faire vacciner contre la rubéole</string>
 
-    <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est :</string>
+    <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est:</string>
     <string name="plumpy_fiveteeen">15 sachets (1 sachet par jour)</string>
 
+    <string name="plumpy_two">Le nombre de sachets de Plumpy\'Nut à prendre est:</string>
     <string name="plumpy_mas_8">8 sachets (1 ¼ sachet par jour)</string>
     <string name="plumpy_mas_10">10 sachets (1 ½ sachets par jour)</string>
     <string name="plumpy_mas_15">15 sachets (2 sachets par jour)</string>

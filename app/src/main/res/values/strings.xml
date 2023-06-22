@@ -99,10 +99,10 @@
     <string name="arm_circunference">Perímetro braquial (cm)</string>
     <string name="edema">Edema</string>
     <string-array name="edemaOptions">
-        <item>No</item>
-        <item>Leve</item>
-        <item>Moderado</item>
-        <item>Grave</item>
+        <item>(0) No</item>
+        <item>(+) Leve</item>
+        <item>(++) Moderado</item>
+        <item>(++) Grave</item>
     </string-array>
     <string name="complications">Complicaciones</string>
     <string name="no_complications">Sin complicaciones</string>
@@ -210,6 +210,7 @@
     <string name="plumpy_one">El número de bolsas de plumpy\'sup que hay que tomar es:</string>
     <string name="plumpy_fiveteeen">15 sobres (1 sobre al día)</string>
 
+    <string name="plumpy_two">El número de bolsas de plumpy\'nut que hay que tomar es:</string>
     <string name="plumpy_mas_8">8 sobres (1 ¼ de sobre al día)</string>
     <string name="plumpy_mas_10">10 sobres (1 ½ sobres al día)</string>
     <string name="plumpy_mas_15">15 sobres (2 sobres al día)</string>

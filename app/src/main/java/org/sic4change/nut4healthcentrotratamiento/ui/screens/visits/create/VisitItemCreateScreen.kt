@@ -511,7 +511,7 @@ fun NutritionalView(visitState: VisitState) {
                 .padding(0.dp, 16.dp)
         ) {
             Text(
-                text = stringResource(R.string.plumpy_one),
+                text = stringResource(R.string.plumpy_two),
                 color = colorResource(R.color.black),
                 textAlign = TextAlign.Left,
                 modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
