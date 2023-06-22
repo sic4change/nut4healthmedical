@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,10 +19,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,6 +36,7 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4H
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4HDisabled
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
@@ -267,6 +271,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              textAlign = TextAlign.Center
                          )
                          Spacer(modifier = Modifier.height(16.dp))
+                         SteptTitle(stringResource(R.string.step1_title))
+                         Spacer(modifier = Modifier.height(16.dp))
                          TextField(value = visitState.height.value.toString(),
                              enabled = false,
                              colors = TextFieldDefaults.textFieldColors(
@@ -460,9 +466,16 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              CurrenStatusView(visitState = visitState)
                          }
 
+                         Spacer(modifier = Modifier.height(16.dp))
+
                          AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
-                             Spacer(modifier = Modifier.height(16.dp))
+                             Column{
+                                 Divider(color = Color.Gray, thickness = 1.dp)
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 SteptTitle(stringResource(R.string.step2_title))
+                                 Spacer(modifier = Modifier.height(16.dp))
+                             }
                          }
 
                          AnimatedVisibility(visible = (visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
@@ -480,10 +493,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          .wrapContentSize()
                                          .padding(16.dp)
                                  ) {
-                                     Text(text = stringResource(R.string.symtoms), color = colorResource(R.color.disabled_color),
-                                         modifier = Modifier
-                                             .fillMaxWidth()
-                                             .padding(16.dp, 0.dp),)
+
 
                                      AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
                                          TextField(
@@ -713,11 +723,33 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                             Spacer(modifier = Modifier.height(16.dp))
+                             Column{
+                                 Divider(color = Color.Gray, thickness = 1.dp)
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 SteptTitle(stringResource(R.string.step3_title))
+                                 Spacer(modifier = Modifier.height(16.dp))
+                             }
                          }
 
+
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                                 && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                                 && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                 && visitState.visitNumber.value == 1) {
+
+                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+                                 Spacer(modifier = Modifier.width(8.dp))
+                                 Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                             }
+                             Spacer(modifier = Modifier.height(16.dp))
+
+                         }
+
+
+                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                 && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                 && visitState.visitNumber.value == 1) {
                              Card(
                                  modifier = Modifier
                                      .fillMaxWidth()
@@ -733,10 +765,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          .padding(0.dp, 16.dp)
                                  ) {
 
-                                     Spacer(modifier = Modifier.height(16.dp))
-
                                      Box(
-                                         modifier = Modifier.padding(horizontal = 16.dp)
+                                         modifier = Modifier.padding(horizontal = 0.dp)
                                              .fillMaxSize()
                                              .align(Alignment.CenterHorizontally)
                                      ) {
@@ -746,7 +776,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                      AnimatedVisibility(visitState.vitamineAVaccinated.value) {
                                          Spacer(modifier = Modifier.height(16.dp))
                                      }
-
                                      AnimatedVisibility(visitState.vitamineAVaccinated.value) {
                                          Column(
                                              horizontalAlignment = Alignment.CenterHorizontally,
@@ -755,11 +784,20 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                                  .wrapContentSize()
                                                  .padding(0.dp, 0.dp)
                                          ) {
-                                             Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.colorPrimary))
+                                             Text(stringResource(
+                                                 R.string.vitamine_dosis),
+                                                 color = colorResource(R.color.black)
+                                             )
                                              if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
-                                                 Text(stringResource(R.string.vitamine_blue), color = colorResource(R.color.colorPrimary))
+                                                 Text(
+                                                     stringResource(R.string.vitamine_blue),
+                                                     color = colorResource(R.color.colorPrimary)
+                                                 )
                                              } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
-                                                 Text(stringResource(R.string.vitamine_red), color = colorResource(R.color.colorPrimary))
+                                                 Text(stringResource(
+                                                     R.string.vitamine_red),
+                                                     color = colorResource(R.color.colorPrimary)
+                                                 )
                                              }
                                          }
                                      }
@@ -769,15 +807,42 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                 && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
-                                 && visitState.visitsSize.value == 1)) {
+                                 && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                                 && visitState.visitNumber.value == 2)) {
                              Spacer(modifier = Modifier.height(16.dp))
                          }
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                 &&  (visitState.status.value == stringResource(R.string.aguda_severa)
+                                 && visitState.visitNumber.value == 2)) {
+                             Column{
+                                 Divider(color = Color.Gray, thickness = 1.dp)
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 SteptTitle(stringResource(R.string.step3_title))
+                                 Spacer(modifier = Modifier.height(16.dp))
+                             }
+                         }
+
+                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                 && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
-                                 && visitState.visitsSize.value == 1)) {
+                                 && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                                 && visitState.visitNumber.value == 2)) {
+
+                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                             }
+                             Spacer(modifier = Modifier.height(16.dp))
+
+                         }
+
+
+                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                 && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                 && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                                 && visitState.visitNumber.value == 2)) {
                              Card(
                                  modifier = Modifier
                                      .fillMaxWidth()
@@ -795,7 +860,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                      if ((monthsBetween >= 12 && monthsBetween < 24)) {
                                          Text(
                                              stringResource(R.string.admin_dosis),
-                                             color = colorResource(R.color.colorPrimary)
+                                             color = colorResource(R.color.black)
                                          )
                                          Text(
                                              stringResource(R.string.abendazol_400_half),
@@ -809,7 +874,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                      } else if ((monthsBetween >= 24)) {
                                          Text(
                                              stringResource(R.string.admin_dosis),
-                                             color = colorResource(R.color.colorPrimary)
+                                             color = colorResource(R.color.black)
                                          )
                                          Text(
                                              stringResource(R.string.abendazol_400_full),
@@ -832,6 +897,19 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+
+                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                             }
+                             Spacer(modifier = Modifier.height(16.dp))
+
+                         }
+
+                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                 && visitState.status.value == stringResource(R.string.aguda_moderada)) {
                              Card(
                                  modifier = Modifier
                                      .fillMaxWidth()
@@ -850,8 +928,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          .padding(0.dp, 16.dp)
                                  ) {
                                      Text(
-                                         stringResource(R.string.hierro_folico),
-                                         color = colorResource(R.color.colorPrimary)
+                                         stringResource(R.string.admin_dosis),
+                                         color = colorResource(R.color.black)
                                      )
                                      if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
                                          Text(
@@ -869,13 +947,14 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              .fillMaxSize()
                                              .align(Alignment.CenterHorizontally)
                                      ) {
-                                         CheckNUT4HDisabled(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value)
+                                         CheckNUT4H(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value) {
+                                             visitState.capsulesFerro.value = it
+                                         }
                                      }
 
                                  }
                              }
                          }
-
 
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
@@ -886,7 +965,22 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_moderada)
-                                 && monthsBetween >= 9) {
+                                 && monthsBetween >= 9
+                                 && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
+                             Spacer(modifier = Modifier.height(16.dp))
+                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Icon(painterResource(R.mipmap.ic_inyection), null, tint = colorResource(R.color.disabled_color))
+                                 Spacer(modifier = Modifier.width(16.dp))
+                                 Text(stringResource(R.string.vaccine_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                             }
+                             Spacer(modifier = Modifier.height(16.dp))
+                         }
+
+                         AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                 && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                 && monthsBetween >= 9
+                                 && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
                              Card(
                                  modifier = Modifier
                                      .fillMaxWidth()
@@ -901,56 +995,86 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          .wrapContentSize()
                                          .padding(0.dp, 16.dp)
                                  ) {
-                                     TextField(
-                                         enabled = false,
-                                         readOnly = true,
-                                         value = visitState.selectedCartilla.value,
-                                         onValueChange = {
-                                             visitState.selectedCartilla.value = it
-                                         },
-                                         textStyle = MaterialTheme.typography.h5,
-                                         colors = TextFieldDefaults.textFieldColors(
-                                             textColor = colorResource(R.color.colorPrimary),
-                                             backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                             cursorColor = colorResource(R.color.colorAccent),
-                                             disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                             focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                             unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                         ),
+                                     ExposedDropdownMenuBox(
                                          modifier = Modifier
-                                             .fillMaxWidth(),
-                                         leadingIcon = {
-                                             Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                                         label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
-                                     )
-                                     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
-                                             && visitState.status.value == stringResource(R.string.aguda_moderada)
-                                             && monthsBetween >= 9
-                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
+                                             .fillMaxWidth()
+                                             .padding(16.dp, 0.dp),
+                                         expanded = visitState.expandedCartilla.value,
+                                         onExpandedChange = {}
+                                     ) {
                                          TextField(
-                                             enabled = false,
                                              readOnly = true,
-                                             value = visitState.selectedRubeola.value,
-                                             onValueChange = {
-                                                 visitState.selectedRubeola.value = it
-                                             },
+                                             value = visitState.selectedCartilla.value,
+                                             onValueChange = {},
                                              textStyle = MaterialTheme.typography.h5,
                                              colors = TextFieldDefaults.textFieldColors(
                                                  textColor = colorResource(R.color.colorPrimary),
                                                  backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                 cursorColor = colorResource(R.color.colorAccent),
+                                                 cursorColor = color,
                                                  disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                 focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                 focusedIndicatorColor = color,
                                                  unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                                              ),
                                              modifier = Modifier
                                                  .fillMaxWidth(),
                                              leadingIcon = {
-                                                 Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
-                                             label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                                 Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
                                          )
-                                         Text(text = visitState.selectedRubeola.value, color = colorResource(R.color.colorPrimary))
+                                         ExposedDropdownMenu(
+                                             expanded = visitState.expandedCartilla.value,
+                                             onDismissRequest = {}
+                                         ) {
+                                             stringArrayResource(id = R.array.yesnooptions).forEach { selected ->
+                                                 DropdownMenuItem(
+                                                     onClick = {}
+                                                 ) {
+                                                     Text(text = selected, color = colorResource(R.color.colorPrimary))
+                                                 }
+                                             }
+                                         }
+                                     }
+                                     AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
+                                             && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                             && monthsBetween >= 9
+                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
 
+                                         ExposedDropdownMenuBox(
+                                             modifier = Modifier
+                                                 .fillMaxWidth()
+                                                 .padding(16.dp, 0.dp),
+                                             expanded = visitState.expandedRubeola.value,
+                                             onExpandedChange = {}
+                                         ) {
+                                             TextField(
+                                                 readOnly = true,
+                                                 value = visitState.selectedRubeola.value,
+                                                 onValueChange = {},
+                                                 textStyle = MaterialTheme.typography.h5,
+                                                 colors = TextFieldDefaults.textFieldColors(
+                                                     textColor = colorResource(R.color.colorPrimary),
+                                                     backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                     cursorColor = color,
+                                                     disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                     focusedIndicatorColor = color,
+                                                     unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 ),
+                                                 modifier = Modifier.fillMaxWidth(),
+                                                 leadingIcon = { Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                                 label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                             )
+                                             ExposedDropdownMenu(
+                                                 expanded = visitState.expandedRubeola.value,
+                                                 onDismissRequest = {}
+                                             ) {
+                                                 stringArrayResource(id = R.array.yesnooptions).forEach { selectedEdema ->
+                                                     DropdownMenuItem(onClick = {}
+                                                     ) {
+                                                         Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                                                     }
+                                                 }
+                                             }
+                                         }
                                      }
 
                                      AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
@@ -964,7 +1088,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                                  .wrapContentSize()
                                                  .padding(0.dp, 16.dp)
                                          ) {
-                                             Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.colorPrimary))
+                                             Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                                             Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
                                          }
 
                                      }
@@ -978,14 +1103,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              horizontalAlignment = Alignment.CenterHorizontally,
                                              verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                              modifier = Modifier
-                                                 .fillMaxWidth()
+                                                 .wrapContentSize()
                                                  .padding(0.dp, 16.dp)
                                          ) {
-                                             Text(
-                                                 text = stringResource(R.string.must_rubeola),
-                                                 color = colorResource(R.color.colorPrimary),
-                                                 textAlign = TextAlign.Center,
-                                                 modifier = Modifier.fillMaxWidth())
+                                             Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                                             Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
                                          }
                                      }
                                  }
@@ -995,13 +1117,20 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_severa)
-                                 && visitState.visitsSize.value == 0) {
-                             Spacer(modifier = Modifier.height(16.dp))
+                                 && visitState.visitNumber.value == 1) {
+                             Column {
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 Divider(color = Color.Gray, thickness = 1.dp)
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 SteptTitle(stringResource(R.string.step4_title))
+                                 Spacer(modifier = Modifier.height(16.dp))
+                             }
+
                          }
 
                          AnimatedVisibility(visitState.weight.value.isNotEmpty() && visitState.height.value.isNotEmpty()
                                  && visitState.status.value == stringResource(R.string.aguda_severa)
-                                 && visitState.visitsSize.value == 0) {
+                                 && visitState.visitNumber.value == 1) {
                              Card(
                                  modifier = Modifier
                                      .fillMaxWidth()
@@ -1093,10 +1222,10 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              colors = TextFieldDefaults.textFieldColors(
                                  textColor = colorResource(R.color.colorPrimary),
                                  backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                 cursorColor = colorResource(R.color.colorAccent),
+                                 cursorColor = color,
                                  disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                 focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                 focusedIndicatorColor = color,
+                                 unfocusedIndicatorColor = color,
                              ),
                              onValueChange = {visitState.observations.value = it},
                              textStyle = MaterialTheme.typography.h5,
@@ -1107,8 +1236,22 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                  Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary))},
                              label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
 
-
                          Spacer(modifier = Modifier.height(16.dp))
+
+                         AnimatedVisibility(visible = (
+                                 visitState.weight.value.isNotEmpty()
+                                         && visitState.height.value.isNotEmpty()
+                                         && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                 )) {
+                             Column{
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 Divider(color = Color.Gray, thickness = 1.dp)
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 SteptTitle(stringResource(R.string.step4_title))
+                                 Spacer(modifier = Modifier.height(16.dp))
+                             }
+
+                         }
 
                          AnimatedVisibility(visible = (
                                  visitState.weight.value.isNotEmpty()
@@ -1125,14 +1268,44 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              ) {
                                  Text(
                                      text = stringResource(R.string.plumpy_one),
-                                     color = colorResource(R.color.colorAccent),
-                                     textAlign = TextAlign.Center,
-                                     modifier = Modifier.fillMaxWidth())
-                                 Text(
-                                     text = stringResource(R.string.plumpy_fiveteeen),
-                                     color = colorResource(R.color.colorAccent),
-                                     textAlign = TextAlign.Center,
-                                     modifier = Modifier.fillMaxWidth())
+                                     color = colorResource(R.color.black),
+                                     textAlign = TextAlign.Left,
+                                     modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                                     style = MaterialTheme.typography.h5,
+                                     fontWeight = FontWeight.Bold)
+
+                                 Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                                     horizontalArrangement = Arrangement.SpaceBetween,
+                                     verticalAlignment = Alignment.CenterVertically) {
+                                     Image(
+                                         modifier = Modifier.size(78.dp).weight(1f),
+                                         painter = painterResource(id = R.mipmap.ic_plumpy),
+                                         contentDescription = null,
+                                     )
+
+                                     Text(
+                                         text = stringResource(R.string.plumpy_fiveteeen),
+                                         color = colorResource(R.color.colorPrimary),
+                                         textAlign = TextAlign.Center,
+                                         style = MaterialTheme.typography.h5,
+                                         fontWeight = FontWeight.Bold)
+                                 }
+
+                             }
+
+                         }
+
+                         AnimatedVisibility(visible = (
+                                 visitState.weight.value.isNotEmpty()
+                                         && visitState.height.value.isNotEmpty()
+                                         && visitState.status.value == stringResource(R.string.aguda_severa)
+                                 )) {
+                             Column{
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 Divider(color = Color.Gray, thickness = 1.dp)
+                                 Spacer(modifier = Modifier.height(16.dp))
+                                 SteptTitle(stringResource(R.string.step4_title))
+                                 Spacer(modifier = Modifier.height(16.dp))
                              }
 
                          }
@@ -1152,65 +1325,89 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                              ) {
                                  Text(
                                      text = stringResource(R.string.plumpy_one),
-                                     color = colorResource(R.color.colorAccent),
-                                     textAlign = TextAlign.Center,
-                                     modifier = Modifier.fillMaxWidth())
+                                     color = colorResource(R.color.black),
+                                     textAlign = TextAlign.Left,
+                                     modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                                     style = MaterialTheme.typography.h5,
+                                     fontWeight = FontWeight.Bold)
 
-                                 if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_8),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_10),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_15),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_20),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_30),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_35),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_40),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_50),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
-                                 } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
-                                     Text(
-                                         text = stringResource(R.string.plumpy_mas_55),
-                                         color = colorResource(R.color.colorAccent),
-                                         textAlign = TextAlign.Center,
-                                         modifier = Modifier.fillMaxWidth())
+                                 Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                                     horizontalArrangement = Arrangement.SpaceBetween,
+                                     verticalAlignment = Alignment.CenterVertically) {
+                                     Image(
+                                         modifier = Modifier.size(78.dp).weight(1f),
+                                         painter = painterResource(id = R.mipmap.ic_plumpy),
+                                         contentDescription = null,
+                                     )
+
+                                     if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_8),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_10),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_15),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_20),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_30),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_35),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_40),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_50),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
+                                         Text(
+                                             text = stringResource(R.string.plumpy_mas_55),
+                                             color = colorResource(R.color.colorPrimary),
+                                             textAlign = TextAlign.Center,
+                                             style = MaterialTheme.typography.h5,
+                                             fontWeight = FontWeight.Bold)
+                                     }
+
                                  }
+
+
                              }
 
                          }
@@ -1305,6 +1502,14 @@ fun MessageDeleteVisit(showDialog: Boolean, setShowDialog: () -> Unit, visitId: 
         )
     }
 
+}
+
+@Composable
+fun SteptTitle(title: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(title, color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
+    }
 }
 
 
