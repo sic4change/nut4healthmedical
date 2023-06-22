@@ -186,8 +186,26 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                             .fillMaxWidth()
                             .padding(16.dp, 0.dp),
                         leadingIcon = {
-                            if (childState.selectedOptionSex.value == SEXS[0]) Icon(Icons.Filled.Female, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})
-                            else Icon(Icons.Filled.Male, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+                            if (childState.selectedOptionSex.value == SEXS[0]) {
+                                Icon(
+                                    Icons.Filled.Female,
+                                    null,
+                                    tint = colorResource(R.color.colorPrimary),
+                                    modifier = Modifier.clickable { /* .. */ })
+                            } else if (childState.selectedOptionSex.value == SEXS[1]) {
+                                Icon(
+                                    Icons.Filled.Male,
+                                    null,
+                                    tint = colorResource(R.color.colorPrimary),
+                                    modifier = Modifier.clickable { /* .. */ })
+                            } else {
+                                Icon(
+                                    Icons.Filled.Circle,
+                                    null,
+                                    tint = colorResource(R.color.colorPrimary),
+                                    modifier = Modifier.clickable { /* .. */ })
+                            }
+                        },
                         label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                     Spacer(modifier = Modifier.height(16.dp))
                     TextField(value = childState.observations.value,

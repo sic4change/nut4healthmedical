@@ -258,21 +258,76 @@ private fun Header(childState: ChildState,
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Column(
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            expanded = childState.expandedSex.value,
+            onExpandedChange = {
+                childState.expandedSex.value = !childState.expandedSex.value
+            }
         ) {
-            Text(text = stringResource(R.string.sex), color = colorResource(R.color.disabled_color))
-        }
-        Box(modifier = Modifier.fillMaxSize() .fillMaxWidth()
-            .padding(16.dp, 0.dp),) {
-            GenderToggleButton(
-                defaultGender = if (childState.selectedOptionSex.value == SEXS[1]) Gender.MALE else Gender.FEMALE,
-                enabled = true,
-                onGenderSelected = {
-                    val selectionOption = if (it == Gender.FEMALE) SEXS[0] else SEXS[1]
-                    childState.selectedOptionSex.value = selectionOption
+            TextField(
+                readOnly = true,
+                value = childState.selectedOptionSex.value,
+                onValueChange = { childState.selectedOptionSex.value = it
+                    childState.sex.value = it },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = childState.expandedSex.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    if (childState.selectedOptionSex.value == SEXS[0]) {
+                        Icon(
+                            Icons.Filled.Female,
+                            null,
+                            tint = colorResource(R.color.colorPrimary),
+                            modifier = Modifier.clickable { /* .. */ })
+                    } else if (childState.selectedOptionSex.value == SEXS[1]) {
+                        Icon(
+                            Icons.Filled.Male,
+                            null,
+                            tint = colorResource(R.color.colorPrimary),
+                            modifier = Modifier.clickable { /* .. */ })
+                    } else {
+                        Icon(
+                            Icons.Filled.Circle,
+                            null,
+                            tint = colorResource(R.color.colorPrimary),
+                            modifier = Modifier.clickable { /* .. */ })
+                    }
+                },
+                label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = childState.expandedSex.value,
+                onDismissRequest = {
                     childState.expandedSex.value = false
-                })
+                }
+            ) {
+                SEXS.forEach { selectionOption2 ->
+                    DropdownMenuItem(
+                        onClick = {
+                            childState.selectedOptionSex.value = selectionOption2
+                            childState.expandedSex.value = false
+                        }
+                    ) {
+                        Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
+                    }
+                }
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         TextField(value = childState.observations.value,
