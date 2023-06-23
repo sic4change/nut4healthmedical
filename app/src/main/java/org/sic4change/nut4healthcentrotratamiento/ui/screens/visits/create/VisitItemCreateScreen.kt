@@ -1943,22 +1943,12 @@ fun AntropometricosView(visitState: VisitState,
                             rulerBackground.setBackgroundResource(R.color.colorAccent)
                         }
                         tvCm.setTextColor(R.color.error)
-                        visitState.status.value = "Aguda Severa"
                     } else if (value in 11.5..12.5) {
                         rulerBackground.setBackgroundResource(R.color.orange)
                         tvCm.setTextColor(R.color.orange)
-                        if (visitState.imc.value.equals(-1.5) || visitState.imc.value.equals(80.0) || visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)
-                            || visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                            visitState.status.value = "Aguda Moderada"
-                        }
                     } else {
                         rulerBackground.setBackgroundResource(R.color.colorAccent)
                         tvCm.setTextColor(R.color.colorAccent)
-                        if (visitState.imc.value.equals(0.0) || visitState.imc.value.equals(100.0)) {
-                            visitState.status.value = "Normopeso"
-                        } else if (visitState.imc.value.equals(-1.0) || visitState.imc.value.equals(85.0)) {
-                            visitState.status.value = "Peso Objetivo"
-                        }
                     }
                 }
             },

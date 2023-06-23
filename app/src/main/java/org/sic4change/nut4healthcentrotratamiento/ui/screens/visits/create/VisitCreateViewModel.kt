@@ -75,7 +75,6 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     }
 
     fun checkDesnutrition(height: String, weight: String, muac: Double, edema: String, complications: List<Complication>) {
-        println("Aqui muac ${muac}")
         viewModelScope.launch {
             if (height.isNotEmpty() && weight.isNotEmpty() && height.toDouble() > 0 && weight.toDouble() > 0) {
                 try {
@@ -86,7 +85,16 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "(0) No" && edema != "(0) Non")) {
                         _state.value = _state.value.copy(imc = -3.0)
                     }
-                    println("Aqui imc ${_state.value.imc}")
+                    if (muac.toFloat() < 11.5 && _state.value.imc != -3.0) {
+                        _state.value = _state.value.copy(imc = -3.0)
+                    } else if (muac.toFloat() in 11.5..12.5 && (_state.value.imc!!.toFloat() > -3.0)) {
+                        _state.value = _state.value.copy(imc = -1.5)
+                    } else {
+                        if ((_state.value.imc!!.toFloat() > -1.5)) {
+                            _state.value = _state.value.copy(imc = 0.0)
+                        }
+
+                    }
                 } catch (error: Error) {
                     println("error: ${error}")
                 }
@@ -98,16 +106,12 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                         childDateMillis = state.value.childDateMillis
                     )
                 } else {
-                    println("Aqui muac ${muac}")
                     if (muac.toFloat() < 11.5) {
-                        println("Aqui muac mal")
                         _state.value = _state.value.copy(imc = -3.0)
                     } else if (muac.toFloat() in 11.5..12.5) {
-                        println("Aqui muac regular")
                         _state.value = _state.value.copy(imc = -1.5)
                     } else {
-                        println("Aqui muac bien")
-                        _state.value = _state.value.copy(imc = 100.0)
+                        _state.value = _state.value.copy(imc = 0.0)
                     }
                 }
             }
