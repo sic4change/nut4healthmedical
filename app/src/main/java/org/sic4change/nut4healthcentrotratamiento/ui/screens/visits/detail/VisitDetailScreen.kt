@@ -273,6 +273,28 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                          Spacer(modifier = Modifier.height(16.dp))
                          SteptTitle(stringResource(R.string.step1_title))
                          Spacer(modifier = Modifier.height(16.dp))
+                         TextField(value = visitState.admissionType.value,
+                             enabled = false,
+                             colors = TextFieldDefaults.textFieldColors(
+                                 textColor = colorResource(R.color.colorPrimary),
+                                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                 cursorColor = color,
+                                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                 focusedIndicatorColor = color,
+                                 unfocusedIndicatorColor = color,
+                             ),
+                             onValueChange = {},
+                             textStyle = MaterialTheme.typography.h5,
+                             keyboardOptions = KeyboardOptions(
+                                 keyboardType = KeyboardType.Text
+                             ),
+                             modifier = Modifier
+                                 .fillMaxWidth()
+                                 .padding(16.dp, 0.dp),
+                             leadingIcon = {
+                                 Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary))},
+                             label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) })
+                         Spacer(modifier = Modifier.height(16.dp))
                          TextField(value = visitState.height.value.toString(),
                              enabled = false,
                              colors = TextFieldDefaults.textFieldColors(
