@@ -368,4 +368,12 @@
     <string name="step3_title">Tratamiento sistémico</string>
     <string name="step4_title">Tratamiento nutricional</string>
 
+    <string name="admissionType">Tipo de admisión</string>
+    <string-array name="addmisionTypeOptions">
+        <item>Nueva admisión</item>
+        <item>Derivado</item>
+        <item>Transferido</item>
+        <item>Recaída</item>
+    </string-array>
+
 </resources>

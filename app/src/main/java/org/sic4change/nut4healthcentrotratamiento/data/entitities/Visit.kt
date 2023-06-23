@@ -8,6 +8,7 @@ data class Visit(
     val childId: String,
     val tutorId: String,
     val createdate: Date,
+    val admissionType: String,
     val height: Double,
     var weight: Double,
     var imc: Double,

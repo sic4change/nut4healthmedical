@@ -566,8 +566,8 @@ object FirebaseDataSource {
                     networkCasesContainer.results[0].let { case ->
                         val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit(
                             "", case.id, case.childId, case.tutorId, visit.createdate,
-                            visit.height, visit.weight, visit.imc, visit.armCircunference, visit.status,
-                            visit.edema, visit.respiratonStatus, visit.appetiteTest, visit.infection,
+                            visit.admissionType, visit.height, visit.weight, visit.imc, visit.armCircunference,
+                            visit.status, visit.edema, visit.respiratonStatus, visit.appetiteTest, visit.infection,
                             visit.eyesDeficiency, visit.deshidratation, visit.vomiting, visit.diarrhea,
                             visit.fever, visit.cough, visit.temperature, visit.vitamineAVaccinated,
                             visit.acidfolicAndFerroVaccinated, visit.vaccinationCard, visit.rubeolaVaccinated,

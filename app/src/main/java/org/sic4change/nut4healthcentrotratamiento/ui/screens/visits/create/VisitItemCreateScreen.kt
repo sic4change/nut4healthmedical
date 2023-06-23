@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
 import kotlinx.coroutines.launch
@@ -55,11 +56,11 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false, child: Child?,
-                          onCreateVisit: (Double, Double, Double, String, String, String, String,
+                          onCreateVisit: (String, Double, Double, Double, String, String, String, String,
                                           String, String, String, String, String, String, String,
                                           String, Boolean, Boolean, String, String, Boolean, String,
                                           complications: List<Complication>, String) -> Unit,
-                          onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
+                          onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -92,11 +93,11 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false, chil
 @Composable
 private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                       onCreateVisit: (
-                       Double, Double, Double, String, String, String, String,
+                       String, Double, Double, Double, String, String, String, String,
                        String, String, String, String, String, String, String,
                        String, Boolean, Boolean, String, String, Boolean, String,
                        complications: List<Complication>, String) -> Unit,
-                      onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
+                      onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -257,6 +258,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                     }
                 }
                 item {
+                    setDefaultValues(visitState)
                     Text(stringResource(R.string.create_visit),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
@@ -289,7 +291,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = {
                                 if (lastStep) {
-                                    onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                                    onCreateVisit(
+                                        visitState.admissionType.value,
+                                        visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                                         visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                                         visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
                                         visitState.selectedRespiration.value, visitState.selectedApetit.value,
@@ -316,7 +320,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                             visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
                                         }
 
-                                        onCreateVisit(visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                                        onCreateVisit(
+                                            visitState.admissionType.value,
+                                            visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
                                             visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
                                             visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
                                             visitState.selectedRespiration.value, visitState.selectedApetit.value,
@@ -1705,13 +1711,76 @@ fun SymtomsView(visitState: VisitState) {
     }
 }
 
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun setDefaultValues(visitState: VisitState) {
+    visitState.admissionType.value = stringArrayResource(id = R.array.addmisionTypeOptions)[0]
+    visitState.selectedEdema.value = stringArrayResource(id = R.array.edemaOptions)[0]
+}
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AntropometricosView(visitState: VisitState,
-                        onChangeWeightOrHeight: (String, String, String, List<Complication>) -> Unit) {
+                        onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
+    Spacer(modifier = Modifier.height(16.dp))
+    ExposedDropdownMenuBox(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp),
+        expanded = visitState.expandedAddmisionType.value,
+        onExpandedChange = {
+            visitState.expandedAddmisionType.value = !visitState.expandedAddmisionType.value
+        }
+    ) {
+        TextField(
+            readOnly = true,
+            value = visitState.admissionType.value,
+            onValueChange = {
+                visitState.admissionType.value = it
+            },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = visitState.expandedAddmisionType.value
+                )
+            },
+            textStyle = MaterialTheme.typography.h5,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+            ),
+            modifier = Modifier
+                .fillMaxWidth(),
+            leadingIcon = {
+                Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+            label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) }
+        )
+        ExposedDropdownMenu(
+            expanded = visitState.expandedAddmisionType.value,
+            onDismissRequest = {
+                visitState.expandedAddmisionType.value = false
+            }
+        ) {
+            stringArrayResource(id = R.array.addmisionTypeOptions).forEach { selectedEdema ->
+                DropdownMenuItem(
+                    onClick = {
+                        visitState.admissionType.value = selectedEdema
+                        visitState.expandedAddmisionType.value = false
+                    }
+                ) {
+                    Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                }
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(16.dp))
     SteptTitle(R.mipmap.ic_step_one, stringResource(R.string.step1_title))
     Spacer(modifier = Modifier.height(16.dp))
-    TextField(value = visitState.height.value.toString(),
+    TextField(value = visitState.height.value,
         colors = TextFieldDefaults.textFieldColors(
             textColor = colorResource(R.color.colorPrimary),
             backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -1722,8 +1791,11 @@ fun AntropometricosView(visitState: VisitState,
         ),
         onValueChange = {
             visitState.formatHeightValue(it)
-            onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+            onChangeWeightOrHeight(
+                visitState.height.value.filter { !it.isWhitespace() },
+                visitState.weight.value.filter { !it.isWhitespace() },
+                visitState.armCircunference.value,
+                visitState.selectedEdema.value,
                 visitState.complications.value)
         },
         textStyle = MaterialTheme.typography.h5,
@@ -1737,7 +1809,7 @@ fun AntropometricosView(visitState: VisitState,
             Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
         label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
     Spacer(modifier = Modifier.height(16.dp))
-    TextField(value = visitState.weight.value.toString(),
+    TextField(value = visitState.weight.value,
         colors = TextFieldDefaults.textFieldColors(
             textColor = colorResource(R.color.colorPrimary),
             backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
@@ -1748,9 +1820,12 @@ fun AntropometricosView(visitState: VisitState,
         ),
         onValueChange = {
             visitState.formatWeightValue(it)
-            onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
+            onChangeWeightOrHeight(
+                visitState.height.value.filter { !it.isWhitespace() },
                 visitState.weight.value.filter { !it.isWhitespace() },
-                visitState.selectedEdema.value, visitState.complications.value)
+                visitState.armCircunference.value,
+                visitState.selectedEdema.value, visitState.complications.value
+            )
         },
         textStyle = MaterialTheme.typography.h5,
         keyboardOptions = KeyboardOptions(
@@ -1771,7 +1846,7 @@ fun AntropometricosView(visitState: VisitState,
         YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
     )
 
-    AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) && (monthsBetween >= 6 && monthsBetween <= 60))) {
+    AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0))) {
         if (visitState.armCircunference.value < 11.5) {
             TextField(value = visitState.armCircunference.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
@@ -1848,9 +1923,14 @@ fun AntropometricosView(visitState: VisitState,
                 ruler.setOnValueChangeListener { view, position, value ->
                     tvCm.text = df.format(value).toString() + " cm"
                     visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
-
+                    onChangeWeightOrHeight(
+                        visitState.height.value.filter { !it.isWhitespace() },
+                        visitState.weight.value.filter { !it.isWhitespace() },
+                        visitState.armCircunference.value,
+                        visitState.selectedEdema.value, visitState.complications.value
+                    )
                     if (value < 11.5
-                        || (visitState.selectedEdema.value.isNotEmpty() && visitState.selectedEdema.value != "No")
+                        || (visitState.selectedEdema.value.isNotEmpty() && (visitState.selectedEdema.value != "(0) No" || visitState.selectedEdema.value != "(0) Non"))
                         || (visitState.complications.value.any{it.selected})
                     ) {
                         if (value < 11.5) {
@@ -1901,8 +1981,11 @@ fun AntropometricosView(visitState: VisitState,
             value = visitState.selectedEdema.value,
             onValueChange = {
                 visitState.selectedEdema.value = it
-                onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                    visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                onChangeWeightOrHeight(
+                    visitState.height.value.filter { !it.isWhitespace() },
+                    visitState.weight.value.filter { !it.isWhitespace() },
+                    visitState.armCircunference.value,
+                    visitState.selectedEdema.value,
                     visitState.complications.value)
             },
             trailingIcon = {
@@ -1936,8 +2019,11 @@ fun AntropometricosView(visitState: VisitState,
                     onClick = {
                         visitState.selectedEdema.value = selectedEdema
                         visitState.expandedEdema.value = false
-                        onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                            visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                        onChangeWeightOrHeight(
+                            visitState.height.value.filter { !it.isWhitespace() },
+                            visitState.weight.value.filter { !it.isWhitespace() },
+                            visitState.armCircunference.value,
+                            visitState.selectedEdema.value,
                             visitState.complications.value)
                     }
                 ) {
@@ -1991,8 +2077,11 @@ fun AntropometricosView(visitState: VisitState,
                         }
                         visitState.complications.value = mutableListOf()
                         visitState.complications.value.addAll(complicationsToUpdate)
-                        onChangeWeightOrHeight(visitState.height.value.filter { !it.isWhitespace() },
-                            visitState.weight.value.filter { !it.isWhitespace() }, visitState.selectedEdema.value,
+                        onChangeWeightOrHeight(
+                            visitState.height.value.filter { !it.isWhitespace() },
+                            visitState.weight.value.filter { !it.isWhitespace() },
+                            visitState.armCircunference.value,
+                            visitState.selectedEdema.value,
                             visitState.complications.value)
                     }
                 )

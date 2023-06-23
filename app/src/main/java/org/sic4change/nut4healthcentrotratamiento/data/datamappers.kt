@@ -105,7 +105,7 @@ fun Complication.toServerComplication() : ServerComplication = ServerComplicatio
 
 
 fun ServerVisit.toDomainVisit() : Visit {
-    return Visit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference,
+    return Visit(id, caseId, childId, tutorId, createdate, admission, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated, amoxicilina, otherTratments,
@@ -113,7 +113,7 @@ fun ServerVisit.toDomainVisit() : Visit {
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    return ServerVisit(id, caseId, childId, tutorId, createdate, height, weight, imc, armCircunference,
+    return ServerVisit(id, caseId, childId, tutorId, createdate, admissionType, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated,  amoxicilina, otherTratments,

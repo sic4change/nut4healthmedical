@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitsViewModel
@@ -53,15 +54,16 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val created: Boolean = false,
     )
 
-    fun createVisit(height: Double, weight: Double, arm_circunference: Double, status: String, edema: String,
-                    respiratonStatus: String, appetiteTest: String, infection: String, eyesDeficiency: String,
-                    deshidratation: String, vomiting: String, diarrhea: String, fever: String, cough: String,
-                    temperature: String, vitamineAVaccinated: Boolean, acidfolicAndFerroVaccinated: Boolean,
+    fun createVisit(admissionType: String, height: Double, weight: Double, arm_circunference: Double,
+                    status: String, edema: String, respiratonStatus: String, appetiteTest: String,
+                    infection: String, eyesDeficiency: String, deshidratation: String, vomiting: String,
+                    diarrhea: String, fever: String, cough: String, temperature: String,
+                    vitamineAVaccinated: Boolean, acidfolicAndFerroVaccinated: Boolean,
                     vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: Boolean, otherTratments: String,
                     complications: List<Complication>, observations: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
-            val visit = Visit("", caseId, caseId, caseId, Date(), height, weight, 0.0,
+            val visit = Visit("", caseId, caseId, caseId, Date(), admissionType, height, weight, 0.0,
                 arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
@@ -72,19 +74,41 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
-    fun checkDesnutrition(height: String, weight: String, edema: String, complications: List<Complication>) {
+    fun checkDesnutrition(height: String, weight: String, muac: Double, edema: String, complications: List<Complication>) {
+        println("Aqui muac ${muac}")
         viewModelScope.launch {
-            if (height.isNotEmpty() && weight.isNotEmpty()) {
+            if (height.isNotEmpty() && weight.isNotEmpty() && height.toDouble() > 0 && weight.toDouble() > 0) {
                 try {
                     _state.value = _state.value.copy(
                         complications = _state.value.complications,
                         imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()),
                         childDateMillis = state.value.childDateMillis)
-                    if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "No" && edema != "Non")) {
+                    if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "(0) No" && edema != "(0) Non")) {
                         _state.value = _state.value.copy(imc = -3.0)
                     }
+                    println("Aqui imc ${_state.value.imc}")
                 } catch (error: Error) {
                     println("error: ${error}")
+                }
+            } else {
+                if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && (edema != "(0) No" && edema != "(0) Non"))) {
+                    _state.value = _state.value.copy(
+                        complications = _state.value.complications,
+                        imc = -3.0,
+                        childDateMillis = state.value.childDateMillis
+                    )
+                } else {
+                    println("Aqui muac ${muac}")
+                    if (muac.toFloat() < 11.5) {
+                        println("Aqui muac mal")
+                        _state.value = _state.value.copy(imc = -3.0)
+                    } else if (muac.toFloat() in 11.5..12.5) {
+                        println("Aqui muac regular")
+                        _state.value = _state.value.copy(imc = -1.5)
+                    } else {
+                        println("Aqui muac bien")
+                        _state.value = _state.value.copy(imc = 100.0)
+                    }
                 }
             }
         }

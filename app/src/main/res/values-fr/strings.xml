@@ -22,7 +22,7 @@
     <string name="no_error" />
     <string name="accept">Accepter</string>
     <string name="close">Fermé</string>
-    <string name="logout">Se déconecter</string>
+    <string name="logout">Se déconnecter</string>
     <string name="logout_question">Êtes-vous sûr de vouloir vous déconnecter?</string>
     <string name="credential_error">Accès non autorisé</string>
     <string name="cancel">Annuler</string>
@@ -34,8 +34,8 @@
     <string name="female">Femme</string>
     <string name="male">Homme</string>
     <string name="pregnant">Enceinte</string>
-    <string name="infant">Allaitant</string>
-    <string name="pregnant_and_infant">Enceinte et allaitant</string>
+    <string name="infant">Allaitante</string>
+    <string name="pregnant_and_infant">Enceinte et allaitante</string>
     <string name="nothing">Aucun</string>
     <string name="baby_age">Âge du bébé (mois)</string>
     <string name="no_pregnant">Pas enceinte</string>
@@ -45,7 +45,7 @@
     <string name="sex">Sexe</string>
     <string name="phone">Téléphone</string>
     <string name="address">Quartier</string>
-    <string name="surnames">prénom</string>
+    <string name="surnames">Prénom</string>
     <string name="name">Nom</string>
     <string name="creation_date">Date d’inscription</string>
     <string name="last_date">Dernière visite</string>
@@ -59,7 +59,7 @@
     <string name="save">Sauvegarder</string>
     <string name="delete_tutor_question">Êtes-vous sûr de vouloir supprimer ce profil de l’accompagnant ou FEFA? Toutes les informations associées seront perdues</string>
     <string name="editar_tutor">Modifier le profil de l’accompagnant ou FEFA</string>
-    <string name="create_child">Créer profil d’enfant</string>
+    <string name="create_child">Créer un profil d’enfant</string>
     <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
     <string name="edit_child">Modifier profil d’enfant</string>
     <string name="tutors">Profil de l’accompagnant ou FEFA</string>
@@ -72,27 +72,27 @@
     <string name="last_visits">Dernière visite:</string>
     <string name="tutors_title">Profil de l’accompagnant ou FEFA</string>
     <string name="no_tutors">Pas encore de profils d\'accompagnateurs</string>
-    <string name="no_childs">Aucun profile d’enfant encore</string>
+    <string name="no_childs">Aucun profil d’enfant encore</string>
     <string name="childs">Enfants</string>
     <string name="childs_title">Enfants</string>
     <string name="casos">Cas</string>
     <string name="no_cases">Aucun cas encore</string>
-    <string name="create_case">Créer cas</string>
+    <string name="create_case">Créer un cas</string>
     <string name="delete_case_question">Êtes-vous sûr de vouloir éliminer ce cas? Les données associées seront perdues</string>
     <string name="status">État</string>
     <string name="open">Ouvert</string>
     <string name="rosa_desierto">Rosa del Desierto</string>
-    <string name="welcome">Bienvenue a le poste de santé de Rosa del Desierto</string>
+    <string name="welcome">Bienvenue au poste de santé de Rosa del Desierto</string>
     <string name="pulaar">Pulaar</string>
     <string name="wolof">Wolof</string>
     <string name="beydan">Beydan</string>
     <string name="haratin">Haratin</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
-    <string name="check_tutor">Entrez le numéro de téléphone de l’accompagnant ou FEFA pour valider s’il existe</string>
+    <string name="check_tutor">Entrez le numéro de téléphone de l’accompagnant ou FEFA pour valider qu’il existe</string>
     <string name="edit_case">Modifier le cas</string>
     <string name="visitas">Visites</string>
-    <string name="no_visits">Aucun visite encore</string>
+    <string name="no_visits">Aucune visite encore</string>
     <string name="weight">Poids (Kg)</string>
     <string name="height">Taille (cm)</string>
     <string name="imc">IMC</string>
@@ -105,22 +105,22 @@
         <item>(++) Grave</item>
     </string-array>
     <string name="complications">Complications</string>
-    <string name="no_complications">Non complicaciones</string>
+    <string name="no_complications">Pas de complications</string>
     <string name="delete_visit_question">Êtes-vous sûr de vouloir éliminer cette visite? Les données associées seront perdues</string>
     <string name="symtoms">Symptômes</string>
     <string name="treatments">Traitements</string>
-    <string name="create_visit">Creer visite</string>
+    <string name="create_visit">Créer une visite</string>
     <string name="normopeso">Poids Normal</string>
     <string name="aguda_moderada">Malnutrition Aiguë modérée</string>
-    <string name="aguda_severa">Malnutrition Aiguë Severe</string>
+    <string name="aguda_severa">Malnutrition Aiguë Sévère</string>
     <string name="objetive_weight">Poids Cible</string>
     <string name="measlesVaccinated">L’enfant est-il vacciné contre la rougeole?</string>
-    <string name="vitamineAVaccinated">L’enfant suit-il un programme de vaccination à la vitamine A depuis 4 mois?</string>
+    <string name="vitamineAVaccinated">L’enfant suit-il un programme de vaccination de Vitamine A depuis 4 mois?</string>
     <string name="vitamine_a_title">Vitamine A</string>
     <string name="albendazole_a_title">Albendazole / Mebendazole</string>
     <string name="ferro_title">Fer et acide folique</string>
     <string name="vaccine_title">Vaccins</string>
-    <string name="edit_visit">Modifier visite</string>
+    <string name="edit_visit">Modifier la visite</string>
     <string name="years">années</string>
     <string name="months">mois</string>
     <string name="searchByNameAndSurnames">Recherche par nom ou prénom</string>
@@ -128,7 +128,7 @@
     <string name="caso">Cas</string>
     <string name="child_minor_six_month">Enfant de moins de 6 mois</string>
     <string name="child_minor">Oui</string>
-    <string name="no_child_minor">Ne pas</string>
+    <string name="no_child_minor">Non</string>
     <string name="child_brothers">Frères et sœurs aînés de l\'enfant</string>
 
     //Adults
@@ -151,7 +151,7 @@
     <string name="woman">Femme</string>
     <string name="man">Homme</string>
 
-    <string name="new_tutor">Créer un accompagnateur</string>
+    <string name="new_tutor">Créer un accompagnant</string>
 
     <string name="january">Janvier</string>
     <string name="february">Février</string>
@@ -168,17 +168,17 @@
 
     //Symthoms
     <string name="infection">Infection (peau, yeux, oreilles)</string>
-    <string name="eyes">Yeux avec déficience en vitamine A</string>
+    <string name="eyes">Yeux avec déficience en Vitamine A</string>
     <string name="deshidratation">Déshydratation</string>
     <string name="vomits">Vomissements</string>
     <string name="diarrea">Diarrhée</string>
     <string name="fiebre">Fièvre</string>
-    <string name="tos">Toux</string> traduce al frances
+    <string name="tos">Toux</string>
     <string name="respiration">Respiration</string>
     <string name="temperature">Température corporelle(º)</string>
     <string name="apetit">Test d\'appétit</string>
 
-    <string name="vitamine_dosis">La dose à administrer est :</string>
+    <string name="vitamine_dosis">La dose à administrer est de :</string>
     <string name="vitamine_blue">Capsule bleue (100 000 UI)</string>
     <string name="vitamine_red">Capsule rouge (200 000 UI) ou deux capsules bleues (100 000*2)</string>
 
@@ -193,7 +193,7 @@
     <string name="capsules_hierro_folico_tow">2 capsules toutes les 2 semaines</string>
     <string name="capsules_hierro_folico_checked">Avez-vous suivi un traitement à l\'acide folique et au fer ?</string>
 
-    <string name="amoxicilina">Amoxicilline: La dose à administrer est:</string>
+    <string name="amoxicilina">Amoxicilline: La dose à administrer est de:</string>
     <string name="amoxicilina_125">125 mg * 2 fois par jour pendant 7 jours</string>
     <string name="amoxicilina_250">250 mg * 2 fois par jour pendant 7 jours</string>
     <string name="amoxicilina_500">500 mg *2 fois par jour pendant 7 jours </string>
@@ -204,13 +204,13 @@
     <string name="another_tratements">Autres traitements administrés</string>
 
     <string name="cartilla">Carnet de vaccination:</string>
-    <string name="rubeola">Vacciné contre la rubéole?</string>
-    <string name="must_rubeola">Vous devez vous faire vacciner contre la rubéole</string>
+    <string name="rubeola">L\'enfant est-il vacciné contre la rubéole?</string>
+    <string name="must_rubeola">L\'enfant doit se faire vacciner contre la rubéole</string>
 
-    <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est:</string>
+    <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est de:</string>
     <string name="plumpy_fiveteeen">15 sachets (1 sachet par jour)</string>
 
-    <string name="plumpy_two">Le nombre de sachets de Plumpy\'Nut à prendre est:</string>
+    <string name="plumpy_two">Le nombre de sachets de Plumpy\'Nut à prendre est de:</string>
     <string name="plumpy_mas_8">8 sachets (1 ¼ sachet par jour)</string>
     <string name="plumpy_mas_10">10 sachets (1 ½ sachets par jour)</string>
     <string name="plumpy_mas_15">15 sachets (2 sachets par jour)</string>

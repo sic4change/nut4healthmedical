@@ -17,9 +17,11 @@ fun rememberVisitsState(
     expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     caseId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     childId: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    addmisionType: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedAddmisionType: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     tutorId: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    height: MutableState<String> = rememberSaveable { mutableStateOf("0.0") },
-    weight: MutableState<String> = rememberSaveable { mutableStateOf("0.0") },
+    height: MutableState<String> = rememberSaveable { mutableStateOf("0") },
+    weight: MutableState<String> = rememberSaveable { mutableStateOf("0") },
     imc: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
     armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(30.0) },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -64,9 +66,9 @@ fun rememberVisitsState(
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
     visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) }
-) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, height, weight, imc, armCircunference,
-    status, selectedEdema, expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes,
-    selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
+) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, addmisionType, expandedAddmisionType,
+    height, weight, imc, armCircunference, status, selectedEdema, expandedEdema, selectedInfection,
+    expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
     selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
     vitamineAVaccinated, capsulesFerro, amoxicilina, othersTratments, selectedCartilla, expandedCartilla,
@@ -79,6 +81,8 @@ class VisitState(
     val caseId: MutableState<String>,
     val childId: MutableState<String>,
     val tutorId: MutableState<String>,
+    val admissionType: MutableState<String>,
+    val expandedAddmisionType: MutableState<Boolean>,
     val height: MutableState<String>,
     val weight: MutableState<String>,
     val imc: MutableState<Double>,
@@ -161,6 +165,10 @@ class VisitState(
 
     fun isOneComplicationSelected(): Boolean {
         return complications.value.filter { it.selected }.count() > 0
+    }
+
+    fun updateValuesByMUAC() {
+
     }
 
 
