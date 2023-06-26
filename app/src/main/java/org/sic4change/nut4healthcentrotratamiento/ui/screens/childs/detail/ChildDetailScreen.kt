@@ -200,7 +200,7 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                                     modifier = Modifier.clickable { /* .. */ })
                             } else {
                                 Icon(
-                                    Icons.Filled.Circle,
+                                    painterResource(R.mipmap.ic_sex_selection),
                                     null,
                                     tint = colorResource(R.color.colorPrimary),
                                     modifier = Modifier.clickable { /* .. */ })

@@ -303,7 +303,7 @@ private fun Header(tutorState: TutorState,
                             modifier = Modifier.clickable { /* .. */ })
                     } else {
                         Icon(
-                            Icons.Filled.Circle,
+                            painterResource(R.mipmap.ic_sex_selection),
                             null,
                             tint = colorResource(R.color.colorPrimary),
                             modifier = Modifier.clickable { /* .. */ })

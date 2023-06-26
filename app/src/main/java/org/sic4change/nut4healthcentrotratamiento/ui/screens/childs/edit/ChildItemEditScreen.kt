@@ -301,7 +301,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                             modifier = Modifier.clickable { /* .. */ })
                     } else {
                         Icon(
-                            Icons.Filled.Circle,
+                            painterResource(R.mipmap.ic_sex_selection),
                             null,
                             tint = colorResource(R.color.colorPrimary),
                             modifier = Modifier.clickable { /* .. */ })
