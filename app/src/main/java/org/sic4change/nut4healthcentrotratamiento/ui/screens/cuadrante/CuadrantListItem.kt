@@ -78,7 +78,8 @@ fun  CuadrantListItem(
                     Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp))
 
                     if (!item.visitsCuadrant.isNullOrEmpty()) {
-                        val nextVisit = item.visitsCuadrant[0].createdate.time + (14 * 24 * 60 * 60 * 1000)
+                        val days = if (item.pointType == "CRENAS") 7 else 14
+                        val nextVisit = item.visitsCuadrant[0].createdate.time + (days * 24 * 60 * 60 * 1000)
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {

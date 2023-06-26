@@ -14,5 +14,6 @@ data class Cuadrant(
     val lastdate: Date,
     val visitsCuadrant: List<Visit>,
     var visits: String,
+    val pointType: String,
     val observations: String,
     ) : Item

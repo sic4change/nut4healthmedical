@@ -734,6 +734,13 @@ object FirebaseDataSource {
                 NetworkTutorsContainer(resultTutor.toObjects(Tutor::class.java))
             val tutors = networkTutorsContainer.results
 
+            val pointsRef = firestore.collection("points")
+            val queryPoint = pointsRef.whereEqualTo("pointId", user.point).orderBy("name", Query.Direction.ASCENDING)
+            val resultPoint= queryPoint.get().await()
+            val networkPointsContainer =
+                NetworkPointsContainer(resultPoint.toObjects(Point::class.java))
+            val point = networkPointsContainer.results[0]
+
             val childsRef = firestore.collection("childs")
             val queryChilds = childsRef.whereEqualTo("point", user.point).orderBy("name", Query.Direction.ASCENDING)
             val resultChild = queryChilds.get().await()
@@ -776,6 +783,7 @@ object FirebaseDataSource {
                         case.lastdate,
                         visitsToAdd.toList(),
                         case.visits.toString(),
+                        point.type,
                         case.observations
                     )
                 } else {

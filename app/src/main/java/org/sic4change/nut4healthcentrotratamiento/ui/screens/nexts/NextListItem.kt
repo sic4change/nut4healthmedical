@@ -81,7 +81,8 @@ fun NextListItem(
                     )
 
                     if (item.visitsCuadrant != null && item.visitsCuadrant.isNotEmpty()) {
-                        val nextVisit = item.visitsCuadrant[0].createdate.time + (14 * 24 * 60 * 60 * 1000)
+                        val days = if (item.pointType == "CRENAS") 7 else 14
+                        val nextVisit = item.visitsCuadrant[0].createdate.time + (days * 24 * 60 * 60 * 1000)
                         val visit = item.visitsCuadrant[0]
                         Row(
                             modifier = Modifier.padding(vertical = 2.dp)
