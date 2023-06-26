@@ -69,11 +69,14 @@ class NextsViewModel() : ViewModel() {
 
     fun filterNext(value: Int) {
         viewModelScope.launch {
+            _state.value = _state.value.copy(user = FirebaseDataSource.getLoggedUser())
+            _state.value = _state.value.copy(point = FirebaseDataSource.getPoint(_state.value.user!!.point))
             _state.value = _state.value.copy(cuadrants = emptyList())
             _state.value = _state.value.copy(loading = true)
             _state.value = _state.value.copy(cuadrants = FirebaseDataSource.getActiveCases().filterNotNull(), loading = false)
+            val days = if (_state.value.point!!.type == "CRENAS") 7 else 14
             if (value == 0) {
-                val todayVisits = _state.value.cuadrants.filter { isSameDay(Date(it!!.createdate.time + (14 * 24 * 60 * 60 * 1000)), Date()) }
+                val todayVisits = _state.value.cuadrants.filter { isSameDay(Date(it!!.createdate.time + (days * 24 * 60 * 60 * 1000)), Date()) }
                 if (todayVisits != null) {
                     _state.value = _state.value.copy(cuadrants = todayVisits, loading = false)
                 } else {
@@ -81,14 +84,14 @@ class NextsViewModel() : ViewModel() {
                 }
 
             } else if (value == 1) {
-                val weekVisits = _state.value.cuadrants.filter { isSameWeek(Date(it!!.createdate.time + (14 * 24 * 60 * 60 * 1000)), Date()) }
+                val weekVisits = _state.value.cuadrants.filter { isSameWeek(Date(it!!.createdate.time + (days * 24 * 60 * 60 * 1000)), Date()) }
                 if (weekVisits != null) {
                     _state.value = _state.value.copy(cuadrants = weekVisits, loading = false)
                 } else {
                     _state.value = _state.value.copy(cuadrants = emptyList(), loading = false)
                 }
             } else {
-                val monthVisits = _state.value.cuadrants.filter { isSameMonth(Date(it!!.createdate.time + (14 * 24 * 60 * 60 * 1000)), Date()) }
+                val monthVisits = _state.value.cuadrants.filter { isSameMonth(Date(it!!.createdate.time + (days * 24 * 60 * 60 * 1000)), Date()) }
                 if (monthVisits != null) {
                     _state.value = _state.value.copy(cuadrants = monthVisits, loading = false)
                 } else {

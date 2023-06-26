@@ -25,6 +25,7 @@ data class Point(
     @Exclude val id: String = "",
     @Exclude val name: String = "",
     @Exclude val fullName: String = "",
+    @Exclude val type: String = "",
     @Exclude val phoneCode: String = "",
     @Exclude val phoneLength: Int = 0)
 

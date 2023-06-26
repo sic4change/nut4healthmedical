@@ -7,5 +7,6 @@ data class Point(
     val name: String,
     val fullName: String,
     val phoneCode: String,
+    val type: String,
     val phoneLength: Int,
     ) : Item
