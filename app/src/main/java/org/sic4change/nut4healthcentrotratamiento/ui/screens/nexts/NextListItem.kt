@@ -44,7 +44,7 @@ fun NextListItem(
                         }
                         Text(
                             color = colorResource(R.color.colorPrimary),
-                            text = "${item.tutorName}".toString().capitalize(),
+                            text = "${item.tutorName}",
                             style = MaterialTheme.typography.h5,
                             maxLines = 2,
                             modifier = Modifier
@@ -65,7 +65,7 @@ fun NextListItem(
                         }
                         Text(
                             color = colorResource(R.color.colorPrimary),
-                            text = "${item.childName}".toString().capitalize(),
+                            text = "${item.childName}",
                             style = MaterialTheme.typography.h6,
                             maxLines = 2,
                             modifier = Modifier
@@ -98,7 +98,7 @@ fun NextListItem(
                                 )
                             }
                             Text(
-                                color = colorResource(R.color.frutorial_title),
+                                color = colorResource(R.color.colorPrimary),
                                 text = stringResource(R.string.next_visit).capitalize() + ": " + "${SimpleDateFormat("dd/MM/yyyy").format(nextVisit)}",
                                 style = MaterialTheme.typography.body2,
                                 maxLines = 1,

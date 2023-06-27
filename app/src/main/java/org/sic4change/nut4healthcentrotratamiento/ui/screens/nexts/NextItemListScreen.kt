@@ -96,11 +96,12 @@ fun NextItemsList(
 
 
     Column(
-        modifier = Modifier.fillMaxWidth().background(colorResource(R.color.colorPrimaryDark))
+        modifier = Modifier.fillMaxWidth()
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.next_visits),
-            color = colorResource(R.color.white),
+            color = colorResource(R.color.colorPrimaryDark),
             style = MaterialTheme.typography.h4,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -143,7 +144,7 @@ fun NextItemsList(
                 } else {
                     Text(
                         text = stringResource(R.string.no_visits_found),
-                        color = colorResource(R.color.white),
+                        color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -173,19 +174,19 @@ fun TriStateToggle(value: Int, onFilter: (Int) -> Unit) {
     Surface(
         shape = RoundedCornerShape(24.dp),
         elevation = 0.dp,
-        modifier = Modifier.background(colorResource(R.color.colorPrimary)).fillMaxWidth().padding(16.dp, 0.dp)
+        modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp)
     ) {
         Row(
-            modifier = Modifier.background(colorResource(R.color.colorPrimary)).wrapContentSize()
+            modifier = Modifier.wrapContentSize()
         ) {
             states.forEach { text->
                 Text(
                     text = text,
                     color = (
                             if (text == selectedOption) {
-                                colorResource(R.color.colorPrimary)
-                            } else {
                                 colorResource(R.color.white)
+                            } else {
+                                colorResource(R.color.colorPrimary)
                             }),
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(24.dp))
@@ -194,9 +195,9 @@ fun TriStateToggle(value: Int, onFilter: (Int) -> Unit) {
                         }
                         .background(
                             if (text == selectedOption) {
-                                colorResource(R.color.white)
-                            } else {
                                 colorResource(R.color.colorPrimary)
+                            } else {
+                                colorResource(R.color.white)
                             }
                         )
                         .padding(
