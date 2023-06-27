@@ -44,7 +44,7 @@ fun  CuadrantListItem(
                         }
                         Text(
                             color = colorResource(R.color.colorPrimary),
-                            text = "${item.tutorName}".toString().capitalize()  ,
+                            text = "${item.tutorName}",
                             style = MaterialTheme.typography.h5,
                             maxLines = 2,
                             modifier = Modifier
@@ -65,7 +65,7 @@ fun  CuadrantListItem(
                         }
                         Text(
                             color = colorResource(R.color.colorPrimary),
-                            text = "${item.childName}".toString().capitalize()  ,
+                            text = "${item.childName}",
                             style = MaterialTheme.typography.h6,
                             maxLines = 2,
                             modifier = Modifier

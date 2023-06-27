@@ -120,12 +120,11 @@ fun NextItemsList(
             } else {
                 if (items.isNotEmpty()) {
                     Card(
-                        shape = RoundedCornerShape(topEnd = 40.dp, topStart = 40.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
+                        shape = RoundedCornerShape(topEnd = 0.dp, topStart = 0.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
                         backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                         modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                     ) {
                         LazyColumn(
-                            //cells = GridCells.Adaptive(4000.dp),
                             contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
                             modifier = modifier
                         ) {
