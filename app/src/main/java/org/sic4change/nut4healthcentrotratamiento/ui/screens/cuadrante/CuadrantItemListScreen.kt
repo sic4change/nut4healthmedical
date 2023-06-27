@@ -119,6 +119,7 @@ fun CuadrantItemsList(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.cuadrante),
             color = colorResource(R.color.colorPrimary),

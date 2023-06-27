@@ -8,6 +8,7 @@ data class Cuadrant(
     val childName: String,
     val tutorId: String,
     val tutorName: String,
+    val tutorSurname: String,
     val name: String,
     var status: String,
     val createdate: Date,
