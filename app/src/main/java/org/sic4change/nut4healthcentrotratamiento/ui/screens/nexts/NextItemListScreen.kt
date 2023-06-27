@@ -111,7 +111,7 @@ fun NextItemsList(
             nextState.filterValue.value = value
             onFilter(value)
         })
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Box(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
@@ -126,7 +126,7 @@ fun NextItemsList(
                         modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                     ) {
                         LazyColumn(
-                            contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
                             modifier = modifier
                         ) {
                             items(items) {

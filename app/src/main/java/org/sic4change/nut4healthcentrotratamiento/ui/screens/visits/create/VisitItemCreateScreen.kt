@@ -67,7 +67,12 @@ fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false, chil
         contentAlignment = Alignment.TopCenter
     ) {
         if (loading) {
-            CircularProgressIndicator(color = colorResource(R.color.colorPrimary))
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(color = colorResource(R.color.colorPrimary))
+            }
         }
         Column(
             modifier = Modifier.fillMaxWidth()

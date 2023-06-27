@@ -172,7 +172,7 @@ fun CuadrantItemsList(
                     modifier = Modifier.fillMaxSize().padding(top = 16.dp)
                 ) {
                     LazyColumn(
-                        contentPadding = PaddingValues(top = 32.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
+                        contentPadding = PaddingValues(top = 16.dp, bottom = 4.dp, end = 4.dp, start = 4.dp),
                         modifier = modifier
                     ) {
                         items(items) {
