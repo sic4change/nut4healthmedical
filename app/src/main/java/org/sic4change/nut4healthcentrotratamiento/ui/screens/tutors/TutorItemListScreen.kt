@@ -39,6 +39,7 @@ fun TutorItemsListScreen(
     onClickDetail: (Tutor) -> Unit,
     onDeleteTutor: () -> Unit,
     onClickEdit: (Tutor) -> Unit,
+    onClickDelete: (Tutor) -> Unit,
 ) {
 
     if (loading) {
@@ -57,6 +58,7 @@ fun TutorItemsListScreen(
         onItemClick = onClick,
         onClickDetail = onClickDetail,
         onClickEdit = onClickEdit,
+        onClickDelete = onClickDelete,
         onDeleteTutorClick = onDeleteTutor
     )
 
@@ -73,6 +75,7 @@ fun  TutorItemsList(
     onItemClick: (Tutor) -> Unit,
     onClickDetail: (Tutor) -> Unit,
     onClickEdit: (Tutor) -> Unit,
+    onClickDelete: (Tutor) -> Unit,
     onDeleteTutorClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -150,7 +153,7 @@ fun  TutorItemsList(
                                 modifier = Modifier.clickable { onItemClick(it) },
                                 onClickDetail = onClickDetail,
                                 onClickEdit = onClickEdit,
-                                onDeleteTutorClick = onDeleteTutorClick
+                                onClickDelete = onClickDelete
                             )
                         }
 

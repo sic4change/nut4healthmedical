@@ -46,6 +46,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
                  onCreateTutorClick: (String) -> Unit,
                  onClickDetail: (Tutor) -> Unit,
                  onClickEdit: (Tutor) -> Unit,
+                 onClickDelete: (Tutor) -> Unit,
                  onDeleteTutor: () -> Unit,
                  onLogout: () -> Unit) {
     val mainState = rememberMainState()
@@ -113,6 +114,7 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
                 onItemClick = onClick,
                 onClickDetail = onClickDetail,
                 onClickEdit = onClickEdit,
+                onClickDelete = onClickDelete,
                 onDeleteTutor = onDeleteTutor)
             if (mainState.openDialogSearchByPhone.value) {
                 Box(
@@ -153,6 +155,7 @@ fun TutorsScreen(
     onItemClick: (Tutor) -> Unit,
     onClickDetail: (Tutor) -> Unit,
     onClickEdit: (Tutor) -> Unit,
+    onClickDelete: (Tutor) -> Unit,
     onDeleteTutor: () -> Unit,
     viewModel: TutorsViewModel = viewModel()) {
 
@@ -165,11 +168,12 @@ fun TutorsScreen(
         onClick = onItemClick,
         onClickDetail = onClickDetail,
         onClickEdit = onClickEdit,
+        onClickDelete = {tutorsState.showDeleteQuestion(it.id)},
         onDeleteTutor = onDeleteTutor,
         onSearch = viewModel::searchTutor
     )
 
-    MessageDeleteTutor(tutorsState.deleteTutor.value, { tutorsState.showDeleteQuestion(tutorsState.id.value) },
+    MessageDeleteTutor(tutorsState.deleteTutor.value, tutorsState::showDeleteQuestion,
         tutorsState.id.value, viewModel::deleteTutor, onDeleteTutor)
 }
 

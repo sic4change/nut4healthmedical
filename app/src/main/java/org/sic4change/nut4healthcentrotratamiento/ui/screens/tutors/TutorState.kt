@@ -94,7 +94,6 @@ class TutorState(
     }
 
     fun showDeleteQuestion(id: String) {
-        println("Aqui id: $id");
         this.id.value = id
         deleteTutor.value = !deleteTutor.value
     }

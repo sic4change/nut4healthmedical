@@ -67,7 +67,6 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (weight != null && height != null && weight > 0 && height > 0) {
                 imc = FirebaseDataSource.checkDesnutrition(height, weight)
             }
-            println("Aqui imc: ${imc}")
             val visit = Visit("", caseId, caseId, caseId, Date(), admissionType, height, weight, imc,
                 arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
