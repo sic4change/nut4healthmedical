@@ -93,6 +93,11 @@ class TutorState(
         deleteTutor.value = !deleteTutor.value
     }
 
+    fun showDeleteQuestion(id: String) {
+        println("Aqui id: $id");
+        this.id.value = id
+        deleteTutor.value = !deleteTutor.value
+    }
 
     fun clearWomanValues() {
         womanStatus.value = ""

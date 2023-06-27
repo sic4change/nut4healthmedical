@@ -30,6 +30,7 @@ fun  TutorListItem(
     modifier: Modifier = Modifier,
     onClickDetail: (Tutor) -> Unit,
     onClickEdit: (Tutor) -> Unit,
+    onDeleteTutorClick: () -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -53,7 +54,7 @@ fun  TutorListItem(
                     DropdownMenuItem(onClick = { onClickEdit(item); showMenu = false }) {
                         Text(stringResource(R.string.editar_tutor), color = colorResource(R.color.colorPrimary))
                     }
-                    DropdownMenuItem(onClick = { /* Handle your action here, then dismiss menu */ showMenu = false }) {
+                    DropdownMenuItem(onClick = { onDeleteTutorClick(); showMenu = false }) {
                         Text(stringResource(R.string.remove_tutor), color = colorResource(R.color.error))
                     }
                 }

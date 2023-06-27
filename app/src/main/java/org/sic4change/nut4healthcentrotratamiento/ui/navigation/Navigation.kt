@@ -172,6 +172,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
                     )
                 },
+                onDeleteTutor = {
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
+                    )
+                },
                 onLogout = {
                     navController.navigate(
                         NavCommand.ContentType(Feature.LOGIN).route

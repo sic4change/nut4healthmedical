@@ -1,10 +1,8 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 import android.os.Build
-import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,9 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import arrow.core.left
 import coil.annotation.ExperimentalCoilApi
-import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
@@ -41,6 +37,7 @@ fun TutorItemsListScreen(
     onSearch: (String) -> Unit,
     onClick: (Tutor) -> Unit,
     onClickDetail: (Tutor) -> Unit,
+    onDeleteTutor: () -> Unit,
     onClickEdit: (Tutor) -> Unit,
 ) {
 
@@ -59,7 +56,8 @@ fun TutorItemsListScreen(
         onSearch = onSearch,
         onItemClick = onClick,
         onClickDetail = onClickDetail,
-        onClickEdit = onClickEdit
+        onClickEdit = onClickEdit,
+        onDeleteTutorClick = onDeleteTutor
     )
 
 
@@ -75,6 +73,7 @@ fun  TutorItemsList(
     onItemClick: (Tutor) -> Unit,
     onClickDetail: (Tutor) -> Unit,
     onClickEdit: (Tutor) -> Unit,
+    onDeleteTutorClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -150,7 +149,8 @@ fun  TutorItemsList(
                                 item = it,
                                 modifier = Modifier.clickable { onItemClick(it) },
                                 onClickDetail = onClickDetail,
-                                onClickEdit = onClickEdit
+                                onClickEdit = onClickEdit,
+                                onDeleteTutorClick = onDeleteTutorClick
                             )
                         }
 
