@@ -5,11 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChildCare
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,12 +27,38 @@ import org.sic4change.nut4healthcentrotratamiento.ui.commons.circleLayout
 @Composable
 fun  TutorListItem(
     item: Tutor,
-    onItemMore : (Tutor) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickDetail: (Tutor) -> Unit,
+    onClickEdit: (Tutor) -> Unit,
 ) {
+    var showMenu by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier.padding(8.dp)
     ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Box(
+                contentAlignment = Alignment.CenterEnd
+            ) {
+
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false },
+                ) {
+                    DropdownMenuItem(onClick = { onClickDetail(item); showMenu = false }) {
+                        Text(stringResource(R.string.go_to_detail), color = colorResource(R.color.colorPrimary))
+                    }
+                    DropdownMenuItem(onClick = { onClickEdit(item); showMenu = false }) {
+                        Text(stringResource(R.string.editar_tutor), color = colorResource(R.color.colorPrimary))
+                    }
+                    DropdownMenuItem(onClick = { /* Handle your action here, then dismiss menu */ showMenu = false }) {
+                        Text(stringResource(R.string.remove_tutor), color = colorResource(R.color.error))
+                    }
+                }
+            }
+        }
         Card {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -55,7 +82,9 @@ fun  TutorListItem(
                         .padding(8.dp, 16.dp)
                         .weight(1f)
                 )
-                IconButton(onClick = { onItemMore(item) }) {
+                IconButton(onClick = {
+                    showMenu = !showMenu
+                } ) {
                     Icon(
                         tint = colorResource(R.color.colorPrimary),
                         imageVector = Icons.Default.MoreVert,
@@ -66,4 +95,5 @@ fun  TutorListItem(
         }
 
     }
+
 }

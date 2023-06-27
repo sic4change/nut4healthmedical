@@ -3,7 +3,6 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,18 +13,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.rememberPermissionState
 
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
@@ -41,7 +35,6 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorItemEditScreen
-import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalFoundationApi
@@ -51,6 +44,8 @@ import java.util.Date
 fun TutorsScreen(viewModel: MainViewModel = viewModel(),
                  onClick: (Tutor) -> Unit,
                  onCreateTutorClick: (String) -> Unit,
+                 onClickDetail: (Tutor) -> Unit,
+                 onClickEdit: (Tutor) -> Unit,
                  onLogout: () -> Unit) {
     val mainState = rememberMainState()
     val viewModelState by viewModel.state.collectAsState()
@@ -113,7 +108,10 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
 
             },
         ) {
-            TutorsScreen(onItemClick = onClick)
+            TutorsScreen(
+                onItemClick = onClick,
+                onClickDetail = onClickDetail,
+                onClickEdit = onClickEdit)
             if (mainState.openDialogSearchByPhone.value) {
                 Box(
                     modifier = Modifier
@@ -149,16 +147,23 @@ fun TutorsScreen(viewModel: MainViewModel = viewModel(),
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun TutorsScreen(onItemClick: (Tutor) -> Unit,
-                 viewModel: TutorsViewModel = viewModel()) {
+fun TutorsScreen(
+    onItemClick: (Tutor) -> Unit,
+    onClickDetail: (Tutor) -> Unit,
+    onClickEdit: (Tutor) -> Unit,
+    viewModel: TutorsViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
 
     TutorItemsListScreen(
         loading = state.loading,
         items = state.tutors,
         onClick = onItemClick,
+        onClickDetail = onClickDetail,
+        onClickEdit = onClickEdit,
         onSearch = viewModel::searchTutor
     )
+
+
 }
 
 @ExperimentalCoilApi
@@ -208,6 +213,7 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         onCreateChildClick = onCreateChildClick,
         onItemClick = onItemClick
     )
+
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
 }

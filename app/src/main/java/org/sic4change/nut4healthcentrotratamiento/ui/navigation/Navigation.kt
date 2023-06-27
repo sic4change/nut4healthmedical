@@ -162,6 +162,16 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
                     )
                 },
+                onClickDetail = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor.id)
+                    )
+                },
+                onClickEdit = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
+                },
                 onLogout = {
                     navController.navigate(
                         NavCommand.ContentType(Feature.LOGIN).route
@@ -201,7 +211,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
                     )
-                }
+                },
             )
         }
 
@@ -236,7 +246,8 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
-                })
+                },
+            )
         }
 
 
@@ -261,7 +272,8 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
-                })
+                },
+            )
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL)) {

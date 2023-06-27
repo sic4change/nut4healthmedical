@@ -54,6 +54,7 @@
     <string name="save">Guardar</string>
     <string name="delete_tutor_question">¿Estás seguro que quieres eliminar ese acompañante? Se perderá toda la información asociada</string>
     <string name="editar_tutor">Editar acompañanate</string>
+    <string name="remove_tutor">Eliminar acompañante</string>
     <string name="create_child">Crear perfil niño/a</string>
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar perfil niñ@</string>

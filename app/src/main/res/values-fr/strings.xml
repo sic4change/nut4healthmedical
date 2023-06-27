@@ -59,6 +59,7 @@
     <string name="save">Sauvegarder</string>
     <string name="delete_tutor_question">Êtes-vous sûr de vouloir supprimer ce profil de l’accompagnant ou FEFA? Toutes les informations associées seront perdues</string>
     <string name="editar_tutor">Modifier le profil de l’accompagnant ou FEFA</string>
+    <string name="remove_tutor">Supprimer le profil de l’accompagnant ou FEFA</string>
     <string name="create_child">Créer un profil d’enfant</string>
     <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
     <string name="edit_child">Modifier profil d’enfant</string>

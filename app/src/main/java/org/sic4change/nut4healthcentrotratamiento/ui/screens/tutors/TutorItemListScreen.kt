@@ -39,17 +39,10 @@ fun TutorItemsListScreen(
     loading: Boolean = false,
     items: List<Tutor>,
     onSearch: (String) -> Unit,
-    onClick: (Tutor) -> Unit
+    onClick: (Tutor) -> Unit,
+    onClickDetail: (Tutor) -> Unit,
+    onClickEdit: (Tutor) -> Unit,
 ) {
-        var bottomSheetItem by remember { mutableStateOf<Tutor?>(null) }
-        val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-        val scope = rememberCoroutineScope()
-
-        BackHandler(sheetState.isVisible) {
-            scope.launch {
-                sheetState.hide()
-            }
-        }
 
     if (loading) {
         Box(
@@ -65,12 +58,8 @@ fun TutorItemsListScreen(
         items = items,
         onSearch = onSearch,
         onItemClick = onClick,
-        onItemMore = {
-            bottomSheetItem = it
-            scope.launch {
-                sheetState.show()
-            }
-        }
+        onClickDetail = onClickDetail,
+        onClickEdit = onClickEdit
     )
 
 
@@ -84,7 +73,8 @@ fun  TutorItemsList(
     items: List<Tutor>,
     onSearch: (String) -> Unit,
     onItemClick: (Tutor) -> Unit,
-    onItemMore: (Tutor) -> Unit,
+    onClickDetail: (Tutor) -> Unit,
+    onClickEdit: (Tutor) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -93,6 +83,7 @@ fun  TutorItemsList(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
+
         Text(
             text = stringResource(R.string.tutors_title),
             color = colorResource(R.color.colorPrimary),
@@ -147,7 +138,6 @@ fun  TutorItemsList(
             }
 
             if (items.isNotEmpty()) {
-
                 Card(
                     shape = RoundedCornerShape(topEnd = 0.dp, topStart = 0.dp, bottomEnd = 0.dp, bottomStart = 0.dp),
                     modifier = Modifier.fillMaxSize().padding(top = 16.dp)
@@ -159,9 +149,11 @@ fun  TutorItemsList(
                             TutorListItem(
                                 item = it,
                                 modifier = Modifier.clickable { onItemClick(it) },
-                                onItemMore = onItemMore
+                                onClickDetail = onClickDetail,
+                                onClickEdit = onClickEdit
                             )
                         }
+
                     }
                 }
             } else {

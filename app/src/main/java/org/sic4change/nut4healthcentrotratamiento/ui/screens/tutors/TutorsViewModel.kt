@@ -37,6 +37,12 @@ class TutorsViewModel: ViewModel() {
         }
     }
 
+    fun deleteTutor(id: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.deleteTutor(id)
+        }
+    }
+
     data class UiState(
         val loading: Boolean = false,
         val tutors: List<Tutor> = emptyList()
