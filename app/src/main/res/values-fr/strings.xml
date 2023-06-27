@@ -222,12 +222,14 @@
     <string name="plumpy_mas_55">55 sachets (8 sachets par jour)</string>
 
     <string-array name="yesnooptions">
+        <item>--</item>
         <item>Oui</item>
         <item>Non</item>
     </string-array>
 
     //Temperature  options
     <string-array name="temperatureoptions">
+        <item>--</item>
         <item>34.0</item>
         <item>34.1</item>
         <item>34.2</item>
@@ -333,6 +335,7 @@
 
     //Apetit options
     <string-array name="apetitOptions">
+        <item>--</item>
         <item>Bien</item>
         <item>Moyen</item>
         <item>Bas</item>
@@ -340,12 +343,14 @@
 
     //Respiration options
     <string-array name="respirationOptions">
+        <item>--</item>
         <item>Normale</item>
         <item>Rapide</item>
     </string-array>
 
     //Frecuency
     <string-array name="frecuencyOptions">
+        <item>--</item>
         <item>Non</item>
         <item>1 fois par jour</item>
         <item>2 fois par jour</item>

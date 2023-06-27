@@ -223,12 +223,14 @@
 
     //Yes no options
     <string-array name="yesnooptions">
+        <item>--</item>
         <item>Sí</item>
         <item>No</item>
     </string-array>
 
     //Temperature  options
     <string-array name="temperatureoptions">
+        <item>--</item>
         <item>34.0</item>
         <item>34.1</item>
         <item>34.2</item>
@@ -334,6 +336,7 @@
 
     //Apetit options
     <string-array name="apetitOptions">
+        <item>--</item>
         <item>Bien</item>
         <item>Medio</item>
         <item>Bajo</item>
@@ -341,12 +344,14 @@
 
     //Respiration options
     <string-array name="respirationOptions">
+        <item>--</item>
         <item>Normal</item>
         <item>Rápida</item>
     </string-array>
 
     //Frecuency
     <string-array name="frecuencyOptions">
+        <item>--</item>
         <item>No</item>
         <item>1 vez por día</item>
         <item>2 veces por día</item>

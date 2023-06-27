@@ -1717,6 +1717,16 @@ fun SymtomsView(visitState: VisitState) {
 fun setDefaultValues(visitState: VisitState) {
     visitState.admissionType.value = stringArrayResource(id = R.array.addmisionTypeOptions)[0]
     visitState.selectedEdema.value = stringArrayResource(id = R.array.edemaOptions)[0]
+    visitState.selectedRespiration.value = stringArrayResource(id = R.array.respirationOptions)[0]
+    visitState.selectedApetit.value = stringArrayResource(id = R.array.apetitOptions)[0]
+    visitState.selectedInfection.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedEyes.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedDeshidratation.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedVomitos.value = stringArrayResource(id = R.array.frecuencyOptions)[0]
+    visitState.selectedDiarrea.value = stringArrayResource(id = R.array.frecuencyOptions)[0]
+    visitState.selectedFiebre.value = stringArrayResource(id = R.array.frecuencyOptions)[0]
+    visitState.selectedTos.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedTemperature.value = stringArrayResource(id = R.array.temperatureoptions)[0]
 }
 
 @OptIn(ExperimentalMaterialApi::class)
