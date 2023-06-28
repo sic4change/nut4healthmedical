@@ -10,10 +10,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.MessageDeleteCaseFromChild
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.MessageDeleteChild
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildItemEditScreen
@@ -26,7 +28,12 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onEditChildClick: (Child) -> Unit,
                       onCaseCreated:(Case) -> Unit,
                       onItemClick: (Case) -> Unit,
-                      onDeleteChildClick: (String) -> Unit) {
+                      onDeleteChildClick: (String) -> Unit,
+                      onClickDetail: (Case) -> Unit,
+                      onClickEdit: (Case) -> Unit,
+                      onClickDelete: (Case) -> Unit,
+                      onDeleteCase: (String) -> Unit,) {
+
     val childDetailState = rememberChildsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -63,10 +70,19 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
         childState = childDetailState,
         onEditClick = onEditChildClick,
         onCreateCaseClick = viewModel::createCase,
-        onItemClick = onItemClick
+        onItemClick = onItemClick,
+        onClickDetail = onClickDetail,
+        onClickEdit = onClickEdit,
+        onClickDelete = {childDetailState.showDeleteCaseQuestion(it.id)},
+        onDeleteCase = onDeleteCase,
     )
+
     MessageDeleteChild(childDetailState.deleteChild.value, childDetailState::showDeleteQuestion,
         childDetailState.id.value, childDetailState.tutorId.value, viewModel::deleteChild, onDeleteChildClick)
+
+    MessageDeleteCaseFromChild(childDetailState.deleteCase.value, childDetailState::showDeleteCaseQuestion,
+        childDetailState.caseId.value, viewModel::deleteCase, childDetailState.id.value, onDeleteCase)
+
 }
 
 

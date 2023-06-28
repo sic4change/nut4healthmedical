@@ -360,6 +360,25 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(case.id)
                     )
                 },
+                onClickDetail = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
+                    )
+                },
+                onClickEdit = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITCASE).createRoute(case.id)
+                    )
+                },
+                onClickDelete = { case ->
+
+                },
+                onDeleteCase = { caseId ->
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(caseId)
+                    )
+                }
             )
         }
 

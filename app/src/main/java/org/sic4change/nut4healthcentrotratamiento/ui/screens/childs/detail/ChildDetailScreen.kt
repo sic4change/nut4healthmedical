@@ -31,10 +31,17 @@ import java.text.SimpleDateFormat
 @ExperimentalMaterialApi
 @Composable
 fun ChildItemDetailScreen(
-    childState: ChildState, loading: Boolean = false,
-    childItem: Child?, cases: List<Case>?, onEditClick: (Child) -> Unit,
+    childState: ChildState,
+    loading: Boolean = false,
+    childItem: Child?,
+    cases: List<Case>?,
+    onEditClick: (Child) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit,
-    onItemClick: (Case) -> Unit) {
+    onItemClick: (Case) -> Unit,
+    onClickDetail: (Case) -> Unit,
+    onDeleteCase: (String) -> Unit,
+    onClickEdit: (Case) -> Unit,
+    onClickDelete: (Case) -> Unit) {
 
     if (loading) {
         Box(
@@ -62,8 +69,17 @@ fun ChildItemDetailScreen(
                         .fillMaxWidth()
                         .padding(padding)
                 ) {
-                    ChildView(childItem = childItem, childState = childState, cases = cases,
-                        onItemClick = onItemClick, onItemMore = {}, onCreateCaseClick = onCreateCaseClick)
+                    ChildView(
+                        childItem = childItem,
+                        childState = childState,
+                        cases = cases,
+                        onItemClick = onItemClick,
+                        onCreateCaseClick = onCreateCaseClick,
+                        onClickDetail = onClickDetail,
+                        onClickDelete = onClickDelete,
+                        onClickEdit = onClickEdit,
+                        onDeleteChild  = onDeleteCase
+                    )
                 }
             }
 
@@ -78,9 +94,15 @@ fun ChildItemDetailScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case>?,
-                      onItemClick: (Case) -> Unit, onItemMore: (Case) -> Unit,
-                      onCreateCaseClick: (String, String, String) -> Unit) {
+private fun ChildView(
+    childItem: Child,
+    childState: ChildState, cases: List<Case>?,
+    onItemClick: (Case) -> Unit,
+    onCreateCaseClick: (String, String, String) -> Unit,
+    onClickDetail: (Case) -> Unit,
+    onDeleteChild: (String) -> Unit,
+    onClickEdit: (Case) -> Unit,
+    onClickDelete: (Case) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -283,7 +305,9 @@ private fun ChildView(childItem: Child, childState: ChildState, cases: List<Case
                 CaseListItem(
                     item = it,
                     modifier = Modifier.clickable { onItemClick(it) },
-                    onItemMore = onItemMore
+                    onClickDetail = onClickDetail,
+                    onClickEdit = onClickEdit,
+                    onClickDelete = onClickDelete,
                 )
             }
         }
@@ -354,6 +378,47 @@ fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: 
             },
             text = {
                 Text(stringResource(R.string.delete_child_question))
+            },
+        )
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageDeleteCaseFromChild(showDialog: Boolean, setShowDialog: () -> Unit, caseId: String, onDeleteCase: (String) -> Unit, childId: String, onDeleteCaseSelected: (String) -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onDeleteCase(caseId)
+                        onDeleteCaseSelected(childId)
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.delete_case_question))
             },
         )
     }

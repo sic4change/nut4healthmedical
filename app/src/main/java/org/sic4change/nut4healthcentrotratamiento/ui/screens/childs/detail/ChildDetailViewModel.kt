@@ -56,4 +56,10 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
+    fun deleteCase(id: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.deleteCase(id)
+        }
+    }
+
 }

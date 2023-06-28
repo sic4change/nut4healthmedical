@@ -70,13 +70,13 @@ fun  VisitListItem(
                         .padding(8.dp, 16.dp)
                         .weight(1f)
                 )
-                IconButton(onClick = { onItemMore(item) }) {
+                /*IconButton(onClick = { onItemMore(item) }) {
                     Icon(
                         tint = colorResource(R.color.white),
                         imageVector = Icons.Default.MoreVert,
                         contentDescription = stringResource(R.string.more_actions)
                     )
-                }
+                }*/
 
             }
         }

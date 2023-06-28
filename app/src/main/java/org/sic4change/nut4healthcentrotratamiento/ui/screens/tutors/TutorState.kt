@@ -86,8 +86,7 @@ class TutorState(
     val deleteTutor: MutableState<Boolean>,
     val showDateDialog: MutableState<Boolean>,
     val deleteChild: MutableState<Boolean>,
-    val childId: MutableState<String>,
-    ) {
+    val childId: MutableState<String>) {
 
     fun expandContractDetail() {
         expandedDetail.value = !expandedDetail.value

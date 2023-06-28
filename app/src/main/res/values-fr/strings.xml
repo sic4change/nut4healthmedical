@@ -80,6 +80,7 @@
     <string name="casos">Cas</string>
     <string name="no_cases">Aucun cas encore</string>
     <string name="create_case">Créer un cas</string>
+    <string name="remove_case">Supprime cas</string>
     <string name="delete_case_question">Êtes-vous sûr de vouloir éliminer ce cas? Les données associées seront perdues</string>
     <string name="status">État</string>
     <string name="open">Ouvert</string>

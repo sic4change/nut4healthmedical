@@ -192,7 +192,7 @@ fun TutorDetailScreen(
     onClickDetail: (Child) -> Unit,
     onClickEdit: (Child) -> Unit,
     onClickDelete: (Child) -> Unit,
-    onDeleteChild: (String) -> Unit,) {
+    onDeleteChild: (String) -> Unit) {
 
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()

@@ -31,10 +31,12 @@ fun rememberChildsState(
     deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showDateDialog:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     disabledView:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    deleteCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    caseId:  MutableState<String> = rememberSaveable { mutableStateOf("") },
 ) = remember{ ChildState(id, expandedDetail, tutorId, name, surnames, birthday, brothers, selectedOptionBrothers,
     expandedBrothers, lastDate, createdDate, sex, etnician, observations, expandedSex, selectedOptionSex,
     expandedEtnician, selectedOptionEtnician, childsSize, createdChild, deleteChild, showDateDialog,
-    disabledView) }
+    disabledView, deleteCase, caseId) }
 
 class ChildState(
     val id: MutableState<String>,
@@ -60,6 +62,8 @@ class ChildState(
     val deleteChild: MutableState<Boolean>,
     val showDateDialog: MutableState<Boolean>,
     val disabledView: MutableState<Boolean>,
+    val deleteCase: MutableState<Boolean>,
+    val caseId: MutableState<String>,
 ) {
 
     fun expandContractDetail() {
@@ -72,6 +76,15 @@ class ChildState(
 
     fun showDeleteQuestion() {
         deleteChild.value = !deleteChild.value
+    }
+
+    fun showDeleteCaseQuestion() {
+        deleteCase.value = !deleteCase.value
+    }
+
+    fun showDeleteCaseQuestion(id: String) {
+        this.caseId.value = id
+        deleteCase.value = !deleteCase.value
     }
 
 
