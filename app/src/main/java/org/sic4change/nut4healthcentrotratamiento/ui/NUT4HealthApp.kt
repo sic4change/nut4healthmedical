@@ -4,6 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -13,8 +16,10 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,40 +49,47 @@ fun NUT4HealthApp() {
             Scaffold (
                 topBar = {
                     TopAppBar(
-                        actions = {
-                            IconButton(onClick = { appState.onHomeClick() }) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Home,
-                                    contentDescription = "home",
-                                    tint = colorResource(R.color.white)
-                                )
-                            }
-                        },
                         backgroundColor = colorResource(R.color.colorPrimary),
-                        title = {
-                            Image(
-                                modifier = Modifier.fillMaxWidth().size(120.dp, 120.dp),
-                                painter = painterResource(id = R.mipmap.ic_logo_header),
-                                contentDescription = null,
-                            )
-                        },
-                        navigationIcon = {
-                            if (!appState.currentRoute.contains("login/detail") &&
-                                !appState.currentRoute.contains("settings/home") &&
-                                !appState.currentRoute.contains("nextvisits/home")   ||
-                                (MainActivity.notificationChildId.isEmpty()) && appState.currentRoute.contains("childdetail")) {
-                                AppBarIcon(
-                                    imageVector = Icons.Default.ArrowBack,
-                                    onClick = { appState.onUpClick() })
-                            } else {
-                                AppBarIcon(
-                                    imageVector = Icons.Default.Menu,
-                                    onClick = { appState.onMenuClick()}
+                        contentColor = Color.White,
+                        elevation = 0.dp,
+                    ) {
+                        Row(Modifier.fillMaxWidth()) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                if (!appState.currentRoute.contains("login/detail") &&
+                                    !appState.currentRoute.contains("settings/home") &&
+                                    !appState.currentRoute.contains("nextvisits/home") ||
+                                    (MainActivity.notificationChildId.isEmpty()) && appState.currentRoute.contains("childdetail")
+                                ) {
+                                    AppBarIcon(
+                                        imageVector = Icons.Default.ArrowBack,
+                                        onClick = { appState.onUpClick() }
+                                    )
+                                } else {
+                                    AppBarIcon(
+                                        imageVector = Icons.Default.Menu,
+                                        onClick = { appState.onMenuClick() }
+                                    )
+                                }
+                            }
+                            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                                Image(
+                                    modifier = Modifier.size(120.dp, 120.dp),
+                                    painter = painterResource(id = R.mipmap.ic_logo_header),
+                                    contentDescription = null,
                                 )
                             }
+                            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
+                                IconButton(onClick = { appState.onHomeClick() }) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Home,
+                                        contentDescription = "home",
+                                        tint = colorResource(R.color.white)
+                                    )
+                                }
+                            }
+                        }
+                    }
 
-                        },
-                        )
                 },
 
                 drawerContent = {
