@@ -86,7 +86,7 @@ fun SearchByPhoneDialog(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.align(Alignment.End)
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Button(
                 onClick = {
