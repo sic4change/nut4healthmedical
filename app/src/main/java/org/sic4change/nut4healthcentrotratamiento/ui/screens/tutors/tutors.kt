@@ -30,6 +30,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorItemCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteChild
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
@@ -182,9 +183,17 @@ fun TutorsScreen(
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
-                      onEditTutorClick: (Tutor) -> Unit, onCreateChildClick: (Tutor) -> Unit,
-                      onItemClick: (Child) -> Unit, onDeleteTutorClick: () -> Unit) {
+fun TutorDetailScreen(
+    viewModel: TutorDetailViewModel = viewModel(),
+    onEditTutorClick: (Tutor) -> Unit,
+    onCreateChildClick: (Tutor) -> Unit,
+    onItemClick: (Child) -> Unit,
+    onDeleteTutorClick: () -> Unit,
+    onClickDetail: (Child) -> Unit,
+    onClickEdit: (Child) -> Unit,
+    onClickDelete: (Child) -> Unit,
+    onDeleteChild: (String) -> Unit,) {
+
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -224,11 +233,18 @@ fun TutorDetailScreen(viewModel: TutorDetailViewModel = viewModel(),
         tutorState = tutorDetailState,
         onEditClick = onEditTutorClick,
         onCreateChildClick = onCreateChildClick,
-        onItemClick = onItemClick
+        onItemClick = onItemClick,
+        onClickDetail = onClickDetail,
+        onClickEdit = onClickEdit,
+        onClickDelete = {tutorDetailState.showDeleteChildQuestion(it.id)},
+        onDeleteChild = onDeleteChild,
     )
 
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
         tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
+
+    MessageDeleteChild(tutorDetailState.deleteChild.value, tutorDetailState::showDeleteChildQuestion,
+        tutorDetailState.childId.value, viewModel::deleteChild, tutorDetailState.id.value, onDeleteChild)
 }
 
 @ExperimentalCoilApi

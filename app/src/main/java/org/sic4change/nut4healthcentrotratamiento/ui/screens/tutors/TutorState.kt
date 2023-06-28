@@ -42,12 +42,14 @@ fun rememberTutorState(
     createdTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showDateDialog:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    deleteChild:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    childId:  MutableState<String> = rememberSaveable { mutableStateOf("") },
 ) = remember{ TutorState(
     id, expandedDetail, name, surnames, address, phone, birthday, lastDate, createdDate, etnician, expandedEtnician,
     selectedOptionEtnician, sex, expandedSex, selectedOptionSex, maleRelation, expandedMaleRelation,
     selectedOptionMaleRelations, womanStatus, expandedWomanStatus, selectedOptionWomanStatus,
     weeks, childMinor, expandedChildMinor, selectedOptionChildMinor, armCircunference, babyAge,
-    status, observations, createdTutor, deleteTutor, showDateDialog,
+    status, observations, createdTutor, deleteTutor, showDateDialog, deleteChild, childId
 ) }
 
 class TutorState(
@@ -83,6 +85,8 @@ class TutorState(
     val createdTutor: MutableState<Boolean>,
     val deleteTutor: MutableState<Boolean>,
     val showDateDialog: MutableState<Boolean>,
+    val deleteChild: MutableState<Boolean>,
+    val childId: MutableState<String>,
     ) {
 
     fun expandContractDetail() {
@@ -96,6 +100,15 @@ class TutorState(
     fun showDeleteQuestion(id: String) {
         this.id.value = id
         deleteTutor.value = !deleteTutor.value
+    }
+
+    fun showDeleteChildQuestion() {
+        deleteChild.value = !deleteChild.value
+    }
+
+    fun showDeleteChildQuestion(id: String) {
+        this.childId.value = id
+        deleteChild.value = !deleteChild.value
     }
 
     fun clearWomanValues() {

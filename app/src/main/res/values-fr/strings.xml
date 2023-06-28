@@ -63,6 +63,7 @@
     <string name="create_child">Créer un profil d’enfant</string>
     <string name="delete_child_question">Voulez-vous vraiment supprimer ce profil d’enfant ? Toutes les données associées seront perdues</string>
     <string name="edit_child">Modifier profil d’enfant</string>
+    <string name="remove_child">Supprime profil d’enfant</string>
     <string name="tutors">Profil de l’accompagnant ou FEFA</string>
     <string name="cuadrante">Visitez le quadrant</string>
     <string name="next_visits">Prochaines visites</string>

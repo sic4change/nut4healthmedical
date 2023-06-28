@@ -58,6 +58,7 @@
     <string name="create_child">Crear perfil niño/a</string>
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar perfil niñ@</string>
+    <string name="remove_child">Eliminar perfil niñ@</string>
     <string name="tutors">Acompañantes</string>
     <string name="cuadrante">Cuadrante de visitas</string>
     <string name="next_visits">Próximas visitas</string>

@@ -32,9 +32,17 @@ import java.time.temporal.ChronoUnit
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
-                          tutorItem: Tutor?, childs: List<Child>?, onEditClick: (Tutor) -> Unit,
-                          onCreateChildClick: (Tutor) -> Unit, onItemClick: (Child) -> Unit) {
+fun TutorItemDetailScreen(tutorState: TutorState,
+                          loading: Boolean = false,
+                          tutorItem: Tutor?,
+                          childs: List<Child>?,
+                          onEditClick: (Tutor) -> Unit,
+                          onCreateChildClick: (Tutor) -> Unit,
+                          onItemClick: (Child) -> Unit,
+                          onClickDetail: (Child) -> Unit,
+                          onDeleteChild: (String) -> Unit,
+                          onClickEdit: (Child) -> Unit,
+                          onClickDelete: (Child) -> Unit) {
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -59,8 +67,16 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
                         .fillMaxWidth()
                         .padding(padding)
                 ) {
-                    TutorView(tutorItem = tutorItem, tutorState = tutorState, childs = childs,
-                    onItemClick = onItemClick, onItemMore = {}, onCreateChildClick = onCreateChildClick)
+                    TutorView(
+                        tutorItem = tutorItem,
+                        tutorState = tutorState,
+                        childs = childs,
+                        onItemClick = onItemClick,
+                        onCreateChildClick = onCreateChildClick,
+                        onClickDetail = onClickDetail,
+                        onClickDelete = onClickDelete,
+                        onClickEdit = onClickEdit,
+                        onDeleteChild  = onDeleteChild)
                 }
             }
 
@@ -72,9 +88,16 @@ fun TutorItemDetailScreen(tutorState: TutorState, loading: Boolean = false,
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Child>?,
-                      onItemClick: (Child) -> Unit, onItemMore: (Child) -> Unit,
-                      onCreateChildClick: (Tutor) -> Unit)  {
+private fun TutorView(
+    tutorItem: Tutor,
+    tutorState: TutorState,
+    childs: List<Child>?,
+    onItemClick: (Child) -> Unit,
+    onCreateChildClick: (Tutor) -> Unit,
+    onClickDetail: (Child) -> Unit,
+    onDeleteChild: (String) -> Unit,
+    onClickEdit: (Child) -> Unit,
+    onClickDelete: (Child) -> Unit)  {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -478,7 +501,9 @@ private fun TutorView(tutorItem: Tutor, tutorState: TutorState, childs: List<Chi
                 ChildListItem(
                     item = it,
                     modifier = Modifier.clickable { onItemClick(it) },
-                    onItemMore = onItemMore
+                    onClickDetail = onClickDetail,
+                    onClickEdit = onClickEdit,
+                    onClickDelete = onClickDelete,
                 )
             }
         }
@@ -543,6 +568,47 @@ fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, tutorId: 
             },
             text = {
                 Text(stringResource(R.string.delete_tutor_question))
+            },
+        )
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: String, onDeleteChild: (String) -> Unit, tutorId: String, onDeleteChildSelected: (String) -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onDeleteChild(childId)
+                        onDeleteChildSelected(tutorId)
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.delete_child_question))
             },
         )
     }

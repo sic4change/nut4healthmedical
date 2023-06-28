@@ -221,6 +221,25 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CREATECHILD).createRoute(tutor.id)
                     )
                 },
+                onClickDetail = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                    )
+                },
+                onClickEdit = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
+                    )
+                },
+                onClickDelete = { child ->
+
+                },
+                onDeleteChild = {tutorId ->
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutorId)
+                    )
+                }
             )
         }
 
@@ -256,6 +275,22 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
                 },
+                onClickDetail = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                    )
+                },
+                onClickEdit = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
+                    )
+                },
+                onClickDelete = { child ->
+
+                },
+                onDeleteChild = {
+
+                }
             )
         }
 
@@ -282,6 +317,22 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
                 },
+                onClickDetail = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(child.id)
+                    )
+                },
+                onClickEdit = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITCHILD).createRoute(child.id)
+                    )
+                },
+                onClickDelete = { child ->
+
+                },
+                onDeleteChild = {
+
+                }
             )
         }
 

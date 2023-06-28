@@ -43,4 +43,10 @@ class TutorDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
+    fun deleteChild(id: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.deleteChild(id)
+        }
+    }
+
 }
