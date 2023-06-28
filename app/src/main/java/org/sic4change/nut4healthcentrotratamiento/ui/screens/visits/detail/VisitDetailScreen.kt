@@ -1015,8 +1015,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              color = colorResource(R.color.colorPrimary)
                                          )
                                      }
-
-
                                  }
                              }
                          }

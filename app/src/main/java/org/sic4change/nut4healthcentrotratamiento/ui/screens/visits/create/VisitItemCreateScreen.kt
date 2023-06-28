@@ -912,11 +912,8 @@ fun SistemicView(visitState: VisitState) {
                         }
                     }
                 }
-                AnimatedVisibility(visitState.selectedCapsulesFerro.value != stringArrayResource(id = R.array.yesnooptions)[1]){
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-                AnimatedVisibility(visitState.selectedCapsulesFerro.value != stringArrayResource(id = R.array.yesnooptions)[1]){
-                    Column(
+                Spacer(modifier = Modifier.height(16.dp))
+                Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                         modifier = Modifier
@@ -938,7 +935,6 @@ fun SistemicView(visitState: VisitState) {
                                 color = colorResource(R.color.colorPrimary)
                             )
                         }
-                    }
                 }
             }
 
