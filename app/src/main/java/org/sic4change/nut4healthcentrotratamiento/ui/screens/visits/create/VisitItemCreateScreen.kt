@@ -55,7 +55,7 @@ import java.util.*
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false, child: Child?,
                           onCreateVisit: (String, Double, Double, Double, String, String, String, String,
                                           String, String, String, String, String, String, String,
-                                          String, Boolean, Boolean, String, String, Boolean, String,
+                                          String, String, String, String, String, Boolean, String,
                                           complications: List<Complication>, String) -> Unit,
                           onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
 
@@ -97,7 +97,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                       onCreateVisit: (
                        String, Double, Double, Double, String, String, String, String,
                        String, String, String, String, String, String, String,
-                       String, Boolean, Boolean, String, String, Boolean, String,
+                       String, String, String, String, String, Boolean, String,
                        complications: List<Complication>, String) -> Unit,
                       onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
 
@@ -303,7 +303,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
                                         visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
                                         visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                        visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
+                                        visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
                                         visitState.selectedCartilla.value, visitState.selectedRubeola.value,
                                         visitState.amoxicilina.value, visitState.othersTratments.value,
                                         visitState.complications.value, visitState.observations.value)
@@ -318,10 +318,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                             visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
                                         }
 
-                                        if (!visitState.vitamineAVaccinated.value && visitState.visits.value.size > 0) {
-                                            visitState.vitamineAVaccinated.value = visitState.visits.value[0].vitamineAVaccinated
-                                        }
-
                                         onCreateVisit(
                                             visitState.admissionType.value,
                                             visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
@@ -332,7 +328,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                             visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
                                             visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
                                             visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                            visitState.vitamineAVaccinated.value, visitState.capsulesFerro.value,
+                                            visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
                                             visitState.selectedCartilla.value, visitState.selectedRubeola.value,
                                             visitState.amoxicilina.value, visitState.othersTratments.value,
                                             visitState.complications.value, visitState.observations.value)
@@ -613,6 +609,9 @@ fun NutritionalView(visitState: VisitState) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SistemicView(visitState: VisitState) {
+
+    val EMPTYVALUE = stringArrayResource(R.array.yesnooptions)[0]
+
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
 
@@ -665,21 +664,63 @@ fun SistemicView(visitState: VisitState) {
                     .wrapContentSize()
                     .padding(0.dp, 16.dp)
             ) {
-
-                Box(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .fillMaxSize()
-                        .align(Alignment.CenterHorizontally)
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    expanded = visitState.expandedVitamineAVaccinated.value,
+                    onExpandedChange = {
+                        visitState.expandedVitamineAVaccinated.value = !visitState.expandedVitamineAVaccinated.value
+                    }
                 ) {
-                    CheckNUT4H(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value) {
-                        visitState.vitamineAVaccinated.value = it
+                    TextField(
+                        readOnly = true,
+                        value = visitState.selectedVitamineAVaccinated.value,
+                        onValueChange = {
+                            visitState.selectedVitamineAVaccinated.value = it
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = visitState.expandedVitamineAVaccinated.value
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h5,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary), )},
+                        label = { Text(stringResource(R.string.vitamineAVaccinated), color = colorResource(R.color.disabled_color)) }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = visitState.expandedVitamineAVaccinated.value,
+                        onDismissRequest = {
+                            visitState.expandedVitamineAVaccinated.value = false
+                        }
+                    ) {
+                        stringArrayResource(id = R.array.yesnooptions).forEach { selectedVitamineA ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    visitState.selectedVitamineAVaccinated.value = selectedVitamineA
+                                    visitState.expandedVitamineAVaccinated.value = false
+                                }
+                            ) {
+                                Text(text = selectedVitamineA, color = colorResource(R.color.colorPrimary))
+                            }
+                        }
                     }
                 }
-
-                AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -813,47 +854,101 @@ fun SistemicView(visitState: VisitState) {
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(
-                    8.dp,
-                    Alignment.CenterVertically
-                ),
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                 modifier = Modifier
                     .wrapContentSize()
                     .padding(0.dp, 16.dp)
             ) {
-                Text(
-                    stringResource(R.string.admin_dosis),
-                    color = colorResource(R.color.black_gray)
-                )
-                if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
-                    Text(
-                        stringResource(R.string.capsules_hierro_folico_one),
-                        color = colorResource(R.color.colorPrimary)
-                    )
-                } else {
-                    Text(
-                        stringResource(R.string.capsules_hierro_folico_tow),
-                        color = colorResource(R.color.colorPrimary)
-                    )
-                }
-                Box(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .fillMaxSize()
-                        .align(Alignment.CenterHorizontally)
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    expanded = visitState.expandedCapsulesFerro.value,
+                    onExpandedChange = {
+                        visitState.expandedCapsulesFerro.value = !visitState.expandedCapsulesFerro.value
+                    }
                 ) {
-                    CheckNUT4H(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value) {
-                        visitState.capsulesFerro.value = it
+                    TextField(
+                        readOnly = true,
+                        value = visitState.selectedCapsulesFerro.value,
+                        onValueChange = {
+                            visitState.selectedCapsulesFerro.value = it
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = visitState.expandedCapsulesFerro.value
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.h5,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            cursorColor = colorResource(R.color.colorAccent),
+                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.colorAccent),
+                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary), )},
+                        label = { Text(stringResource(R.string.capsules_hierro_folico_checked), color = colorResource(R.color.disabled_color)) }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = visitState.expandedCapsulesFerro.value,
+                        onDismissRequest = {
+                            visitState.expandedCapsulesFerro.value = false
+                        }
+                    ) {
+                        stringArrayResource(id = R.array.yesnooptions).forEach { selectedFerro ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    visitState.selectedCapsulesFerro.value = selectedFerro
+                                    visitState.expandedCapsulesFerro.value = false
+                                }
+                            ) {
+                                Text(text = selectedFerro, color = colorResource(R.color.colorPrimary))
+                            }
+                        }
                     }
                 }
-
+                AnimatedVisibility(visitState.selectedCapsulesFerro.value != stringArrayResource(id = R.array.yesnooptions)[1]){
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                AnimatedVisibility(visitState.selectedCapsulesFerro.value != stringArrayResource(id = R.array.yesnooptions)[1]){
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(0.dp, 0.dp)
+                    ) {
+                        Text(stringResource(
+                            R.string.vitamine_dosis),
+                            color = colorResource(R.color.black_gray)
+                        )
+                        if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
+                            Text(
+                                stringResource(R.string.capsules_hierro_folico_one),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else {
+                            Text(
+                                stringResource(R.string.capsules_hierro_folico_tow),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        }
+                    }
+                }
             }
+
         }
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && monthsBetween >= 9
-            && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
+            && (visitState.visitsSize.value == 0 || visitState.visits.value[1].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[2]) ) {
         Spacer(modifier = Modifier.height(16.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
             Spacer(modifier = Modifier.width(16.dp))
@@ -867,7 +962,7 @@ fun SistemicView(visitState: VisitState) {
     AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && monthsBetween >= 9
-            && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
+            && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1]) ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -923,14 +1018,15 @@ fun SistemicView(visitState: VisitState) {
                             visitState.expandedCartilla.value = false
                         }
                     ) {
-                        stringArrayResource(id = R.array.yesnooptions).forEach { selectedEdema ->
+                        stringArrayResource(id = R.array.yesnooptions).forEach { selectedCartilla ->
                             DropdownMenuItem(
                                 onClick = {
-                                    visitState.selectedCartilla.value = selectedEdema
+                                    visitState.selectedCartilla.value = selectedCartilla
                                     visitState.expandedCartilla.value = false
+                                    visitState.selectedRubeola.value = EMPTYVALUE
                                 }
                             ) {
-                                Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                                Text(text = selectedCartilla, color = colorResource(R.color.colorPrimary))
                             }
                         }
                     }
@@ -938,7 +1034,7 @@ fun SistemicView(visitState: VisitState) {
                 AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
-                        && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
+                        && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
 
                     ExposedDropdownMenuBox(
                         modifier = Modifier
@@ -995,28 +1091,12 @@ fun SistemicView(visitState: VisitState) {
                     }
                 }
 
-                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                        && visitState.status.value == stringResource(R.string.aguda_moderada)
-                        && monthsBetween >= 9
-                        && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(0.dp, 16.dp)
-                    ) {
-                        Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
-                        Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
-                    }
-
-                }
 
                 AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
-                        && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
-                        && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                        && (visitState.selectedCartilla.value != stringArrayResource(id = R.array.yesnooptions)[1]
+                        || visitState.selectedRubeola.value != stringArrayResource(id = R.array.yesnooptions)[1])) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -1729,6 +1809,10 @@ fun setDefaultValues(visitState: VisitState) {
     visitState.selectedFiebre.value = stringArrayResource(id = R.array.frecuencyOptions)[0]
     visitState.selectedTos.value = stringArrayResource(id = R.array.yesnooptions)[0]
     visitState.selectedTemperature.value = stringArrayResource(id = R.array.temperatureoptions)[0]
+    visitState.selectedVitamineAVaccinated.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedCartilla.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedRubeola.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedCapsulesFerro.value = stringArrayResource(id = R.array.yesnooptions)[0]
 }
 
 @OptIn(ExperimentalMaterialApi::class)

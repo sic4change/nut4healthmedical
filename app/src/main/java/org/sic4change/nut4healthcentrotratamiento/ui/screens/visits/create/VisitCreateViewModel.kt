@@ -58,7 +58,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     status: String, edema: String, respiratonStatus: String, appetiteTest: String,
                     infection: String, eyesDeficiency: String, deshidratation: String, vomiting: String,
                     diarrhea: String, fever: String, cough: String, temperature: String,
-                    vitamineAVaccinated: Boolean, acidfolicAndFerroVaccinated: Boolean,
+                    vitamineAVaccinated: String, acidfolicAndFerroVaccinated: String,
                     vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: Boolean, otherTratments: String,
                     complications: List<Complication>, observations: String) {
         viewModelScope.launch {

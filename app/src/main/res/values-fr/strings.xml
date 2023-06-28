@@ -118,7 +118,7 @@
     <string name="aguda_severa">Malnutrition Aiguë Sévère</string>
     <string name="objetive_weight">Poids Cible</string>
     <string name="measlesVaccinated">L’enfant est-il vacciné contre la rougeole?</string>
-    <string name="vitamineAVaccinated">L’enfant suit-il un programme de vaccination de Vitamine A depuis 4 mois?</string>
+    <string name="vitamineAVaccinated">L\'enfant a-t-il été vacciné de la Vitamine A pendant les 4 derniers mois?</string>
     <string name="vitamine_a_title">Vitamine A</string>
     <string name="albendazole_a_title">Albendazole / Mebendazole</string>
     <string name="ferro_title">Fer et acide folique</string>
@@ -375,12 +375,12 @@
     <string name="step3_title">Traitement systémique</string>
     <string name="step4_title">Traitement nutritionnel</string>
 
-    <string name="admissionType">Tipo de admisión</string>
+    <string name="admissionType">Type d\'admission</string>
     <string-array name="addmisionTypeOptions">
-        <item>Nueva admisión</item>
-        <item>Derivado</item>
-        <item>Transferido</item>
-        <item>Recaída</item>
+        <item>Nouvelle admission</item>
+        <item>Dérivé</item>
+        <item>Transféré</item>
+        <item>Récidive</item>
     </string-array>
 
 

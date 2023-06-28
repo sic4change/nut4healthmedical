@@ -793,13 +793,31 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              .fillMaxSize()
                                              .align(Alignment.CenterHorizontally)
                                      ) {
-                                         CheckNUT4HDisabled(text = stringResource(id = R.string.vitamineAVaccinated), visitState.vitamineAVaccinated.value)
+                                         TextField(
+                                             readOnly = true,
+                                             value = visitState.selectedVitamineAVaccinated.value,
+                                             onValueChange = {},
+                                             textStyle = MaterialTheme.typography.h5,
+                                             colors = TextFieldDefaults.textFieldColors(
+                                                 textColor = colorResource(R.color.colorPrimary),
+                                                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 cursorColor = color,
+                                                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 focusedIndicatorColor = color,
+                                                 unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                             ),
+                                             modifier = Modifier
+                                                 .fillMaxWidth(),
+                                             leadingIcon = {
+                                                 Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  )},
+                                             label = { Text(stringResource(R.string.vitamineAVaccinated), color = colorResource(R.color.disabled_color)) }
+                                         )
                                      }
 
-                                     AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                                     AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
                                          Spacer(modifier = Modifier.height(16.dp))
                                      }
-                                     AnimatedVisibility(visitState.vitamineAVaccinated.value) {
+                                     AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
                                          Column(
                                              horizontalAlignment = Alignment.CenterHorizontally,
                                              verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -949,6 +967,39 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          .wrapContentSize()
                                          .padding(0.dp, 16.dp)
                                  ) {
+                                     Box(
+                                         modifier = Modifier.padding(horizontal = 16.dp)
+                                             .fillMaxSize()
+                                             .align(Alignment.CenterHorizontally)
+                                     ) {
+                                         TextField(
+                                             enabled = false,
+                                             readOnly = true,
+                                             value = visitState.selectedCapsulesFerro.value,
+                                             onValueChange = {
+                                                 visitState.selectedCapsulesFerro.value = it
+                                             },
+                                             trailingIcon = {
+                                                 ExposedDropdownMenuDefaults.TrailingIcon(
+                                                     expanded = visitState.expandedCapsulesFerro.value
+                                                 )
+                                             },
+                                             textStyle = MaterialTheme.typography.h5,
+                                             colors = TextFieldDefaults.textFieldColors(
+                                                 textColor = colorResource(R.color.colorPrimary),
+                                                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 cursorColor = colorResource(R.color.colorAccent),
+                                                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                 unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                             ),
+                                             modifier = Modifier
+                                                 .fillMaxWidth(),
+                                             leadingIcon = {
+                                                 Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary), )},
+                                             label = { Text(stringResource(R.string.capsules_hierro_folico_checked), color = colorResource(R.color.disabled_color)) }
+                                         )
+                                     }
                                      Text(
                                          stringResource(R.string.admin_dosis),
                                          color = colorResource(R.color.black)
@@ -964,15 +1015,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              color = colorResource(R.color.colorPrimary)
                                          )
                                      }
-                                     Box(
-                                         modifier = Modifier.padding(horizontal = 16.dp)
-                                             .fillMaxSize()
-                                             .align(Alignment.CenterHorizontally)
-                                     ) {
-                                         CheckNUT4H(text = stringResource(id = R.string.capsules_hierro_folico_checked), visitState.capsulesFerro.value) {
-                                             visitState.capsulesFerro.value = it
-                                         }
-                                     }
+
 
                                  }
                              }
