@@ -212,14 +212,14 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, visits
                 }
             }
             Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(modifier = Modifier.weight(1f, true)) {
                     Text(
                         text = caseItem.name,
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         maxLines = 3
                     )
                     Text(
@@ -227,21 +227,21 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, visits
                         text = caseItem.status,
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.body1,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         maxLines = 3
                     )
                     Text(
                         modifier = Modifier.padding(8.dp, 0.dp),
-                        text = caseItem.observations,
+                        text = if (caseItem.observations.isNotEmpty()) caseItem.observations else "--",
                         color = colorResource(R.color.disabled_color),
                         style = MaterialTheme.typography.caption,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         maxLines = 3
                     )
                 }
 
                 Image(
-                    modifier = Modifier.size(78.dp).weight(1f),
+                    modifier = Modifier.size(78.dp),
                     painter = painterResource(id = R.mipmap.ic_cases),
                     contentDescription = null,
                 )

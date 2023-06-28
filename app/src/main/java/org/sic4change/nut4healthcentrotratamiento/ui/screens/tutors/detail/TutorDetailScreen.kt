@@ -453,31 +453,33 @@ private fun TutorView(
             Spacer(modifier = Modifier.height(16.dp))
             if (childs != null && childs.isEmpty()) {
                 Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically) {
                     Text(
+                        modifier = Modifier.weight(1f, true),
                         text = stringResource(R.string.no_childs),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Start,
                         maxLines = 3
                     )
                     Image(
-                        modifier = Modifier.size(78.dp).weight(1f),
+                        modifier = Modifier.size(64.dp),
                         painter = painterResource(id = R.mipmap.ic_childs),
                         contentDescription = null,
                     )
                 }
             } else if (childs != null && childs.isNotEmpty()){
                 Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically) {
                     Text(
+                        modifier = Modifier.weight(1f, true),
                         text = stringResource(R.string.childs),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start,
+                        maxLines = 3,
                     )
                     Image(
                         modifier = Modifier.size(64.dp),

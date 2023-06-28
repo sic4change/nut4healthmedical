@@ -242,7 +242,7 @@ private fun Header(tutorState: TutorState,
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  )},
                 label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) }
             )
             ExposedDropdownMenu(
@@ -367,7 +367,7 @@ private fun Header(tutorState: TutorState,
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = {
-                        Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  )},
                     label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) }
                 )
                 ExposedDropdownMenu(
@@ -426,7 +426,7 @@ private fun Header(tutorState: TutorState,
                     modifier = Modifier
                         .fillMaxWidth(),
                     leadingIcon = {
-                        Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary), )},
                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) }
                 )
                 ExposedDropdownMenu(
@@ -483,7 +483,7 @@ private fun Header(tutorState: TutorState,
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
-                    Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary), )},
                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) }
 
             )
@@ -524,7 +524,7 @@ private fun Header(tutorState: TutorState,
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = {
-                        Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                        Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary), )},
                     label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) }
                 )
                 ExposedDropdownMenu(
@@ -574,7 +574,7 @@ private fun Header(tutorState: TutorState,
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp),
                 leadingIcon = {
-                    Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary), )},
                 label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) }
 
             )

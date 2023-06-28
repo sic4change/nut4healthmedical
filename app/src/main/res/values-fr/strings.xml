@@ -124,7 +124,7 @@
     <string name="ferro_title">Fer et acide folique</string>
     <string name="vaccine_title">Vaccins</string>
     <string name="edit_visit">Modifier la visite</string>
-    <string name="years">années</string>
+    <string name="years">ans</string>
     <string name="months">mois</string>
     <string name="searchByNameAndSurnames">Recherche par nom ou prénom</string>
     <string name="searchTutorsByNameAndSurnames">Chercher par nom ou prénom du profil de l’accompagnant ou FEFA</string>
@@ -375,6 +375,13 @@
     <string name="step3_title">Traitement systémique</string>
     <string name="step4_title">Traitement nutritionnel</string>
 
+    <string name="admissionType">Tipo de admisión</string>
+    <string-array name="addmisionTypeOptions">
+        <item>Nueva admisión</item>
+        <item>Derivado</item>
+        <item>Transferido</item>
+        <item>Recaída</item>
+    </string-array>
 
 
 </resources>

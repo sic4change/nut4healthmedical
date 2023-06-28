@@ -426,7 +426,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                  .fillMaxWidth()
                                  .padding(16.dp, 0.dp),
                              leadingIcon = {
-                                 Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                 Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  )},
                              label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
                          )
 
@@ -535,7 +535,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              modifier = Modifier
                                                  .fillMaxWidth(),
                                              leadingIcon = {
-                                                 Icon(painterResource(R.mipmap.ic_respiration), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                                 Icon(painterResource(R.mipmap.ic_respiration), null, tint = colorResource(R.color.colorPrimary), )},
                                              label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
                                          )
                                      }
@@ -558,7 +558,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              modifier = Modifier
                                                  .fillMaxWidth(),
                                              leadingIcon = {
-                                                 Icon(painterResource(R.mipmap.ic_apetit), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                                 Icon(painterResource(R.mipmap.ic_apetit), null, tint = colorResource(R.color.colorPrimary), )},
                                              label = { Text(stringResource(R.string.apetit), color = colorResource(R.color.disabled_color)) }
                                          )
 
@@ -566,6 +566,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
 
 
                                      TextField(
+                                         enabled = false,
                                          readOnly = true,
                                          value = if (visitState.selectedInfection.value == "") stringArrayResource(R.array.yesnooptions)[1] else visitState.selectedInfection.value,
                                          onValueChange = {},
@@ -581,7 +582,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(painterResource(R.mipmap.ic_infeccion), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(painterResource(R.mipmap.ic_infeccion), null, tint = colorResource(R.color.colorPrimary), )},
                                          label = { Text(stringResource(R.string.infection), color = colorResource(R.color.disabled_color)) }
                                      )
 
@@ -602,7 +603,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(Icons.Filled.RemoveRedEye, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(Icons.Filled.RemoveRedEye, null, tint = colorResource(R.color.colorPrimary), )},
                                          label = { Text(stringResource(R.string.eyes), color = colorResource(R.color.disabled_color)) }
                                      )
 
@@ -625,7 +626,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(painterResource(R.mipmap.ic_deshidratation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(painterResource(R.mipmap.ic_deshidratation), null, tint = colorResource(R.color.colorPrimary),  )},
                                          label = { Text(stringResource(R.string.deshidratation), color = colorResource(R.color.disabled_color)) }
                                      )
 
@@ -648,7 +649,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary), )},
                                          label = { Text(stringResource(R.string.vomits), color = colorResource(R.color.disabled_color)) }
                                      )
 
@@ -669,7 +670,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary), )},
                                          label = { Text(stringResource(R.string.diarrea), color = colorResource(R.color.disabled_color)) }
                                      )
 
@@ -690,7 +691,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  )},
                                          label = { Text(stringResource(R.string.fiebre), color = colorResource(R.color.disabled_color)) }
                                      )
 
@@ -713,7 +714,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              modifier = Modifier
                                                  .fillMaxWidth(),
                                              leadingIcon = {
-                                                 Icon(painterResource(R.mipmap.ic_tos), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                                 Icon(painterResource(R.mipmap.ic_tos), null, tint = colorResource(R.color.colorPrimary), )},
                                              label = { Text(stringResource(R.string.tos), color = colorResource(R.color.disabled_color)) }
                                          )
                                      }
@@ -735,7 +736,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                          modifier = Modifier
                                              .fillMaxWidth(),
                                          leadingIcon = {
-                                             Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                             Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  )},
                                          label = { Text(stringResource(R.string.temperature), color = colorResource(R.color.disabled_color)) }
                                      )
                                  }
@@ -1039,7 +1040,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              modifier = Modifier
                                                  .fillMaxWidth(),
                                              leadingIcon = {
-                                                 Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                                 Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  )},
                                              label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
                                          )
                                          ExposedDropdownMenu(
@@ -1081,7 +1082,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                                      unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
                                                  ),
                                                  modifier = Modifier.fillMaxWidth(),
-                                                 leadingIcon = { Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                                 leadingIcon = { Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  )},
                                                  label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
                                              )
                                              ExposedDropdownMenu(

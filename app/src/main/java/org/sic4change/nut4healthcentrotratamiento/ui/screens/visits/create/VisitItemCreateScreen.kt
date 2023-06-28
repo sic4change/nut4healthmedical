@@ -12,12 +12,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,18 +31,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4H
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -483,7 +480,7 @@ fun NutritionalView(visitState: VisitState) {
         ) {
             Text(
                 text = stringResource(R.string.plumpy_one),
-                color = colorResource(R.color.black),
+                color = colorResource(R.color.black_gray),
                 textAlign = TextAlign.Left,
                 modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 style = MaterialTheme.typography.h5,
@@ -523,7 +520,7 @@ fun NutritionalView(visitState: VisitState) {
         ) {
             Text(
                 text = stringResource(R.string.plumpy_two),
-                color = colorResource(R.color.black),
+                color = colorResource(R.color.black_gray),
                 textAlign = TextAlign.Left,
                 modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 style = MaterialTheme.typography.h5,
@@ -692,7 +689,7 @@ fun SistemicView(visitState: VisitState) {
                     ) {
                         Text(stringResource(
                             R.string.vitamine_dosis),
-                            color = colorResource(R.color.black)
+                            color = colorResource(R.color.black_gray)
                         )
                         if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
                             Text(
@@ -755,7 +752,7 @@ fun SistemicView(visitState: VisitState) {
                     if ((monthsBetween >= 12 && monthsBetween < 24)) {
                         Text(
                             stringResource(R.string.admin_dosis),
-                            color = colorResource(R.color.black)
+                            color = colorResource(R.color.black_gray)
                         )
                         Text(
                             stringResource(R.string.abendazol_400_half),
@@ -769,7 +766,7 @@ fun SistemicView(visitState: VisitState) {
                     } else if ((monthsBetween >= 24)) {
                         Text(
                             stringResource(R.string.admin_dosis),
-                            color = colorResource(R.color.black)
+                            color = colorResource(R.color.black_gray)
                         )
                         Text(
                             stringResource(R.string.abendazol_400_full),
@@ -826,7 +823,7 @@ fun SistemicView(visitState: VisitState) {
             ) {
                 Text(
                     stringResource(R.string.admin_dosis),
-                    color = colorResource(R.color.black)
+                    color = colorResource(R.color.black_gray)
                 )
                 if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
                     Text(
@@ -917,7 +914,7 @@ fun SistemicView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary), )},
                         label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -975,7 +972,7 @@ fun SistemicView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  )},
                             label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
                         )
                         ExposedDropdownMenu(
@@ -1196,7 +1193,7 @@ fun SymtomsView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(painterResource(R.mipmap.ic_respiration), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(painterResource(R.mipmap.ic_respiration), null, tint = colorResource(R.color.colorPrimary), )},
                             label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
 
                         )
@@ -1254,7 +1251,7 @@ fun SymtomsView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(painterResource(R.mipmap.ic_apetit), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(painterResource(R.mipmap.ic_apetit), null, tint = colorResource(R.color.colorPrimary), )},
                             label = { Text(stringResource(R.string.apetit), color = colorResource(R.color.disabled_color)) }
                         )
                         ExposedDropdownMenu(
@@ -1309,7 +1306,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(painterResource(R.mipmap.ic_infeccion), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_infeccion), null, tint = colorResource(R.color.colorPrimary), )},
                         label = { Text(stringResource(R.string.infection), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1363,7 +1360,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.RemoveRedEye, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(Icons.Filled.RemoveRedEye, null, tint = colorResource(R.color.colorPrimary), )},
                         label = { Text(stringResource(R.string.eyes), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1417,7 +1414,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(painterResource(R.mipmap.ic_deshidratation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_deshidratation), null, tint = colorResource(R.color.colorPrimary),  )},
                         label = { Text(stringResource(R.string.deshidratation), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1471,7 +1468,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary), )},
                         label = { Text(stringResource(R.string.vomits), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1525,7 +1522,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary),  )},
                         label = { Text(stringResource(R.string.diarrea), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1579,7 +1576,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  )},
                         label = { Text(stringResource(R.string.fiebre), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1634,7 +1631,7 @@ fun SymtomsView(visitState: VisitState) {
                             modifier = Modifier
                                 .fillMaxWidth(),
                             leadingIcon = {
-                                Icon(painterResource(R.mipmap.ic_tos), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                                Icon(painterResource(R.mipmap.ic_tos), null, tint = colorResource(R.color.colorPrimary),  )},
                             label = { Text(stringResource(R.string.tos), color = colorResource(R.color.disabled_color)) }
                         )
                         ExposedDropdownMenu(
@@ -1689,7 +1686,7 @@ fun SymtomsView(visitState: VisitState) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         leadingIcon = {
-                            Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                            Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  )},
                         label = { Text(stringResource(R.string.temperature), color = colorResource(R.color.disabled_color)) }
                     )
                     ExposedDropdownMenu(
@@ -1771,7 +1768,7 @@ fun AntropometricosView(visitState: VisitState,
             modifier = Modifier
                 .fillMaxWidth(),
             leadingIcon = {
-                Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  )},
             label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) }
         )
         ExposedDropdownMenu(
@@ -2010,7 +2007,7 @@ fun AntropometricosView(visitState: VisitState,
             modifier = Modifier
                 .fillMaxWidth(),
             leadingIcon = {
-                Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  )},
             label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
         )
         ExposedDropdownMenu(
@@ -2117,79 +2114,35 @@ fun AntropometricosView(visitState: VisitState,
 
         visitState.status.value = statusFormated
 
+        var color = Color.White
         if (visitState.status.value == stringResource(R.string.normopeso)) {
-            TextField(value = visitState.status.value,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorAccent),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            color = colorResource(R.color.colorAccent)
         } else if (visitState.status.value == stringResource(R.string.objetive_weight)) {
-            TextField(value = visitState.status.value,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorPrimary),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorPrimary),
-                    unfocusedIndicatorColor = colorResource(R.color.colorPrimary),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            color = colorResource(R.color.colorPrimary)
         } else if (visitState.status.value == stringResource(R.string.aguda_moderada)) {
-            TextField(value = visitState.status.value,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.orange),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.orange),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.orange),
-                    unfocusedIndicatorColor = colorResource(R.color.orange),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            color = colorResource(R.color.orange)
         } else {
-            TextField(value = statusFormated,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.error),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.error),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.error),
-                    unfocusedIndicatorColor = colorResource(R.color.error),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
+            color = colorResource(R.color.error)
         }
+
+        TextField(value = visitState.status.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.white),
+                backgroundColor = color,
+                cursorColor = colorResource(R.color.full_transparent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+            ),
+            shape = RoundedCornerShape(8.dp),
+            onValueChange = {}, readOnly = true,
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.FolderOpen, null, tint = colorResource(R.color.white),  modifier = Modifier.clickable { })},
+            label = { Text(stringResource(R.string.status), color = colorResource(R.color.white)) })
 
     }
     Spacer(modifier = Modifier.height(16.dp))

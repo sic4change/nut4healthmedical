@@ -181,7 +181,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(painterResource(R.mipmap.ic_brothers), null, tint = colorResource(R.color.colorPrimary),  )},
                 label = { Text(stringResource(R.string.child_brothers), color = colorResource(R.color.disabled_color)) }
             )
             ExposedDropdownMenu(
@@ -234,7 +234,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(Icons.Filled.Face, null, tint = colorResource(R.color.colorPrimary),  )},
                 label = { Text(stringResource(R.string.etnician), color = colorResource(R.color.disabled_color)) }
             )
             ExposedDropdownMenu(

@@ -255,14 +255,14 @@ private fun ChildView(
                 }
                 if (cases != null && cases.isEmpty()) {
                     Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = stringResource(R.string.no_cases),
                             color = colorResource(R.color.colorPrimary),
                             style = MaterialTheme.typography.h4,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.weight(1f, true),
                             maxLines = 3
                         )
                         Image(
@@ -273,13 +273,15 @@ private fun ChildView(
                     }
                 } else if (cases != null && cases.isNotEmpty()){
                     Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically) {
                         Text(
+                            modifier = Modifier.weight(1f, true),
                             text = stringResource(R.string.casos),
                             color = colorResource(R.color.colorPrimary),
                             style = MaterialTheme.typography.h4,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Start,
+                            maxLines = 3
                         )
                         Image(
                             modifier = Modifier.size(64.dp),

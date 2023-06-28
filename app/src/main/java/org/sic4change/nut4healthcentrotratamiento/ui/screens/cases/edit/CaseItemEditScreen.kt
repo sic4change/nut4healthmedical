@@ -127,7 +127,7 @@ private fun Header(caseState: CaseState,  onEditCase: (String, String, String, S
                 modifier = Modifier
                     .fillMaxWidth(),
                 leadingIcon = {
-                    Icon(Icons.Filled.Folder, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable {   })},
+                    Icon(Icons.Filled.Folder, null, tint = colorResource(R.color.colorPrimary),  )},
                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) }
             )
             ExposedDropdownMenu(
