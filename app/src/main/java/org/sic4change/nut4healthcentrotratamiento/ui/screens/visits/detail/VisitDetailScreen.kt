@@ -1100,7 +1100,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                      AnimatedVisibility(visitState.status.value.isNotEmpty()
                                              && visitState.status.value == stringResource(R.string.aguda_moderada)
                                              && monthsBetween >= 9
-                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]) {
+                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
 
                                          ExposedDropdownMenuBox(
                                              modifier = Modifier
@@ -1143,7 +1143,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                      AnimatedVisibility(visitState.status.value.isNotEmpty()
                                              && visitState.status.value == stringResource(R.string.aguda_moderada)
                                              && monthsBetween >= 9
-                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                                             && visitState.selectedCartilla.value != stringArrayResource(id = R.array.yesnooptions)[1]) {
                                          Column(
                                              horizontalAlignment = Alignment.CenterHorizontally,
                                              verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -1160,8 +1160,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                      AnimatedVisibility(visitState.status.value.isNotEmpty()
                                              && visitState.status.value == stringResource(R.string.aguda_moderada)
                                              && monthsBetween >= 9
-                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[0]
-                                             && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                                             && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]
+                                             && visitState.selectedRubeola.value != stringArrayResource(id = R.array.yesnooptions)[1]) {
                                          Column(
                                              horizontalAlignment = Alignment.CenterHorizontally,
                                              verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
