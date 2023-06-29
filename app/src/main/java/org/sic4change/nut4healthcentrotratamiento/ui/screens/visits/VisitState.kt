@@ -51,7 +51,8 @@ fun rememberVisitsState(
     expandedVitamineAVaccinated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedCapsulesFerro: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedCapsulesFerro: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    amoxicilina: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    expandedAmoxicilina: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedAmoxicilina: MutableState<String> = rememberSaveable { mutableStateOf("") },
     othersTratments: MutableState<String> = rememberSaveable { mutableStateOf("") },
     selectedCartilla: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedCartilla: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
@@ -70,12 +71,13 @@ fun rememberVisitsState(
     visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) }
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, addmisionType, expandedAddmisionType,
     height, weight, imc, armCircunference, status, selectedEdema, expandedEdema, selectedInfection,
-    expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation, expandedDeshidratation,  selectedVomitos, expandedVomitos,
-    selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
+    expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation, expandedDeshidratation,  selectedVomitos,
+    expandedVomitos, selectedDiarrea, expandedDiarrea, selectedFiebre, expandedFiebre, selectedTos, expandedTos,
     selectedRespiration, expandedRespiration, selectedApetit, expandedApetit, selectedTemperature, expandedTemperature,
-    selectedVitamineAVaccinated, expandedVitamineAVaccinated, selectedCapsulesFerro, expandedCapsulesFerro, amoxicilina, othersTratments, selectedCartilla, expandedCartilla,
-    selectedRubeola, expandedRubeola, observations, childDateMillis, treatments, complications,
-    createdDate, createdVisit, visitsSize, visits, deleteVisit, currentStep, visitNumber ) }
+    selectedVitamineAVaccinated, expandedVitamineAVaccinated, selectedCapsulesFerro, expandedCapsulesFerro,
+    selectedAmoxicilina, expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla, selectedRubeola,
+    expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
+    visitsSize, visits, deleteVisit, currentStep, visitNumber ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -116,7 +118,8 @@ class VisitState(
     val expandedVitamineAVaccinated: MutableState<Boolean>,
     val selectedCapsulesFerro: MutableState<String>,
     val expandedCapsulesFerro: MutableState<Boolean>,
-    val amoxicilina: MutableState<Boolean>,
+    val selectedAmoxicilina: MutableState<String>,
+    val expandedAmoxicilina: MutableState<Boolean>,
     val othersTratments: MutableState<String>,
     val selectedCartilla: MutableState<String>,
     val expandedCartilla: MutableState<Boolean>,

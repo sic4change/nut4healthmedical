@@ -1246,7 +1246,30 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?) {
                                              .fillMaxSize()
                                              .align(Alignment.CenterHorizontally)
                                      ) {
-                                         CheckNUT4HDisabled(text = stringResource(id = R.string.amoxicilina_question), visitState.amoxicilina.value)
+                                         TextField(value = visitState.selectedAmoxicilina.value.toString(),
+                                             enabled = false,
+                                             colors = TextFieldDefaults.textFieldColors(
+                                                 textColor = colorResource(R.color.colorPrimary),
+                                                 backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 cursorColor = colorResource(R.color.colorAccent),
+                                                 disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                 focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                 unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+                                             ),
+                                             onValueChange = {
+                                                 visitState.selectedAmoxicilina.value = it
+                                             },
+                                             textStyle = MaterialTheme.typography.h5,
+                                             keyboardOptions = KeyboardOptions(
+                                                 keyboardType = KeyboardType.Text
+                                             ),
+                                             modifier = Modifier
+                                                 .fillMaxWidth()
+                                                 .padding(16.dp, 0.dp),
+                                             leadingIcon = {
+                                                 Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary))},
+                                             label = { Text(stringResource(R.string.another_tratements), color = colorResource(R.color.disabled_color)) })
+
                                      }
                                      TextField(value = visitState.othersTratments.value.toString(),
                                          enabled = false,

@@ -59,7 +59,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     infection: String, eyesDeficiency: String, deshidratation: String, vomiting: String,
                     diarrhea: String, fever: String, cough: String, temperature: String,
                     vitamineAVaccinated: String, acidfolicAndFerroVaccinated: String,
-                    vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: Boolean, otherTratments: String,
+                    vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: String, otherTratments: String,
                     complications: List<Complication>, observations: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)

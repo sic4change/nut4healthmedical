@@ -55,7 +55,7 @@ import java.util.*
 fun VisitItemCreateScreen(visitState: VisitState, loading: Boolean = false, child: Child?,
                           onCreateVisit: (String, Double, Double, Double, String, String, String, String,
                                           String, String, String, String, String, String, String,
-                                          String, String, String, String, String, Boolean, String,
+                                          String, String, String, String, String, String, String,
                                           complications: List<Complication>, String) -> Unit,
                           onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
 
@@ -97,7 +97,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                       onCreateVisit: (
                        String, Double, Double, Double, String, String, String, String,
                        String, String, String, String, String, String, String,
-                       String, String, String, String, String, Boolean, String,
+                       String, String, String, String, String, String, String,
                        complications: List<Complication>, String) -> Unit,
                       onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
 
@@ -282,7 +282,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = visitState.status.value.isNotEmpty()) {
+                    AnimatedVisibility(visible = (visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value < 30) {
                         val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
                             visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
@@ -305,7 +305,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         visitState.selectedTos.value, visitState.selectedTemperature.value,
                                         visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
                                         visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                        visitState.amoxicilina.value, visitState.othersTratments.value,
+                                        visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
                                         visitState.complications.value, visitState.observations.value)
                                 } else {
                                     if (visitState.currentStep.value == 4) {
@@ -330,7 +330,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                             visitState.selectedTos.value, visitState.selectedTemperature.value,
                                             visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
                                             visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                            visitState.amoxicilina.value, visitState.othersTratments.value,
+                                            visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
                                             visitState.complications.value, visitState.observations.value)
                                     } else {
                                         coroutineScope.launch {
@@ -1170,8 +1170,58 @@ fun SistemicView(visitState: VisitState) {
                         .fillMaxSize()
                         .align(Alignment.CenterHorizontally)
                 ) {
-                    CheckNUT4H(text = stringResource(id = R.string.amoxicilina_question), visitState.amoxicilina.value) {
-                        visitState.amoxicilina.value = it
+                    ExposedDropdownMenuBox(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        expanded = visitState.expandedAmoxicilina.value,
+                        onExpandedChange = {
+                            visitState.expandedAmoxicilina.value = !visitState.expandedAmoxicilina.value
+                        }
+                    ) {
+                        TextField(
+                            readOnly = true,
+                            value = visitState.selectedAmoxicilina.value,
+                            onValueChange = {
+                                visitState.selectedAmoxicilina.value = it
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = visitState.expandedAmoxicilina.value
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.h5,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            leadingIcon = {
+                                Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary),  )},
+                            label = { Text(stringResource(R.string.amoxicilina_question), color = colorResource(R.color.disabled_color)) }
+                        )
+                        ExposedDropdownMenu(
+                            expanded = visitState.expandedAmoxicilina.value,
+                            onDismissRequest = {
+                                visitState.expandedAmoxicilina.value = false
+                            }
+                        ) {
+                            stringArrayResource(id = R.array.yesnooptions).forEach { selectedAmox ->
+                                DropdownMenuItem(
+                                    onClick = {
+                                        visitState.selectedAmoxicilina.value = selectedAmox
+                                        visitState.expandedAmoxicilina.value = false
+                                    }
+                                ) {
+                                    Text(text = selectedAmox, color = colorResource(R.color.colorPrimary))
+                                }
+                            }
+                        }
                     }
                 }
                 TextField(value = visitState.othersTratments.value.toString(),
@@ -1809,6 +1859,7 @@ fun setDefaultValues(visitState: VisitState) {
     visitState.selectedCartilla.value = stringArrayResource(id = R.array.yesnooptions)[0]
     visitState.selectedRubeola.value = stringArrayResource(id = R.array.yesnooptions)[0]
     visitState.selectedCapsulesFerro.value = stringArrayResource(id = R.array.yesnooptions)[0]
+    visitState.selectedAmoxicilina.value = stringArrayResource(id = R.array.yesnooptions)[0]
 }
 
 @OptIn(ExperimentalMaterialApi::class)
