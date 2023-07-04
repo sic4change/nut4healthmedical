@@ -32,6 +32,12 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
         }
     }
 
+    LaunchedEffect(viewModelState.point) {
+        if (viewModelState.point != null) {
+            visitDetailState.point.value = viewModelState.point!!
+        }
+    }
+
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             visitDetailState.visitsSize.value = viewModelState.case!!.visits.toInt()
@@ -116,6 +122,12 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             visitCreateState.visitsSize.value = viewModelState.case!!.visits.toInt()
+        }
+    }
+
+    LaunchedEffect(viewModelState.point) {
+        if (viewModelState.point != null) {
+            visitCreateState.point.value = viewModelState.point!!
         }
     }
 

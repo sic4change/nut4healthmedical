@@ -6,8 +6,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.ErrorType
 import java.util.*
 
 
@@ -68,7 +70,8 @@ fun rememberVisitsState(
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
-    visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) }
+    visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
+    point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", 0)) }
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, addmisionType, expandedAddmisionType,
     height, weight, imc, armCircunference, status, selectedEdema, expandedEdema, selectedInfection,
     expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation, expandedDeshidratation,  selectedVomitos,
@@ -77,7 +80,7 @@ fun rememberVisitsState(
     selectedVitamineAVaccinated, expandedVitamineAVaccinated, selectedCapsulesFerro, expandedCapsulesFerro,
     selectedAmoxicilina, expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
-    visitsSize, visits, deleteVisit, currentStep, visitNumber ) }
+    visitsSize, visits, deleteVisit, currentStep, visitNumber, point ) }
 
 class VisitState(
     val id: MutableState<String>,
@@ -135,11 +138,21 @@ class VisitState(
     val visits: MutableState<MutableList<Visit>>,
     val deleteVisit: MutableState<Boolean>,
     val currentStep: MutableState<Int>,
-    val visitNumber: MutableState<Int>
+    val visitNumber: MutableState<Int>,
+    val point: MutableState<Point>
 ) {
 
     fun incrementStep() {
-        currentStep.value += 1
+        if (point.value.type != "Otro") {
+            currentStep.value += 1
+        } else {
+            if (currentStep.value == 2) {
+                currentStep.value = 4
+            } else {
+                currentStep.value += 1
+            }
+        }
+
     }
 
     fun decrementStep() {
