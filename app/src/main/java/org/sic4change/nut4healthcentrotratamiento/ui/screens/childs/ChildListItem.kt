@@ -40,7 +40,7 @@ fun  ChildListItem(
     ) {
         Card {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Image(

@@ -23,6 +23,7 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildListItem
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.FEFAListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
@@ -108,11 +109,45 @@ private fun TutorView(
     ) {
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            TutorSummaryItem(
-                item = tutorItem,
-                expanded = tutorState.expandedDetail.value,
-                onExpandDetail = { tutorState.expandContractDetail() }
-            )
+            if (tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.womanStatus.value == stringResource(R.string.pregnant_and_infant)) {
+                Text(
+                    text = stringResource(R.string.fefa),
+                    color = colorResource(R.color.colorPrimary),
+                    style = MaterialTheme.typography.h4,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp)
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.tutor),
+                    color = colorResource(R.color.colorPrimary),
+                    style = MaterialTheme.typography.h4,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.womanStatus.value == stringResource(R.string.pregnant_and_infant)) {
+                FEFAListItem(
+                    item = tutorItem,
+                    expanded = tutorState.expandedDetail.value,
+                    onExpandDetail = { tutorState.expandContractDetail() }
+                )
+            } else {
+                TutorSummaryItem(
+                    item = tutorItem,
+                    expanded = tutorState.expandedDetail.value,
+                    onExpandDetail = { tutorState.expandContractDetail() }
+                )
+            }
+
+
             if (tutorState.expandedDetail.value) {
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(value = tutorState.phone.value,

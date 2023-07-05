@@ -55,11 +55,15 @@
     <string name="delete_tutor_question">¿Estás seguro que quieres eliminar ese acompañante? Se perderá toda la información asociada</string>
     <string name="editar_tutor">Editar acompañanate</string>
     <string name="remove_tutor">Eliminar acompañante</string>
+    <string name="editar_tutor_fefa">Editar acompañanate FEFA</string>
+    <string name="remove_tutor_fefa">Eliminar acompañante FEFA</string>
     <string name="create_child">Crear perfil niño/a</string>
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
     <string name="edit_child">Editar perfil niñ@</string>
     <string name="remove_child">Eliminar perfil niñ@</string>
     <string name="tutors">Acompañantes</string>
+    <string name="tutor">Acompañante</string>
+    <string name="fefa">Acompañante FEFA</string>
     <string name="cuadrante">Cuadrante de visitas</string>
     <string name="next_visits">Próximas visitas</string>
     <string name="total_visits">Número de visitas</string>
