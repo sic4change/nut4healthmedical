@@ -35,9 +35,7 @@ fun rememberTutorState(
     childMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedChildMinor: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionChildMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    armCircunference: MutableState<Double> = rememberSaveable { mutableStateOf(0.0) },
     babyAge: MutableState<String> = rememberSaveable { mutableStateOf("0") },
-    status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
     createdTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteTutor:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
@@ -48,8 +46,8 @@ fun rememberTutorState(
     id, expandedDetail, name, surnames, address, phone, birthday, lastDate, createdDate, etnician, expandedEtnician,
     selectedOptionEtnician, sex, expandedSex, selectedOptionSex, maleRelation, expandedMaleRelation,
     selectedOptionMaleRelations, womanStatus, expandedWomanStatus, selectedOptionWomanStatus,
-    weeks, childMinor, expandedChildMinor, selectedOptionChildMinor, armCircunference, babyAge,
-    status, observations, createdTutor, deleteTutor, showDateDialog, deleteChild, childId
+    weeks, childMinor, expandedChildMinor, selectedOptionChildMinor, babyAge,
+    observations, createdTutor, deleteTutor, showDateDialog, deleteChild, childId
 ) }
 
 class TutorState(
@@ -78,9 +76,7 @@ class TutorState(
     val childMinor: MutableState<String>,
     val expandedChildMinor: MutableState<Boolean>,
     val selectedOptionChildMinor: MutableState<String>,
-    val armCircunference: MutableState<Double>,
     val babyAge: MutableState<String>,
-    val status: MutableState<String>,
     val observations: MutableState<String>,
     val createdTutor: MutableState<Boolean>,
     val deleteTutor: MutableState<Boolean>,
@@ -118,9 +114,7 @@ class TutorState(
         childMinor.value = ""
         expandedChildMinor.value = false
         selectedOptionChildMinor.value = ""
-        armCircunference.value = 0.0
         babyAge.value = "0"
-        status.value = ""
     }
 
     fun clearWomanPregnantStatusValue() {
@@ -146,9 +140,7 @@ class TutorState(
         selectedOptionChildMinor.value = ""
         expandedChildMinor.value = false
         selectedOptionChildMinor.value = ""
-        armCircunference.value = 0.0
         babyAge.value = "0"
-        status.value = ""
     }
 
     fun clearManValues() {

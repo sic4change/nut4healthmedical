@@ -6,7 +6,7 @@ data class Visit(
     override val id: String,
     val caseId: String,
     val childId: String?,
-    val motherId: String?,
+    val fefaId: String?,
     val tutorId: String,
     val createdate: Date,
     val admissionType: String,

@@ -5,7 +5,7 @@ import java.util.*
 data class Case(
     override var id: String,
     val childId: String?,
-    val motherId: String?,
+    val fefaId: String?,
     val tutorId: String,
     val name: String,
     var status: String,

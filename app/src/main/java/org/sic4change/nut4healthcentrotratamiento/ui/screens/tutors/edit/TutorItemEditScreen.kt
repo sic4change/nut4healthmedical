@@ -39,7 +39,7 @@ import java.util.*
 @Composable
 fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
                         onEditTutor: (String, String, String, String, String, Date, String, String,
-                                      String, String, String, String, Double, String, String, String) -> Unit) {
+                                      String, String, String, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -71,7 +71,7 @@ fun TutorItemEditScreen(tutorState: TutorState, loading: Boolean = false,
 @Composable
 private fun Header(tutorState: TutorState,
                    onEditTutor: (String, String, String, String, String, Date, String, String, String,
-                                 String, String, String, Double, String, String, String) -> Unit) {
+                                 String, String, String, String, String) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -583,137 +583,6 @@ private fun Header(tutorState: TutorState,
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant )||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
-            if (tutorState.armCircunference.value < 18.0) {
-                TextField(value = tutorState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_severa),
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.error),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.error),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.error),
-                        unfocusedIndicatorColor = colorResource(R.color.error),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-            }  else if (tutorState.armCircunference.value >= 18.0 && tutorState.armCircunference.value < 21.0) {
-                TextField(value = tutorState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_moderada),
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.orange),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.orange),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.orange),
-                        unfocusedIndicatorColor = colorResource(R.color.orange),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-            } else {
-                TextField(value = tutorState.armCircunference.value.toString() + " " + stringResource(R.string.normopeso),
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = colorResource(R.color.colorAccent),
-                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        cursorColor = colorResource(R.color.colorAccent),
-                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        focusedIndicatorColor = colorResource(R.color.colorAccent),
-                        unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                    ),
-                    onValueChange = {}, readOnly = true,
-                    textStyle = MaterialTheme.typography.h5,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    leadingIcon = {
-                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-            }
-
-        }
-
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant )||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant )||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
-            AndroidView(
-                factory = {
-                    val view = LayoutInflater.from(it)
-                        .inflate(R.layout.woman_muac_view, null, false)
-                    view
-                },
-                update  = {view ->
-                    val ruler = view.findViewById<SimpleRulerViewer>(R.id.ruler)
-                    val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
-                    val tvCm = view.findViewById<TextView>(R.id.tvCm)
-                    val df = DecimalFormat("#.0")
-                    if (tutorState.armCircunference.value.toFloat() > 28.0) {
-                        tutorState.armCircunference.value = 28.0
-                    } else if (tutorState.armCircunference.value.toFloat() < 6.0) {
-                        tutorState.armCircunference.value = 6.0
-                    }
-                    ruler.setSelectedValue(tutorState.armCircunference.value.toFloat())
-                    if (tutorState.armCircunference.value.toFloat() < 18.0) {
-                        rulerBackground.setBackgroundResource(R.color.error)
-                        tvCm.setTextColor(R.color.error)
-                        tutorState.status.value = "SAM"
-                    } else if (tutorState.armCircunference.value.toFloat() >= 18.0 && tutorState.armCircunference.value.toFloat() < 21.0) {
-                        rulerBackground.setBackgroundResource(R.color.orange)
-                        tvCm.setTextColor(R.color.orange)
-                        tutorState.status.value = "MAM"
-                    } else {
-                        rulerBackground.setBackgroundResource(R.color.colorAccent)
-                        tvCm.setTextColor(R.color.colorAccent)
-                        tutorState.status.value = "NW"
-                    }
-
-                    ruler.setOnValueChangeListener { view, position, value ->
-                        tvCm.text = df.format(value).toString() + " cm"
-                        tutorState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
-                        if (value < 18.0) {
-                            rulerBackground.setBackgroundResource(R.color.error)
-                            tvCm.setTextColor(R.color.error)
-                            tutorState.status.value = "Aguda Severa"
-                        } else if (value >= 18.0 && value < 21.0) {
-                            rulerBackground.setBackgroundResource(R.color.orange)
-                            tvCm.setTextColor(R.color.orange)
-                            tutorState.status.value = "Aguda Moderada"
-                        } else {
-                            rulerBackground.setBackgroundResource(R.color.colorAccent)
-                            tvCm.setTextColor(R.color.colorAccent)
-                            tutorState.status.value = "Normopeso"
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-            )
-        }
-
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant )||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
         TextField(value = tutorState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -774,8 +643,8 @@ private fun Header(tutorState: TutorState,
                         tutorState.address.value, tutorState.phone.value, tutorState.birthday.value,
                         tutorState.selectedOptionEtnician.value, tutorState.selectedOptionSex.value,
                         tutorState.selectedOptionMaleRelations.value, tutorState.selectedOptionWomanStatus.value,
-                        tutorState.weeks.value, tutorState.selectedOptionChildMinor.value, tutorState.armCircunference.value,
-                        tutorState.babyAge.value, tutorState.status.value, tutorState.observations.value)
+                        tutorState.weeks.value, tutorState.selectedOptionChildMinor.value,
+                        tutorState.babyAge.value, tutorState.observations.value)
                 },
             ) {
                 Text(stringResource(R.string.save), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)

@@ -49,9 +49,7 @@ data class Tutor(
     @Exclude val womanStatus: String = "",
     @Exclude val weeks: Int = 0,
     @Exclude val childMinor: String = "",
-    @Exclude val armCircunference: Double = 0.0,
     @Exclude  val babyAge: Int = 0,
-    @Exclude  val status: String = "",
     @Exclude val observations: String = "",
     @Exclude val active: Boolean = false,
     @Exclude val point: String? = ""
@@ -85,7 +83,7 @@ data class NetworkCasesContainer(val results: List<Case>)
 data class Case(
     @Exclude val id: String = "",
     @Exclude val childId: String? = "",
-    @Exclude val motherId: String? = "",
+    @Exclude val fefaId: String? = "",
     @Exclude val tutorId: String = "",
     @Exclude val name: String = "",
     @Exclude val status: String = "",
@@ -195,7 +193,7 @@ data class Visit(
     @Exclude val id: String = "",
     @Exclude val caseId: String = "",
     @Exclude val childId: String? = "",
-    @Exclude val motherId: String? = "",
+    @Exclude val fefaId: String? = "",
     @Exclude val tutorId: String = "",
     @Exclude val createdate: Date = Date(),
     @Exclude val admission: String = "",

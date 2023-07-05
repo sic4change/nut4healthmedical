@@ -38,15 +38,14 @@ class TutorEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     fun editTutor(id: String, name: String, surnames: String, address: String, phone: String,
                   birthdate: Date, ethnician: String, sex: String, maleRelation: String,
-                  womanStatus: String, weeks: String, childMinor: String, armCircunference: Double,
-                  babyAge: String, status: String, observations: String) {
+                  womanStatus: String, weeks: String, childMinor: String,
+                  babyAge: String, observations: String) {
         viewModelScope.launch {
 
             _state.value = UiState(loading = true)
 
             val tutor = Tutor(id,name, surnames, sex, ethnician, birthdate, phone, address, Date(),
-                Date(), maleRelation, womanStatus, weeks, childMinor, armCircunference,
-                babyAge, status, observations,true, "")
+                Date(), maleRelation, womanStatus, weeks, childMinor, babyAge, observations,true, "")
 
             _state.value= UiState(tutor = tutor, loading = true)
 

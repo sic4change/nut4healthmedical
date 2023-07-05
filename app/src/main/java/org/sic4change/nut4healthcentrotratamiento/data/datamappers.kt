@@ -5,7 +5,6 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
-import java.util.Date
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Point as ServerPoint
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
@@ -29,12 +28,12 @@ fun ServerPoint.toDomainPoint() : Point = Point(
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, maleRelation,
-    womanStatus, weeks.toString(), childMinor, armCircunference, babyAge.toString(), status, observations, active, point
+    womanStatus, weeks.toString(), childMinor, babyAge.toString(), observations, active, point
 )
 
 fun Tutor.toServerTutor() : ServerTutor = ServerTutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, maleRelation,
-    womanStatus, weeks.toInt(), childMinor, armCircunference, babyAge.toInt(), status, observations, active, point
+    womanStatus, weeks.toInt(), childMinor, babyAge.toInt(), observations, active, point
 )
 
 fun ServerChild.toDomainChild() : Child = Child(
@@ -46,11 +45,11 @@ fun Child.toServerChild() : ServerChild = ServerChild(
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, motherId, tutorId, name, status, createdate, lastdate, visits.toString(), observations, point
+    id, childId, fefaId, tutorId, name, status, createdate, lastdate, visits.toString(), observations, point
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, motherId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations, point
+    id, childId, fefaId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations, point
 )
 
 fun ServerContract.toDomainContract() : Contract = Contract(
@@ -102,7 +101,7 @@ fun Complication.toServerComplication() : ServerComplication = ServerComplicatio
 )
 
 fun ServerVisit.toDomainVisit() : Visit {
-    return Visit(id, caseId, childId, motherId, tutorId, createdate, admission, height, weight, imc, armCircunference,
+    return Visit(id, caseId, childId, fefaId, tutorId, createdate, admission, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated, amoxicilina, otherTratments,
@@ -110,7 +109,7 @@ fun ServerVisit.toDomainVisit() : Visit {
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    return ServerVisit(id, caseId, childId, motherId, tutorId, createdate, admissionType, height, weight, imc, armCircunference,
+    return ServerVisit(id, caseId, childId, fefaId, tutorId, createdate, admissionType, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated,  amoxicilina, otherTratments,

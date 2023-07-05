@@ -42,7 +42,7 @@ class NextsViewModel() : ViewModel() {
                     tutor = Tutor(
                         "", "", "", "", "",
                         Date(), phone, "", Date(), Date(), "", "", "", "",
-                        0.0, "", "", "", false, ""
+                        "", "", false, ""
                     ), tutorChecked = "not_found"
                 )
             }
