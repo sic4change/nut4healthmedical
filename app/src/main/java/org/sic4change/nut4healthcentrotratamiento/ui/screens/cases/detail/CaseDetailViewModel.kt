@@ -25,7 +25,7 @@ class CaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = _state.value.copy(case = FirebaseDataSource.getCase(id))
             if (_state.value.case?.childId != null) {
-                _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId))
+                _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId!!))
                 _state.value = _state.value.copy(visits = FirebaseDataSource.getVisits(_state.value.case!!.id))
             }
             _state.value = _state.value.copy(loading = false)

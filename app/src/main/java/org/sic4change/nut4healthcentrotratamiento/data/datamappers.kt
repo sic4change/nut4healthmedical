@@ -27,7 +27,6 @@ fun ServerPoint.toDomainPoint() : Point = Point(
     id, name, fullName, phoneCode, type, phoneLength
 )
 
-
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
     id, name, surnames, sex, ethnicity, birthdate, phone, address, createDate, lastDate, maleRelation,
     womanStatus, weeks.toString(), childMinor, armCircunference, babyAge.toString(), status, observations, active, point
@@ -47,11 +46,11 @@ fun Child.toServerChild() : ServerChild = ServerChild(
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, tutorId, name, status, createdate, lastdate, visits.toString(), observations, point
+    id, childId, motherId, tutorId, name, status, createdate, lastdate, visits.toString(), observations, point
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations, point
+    id, childId, motherId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations, point
 )
 
 fun ServerContract.toDomainContract() : Contract = Contract(
@@ -102,10 +101,8 @@ fun Complication.toServerComplication() : ServerComplication = ServerComplicatio
     id, name, name_en, name_fr
 )
 
-
-
 fun ServerVisit.toDomainVisit() : Visit {
-    return Visit(id, caseId, childId, tutorId, createdate, admission, height, weight, imc, armCircunference,
+    return Visit(id, caseId, childId, motherId, tutorId, createdate, admission, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated, amoxicilina, otherTratments,
@@ -113,7 +110,7 @@ fun ServerVisit.toDomainVisit() : Visit {
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    return ServerVisit(id, caseId, childId, tutorId, createdate, admissionType, height, weight, imc, armCircunference,
+    return ServerVisit(id, caseId, childId, motherId, tutorId, createdate, admissionType, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated,  amoxicilina, otherTratments,

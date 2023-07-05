@@ -358,7 +358,7 @@ object FirebaseDataSource {
                     val pointId = user.point
                     val caseToUpload =
                         org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                            case.id, case.childId, tutorId, case.name, case.status, case.createdate,
+                            case.id, case.childId, case.motherId, tutorId, case.name, case.status, case.createdate,
                             case.lastdate, case.visits, case.observations, pointId
                         )
                     val casesRef = firestore.collection("cases")
@@ -565,7 +565,7 @@ object FirebaseDataSource {
                     val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
                     networkCasesContainer.results[0].let { case ->
                         val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit(
-                            "", case.id, case.childId, case.tutorId, visit.createdate,
+                            "", case.id, case.childId, case.motherId, case.tutorId, visit.createdate,
                             visit.admissionType, visit.height, visit.weight, visit.imc, visit.armCircunference,
                             visit.status, visit.edema, visit.respiratonStatus, visit.appetiteTest, visit.infection,
                             visit.eyesDeficiency, visit.deshidratation, visit.vomiting, visit.diarrhea,
@@ -770,7 +770,7 @@ object FirebaseDataSource {
                         visitsToAdd.add(it)
                     }
                 }
-                if (tutor != null) {
+                if (tutor != null && case.childId != null) {
                     Cuadrant(
                         case.id,
                         case.childId,

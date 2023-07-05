@@ -12,7 +12,7 @@ import java.util.*
 fun rememberCasesState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    childId: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    childId: MutableState<String?> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedStatus: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
@@ -31,7 +31,7 @@ fun rememberCasesState(
 class CaseState(
     val id: MutableState<String>,
     val expandedDetail: MutableState<Boolean>,
-    val childId: MutableState<String>,
+    val childId: MutableState<String?>,
     val name: MutableState<String>,
     val status: MutableState<String>,
     val expandedStatus: MutableState<Boolean>,

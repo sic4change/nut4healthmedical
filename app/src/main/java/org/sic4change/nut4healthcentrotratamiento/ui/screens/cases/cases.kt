@@ -49,8 +49,11 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
         onCreateVisitClick = onCreateVisitClick,
         onItemClick = onItemClick
     )
-    MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
-        caseDetailState.id.value, caseDetailState.childId.value, viewModel::deleteCase, onDeleteCaseClick)
+    if (caseDetailState.childId.value != null) {
+        MessageDeleteCase(caseDetailState.deleteCase.value, caseDetailState::showDeleteQuestion,
+            caseDetailState.id.value, caseDetailState.childId.value!!, viewModel::deleteCase, onDeleteCaseClick)
+    }
+
 }
 
 
@@ -77,8 +80,8 @@ fun CaseEditScreen(viewModel: CaseEditViewModel = viewModel(), onEditCase: (Stri
     }
 
     LaunchedEffect(viewModelState.editCase) {
-        if (viewModelState.editCase) {
-            onEditCase(caseEditState.childId.value)
+        if (viewModelState.editCase && caseEditState.childId.value != null) {
+            onEditCase(caseEditState.childId.value!!)
             viewModel.resetUpdateCase()
         }
     }

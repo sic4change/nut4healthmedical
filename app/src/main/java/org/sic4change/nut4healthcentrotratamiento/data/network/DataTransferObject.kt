@@ -84,7 +84,8 @@ data class NetworkCasesContainer(val results: List<Case>)
 @JsonClass(generateAdapter = true)
 data class Case(
     @Exclude val id: String = "",
-    @Exclude val childId: String = "",
+    @Exclude val childId: String? = "",
+    @Exclude val motherId: String? = "",
     @Exclude val tutorId: String = "",
     @Exclude val name: String = "",
     @Exclude val status: String = "",
@@ -193,7 +194,8 @@ data class NetworkVisitContainer(val results: List<Visit>)
 data class Visit(
     @Exclude val id: String = "",
     @Exclude val caseId: String = "",
-    @Exclude val childId: String = "",
+    @Exclude val childId: String? = "",
+    @Exclude val motherId: String? = "",
     @Exclude val tutorId: String = "",
     @Exclude val createdate: Date = Date(),
     @Exclude val admission: String = "",

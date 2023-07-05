@@ -34,11 +34,11 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 _state.value = _state.value.copy(point = FirebaseDataSource.getPoint(_state.value.case!!.point))
             }
             if (_state.value.case?.childId != null) {
-                _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId))
+                _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId!!))
             }
             _state.value = _state.value.copy(
                 loading = false,
-                childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId)?.birthdate?.time }
+                childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId!!)?.birthdate?.time }
             )
         }
     }
@@ -71,8 +71,8 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (weight != null && height != null && weight > 0 && height > 0) {
                 imc = FirebaseDataSource.checkDesnutrition(height, weight)
             }
-            val visit = Visit("", caseId, caseId, caseId, Date(), admissionType, height, weight, imc,
-                arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
+            val visit = Visit("", caseId, caseId, null, caseId, Date(), admissionType, height,
+                weight, imc, arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
                 amoxicilina, otherTratments, complications.toMutableList(), observations, "")
