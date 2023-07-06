@@ -381,7 +381,7 @@ object FirebaseDataSource {
                     val pointId = user.point
                     val caseToUpload =
                         org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                            case.id, case.childId, case.fefaId, tutorId, case.name, case.status, case.createdate,
+                            case.id, "", case.fefaId, tutorId, case.name, case.status, case.createdate,
                             case.lastdate, case.visits, case.observations, pointId
                         )
                     val casesRef = firestore.collection("cases")

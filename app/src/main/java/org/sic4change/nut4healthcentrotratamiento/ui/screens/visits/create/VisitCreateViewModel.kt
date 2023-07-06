@@ -33,7 +33,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (_state.value.case?.point != null) {
                 _state.value = _state.value.copy(point = FirebaseDataSource.getPoint(_state.value.case!!.point))
             }
-            if (_state.value.case?.childId != null) {
+            if (_state.value.case?.childId?.isNotEmpty()!!) {
                 _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId!!))
                 _state.value = _state.value.copy(
                     loading = false,

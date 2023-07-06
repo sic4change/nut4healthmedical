@@ -37,7 +37,7 @@
     <string name="infant">Allaitante</string>
     <string name="pregnant_and_infant">Enceinte et allaitante</string>
     <string name="nothing">Aucun</string>
-    <string name="baby_age">Âge du bébé (mois)</string>
+    <string name="baby_age">Âge du bébé (semaines)</string>
     <string name="no_pregnant">Pas enceinte</string>
     <string name="child">Enfant</string>
     <string name="observations">Observations</string>
@@ -126,6 +126,7 @@
     <string name="vitamine_a_title">Vitamine A</string>
     <string name="albendazole_a_title">Albendazole / Mebendazole</string>
     <string name="ferro_title">Fer et acide folique</string>
+    <string name="ferro_admin">1 gélule pendant toute la durée du séjour.</string>
     <string name="vaccine_title">Vaccins</string>
     <string name="edit_visit">Modifier la visite</string>
     <string name="years">ans</string>

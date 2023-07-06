@@ -186,6 +186,13 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         }
     }
 
+    LaunchedEffect(viewModelState.fefa) {
+        if (viewModelState.fefa != null) {
+            visitCreateState.womanStatus.value = viewModelState.fefa!!.womanStatus
+
+        }
+    }
+
     VisitItemCreateScreen(
         loading = viewModelState.loading,
         visitState = visitCreateState,

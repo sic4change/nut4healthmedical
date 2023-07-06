@@ -37,7 +37,7 @@
     <string name="infant">Lactante</string>
     <string name="pregnant_and_infant">Embarazada y lactante</string>
     <string name="nothing">Ninguno</string>
-    <string name="baby_age">Edad del bebe (meses)</string>
+    <string name="baby_age">Edad del bebe (semanas)</string>
     <string name="no_pregnant">No embarazada</string>
     <string name="child">Niñ@</string>
     <string name="observations">Observaciones</string>
@@ -125,6 +125,7 @@
     <string name="vitamine_a_title">Vitamina A</string>
     <string name="albendazole_a_title">Albendazole / Mebendazole</string>
     <string name="ferro_title">Hierro y ácido fólico</string>
+    <string name="ferro_admin">1 cápsula durante toda la estancia.</string>
     <string name="vaccine_title">Vacunas</string>
     <string name="vitamineAVaccinated">¿Recibió vitamina A en los últimos 4 meses?</string>
     <string name="edit_visit">Editar Visita</string>
