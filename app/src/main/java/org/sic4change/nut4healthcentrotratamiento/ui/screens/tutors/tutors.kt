@@ -186,7 +186,9 @@ fun TutorsScreen(
 fun FEFADetailScreen(
     viewModel: FEFAViewModel = viewModel(),
     onEditTutorClick: (Tutor) -> Unit,
-    onDeleteTutorClick: () -> Unit) {
+    onDeleteTutorClick: () -> Unit,
+    onTutorDeleted: () -> Unit,
+) {
 
     val fefaDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
@@ -222,14 +224,14 @@ fun FEFADetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         fefaState = fefaDetailState,
-        onEditClick = onEditTutorClick
+        onClickDelete = {fefaDetailState.showDeleteQuestion()},
+        onTutorDeleted = onTutorDeleted,
+        onEditClick = onEditTutorClick,
     )
 
-    /*MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
-        tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
+    MessageDeleteTutor(fefaDetailState.deleteTutor.value, fefaDetailState::showDeleteQuestion,
+        fefaDetailState.id.value, viewModel::deleteTutor, onTutorDeleted)
 
-    MessageDeleteChild(tutorDetailState.deleteChild.value, tutorDetailState::showDeleteChildQuestion,
-        tutorDetailState.childId.value, viewModel::deleteChild, tutorDetailState.id.value, onDeleteChild)*/
 }
 
 @ExperimentalCoilApi

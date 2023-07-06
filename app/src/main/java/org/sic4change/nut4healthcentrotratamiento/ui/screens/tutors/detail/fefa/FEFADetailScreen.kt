@@ -33,6 +33,8 @@ import java.time.temporal.ChronoUnit
 fun FEFAItemDetailScreen(fefaState: TutorState,
                          loading: Boolean = false,
                          tutorItem: Tutor?,
+                         onClickDelete: () -> Unit,
+                         onTutorDeleted: () -> Unit,
                          onEditClick: (Tutor) -> Unit) {
     if (loading) {
         Box(

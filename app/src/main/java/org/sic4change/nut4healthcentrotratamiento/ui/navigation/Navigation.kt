@@ -209,6 +209,13 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onDeleteTutorClick = {
 
                 },
+                onTutorDeleted = {
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
+                    )
+                },
             )
         }
 

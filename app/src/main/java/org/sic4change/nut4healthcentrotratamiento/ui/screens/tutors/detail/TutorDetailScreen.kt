@@ -113,7 +113,7 @@ private fun TutorView(
         item {
             Spacer(modifier = Modifier.height(16.dp))
             if (tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.womanStatus.value == stringResource(R.string.infant) ||
                 tutorState.womanStatus.value == stringResource(R.string.pregnant_and_infant)) {
                 Text(
                     text = stringResource(R.string.fefa),
@@ -135,7 +135,7 @@ private fun TutorView(
             Spacer(modifier = Modifier.height(16.dp))
 
             if (tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
+                tutorState.womanStatus.value == stringResource(R.string.infant) ||
                 tutorState.womanStatus.value == stringResource(R.string.pregnant_and_infant)) {
                 FEFAListItem(
                     item = tutorItem,
