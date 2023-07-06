@@ -15,6 +15,7 @@ enum class Feature(val route: String) {
     CREATETUTOR("createtutor"),
     EDITTUTOR("edittutor"),
     TUTORS_DETAIL("tutorsdetail"),
+    FEFA ("fefa"),
 
     CHILDS("childs"),
     CHILD_DETAIL ("childdetail"),

@@ -51,7 +51,7 @@ fun  FEFAListItem(
                         ) {
                             Spacer(modifier = Modifier.width(8.dp))
                             Image(
-                                painter = painterResource(id = R.mipmap.ic_child),
+                                painter = painterResource(id = R.mipmap.ic_tutor_fefa),
                                 contentDescription = null
                             )
                             Column( modifier = Modifier.weight(1f)) {

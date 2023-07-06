@@ -1,12 +1,10 @@
-package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail
+package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -16,15 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildListItem
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.FEFAListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScaffold
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorSummaryItem
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -33,18 +29,10 @@ import java.time.temporal.ChronoUnit
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun TutorItemDetailScreen(tutorState: TutorState,
-                          loading: Boolean = false,
-                          tutorItem: Tutor?,
-                          childs: List<Child>?,
-                          onFEFAClick: (Tutor) -> Unit,
-                          onEditClick: (Tutor) -> Unit,
-                          onCreateChildClick: (Tutor) -> Unit,
-                          onItemClick: (Child) -> Unit,
-                          onClickDetail: (Child) -> Unit,
-                          onDeleteChild: (String) -> Unit,
-                          onClickEdit: (Child) -> Unit,
-                          onClickDelete: (Child) -> Unit) {
+fun FEFAItemDetailScreen(fefaState: TutorState,
+                         loading: Boolean = false,
+                         tutorItem: Tutor?,
+                         onEditClick: (Tutor) -> Unit) {
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -60,7 +48,7 @@ fun TutorItemDetailScreen(tutorState: TutorState,
     ) {
         if (tutorItem != null) {
             TutorItemDetailScaffold(
-                tutorState = tutorState,
+                tutorState = fefaState,
                 tutorItem = tutorItem,
                 onClickEdit = onEditClick
             ) { padding ->
@@ -69,17 +57,9 @@ fun TutorItemDetailScreen(tutorState: TutorState,
                         .fillMaxWidth()
                         .padding(padding)
                 ) {
-                    TutorView(
+                    FEFAView(
                         tutorItem = tutorItem,
-                        tutorState = tutorState,
-                        childs = childs,
-                        onFEFAClick = onFEFAClick,
-                        onItemClick = onItemClick,
-                        onCreateChildClick = onCreateChildClick,
-                        onClickDetail = onClickDetail,
-                        onClickDelete = onClickDelete,
-                        onClickEdit = onClickEdit,
-                        onDeleteChild  = onDeleteChild)
+                        tutorState = fefaState)
                 }
             }
 
@@ -91,17 +71,9 @@ fun TutorItemDetailScreen(tutorState: TutorState,
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun TutorView(
+private fun FEFAView(
     tutorItem: Tutor,
-    tutorState: TutorState,
-    childs: List<Child>?,
-    onFEFAClick: (Tutor) -> Unit,
-    onItemClick: (Child) -> Unit,
-    onCreateChildClick: (Tutor) -> Unit,
-    onClickDetail: (Child) -> Unit,
-    onDeleteChild: (String) -> Unit,
-    onClickEdit: (Child) -> Unit,
-    onClickDelete: (Child) -> Unit)  {
+    tutorState: TutorState)  {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -112,44 +84,14 @@ private fun TutorView(
     ) {
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            if (tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.womanStatus.value == stringResource(R.string.pregnant_and_infant)) {
-                Text(
-                    text = stringResource(R.string.fefa),
-                    color = colorResource(R.color.colorPrimary),
-                    style = MaterialTheme.typography.h4,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp)
-                )
-            } else {
-                Text(
-                    text = stringResource(R.string.tutor),
-                    color = colorResource(R.color.colorPrimary),
-                    style = MaterialTheme.typography.h4,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 0.dp, end = 0.dp, start = 0.dp)
-                )
-            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.womanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.womanStatus.value == stringResource(R.string.pregnant_and_infant)) {
-                FEFAListItem(
-                    item = tutorItem,
-                    expanded = tutorState.expandedDetail.value,
-                    onExpandDetail = { tutorState.expandContractDetail() },
-                    modifier = Modifier.clickable { onFEFAClick(tutorItem) },
-                )
-            } else {
-                TutorSummaryItem(
-                    item = tutorItem,
-                    expanded = tutorState.expandedDetail.value,
-                    onExpandDetail = { tutorState.expandContractDetail() }
-                )
-            }
+            TutorSummaryItem(
+                item = tutorItem,
+                expanded = tutorState.expandedDetail.value,
+                onExpandDetail = { tutorState.expandContractDetail() }
+            )
 
 
             if (tutorState.expandedDetail.value) {
@@ -424,86 +366,7 @@ private fun TutorView(
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            if (childs != null && childs.isEmpty()) {
-                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        modifier = Modifier.weight(1f, true),
-                        text = stringResource(R.string.no_childs),
-                        color = colorResource(R.color.colorPrimary),
-                        style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Start,
-                        maxLines = 3
-                    )
-                    Image(
-                        modifier = Modifier.size(64.dp),
-                        painter = painterResource(id = R.mipmap.ic_childs),
-                        contentDescription = null,
-                    )
-                }
-            } else if (childs != null && childs.isNotEmpty()){
-                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        modifier = Modifier.weight(1f, true),
-                        text = stringResource(R.string.childs),
-                        color = colorResource(R.color.colorPrimary),
-                        style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Start,
-                        maxLines = 3,
-                    )
-                    Image(
-                        modifier = Modifier.size(64.dp),
-                        painter = painterResource(id = R.mipmap.ic_childs),
-                        contentDescription = null
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            if (childs == null) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
-                }
-            }
-        }
-        if (childs != null){
-            items(childs) {
-                ChildListItem(
-                    item = it,
-                    modifier = Modifier.clickable { onItemClick(it) },
-                    onClickDetail = onClickDetail,
-                    onClickEdit = onClickEdit,
-                    onClickDelete = onClickDelete,
-                )
-            }
-        }
 
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {onCreateChildClick(tutorItem)},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
-                ) {
-                    Text(
-                        stringResource(R.string.create_child),
-                        color = colorResource(R.color.white),
-                        style = MaterialTheme.typography.h5,
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
         }
 
     }
@@ -550,44 +413,5 @@ fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, tutorId: 
 }
 
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: String, onDeleteChild: (String) -> Unit, tutorId: String, onDeleteChildSelected: (String) -> Unit) {
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = {
-            },
-            title = {
-                Text(stringResource(R.string.nut4health))
-            },
-            confirmButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                        onDeleteChild(childId)
-                        onDeleteChildSelected(tutorId)
-                    },
-                ) {
-                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
-                }
-            },
-            dismissButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                    },
-                ) {
-                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
-                }
-            },
-            text = {
-                Text(stringResource(R.string.delete_child_question))
-            },
-        )
-    }
-
-}
 
 

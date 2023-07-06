@@ -199,6 +199,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             })
         }
 
+        composable(NavCommand.ContentTypeDetail(Feature.FEFA)) {
+            FEFADetailScreen(
+                onEditTutorClick = { tutor ->
+
+                },
+                onDeleteTutorClick = {
+
+                },
+            )
+        }
+
         composable(NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL)) {
             TutorDetailScreen(
                 onEditTutorClick = { tutor ->
@@ -239,7 +250,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutorId)
                     )
-                }
+                },
+                onFEFAClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(child.id)
+                    )
+                },
             )
         }
 
@@ -290,7 +306,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
                 onDeleteChild = {
 
-                }
+                },
+                onFEFAClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(child.id)
+                    )
+                },
             )
         }
 
@@ -332,7 +353,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
                 onDeleteChild = {
 
-                }
+                },
+                onFEFAClick = { child ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(child.id)
+                    )
+                },
             )
         }
 

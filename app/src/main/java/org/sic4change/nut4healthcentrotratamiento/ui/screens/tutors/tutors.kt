@@ -34,6 +34,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.Messa
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa.FEFAItemDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa.FEFAViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorItemEditScreen
 
@@ -178,13 +180,64 @@ fun TutorsScreen(
         tutorsState.id.value, viewModel::deleteTutor, onDeleteTutor)
 }
 
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun FEFADetailScreen(
+    viewModel: FEFAViewModel = viewModel(),
+    onEditTutorClick: (Tutor) -> Unit,
+    onDeleteTutorClick: () -> Unit) {
 
+    val fefaDetailState = rememberTutorState()
+    val viewModelState by viewModel.state.collectAsState()
+
+    LaunchedEffect(viewModelState.tutor) {
+        if (viewModelState.tutor != null) {
+            fefaDetailState.id.value = viewModelState.tutor!!.id
+            fefaDetailState.name.value = viewModelState.tutor!!.name
+            fefaDetailState.surnames.value = viewModelState.tutor!!.surnames
+            fefaDetailState.surnames.value = viewModelState.tutor!!.surnames
+            fefaDetailState.address.value = viewModelState.tutor!!.address
+            fefaDetailState.phone.value = viewModelState.tutor!!.phone
+            fefaDetailState.birthday.value = viewModelState.tutor!!.birthdate
+            fefaDetailState.lastDate.value = viewModelState.tutor!!.lastDate
+            fefaDetailState.createdDate.value = viewModelState.tutor!!.createDate
+            fefaDetailState.sex.value = viewModelState.tutor!!.sex
+            fefaDetailState.selectedOptionSex.value = viewModelState.tutor!!.sex
+            fefaDetailState.maleRelation.value = viewModelState.tutor!!.maleRelation
+            fefaDetailState.selectedOptionMaleRelations.value = viewModelState.tutor!!.maleRelation
+            fefaDetailState.etnician.value = viewModelState.tutor!!.ethnicity
+            fefaDetailState.selectedOptionEtnician.value = viewModelState.tutor!!.ethnicity
+            fefaDetailState.womanStatus.value = viewModelState.tutor!!.womanStatus
+            fefaDetailState.selectedOptionWomanStatus.value = viewModelState.tutor!!.womanStatus
+            fefaDetailState.weeks.value = viewModelState.tutor!!.weeks
+            fefaDetailState.childMinor.value = viewModelState.tutor!!.childMinor
+            fefaDetailState.selectedOptionChildMinor.value = viewModelState.tutor!!.childMinor
+            fefaDetailState.babyAge.value = viewModelState.tutor!!.babyAge
+            fefaDetailState.observations.value = viewModelState.tutor!!.observations
+        }
+    }
+
+    FEFAItemDetailScreen(
+        loading = viewModelState.loading,
+        tutorItem = viewModelState.tutor,
+        fefaState = fefaDetailState,
+        onEditClick = onEditTutorClick
+    )
+
+    /*MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
+        tutorDetailState.id.value, viewModel::deleteTutor, onDeleteTutorClick)
+
+    MessageDeleteChild(tutorDetailState.deleteChild.value, tutorDetailState::showDeleteChildQuestion,
+        tutorDetailState.childId.value, viewModel::deleteChild, tutorDetailState.id.value, onDeleteChild)*/
+}
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun TutorDetailScreen(
     viewModel: TutorDetailViewModel = viewModel(),
+    onFEFAClick: (Tutor) -> Unit,
     onEditTutorClick: (Tutor) -> Unit,
     onCreateChildClick: (Tutor) -> Unit,
     onItemClick: (Child) -> Unit,
@@ -228,6 +281,7 @@ fun TutorDetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         childs = viewModelState.childs,
+        onFEFAClick = onFEFAClick,
         tutorState = tutorDetailState,
         onEditClick = onEditTutorClick,
         onCreateChildClick = onCreateChildClick,
