@@ -202,7 +202,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         composable(NavCommand.ContentTypeDetail(Feature.FEFA)) {
             FEFADetailScreen(
                 onEditTutorClick = { tutor ->
-
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
                 },
                 onDeleteTutorClick = {
 
