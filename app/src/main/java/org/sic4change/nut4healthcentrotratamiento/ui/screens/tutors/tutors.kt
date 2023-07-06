@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
@@ -187,6 +188,7 @@ fun FEFADetailScreen(
     viewModel: FEFAViewModel = viewModel(),
     onEditTutorClick: (Tutor) -> Unit,
     onDeleteTutorClick: () -> Unit,
+    onCaseCreated: (Case) -> Unit,
     onTutorDeleted: () -> Unit,
 ) {
 
@@ -220,6 +222,12 @@ fun FEFADetailScreen(
         }
     }
 
+    LaunchedEffect(viewModelState.newCaseCreated) {
+        if (viewModelState.newCaseCreated) {
+            onCaseCreated(viewModelState.newCase!!)
+        }
+    }
+
     FEFAItemDetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
@@ -228,6 +236,7 @@ fun FEFADetailScreen(
         onClickDelete = {fefaDetailState.showDeleteQuestion()},
         onTutorDeleted = onTutorDeleted,
         onEditClick = onEditTutorClick,
+        onCreateCaseClick = viewModel::createCase,
     )
 
     MessageDeleteTutor(fefaDetailState.deleteTutor.value, fefaDetailState::showDeleteQuestion,

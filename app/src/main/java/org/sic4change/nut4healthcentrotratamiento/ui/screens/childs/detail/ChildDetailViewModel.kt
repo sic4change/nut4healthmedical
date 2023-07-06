@@ -24,7 +24,7 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             _state.value = _state.value.copy(child = FirebaseDataSource.getChild(id))
-            _state.value = _state.value.copy(cases = FirebaseDataSource.getCases(id))
+            _state.value = _state.value.copy(cases = FirebaseDataSource.getChildCases(id))
             _state.value = _state.value.copy(loading = false)
         }
     }

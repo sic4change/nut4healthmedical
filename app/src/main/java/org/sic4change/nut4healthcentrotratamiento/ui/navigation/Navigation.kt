@@ -216,6 +216,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentType(Feature.TUTORS).route
                     )
                 },
+                onCaseCreated = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(case.id)
+                    )
+                },
             )
         }
 

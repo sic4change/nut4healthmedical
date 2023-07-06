@@ -26,7 +26,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildIt
 @Composable
 fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onEditChildClick: (Child) -> Unit,
-                      onCaseCreated:(Case) -> Unit,
+                      onCaseCreated: (Case) -> Unit,
                       onItemClick: (Case) -> Unit,
                       onDeleteChildClick: (String) -> Unit,
                       onClickDetail: (Case) -> Unit,

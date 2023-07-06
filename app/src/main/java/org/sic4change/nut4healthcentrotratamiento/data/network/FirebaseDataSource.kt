@@ -329,9 +329,17 @@ object FirebaseDataSource {
         }
     }
 
-    suspend fun getCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
+    suspend fun getChildCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("cases")
         val query = casesRef.whereEqualTo("childId", childId).orderBy("lastdate", Query.Direction.DESCENDING )
+        val result = query.get().await()
+        val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+        networkCasesContainer.results.map { it.toDomainCase() }
+    }
+
+    suspend fun getFEFACases(fefaId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
+        val casesRef = firestore.collection("cases")
+        val query = casesRef.whereEqualTo("fefaId", fefaId).orderBy("lastdate", Query.Direction.DESCENDING )
         val result = query.get().await()
         val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
         networkCasesContainer.results.map { it.toDomainCase() }
@@ -348,13 +356,28 @@ object FirebaseDataSource {
             val resultUser = queryUser.get().await()
             val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
             networkUserContainer.results[0].let { user ->
-                val childsRef = firestore.collection("childs")
-                val queryChild = childsRef.whereEqualTo("id", case.childId)
-                val resultChild = queryChild.get().await()
-                val networkChildsContainer =
-                    NetworkChildsContainer(resultChild.toObjects(Child::class.java))
-                networkChildsContainer.results[0].let {
-                    val tutorId = it.toDomainChild().tutorId
+                if (case.fefaId == null) {
+                    val childsRef = firestore.collection("childs")
+                    val queryChild = childsRef.whereEqualTo("id", case.childId)
+                    val resultChild = queryChild.get().await()
+                    val networkChildsContainer = NetworkChildsContainer(resultChild.toObjects(Child::class.java))
+                    networkChildsContainer.results[0].let {
+                        val tutorId = it.toDomainChild().tutorId
+                        val pointId = user.point
+                        val caseToUpload =
+                            org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
+                                case.id, case.childId, case.fefaId, tutorId, case.name, case.status, case.createdate,
+                                case.lastdate, case.visits, case.observations, pointId
+                            )
+                        val casesRef = firestore.collection("cases")
+                        val id = casesRef.add(caseToUpload.toServerCase()).await().id
+                        caseToUpload.id = id
+                        casesRef.document(id).set(caseToUpload.toServerCase()).await()
+                        Timber.d("Create case result: ok")
+                        caseToUpload
+                    }
+                } else {
+                    val tutorId = case.fefaId
                     val pointId = user.point
                     val caseToUpload =
                         org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
@@ -368,6 +391,8 @@ object FirebaseDataSource {
                     Timber.d("Create case result: ok")
                     caseToUpload
                 }
+
+
             }
 
         } catch (ex: Exception) {

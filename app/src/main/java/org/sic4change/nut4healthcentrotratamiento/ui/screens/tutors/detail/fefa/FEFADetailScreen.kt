@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,6 +23,7 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScaffold
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorSummaryItem
@@ -39,7 +41,8 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                          cases: List<Case>?,
                          onClickDelete: () -> Unit,
                          onTutorDeleted: () -> Unit,
-                         onEditClick: (Tutor) -> Unit) {
+                         onEditClick: (Tutor) -> Unit,
+                         onCreateCaseClick: (String, String, String) -> Unit) {
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -67,7 +70,8 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                     FEFAView(
                         tutorItem = tutorItem,
                         tutorState = fefaState,
-                        cases = cases,)
+                        cases = cases,
+                        onCreateCaseClick = onCreateCaseClick)
                 }
             }
 
@@ -82,7 +86,8 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
 private fun FEFAView(
     tutorItem: Tutor,
     tutorState: TutorState,
-    cases: List<Case>?)  {
+    cases: List<Case>?,
+    onCreateCaseClick: (String, String, String) -> Unit)  {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -423,6 +428,19 @@ private fun FEFAView(
             }
 
         }
+
+        if (cases != null) {
+            items(cases) {
+                CaseListItem(
+                    item = it,
+                    modifier = Modifier.clickable {  },
+                    onClickDetail = {},
+                    onClickEdit = {},
+                    onClickDelete = {},
+                )
+            }
+        }
+
         item {
             Spacer(modifier = Modifier.height(16.dp))
             Box(
@@ -434,7 +452,7 @@ private fun FEFAView(
                 Button(
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
-                        //onCreateCaseClick(name, status, "")
+                        onCreateCaseClick(name, status, "")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -453,45 +471,6 @@ private fun FEFAView(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun MessageDeleteTutor(showDialog: Boolean, setShowDialog: () -> Unit, tutorId: String, onDeleteTutor: (String) -> Unit, onDeleteTutorSelected: () -> Unit) {
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = {
-            },
-            title = {
-                Text(stringResource(R.string.nut4health))
-            },
-            confirmButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                        onDeleteTutor(tutorId)
-                        onDeleteTutorSelected()
-                    },
-                ) {
-                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
-                }
-            },
-            dismissButton = {
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        setShowDialog()
-                    },
-                ) {
-                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
-                }
-            },
-            text = {
-                Text(stringResource(R.string.delete_tutor_question))
-            },
-        )
-    }
-
-}
 
 
 

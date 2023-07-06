@@ -35,11 +35,19 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             }
             if (_state.value.case?.childId != null) {
                 _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId!!))
+                _state.value = _state.value.copy(
+                    loading = false,
+                    childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId!!)?.birthdate?.time }
+                )
+            } else {
+                _state.value = _state.value.copy(fefa = FirebaseDataSource.getTutor(_state.value.case!!.fefaId!!))
+                _state.value = _state.value.copy(
+                    loading = false,
+                    childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.fefaId!!)?.birthdate?.time }
+                )
             }
-            _state.value = _state.value.copy(
-                loading = false,
-                childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId!!)?.birthdate?.time }
-            )
+
+
         }
     }
 
@@ -48,6 +56,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val point: Point? = null,
         val case: Case? = null,
         val child: Child? = null,
+        val fefa: Tutor? = null,
         val visits: List<Visit> = emptyList(),
         val childDateMillis: Long? = 0,
         val visit: Visit? = null,

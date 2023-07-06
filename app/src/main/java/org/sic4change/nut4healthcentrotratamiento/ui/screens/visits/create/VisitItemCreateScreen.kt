@@ -122,7 +122,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
             state = listState,
             modifier = Modifier.fillMaxWidth()
         ) {
-            //if (child != null) {
+            if (child != null) {
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
                     ChildSummaryItem(
@@ -352,7 +352,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
-           // }
+            }
 
         }
     }
