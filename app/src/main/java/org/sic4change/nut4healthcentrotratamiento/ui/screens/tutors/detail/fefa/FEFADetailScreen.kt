@@ -2,6 +2,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
@@ -33,6 +36,7 @@ import java.time.temporal.ChronoUnit
 fun FEFAItemDetailScreen(fefaState: TutorState,
                          loading: Boolean = false,
                          tutorItem: Tutor?,
+                         cases: List<Case>?,
                          onClickDelete: () -> Unit,
                          onTutorDeleted: () -> Unit,
                          onEditClick: (Tutor) -> Unit) {
@@ -62,7 +66,8 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                 ) {
                     FEFAView(
                         tutorItem = tutorItem,
-                        tutorState = fefaState)
+                        tutorState = fefaState,
+                        cases = cases,)
                 }
             }
 
@@ -76,7 +81,8 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
 @Composable
 private fun FEFAView(
     tutorItem: Tutor,
-    tutorState: TutorState)  {
+    tutorState: TutorState,
+    cases: List<Case>?)  {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -369,7 +375,79 @@ private fun FEFAView(
                 Spacer(modifier = Modifier.height(16.dp))
             }
             Spacer(modifier = Modifier.height(16.dp))
+            if (cases != null && cases.isEmpty()) {
+                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.no_cases),
+                        color = colorResource(R.color.colorPrimary),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.weight(1f, true),
+                        maxLines = 3
+                    )
+                    Image(
+                        modifier = Modifier.size(78.dp).weight(1f),
+                        painter = painterResource(id = R.mipmap.ic_cases),
+                        contentDescription = null,
+                    )
+                }
+            } else if (cases != null && cases.isNotEmpty()){
+                Row( modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        modifier = Modifier.weight(1f, true),
+                        text = stringResource(R.string.casos),
+                        color = colorResource(R.color.colorPrimary),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Start,
+                        maxLines = 3
+                    )
+                    Image(
+                        modifier = Modifier.size(64.dp),
+                        painter = painterResource(id = R.mipmap.ic_cases),
+                        contentDescription = null
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            if (cases == null) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+                }
+            }
 
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
+                val status = stringResource(R.string.open)
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        //onCreateCaseClick(name, status, "")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        stringResource(R.string.create_case),
+                        color = colorResource(R.color.white),
+                        style = MaterialTheme.typography.h5,
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
     }

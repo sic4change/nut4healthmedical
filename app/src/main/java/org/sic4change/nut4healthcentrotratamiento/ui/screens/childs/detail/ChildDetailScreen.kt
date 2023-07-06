@@ -96,7 +96,8 @@ fun ChildItemDetailScreen(
 @Composable
 private fun ChildView(
     childItem: Child,
-    childState: ChildState, cases: List<Case>?,
+    childState: ChildState,
+    cases: List<Case>?,
     onItemClick: (Case) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit,
     onClickDetail: (Case) -> Unit,

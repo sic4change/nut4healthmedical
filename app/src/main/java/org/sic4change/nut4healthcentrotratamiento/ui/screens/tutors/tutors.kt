@@ -223,6 +223,7 @@ fun FEFADetailScreen(
     FEFAItemDetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
+        cases = viewModelState.cases,
         fefaState = fefaDetailState,
         onClickDelete = {fefaDetailState.showDeleteQuestion()},
         onTutorDeleted = onTutorDeleted,
