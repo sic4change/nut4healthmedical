@@ -71,7 +71,21 @@ fun rememberVisitsState(
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
     visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
-    point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", 0)) }
+    point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", 0)) },
+    /*name: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    surnames: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    address: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    phone: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    birthday: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    lastDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    etnician: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    sex: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    maleRelation: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    womanStatus: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    weeks: MutableState<String> = rememberSaveable { mutableStateOf("0") },
+    childMinor: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    babyAge: MutableState<String> = rememberSaveable { mutableStateOf("0") },
+    observationsFEFA: MutableState<String> = rememberSaveable { mutableStateOf("") },*/
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, addmisionType, expandedAddmisionType,
     height, weight, imc, armCircunference, status, selectedEdema, expandedEdema, selectedInfection,
     expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation, expandedDeshidratation,  selectedVomitos,
@@ -80,7 +94,12 @@ fun rememberVisitsState(
     selectedVitamineAVaccinated, expandedVitamineAVaccinated, selectedCapsulesFerro, expandedCapsulesFerro,
     selectedAmoxicilina, expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
-    visitsSize, visits, deleteVisit, currentStep, visitNumber, point ) }
+    visitsSize, visits, deleteVisit, currentStep, visitNumber, point,
+    /*name, surnames, address, phone, birthday,
+    lastDate, etnician, sex, maleRelation, womanStatus, weeks, childMinor,  babyAge, observationsFEFA*/
+) }
+
+
 
 class VisitState(
     val id: MutableState<String>,
@@ -139,7 +158,23 @@ class VisitState(
     val deleteVisit: MutableState<Boolean>,
     val currentStep: MutableState<Int>,
     val visitNumber: MutableState<Int>,
-    val point: MutableState<Point>
+    val point: MutableState<Point>,
+
+    /*val name: MutableState<String>,
+    val surnames: MutableState<String>,
+    val address: MutableState<String>,
+    val phone: MutableState<String>,
+    val birthday: MutableState<Date>,
+    val lastDate: MutableState<Date>,
+    val etnician: MutableState<String>,
+    val sex: MutableState<String>,
+    val maleRelation: MutableState<String>,
+    val womanStatus: MutableState<String>,
+    val weeks: MutableState<String>,
+    val childMinor: MutableState<String>,
+    val babyAge: MutableState<String>,
+    val observationsFEFA: MutableState<String>,*/
+
 ) {
 
     fun incrementStep() {

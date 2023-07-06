@@ -190,6 +190,7 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         loading = viewModelState.loading,
         visitState = visitCreateState,
         child = viewModelState.child,
+        fefa = viewModelState.fefa,
         onCreateVisit = viewModel::createVisit,
         onChangeWeightOrHeight = viewModel::checkDesnutrition
     )
