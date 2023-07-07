@@ -39,6 +39,7 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                          loading: Boolean = false,
                          tutorItem: Tutor?,
                          cases: List<Case>?,
+                         onItemClick: (Case) -> Unit,
                          onClickDelete: () -> Unit,
                          onTutorDeleted: () -> Unit,
                          onEditClick: (Tutor) -> Unit,
@@ -71,6 +72,7 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                         tutorItem = tutorItem,
                         tutorState = fefaState,
                         cases = cases,
+                        onItemClick = onItemClick,
                         onCreateCaseClick = onCreateCaseClick)
                 }
             }
@@ -87,6 +89,7 @@ private fun FEFAView(
     tutorItem: Tutor,
     tutorState: TutorState,
     cases: List<Case>?,
+    onItemClick: (Case) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit)  {
 
     val SEXS = listOf(
@@ -433,7 +436,7 @@ private fun FEFAView(
             items(cases) {
                 CaseListItem(
                     item = it,
-                    modifier = Modifier.clickable {  },
+                    modifier = Modifier.clickable { onItemClick(it) },
                     onClickDetail = {},
                     onClickEdit = {},
                     onClickDelete = {},

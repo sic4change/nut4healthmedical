@@ -221,6 +221,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(case.id)
                     )
                 },
+                onItemClick = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
+                    )
+                },
             )
         }
 
