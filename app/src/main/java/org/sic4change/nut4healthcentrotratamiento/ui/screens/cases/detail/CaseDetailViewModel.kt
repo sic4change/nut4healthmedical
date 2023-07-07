@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 
@@ -28,6 +29,10 @@ class CaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 _state.value = _state.value.copy(child = FirebaseDataSource.getChild(_state.value.case!!.childId!!))
                 _state.value = _state.value.copy(visits = FirebaseDataSource.getVisits(_state.value.case!!.id))
             }
+            if (_state.value.case?.fefaId != null) {
+                _state.value = _state.value.copy(fefa = FirebaseDataSource.getTutor(_state.value.case!!.fefaId!!))
+                _state.value = _state.value.copy(visits = FirebaseDataSource.getVisits(_state.value.case!!.id))
+            }
             _state.value = _state.value.copy(loading = false)
         }
     }
@@ -35,6 +40,7 @@ class CaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     data class  UiState(
         val loading: Boolean = false,
         val case: Case? = null,
+        val fefa: Tutor? = null,
         val child: Child? = null,
         val visits : List<Visit>? = null,
         val updateCase: Boolean = false,

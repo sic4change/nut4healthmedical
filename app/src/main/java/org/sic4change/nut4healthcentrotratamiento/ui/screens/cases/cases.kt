@@ -42,6 +42,7 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
     CaseItemDetailScreen(
         loading = viewModelState.loading,
         caseItem = viewModelState.case,
+        fefaItem = viewModelState.fefa,
         child = viewModelState.child,
         visits = viewModelState.visits,
         caseState = caseDetailState,
