@@ -148,7 +148,9 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
             visitCreateState.weight.value = viewModelState.visit!!.weight.toString()
             visitCreateState.armCircunference.value = viewModelState.visit!!.armCircunference
             visitCreateState.selectedVitamineAVaccinated.value = viewModelState.visit!!.vitamineAVaccinated
-            visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
+            if (viewModelState.childDateMillis != null) {
+                visitCreateState.childDateMillis.value = viewModelState.childDateMillis!!
+            }
             visitCreateState.complications.value = viewModelState.visit!!.complications
         }
     }
@@ -189,7 +191,8 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.fefa) {
         if (viewModelState.fefa != null) {
             visitCreateState.womanStatus.value = viewModelState.fefa!!.womanStatus
-
+            visitCreateState.womanChildWeeks.value = viewModelState.fefa!!.babyAge.toInt()
+            visitCreateState.pregnantWeeks.value = viewModelState.fefa!!.weeks.toInt()
         }
     }
 

@@ -229,6 +229,8 @@
     <string name="plumpy_mas_50">50 sobres (7 sobres al día)</string>
     <string name="plumpy_mas_55">55 sobres (8 sobres al día)</string>
 
+    <string name="fefa_ration">Por favor, dele la ración a la mujer</string>
+
     //Yes no options
     <string-array name="yesnooptions">
         <item>--</item>

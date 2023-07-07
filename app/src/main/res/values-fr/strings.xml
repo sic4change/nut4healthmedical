@@ -229,6 +229,8 @@
     <string name="plumpy_mas_50">50 sachets (7 sachets par jour)</string>
     <string name="plumpy_mas_55">55 sachets (8 sachets par jour)</string>
 
+    <string name="fefa_ration">S\'il vous plaît, donnez la portion à la femme.</string>
+
     <string-array name="yesnooptions">
         <item>--</item>
         <item>Oui</item>
