@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -90,10 +91,19 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
         }
     }
 
+    LaunchedEffect(viewModelState.fefa) {
+        if (viewModelState.fefa != null) {
+            visitDetailState.womanStatus.value = viewModelState.fefa!!.womanStatus
+            visitDetailState.pregnantWeeks.value = viewModelState.fefa!!.weeks.toInt()
+            visitDetailState.womanChildWeeks.value = viewModelState.fefa!!.babyAge.toInt()
+        }
+    }
+
     VisitItemDetailScreen(
         loading = viewModelState.loading,
         visitItem = viewModelState.visit,
         child = viewModelState.child,
+        fefa = viewModelState.fefa,
         visitState = visitDetailState,
         onEditClick = onEditVisitClick,
         onDeleteClick = onDeleteVisitClick

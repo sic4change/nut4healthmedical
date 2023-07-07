@@ -1053,14 +1053,6 @@ fun NutritionalView(visitState: VisitState) {
 @Composable
 fun SistemicFEFAView(visitState: VisitState) {
 
-    val EMPTYVALUE = stringArrayResource(R.array.yesnooptions)[0]
-
-    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-    val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
-
-    val monthsBetween = ChronoUnit.MONTHS.between(
-        YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
-    )
 
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
@@ -1074,8 +1066,6 @@ fun SistemicFEFAView(visitState: VisitState) {
     }
 
     Spacer(modifier = Modifier.height(16.dp))
-
-    //Aqui faltan los otros dos casos y la vista final de tratamiento nutricional
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
@@ -1295,6 +1285,7 @@ fun SistemicFEFAView(visitState: VisitState) {
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
+
         }
 
 

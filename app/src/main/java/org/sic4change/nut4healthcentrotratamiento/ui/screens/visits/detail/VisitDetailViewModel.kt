@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
@@ -34,8 +35,12 @@ class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (_state.value.case?.point != null) {
                 _state.value = _state.value.copy(point = FirebaseDataSource.getPoint(_state.value.case!!.point))
             }
+
             _state.value = _state.value.copy(
                 child = FirebaseDataSource.getChild(_state.value.case!!.childId!!),
+            )
+            _state.value = _state.value.copy(
+                fefa = FirebaseDataSource.getTutor(_state.value.case!!.fefaId!!),
             )
             _state.value = _state.value.copy(
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId!!)?.birthdate?.time }
@@ -47,6 +52,7 @@ class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val loading: Boolean = false,
         val point: Point? = null,
         val child: Child? = null,
+        val fefa: Tutor? = null,
         val visit: Visit? = null,
         val case: Case? = null,
         val visits: List<Visit> = emptyList(),
