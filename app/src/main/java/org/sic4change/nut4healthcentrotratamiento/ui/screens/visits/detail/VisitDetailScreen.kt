@@ -1508,30 +1508,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    Spacer(modifier = Modifier.height(16.dp))
                                }
 
-                               TextField(
-                                   enabled = false,
-                                   readOnly = true,
-                                   value = if (visitState.selectedEdema.value != "") visitState.selectedEdema.value else stringArrayResource(R.array.edemaOptions)[0],
-                                   onValueChange = {
-                                       visitState.selectedEdema.value = it
-                                   },
-                                   textStyle = MaterialTheme.typography.h5,
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorPrimary),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = color,
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = color,
-                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                   ),
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  )},
-                                   label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
-                               )
-
+                               ItemViewImage(visitState.selectedEdema.value, stringResource(R.string.edema), R.mipmap.ic_edema)
 
                                Spacer(modifier = Modifier.height(16.dp))
 
@@ -1539,7 +1516,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    .fillMaxWidth()
                                    .padding(16.dp, 0.dp),
                                    elevation = 0.dp,
-                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                                   backgroundColor = colorResource(R.color.white)
                                )
                                {
                                    Column(
