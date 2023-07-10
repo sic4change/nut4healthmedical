@@ -36,62 +36,65 @@ fun NextListItem(
             modifier = modifier.padding(8.dp)
         ) {
             Card {
-                Column(
-                ) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "${item.tutorName.slice(0..0)} ${item.tutorSurname.slice(0..0)}",
-                            textAlign = TextAlign.Center,
-                            color = Color.White,
-                            style = MaterialTheme.typography.body2,
-                            modifier = Modifier
-                                .background(colorResource(R.color.colorAccent), shape = CircleShape)
-                                .circleLayout()
-                                .padding(8.dp, 8.dp)
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            color = colorResource(R.color.colorPrimary),
-                            text = "${item.tutorName} ${item.tutorSurname}",
-                            style = MaterialTheme.typography.h6,
-                            maxLines = 2,
-                            modifier = Modifier
-                                .padding(0.dp, 0.dp)
-                                .weight(1f)
-                        )
-                        IconButton(onClick = {onCreateVisitClick(item.visitsCuadrant[0].caseId) }) {
-                            Icon(
-                                tint = colorResource(R.color.colorPrimary),
-                                imageVector = Icons.Default.AddCircle,
-                                contentDescription = stringResource(R.string.more_actions)
+                Column {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    if (item.childId.isNotEmpty()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Image(
+                                painter = painterResource(id = R.mipmap.ic_child),
+                                modifier = Modifier.height(40.dp),
+                                contentDescription = null
                             )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                color = colorResource(R.color.colorPrimary),
+                                text = "${item.childName}",
+                                style = MaterialTheme.typography.h6,
+                                maxLines = 2,
+                                modifier = Modifier
+                                    .padding(0.dp, 0.dp)
+                                    .weight(1f)
+                            )
+                            IconButton(onClick = {onCreateVisitClick(item.visitsCuadrant[0].caseId) }) {
+                                Icon(
+                                    tint = colorResource(R.color.colorPrimary),
+                                    imageVector = Icons.Default.AddCircle,
+                                    contentDescription = stringResource(R.string.more_actions)
+                                )
+                            }
+                        }
+                    } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Image(
+                                painter = painterResource(id = R.mipmap.ic_tutor_fefa),
+                                modifier = Modifier.height(40.dp),
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                color = colorResource(R.color.colorPrimary),
+                                text = "${item.tutorName} ${item.tutorSurname}",
+                                style = MaterialTheme.typography.h6,
+                                maxLines = 2,
+                                modifier = Modifier
+                                    .padding(0.dp, 0.dp)
+                                    .weight(1f)
+                            )
+                            IconButton(onClick = {onCreateVisitClick(item.visitsCuadrant[0].caseId) }) {
+                                Icon(
+                                    tint = colorResource(R.color.colorPrimary),
+                                    imageVector = Icons.Default.AddCircle,
+                                    contentDescription = stringResource(R.string.more_actions)
+                                )
+                            }
                         }
                     }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Image(
-                            painter = painterResource(id = R.mipmap.ic_child),
-                            modifier = Modifier.height(40.dp),
-                            contentDescription = null
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            color = colorResource(R.color.colorPrimary),
-                            text = "${item.childName}",
-                            style = MaterialTheme.typography.h6,
-                            maxLines = 2,
-                            modifier = Modifier
-                                .padding(0.dp, 0.dp)
-                                .weight(1f)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
                     Divider(color = Color.LightGray, thickness = 2.dp, modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp))
 
                     Column(verticalArrangement = Arrangement.spacedBy((-20).dp)) {

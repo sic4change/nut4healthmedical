@@ -1633,7 +1633,7 @@ fun SistemicView(visitState: VisitState) {
     AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             && monthsBetween >= 9
-            && (visitState.visitsSize.value == 0 || visitState.visits.value[1].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[2]) ) {
+            && (visitState.visitsSize.value == 0 || (visitState.visits.value[0] != null && visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[2])) ) {
         Spacer(modifier = Modifier.height(16.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
             Spacer(modifier = Modifier.width(16.dp))

@@ -111,7 +111,6 @@ class TutorState(
     }
 
     fun showDeleteCaseQuestion() {
-        println("Aqui cambiando el valor de deleteCase")
         deleteCase.value = !deleteCase.value
     }
 
