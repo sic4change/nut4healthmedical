@@ -27,6 +27,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.MessageErrorRole
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.MessageDeleteCaseFromChild
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
@@ -37,6 +38,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa.FEFAItemDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa.FEFAViewModel
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.fefa.MessageDeleteCaseFromFEFA
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorEditViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit.TutorItemEditScreen
 
@@ -189,9 +191,12 @@ fun FEFADetailScreen(
     onEditTutorClick: (Tutor) -> Unit,
     onDeleteTutorClick: () -> Unit,
     onCaseCreated: (Case) -> Unit,
+    onClickDetail: (Case) -> Unit,
     onItemClick: (Case) -> Unit,
+    onClickEdit: (Case) -> Unit,
+    onClickDelete: (Case) -> Unit,
     onTutorDeleted: () -> Unit,
-) {
+    onDeleteCase: (String) -> Unit,) {
 
     val fefaDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
@@ -235,7 +240,10 @@ fun FEFADetailScreen(
         cases = viewModelState.cases,
         fefaState = fefaDetailState,
         onItemClick = onItemClick,
-        onClickDelete = {fefaDetailState.showDeleteQuestion()},
+        onClickDetail = onClickDetail,
+        onClickEdit = onClickEdit,
+        onClickDelete = onDeleteCase,
+        onDeleteCase = {fefaDetailState.showDeleteCaseQuestion(it.id)},
         onTutorDeleted = onTutorDeleted,
         onEditClick = onEditTutorClick,
         onCreateCaseClick = viewModel::createCase,
@@ -243,6 +251,10 @@ fun FEFADetailScreen(
 
     MessageDeleteTutor(fefaDetailState.deleteTutor.value, fefaDetailState::showDeleteQuestion,
         fefaDetailState.id.value, viewModel::deleteTutor, onTutorDeleted)
+
+    MessageDeleteCaseFromFEFA(fefaDetailState.deleteCase.value, fefaDetailState::showDeleteCaseQuestion,
+        fefaDetailState.caseId.value, viewModel::deleteCase, fefaDetailState.id.value, onDeleteCase)
+
 
 }
 

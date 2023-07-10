@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.detail.MessageDeleteCase
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildItemCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildDetailViewModel

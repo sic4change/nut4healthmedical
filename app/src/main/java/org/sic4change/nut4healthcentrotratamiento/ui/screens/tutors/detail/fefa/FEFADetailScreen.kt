@@ -40,7 +40,10 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                          tutorItem: Tutor?,
                          cases: List<Case>?,
                          onItemClick: (Case) -> Unit,
-                         onClickDelete: () -> Unit,
+                         onClickDetail: (Case) -> Unit,
+                         onClickEdit: (Case) -> Unit,
+                         onDeleteCase: (Case) -> Unit,
+                         onClickDelete: (String) -> Unit,
                          onTutorDeleted: () -> Unit,
                          onEditClick: (Tutor) -> Unit,
                          onCreateCaseClick: (String, String, String) -> Unit) {
@@ -73,6 +76,9 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                         tutorState = fefaState,
                         cases = cases,
                         onItemClick = onItemClick,
+                        onClickDetail = onClickDetail,
+                        onClickEdit = onClickEdit,
+                        onClickDelete = onDeleteCase,
                         onCreateCaseClick = onCreateCaseClick)
                 }
             }
@@ -89,8 +95,11 @@ private fun FEFAView(
     tutorItem: Tutor,
     tutorState: TutorState,
     cases: List<Case>?,
+    onClickDetail: (Case) -> Unit,
     onItemClick: (Case) -> Unit,
-    onCreateCaseClick: (String, String, String) -> Unit)  {
+    onClickEdit: (Case) -> Unit,
+    onCreateCaseClick: (String, String, String) -> Unit,
+    onClickDelete: (Case) -> Unit)  {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -437,9 +446,9 @@ private fun FEFAView(
                 CaseListItem(
                     item = it,
                     modifier = Modifier.clickable { onItemClick(it) },
-                    onClickDetail = {},
-                    onClickEdit = {},
-                    onClickDelete = {},
+                    onClickDetail = onClickDetail,
+                    onClickEdit = onClickEdit,
+                    onClickDelete = onClickDelete,
                 )
             }
         }
@@ -472,6 +481,47 @@ private fun FEFAView(
         }
 
     }
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageDeleteCaseFromFEFA(showDialog: Boolean, setShowDialog: () -> Unit, caseId: String, onDeleteCase: (String) -> Unit, fefaId: String, onDeleteCaseSelected: (String) -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onDeleteCase(caseId)
+                        onDeleteCaseSelected(fefaId)
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.delete_case_question))
+            },
+        )
+    }
+
 }
 
 

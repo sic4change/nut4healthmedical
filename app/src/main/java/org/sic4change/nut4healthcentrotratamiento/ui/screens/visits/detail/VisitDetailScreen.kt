@@ -843,7 +843,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
                                    Spacer(modifier = Modifier.height(16.dp))
-                                   
+
                                        Column(
                                            horizontalAlignment = Alignment.CenterHorizontally,
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
