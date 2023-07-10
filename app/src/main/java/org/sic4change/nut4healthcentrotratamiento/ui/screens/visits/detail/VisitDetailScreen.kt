@@ -544,64 +544,14 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            Spacer(modifier = Modifier.height(16.dp))
                            SteptTitle(stringResource(R.string.step1_title))
                            Spacer(modifier = Modifier.height(16.dp))
-                           if (visitState.armCircunference.value < 18.0) {
-                               visitState.status.value = stringResource(R.string.aguda_severa)
-                               TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_severa),
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.error),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = colorResource(R.color.error),
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = colorResource(R.color.error),
-                                       unfocusedIndicatorColor = colorResource(R.color.error),
-                                   ),
-                                   onValueChange = {}, readOnly = true,
-                                   textStyle = MaterialTheme.typography.h5,
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                                   label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                           }  else if (visitState.armCircunference.value >= 18.0 && visitState.armCircunference.value < 21.0) {
-                               visitState.status.value = stringResource(R.string.aguda_moderada)
-                               TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_moderada),
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.orange),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = colorResource(R.color.orange),
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = colorResource(R.color.orange),
-                                       unfocusedIndicatorColor = colorResource(R.color.orange),
-                                   ),
-                                   onValueChange = {}, readOnly = true,
-                                   textStyle = MaterialTheme.typography.h5,
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                                   label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                           } else {
-                               visitState.status.value = stringResource(R.string.normopeso)
-                               TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.normopeso),
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorAccent),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = colorResource(R.color.colorAccent),
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                       unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                                   ),
-                                   onValueChange = {}, readOnly = true,
-                                   textStyle = MaterialTheme.typography.h5,
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                                   label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                           }
+                           ItemViewIcon(visitState.armCircunference.value.toString(),
+                               stringResource(R.string.arm_circunference), Icons.Filled.MultipleStop)
+
+                           Spacer(modifier = Modifier.height(16.dp))
+
+                           CurrenStatusView(visitState)
+
+                           Spacer(modifier = Modifier.height(16.dp))
 
                            ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
@@ -610,7 +560,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                    || visitState.status.value == stringResource(R.string.aguda_severa))){
                                Spacer(modifier = Modifier.height(32.dp))
-
                                SteptTitle(stringResource(R.string.step3_title))
                                Spacer(modifier = Modifier.height(32.dp))
                            }
@@ -626,40 +575,32 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    && visitState.visitNumber.value == 1) {
                                Column {
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(16.dp))
-                                       Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
-                                       Spacer(modifier = Modifier.width(16.dp))
+                                       Spacer(modifier = Modifier.width(8.dp))
+                                       Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.colorPrimary))
+                                       Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
-                                   Spacer(modifier = Modifier.height(16.dp))
 
                                        Column(
                                            horizontalAlignment = Alignment.CenterHorizontally,
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                            modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
+                                               .padding(16.dp, 0.dp)
                                        ) {
                                            Column(
-                                               horizontalAlignment = Alignment.CenterHorizontally,
                                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                                modifier = Modifier
                                                    .wrapContentSize()
                                                    .padding(0.dp, 0.dp)
                                            ) {
-                                               Text(stringResource(
-                                                   R.string.vitamine_dosis),
+                                               Text(stringResource(R.string.vitamine_dosis),
+                                                   color = colorResource(R.color.disabled_color)
+                                               )
+                                               Text("${stringResource(R.string.abendazol_400_full)} o ${stringResource(R.string.mebendazol_400_full)}",
                                                    color = colorResource(R.color.black_gray)
                                                )
-                                               Text(stringResource(
-                                                   R.string.abendazol_400_full),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
-                                               Text("o", color = colorResource(R.color.colorPrimary))
-                                               Text(stringResource(
-                                                   R.string.mebendazol_400_full),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               
                                            }
                                        }
 
@@ -675,22 +616,20 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
                                Column {
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(16.dp))
-                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+                                       Spacer(modifier = Modifier.width(8.dp))
+                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
                                        Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
-                                   Spacer(modifier = Modifier.height(16.dp))
 
                                        Column(
                                            horizontalAlignment = Alignment.CenterHorizontally,
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                            modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
+                                               .padding(16.dp, 0.dp)
                                        ) {
                                            Column(
-                                               horizontalAlignment = Alignment.CenterHorizontally,
                                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                                modifier = Modifier
                                                    .wrapContentSize()
@@ -698,11 +637,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                            ) {
                                                Text(stringResource(
                                                    R.string.vitamine_dosis),
-                                                   color = colorResource(R.color.black_gray)
+                                                   color = colorResource(R.color.disabled_color)
                                                )
                                                Text(stringResource(
                                                    R.string.ferro_admin),
-                                                   color = colorResource(R.color.colorPrimary)
+                                                   color = colorResource(R.color.black_gray)
                                                )
                                                AnimatedVisibility(visitState.status.value.isNotEmpty()
                                                        && (visitState.status.value == stringResource(R.string.aguda_moderada)
@@ -710,56 +649,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                        && (visitState.womanStatus.value == stringResource(R.string.pregnant)
                                                        || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
 
-                                                   ExposedDropdownMenuBox(
-                                                       modifier = Modifier
-                                                           .fillMaxWidth()
-                                                           .padding(16.dp, 0.dp),
-                                                       expanded = visitState.expandedCapsulesFerro.value,
-                                                       onExpandedChange = {}
-                                                   ) {
-                                                       TextField(
-                                                           enabled = false,
-                                                           readOnly = true,
-                                                           value = visitState.selectedCapsulesFerro.value,
-                                                           onValueChange = {
-                                                               visitState.selectedCapsulesFerro.value = it
-                                                           },
-                                                           trailingIcon = {
-                                                               ExposedDropdownMenuDefaults.TrailingIcon(
-                                                                   expanded = visitState.expandedCapsulesFerro.value
-                                                               )
-                                                           },
-                                                           textStyle = MaterialTheme.typography.h5,
-                                                           colors = TextFieldDefaults.textFieldColors(
-                                                               textColor = colorResource(R.color.colorPrimary),
-                                                               backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                               cursorColor = colorResource(R.color.colorAccent),
-                                                               disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                               focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                               unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                           ),
-                                                           modifier = Modifier
-                                                               .fillMaxWidth(),
-                                                           leadingIcon = {
-                                                               Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary), )},
-                                                           label = { Text(stringResource(R.string.capsules_hierro_folico_checked), color = colorResource(R.color.disabled_color)) }
-                                                       )
-                                                       ExposedDropdownMenu(
-
-                                                           expanded = visitState.expandedCapsulesFerro.value,
-                                                           onDismissRequest = {
-                                                               visitState.expandedCapsulesFerro.value = false
-                                                           }
-                                                       ) {
-                                                           stringArrayResource(id = R.array.yesnooptions).forEach { selectedFerro ->
-                                                               DropdownMenuItem(
-                                                                   onClick = {}
-                                                               ) {
-                                                                   Text(text = selectedFerro, color = colorResource(R.color.colorPrimary))
-                                                               }
-                                                           }
-                                                       }
-                                                   }
+                                                   ItemViewIcon(visitState.selectedCapsulesFerro.value, stringResource(R.string.capsules_hierro_folico_checked), Icons.Filled.Medication)
 
                                                }
 
@@ -781,34 +671,28 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                Column {
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(16.dp))
-                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+                                       Spacer(modifier = Modifier.width(8.dp))
+                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
                                        Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
-                                   Spacer(modifier = Modifier.height(16.dp))
-
                                        Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                            modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
+                                               .padding(16.dp, 0.dp)
                                        ) {
                                            Column(
-                                               horizontalAlignment = Alignment.CenterHorizontally,
                                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                                modifier = Modifier
                                                    .wrapContentSize()
                                                    .padding(0.dp, 0.dp)
                                            ) {
-                                               Text(stringResource(
-                                                   R.string.vitamine_dosis),
-                                                   color = colorResource(R.color.black_gray)
+                                               Text(stringResource(R.string.vitamine_dosis),
+                                                   color = colorResource(R.color.disabled_color)
                                                )
-                                               Text(stringResource(
-                                                   R.string.vitamine_red),
-                                                   color = colorResource(R.color.colorPrimary)
+                                               Text(stringResource(R.string.vitamine_red),
+                                                   color = colorResource(R.color.black_gray)
                                                )
                                            }
                                        }
@@ -1604,12 +1488,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && visitState.visitNumber.value == 1) {
 
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(16.dp))
-                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+                                       Spacer(modifier = Modifier.width(8.dp))
+                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
                                        Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
-                                   Spacer(modifier = Modifier.height(16.dp))
 
                                }
 
@@ -1625,7 +1508,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
                                    ) {
                                        Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                            modifier = Modifier
                                                .wrapContentSize()
@@ -1663,15 +1545,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                            }
                                            AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
                                                Column(
-                                                   horizontalAlignment = Alignment.CenterHorizontally,
                                                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                                    modifier = Modifier
                                                        .wrapContentSize()
                                                        .padding(0.dp, 0.dp)
                                                ) {
-                                                   Text(stringResource(
-                                                       R.string.vitamine_dosis),
-                                                       color = colorResource(R.color.black)
+                                                   Text(stringResource(R.string.vitamine_dosis),
+                                                       color = colorResource(R.color.disabled_color)
                                                    )
                                                    if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
                                                        Text(
@@ -1713,9 +1593,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && visitState.visitsSize.value == 0) {
                                    if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
                                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                           Spacer(modifier = Modifier.width(16.dp))
-                                           Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
-                                           Spacer(modifier = Modifier.width(16.dp))
+                                           Spacer(modifier = Modifier.width(8.dp))
+                                           Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.colorPrimary))
+                                           Spacer(modifier = Modifier.width(8.dp))
                                            Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                            Spacer(modifier = Modifier.width(16.dp))
                                        }
@@ -1783,12 +1663,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && visitState.status.value == stringResource(R.string.aguda_moderada)) {
 
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(16.dp))
-                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
-                                       Spacer(modifier = Modifier.width(16.dp))
+                                       Spacer(modifier = Modifier.width(8.dp))
+                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
+                                       Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
-                                   Spacer(modifier = Modifier.height(16.dp))
 
                                }
 
@@ -1876,9 +1755,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(16.dp))
-                                       Icon(painterResource(R.mipmap.ic_inyection), null, tint = colorResource(R.color.disabled_color))
-                                       Spacer(modifier = Modifier.width(16.dp))
+                                       Spacer(modifier = Modifier.width(8.dp))
+                                       Icon(painterResource(R.mipmap.ic_inyection), null, tint = colorResource(R.color.colorPrimary))
+                                       Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.vaccine_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
                                    Spacer(modifier = Modifier.height(16.dp))
@@ -2142,7 +2021,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        }
                                    }
                                }
-                               
+
 
                                ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
