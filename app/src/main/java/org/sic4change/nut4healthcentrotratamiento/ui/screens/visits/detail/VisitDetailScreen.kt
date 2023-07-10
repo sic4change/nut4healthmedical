@@ -602,26 +602,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
                                    label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
                            }
-                           Spacer(modifier = Modifier.height(16.dp))
 
-                           TextField(value = visitState.observations.value,
-                               colors = TextFieldDefaults.textFieldColors(
-                                   textColor = colorResource(R.color.colorPrimary),
-                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                   cursorColor = colorResource(R.color.colorAccent),
-                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                   unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                               ),
-                               onValueChange = {visitState.observations.value = it},
-                               textStyle = MaterialTheme.typography.h5,
-                               enabled = false,
-                               modifier = Modifier
-                                   .fillMaxWidth()
-                                   .padding(16.dp, 0.dp),
-                               leadingIcon = {
-                                   Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-                               label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+                           ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
                            Spacer(modifier = Modifier.height(16.dp))
                            AnimatedVisibility(visitState.status.value.isNotEmpty()
@@ -1295,27 +1277,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
 
+                               ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
-                               Spacer(modifier = Modifier.height(16.dp))
-
-                               TextField(value = visitState.observations.value,
-                                   enabled = false,
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorPrimary),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = color,
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = color,
-                                       unfocusedIndicatorColor = color,
-                                   ),
-                                   onValueChange = {visitState.observations.value = it},
-                                   textStyle = MaterialTheme.typography.h5,
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary))},
-                                   label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
 
                                Spacer(modifier = Modifier.height(16.dp))
 
@@ -1556,8 +1519,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                )
                                            }
                                        }
-
-
                                    }
                                }
 
@@ -1583,7 +1544,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
                                    Card(modifier = Modifier
                                        .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
+                                       .padding(0.dp, 0.dp),
                                        elevation = 0.dp,
                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
                                    ) {
@@ -1592,232 +1553,36 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                            modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(16.dp)
+                                               .padding(0.dp, 16.dp)
                                        ) {
 
 
                                            AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
-                                               TextField(
-                                                   enabled = false,
-                                                   readOnly = true,
-                                                   value = if (visitState.selectedRespiration.value == "") stringArrayResource(R.array.respirationOptions)[0] else visitState.selectedRespiration.value,
-                                                   onValueChange = {},
-                                                   textStyle = MaterialTheme.typography.h5,
-                                                   colors = TextFieldDefaults.textFieldColors(
-                                                       textColor = colorResource(R.color.colorPrimary),
-                                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       cursorColor = colorResource(R.color.colorAccent),
-                                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   ),
-                                                   modifier = Modifier
-                                                       .fillMaxWidth(),
-                                                   leadingIcon = {
-                                                       Icon(painterResource(R.mipmap.ic_respiration), null, tint = colorResource(R.color.colorPrimary), )},
-                                                   label = { Text(stringResource(R.string.respiration), color = colorResource(R.color.disabled_color)) }
-                                               )
+                                               ItemViewImage(visitState.selectedRespiration.value, stringResource(R.string.respiration), R.mipmap.ic_respiration)
                                            }
 
                                            AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
-                                               TextField(
-                                                   enabled = false,
-                                                   readOnly = true,
-                                                   value = if (visitState.selectedApetit.value == "") stringArrayResource(R.array.apetitOptions)[0] else visitState.selectedApetit.value,
-                                                   onValueChange = {},
-                                                   textStyle = MaterialTheme.typography.h5,
-                                                   colors = TextFieldDefaults.textFieldColors(
-                                                       textColor = colorResource(R.color.colorPrimary),
-                                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       cursorColor = colorResource(R.color.colorAccent),
-                                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   ),
-                                                   modifier = Modifier
-                                                       .fillMaxWidth(),
-                                                   leadingIcon = {
-                                                       Icon(painterResource(R.mipmap.ic_apetit), null, tint = colorResource(R.color.colorPrimary), )},
-                                                   label = { Text(stringResource(R.string.apetit), color = colorResource(R.color.disabled_color)) }
-                                               )
-
+                                               ItemViewImage(visitState.selectedApetit.value, stringResource(R.string.apetit), R.mipmap.ic_apetit)
                                            }
 
+                                           ItemViewImage(visitState.selectedInfection.value, stringResource(R.string.infection), R.mipmap.ic_infeccion)
 
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedInfection.value == "") stringArrayResource(R.array.yesnooptions)[1] else visitState.selectedInfection.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_infeccion), null, tint = colorResource(R.color.colorPrimary), )},
-                                               label = { Text(stringResource(R.string.infection), color = colorResource(R.color.disabled_color)) }
-                                           )
+                                           ItemViewIcon(visitState.selectedEyes.value, stringResource(R.string.eyes), Icons.Filled.RemoveRedEye)
 
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedEyes.value == "") stringArrayResource(R.array.yesnooptions)[1] else visitState.selectedEyes.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(Icons.Filled.RemoveRedEye, null, tint = colorResource(R.color.colorPrimary), )},
-                                               label = { Text(stringResource(R.string.eyes), color = colorResource(R.color.disabled_color)) }
-                                           )
+                                           ItemViewImage(visitState.selectedDeshidratation.value, stringResource(R.string.deshidratation), R.mipmap.ic_deshidratation)
 
+                                           ItemViewImage(visitState.selectedVomitos.value, stringResource(R.string.vomits), R.mipmap.ic_vomit)
 
+                                           ItemViewImage(visitState.selectedDiarrea.value, stringResource(R.string.diarrea), R.mipmap.ic_diarrea)
 
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedDeshidratation.value == "") stringArrayResource(R.array.yesnooptions)[1] else visitState.selectedDeshidratation.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_deshidratation), null, tint = colorResource(R.color.colorPrimary),  )},
-                                               label = { Text(stringResource(R.string.deshidratation), color = colorResource(R.color.disabled_color)) }
-                                           )
-
-
-
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedVomitos.value == "") stringArrayResource(R.array.frecuencyOptions)[0] else visitState.selectedVomitos.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary), )},
-                                               label = { Text(stringResource(R.string.vomits), color = colorResource(R.color.disabled_color)) }
-                                           )
-
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedDiarrea.value == "") stringArrayResource(R.array.frecuencyOptions)[0] else visitState.selectedDiarrea.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary), )},
-                                               label = { Text(stringResource(R.string.diarrea), color = colorResource(R.color.disabled_color)) }
-                                           )
-
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedFiebre.value == "") stringArrayResource(R.array.frecuencyOptions)[0] else visitState.selectedFiebre.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  )},
-                                               label = { Text(stringResource(R.string.fiebre), color = colorResource(R.color.disabled_color)) }
-                                           )
-
+                                           ItemViewImage(visitState.selectedFiebre.value, stringResource(R.string.fiebre), R.mipmap.ic_tos)
 
                                            AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
-                                               TextField(
-                                                   enabled = false,
-                                                   readOnly = true,
-                                                   value = if (visitState.selectedTos.value == "") stringArrayResource(R.array.yesnooptions)[1] else visitState.selectedTos.value,
-                                                   onValueChange = {},
-                                                   textStyle = MaterialTheme.typography.h5,
-                                                   colors = TextFieldDefaults.textFieldColors(
-                                                       textColor = colorResource(R.color.colorPrimary),
-                                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       cursorColor = colorResource(R.color.colorAccent),
-                                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   ),
-                                                   modifier = Modifier
-                                                       .fillMaxWidth(),
-                                                   leadingIcon = {
-                                                       Icon(painterResource(R.mipmap.ic_tos), null, tint = colorResource(R.color.colorPrimary), )},
-                                                   label = { Text(stringResource(R.string.tos), color = colorResource(R.color.disabled_color)) }
-                                               )
+                                               ItemViewImage(visitState.selectedTos.value, stringResource(R.string.tos), R.mipmap.ic_fiebre)
                                            }
 
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedTemperature.value == "") "-" else visitState.selectedTemperature.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(Icons.Filled.Thermostat, null, tint = colorResource(R.color.colorPrimary),  )},
-                                               label = { Text(stringResource(R.string.temperature), color = colorResource(R.color.disabled_color)) }
-                                           )
+                                           ItemViewIcon(visitState.selectedTemperature.value, stringResource(R.string.temperature), Icons.Filled.Thermostat)
+
                                        }
 
                                    }
@@ -2377,29 +2142,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        }
                                    }
                                }
+                               
 
-
-
-                               Spacer(modifier = Modifier.height(16.dp))
-
-                               TextField(value = visitState.observations.value,
-                                   enabled = false,
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorPrimary),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = color,
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = color,
-                                       unfocusedIndicatorColor = color,
-                                   ),
-                                   onValueChange = {visitState.observations.value = it},
-                                   textStyle = MaterialTheme.typography.h5,
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary))},
-                                   label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
+                               ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
                                Spacer(modifier = Modifier.height(16.dp))
 
