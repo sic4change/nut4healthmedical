@@ -39,9 +39,10 @@ class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = _state.value.copy(
                 child = FirebaseDataSource.getChild(_state.value.case!!.childId!!),
             )
-            _state.value = _state.value.copy(
-                fefa = FirebaseDataSource.getTutor(_state.value.case!!.fefaId!!),
-            )
+
+            if (_state.value.case?.fefaId != null) {
+                _state.value = _state.value.copy(fefa = FirebaseDataSource.getTutor(_state.value.case!!.fefaId!!))
+            }
             _state.value = _state.value.copy(
                 childDateMillis = _state.value.case?.let { FirebaseDataSource.getChild(it.childId!!)?.birthdate?.time }
             )
