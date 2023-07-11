@@ -1487,7 +1487,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && visitState.status.value == stringResource(R.string.aguda_moderada)
                                        && visitState.visitNumber.value == 1) {
 
-                                   Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                   Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 8.dp)) {
                                        Spacer(modifier = Modifier.width(8.dp))
                                        Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
                                        Spacer(modifier = Modifier.width(8.dp))
@@ -1500,81 +1500,38 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
                                        && visitState.status.value == stringResource(R.string.aguda_moderada)
                                        && visitState.visitNumber.value == 1) {
-                                   Card(
+                                   Column(
                                        modifier = Modifier
-                                           .fillMaxWidth()
-                                           .padding(16.dp, 0.dp),
-                                       elevation = 0.dp,
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                                           .wrapContentSize()
+                                           .padding(0.dp, 16.dp)
                                    ) {
-                                       Column(
-                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                           modifier = Modifier
-                                               .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
-                                       ) {
 
-                                           Box(
-                                               modifier = Modifier.padding(horizontal = 0.dp)
-                                                   .fillMaxSize()
-                                                   .align(Alignment.CenterHorizontally)
+                                       ItemViewIcon(visitState.selectedVitamineAVaccinated.value, stringResource(R.string.vitamineAVaccinated), Icons.Filled.Book)
+
+                                       AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
+                                           Spacer(modifier = Modifier.height(16.dp))
+                                       }
+                                       AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
+                                           Column(
+                                               modifier = Modifier
+                                                   .wrapContentSize()
+                                                   .padding(16.dp, 0.dp)
                                            ) {
-                                               TextField(
-                                                   readOnly = true,
-                                                   value = visitState.selectedVitamineAVaccinated.value,
-                                                   onValueChange = {},
-                                                   textStyle = MaterialTheme.typography.h5,
-                                                   colors = TextFieldDefaults.textFieldColors(
-                                                       textColor = colorResource(R.color.colorPrimary),
-                                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       cursorColor = color,
-                                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       focusedIndicatorColor = color,
-                                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   ),
-                                                   modifier = Modifier
-                                                       .fillMaxWidth(),
-                                                   leadingIcon = {
-                                                       Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary),  )},
-                                                   label = { Text(stringResource(R.string.vitamineAVaccinated), color = colorResource(R.color.disabled_color)) }
+                                               Text(stringResource(R.string.vitamine_dosis),
+                                                   color = colorResource(R.color.disabled_color)
                                                )
-                                           }
-
-                                           AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
-                                               Spacer(modifier = Modifier.height(16.dp))
-                                           }
-                                           AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
-                                               Column(
-                                                   verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                                   modifier = Modifier
-                                                       .wrapContentSize()
-                                                       .padding(0.dp, 0.dp)
-                                               ) {
-                                                   Text(stringResource(R.string.vitamine_dosis),
-                                                       color = colorResource(R.color.disabled_color)
+                                               if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
+                                                   Text(stringResource(R.string.vitamine_blue),
+                                                       color = colorResource(R.color.black_gray)
                                                    )
-                                                   if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
-                                                       Text(
-                                                           stringResource(R.string.vitamine_blue),
-                                                           color = colorResource(R.color.colorPrimary)
-                                                       )
-                                                   } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
-                                                       Text(stringResource(
-                                                           R.string.vitamine_red),
-                                                           color = colorResource(R.color.colorPrimary)
-                                                       )
-                                                   }
+                                               } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
+                                                   Text(stringResource(R.string.vitamine_red),
+                                                       color = colorResource(R.color.black_gray)
+                                                   )
                                                }
                                            }
                                        }
                                    }
-                               }
-
-                               AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                       && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
-                                       && visitState.visitNumber.value == 2)) {
-                                   Spacer(modifier = Modifier.height(16.dp))
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
@@ -1607,49 +1564,33 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                        && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
                                        && visitState.visitNumber.value == 2)) {
-                                   Card(
+                                   Column(
                                        modifier = Modifier
-                                           .fillMaxWidth()
-                                           .padding(16.dp, 0.dp),
-                                       elevation = 0.dp,
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                                           .wrapContentSize()
+                                           .padding(16.dp, 0.dp)
                                    ) {
-                                       Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
-                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                           modifier = Modifier
-                                               .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
-                                       ) {
-                                           if ((monthsBetween >= 12 && monthsBetween < 24)) {
-                                               Text(
-                                                   stringResource(R.string.admin_dosis),
-                                                   color = colorResource(R.color.black)
-                                               )
-                                               Text(
-                                                   stringResource(R.string.abendazol_400_half),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
-                                               Text("o", color = colorResource(R.color.colorPrimary))
-                                               Text(
-                                                   stringResource(R.string.mebendazol_400_half),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
-                                           } else if ((monthsBetween >= 24)) {
-                                               Text(
-                                                   stringResource(R.string.admin_dosis),
-                                                   color = colorResource(R.color.black)
-                                               )
-                                               Text(
-                                                   stringResource(R.string.abendazol_400_full),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
-                                               Text("o", color = colorResource(R.color.colorPrimary))
-                                               Text(
-                                                   stringResource(R.string.mebendazol_400_full),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
-                                           }
+                                       if ((monthsBetween >= 12 && monthsBetween < 24)) {
+                                           Text(stringResource(R.string.admin_dosis),
+                                               color = colorResource(R.color.disabled_color)
+                                           )
+                                           Text(stringResource(R.string.abendazol_400_half),
+                                               color = colorResource(R.color.black_gray)
+                                           )
+                                           Text("o", color = colorResource(R.color.black_gray))
+                                           Text(stringResource(R.string.mebendazol_400_half),
+                                               color = colorResource(R.color.black_gray)
+                                           )
+                                       } else if ((monthsBetween >= 24)) {
+                                           Text(stringResource(R.string.admin_dosis),
+                                               color = colorResource(R.color.disabled_color)
+                                           )
+                                           Text(stringResource(R.string.abendazol_400_full),
+                                               color = colorResource(R.color.black_gray)
+                                           )
+                                           Text("o", color = colorResource(R.color.black_gray))
+                                           Text(stringResource(R.string.mebendazol_400_full),
+                                               color = colorResource(R.color.black_gray)
+                                           )
                                        }
                                    }
                                }
@@ -1673,70 +1614,19 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
                                        && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-                                   Card(
-                                       modifier = Modifier
-                                           .fillMaxWidth()
-                                           .padding(16.dp, 0.dp),
-                                       elevation = 0.dp,
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                                   ) {
+                                   Column {
+                                       ItemViewIcon(visitState.selectedCapsulesFerro.value, stringResource(R.string.capsules_hierro_folico_checked), Icons.Filled.Medication)
                                        Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
-                                           verticalArrangement = Arrangement.spacedBy(
-                                               8.dp,
-                                               Alignment.CenterVertically
-                                           ),
                                            modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
+                                               .padding(16.dp, 16.dp)
                                        ) {
-                                           Box(
-                                               modifier = Modifier.padding(horizontal = 16.dp)
-                                                   .fillMaxSize()
-                                                   .align(Alignment.CenterHorizontally)
-                                           ) {
-                                               TextField(
-                                                   enabled = false,
-                                                   readOnly = true,
-                                                   value = visitState.selectedCapsulesFerro.value,
-                                                   onValueChange = {
-                                                       visitState.selectedCapsulesFerro.value = it
-                                                   },
-                                                   trailingIcon = {
-                                                       ExposedDropdownMenuDefaults.TrailingIcon(
-                                                           expanded = visitState.expandedCapsulesFerro.value
-                                                       )
-                                                   },
-                                                   textStyle = MaterialTheme.typography.h5,
-                                                   colors = TextFieldDefaults.textFieldColors(
-                                                       textColor = colorResource(R.color.colorPrimary),
-                                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       cursorColor = colorResource(R.color.colorAccent),
-                                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   ),
-                                                   modifier = Modifier
-                                                       .fillMaxWidth(),
-                                                   leadingIcon = {
-                                                       Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary), )},
-                                                   label = { Text(stringResource(R.string.capsules_hierro_folico_checked), color = colorResource(R.color.disabled_color)) }
-                                               )
-                                           }
-                                           Text(
-                                               stringResource(R.string.admin_dosis),
-                                               color = colorResource(R.color.black)
-                                           )
+                                           Text(stringResource(R.string.admin_dosis), color = colorResource(R.color.disabled_color))
                                            if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 10.0)) {
-                                               Text(
-                                                   stringResource(R.string.capsules_hierro_folico_one),
-                                                   color = colorResource(R.color.colorPrimary)
+                                               Text(stringResource(R.string.capsules_hierro_folico_one), color = colorResource(R.color.black_gray)
                                                )
                                            } else {
-                                               Text(
-                                                   stringResource(R.string.capsules_hierro_folico_tow),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               Text(stringResource(R.string.capsules_hierro_folico_tow), color = colorResource(R.color.black_gray))
                                            }
                                        }
                                    }
