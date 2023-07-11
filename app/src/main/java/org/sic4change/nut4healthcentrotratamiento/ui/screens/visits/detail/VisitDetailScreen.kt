@@ -559,9 +559,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            AnimatedVisibility(visitState.status.value.isNotEmpty()
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                    || visitState.status.value == stringResource(R.string.aguda_severa))){
-                               Spacer(modifier = Modifier.height(32.dp))
-                               SteptTitle(stringResource(R.string.step3_title))
-                               Spacer(modifier = Modifier.height(32.dp))
+                               Column {
+                                   Spacer(modifier = Modifier.height(16.dp))
+                                   Divider(color = colorResource(R.color.disabled_color), thickness = 1.dp)
+                                   Spacer(modifier = Modifier.height(16.dp))
+                                   SteptTitle(stringResource(R.string.step3_title))
+                               }
+
                            }
 
                            Spacer(modifier = Modifier.height(16.dp))
@@ -622,43 +626,26 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                                    }
 
-                                       Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
-                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                           modifier = Modifier
+                                       Column {
+                                           Column(modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(16.dp, 0.dp)
-                                       ) {
-                                           Column(
-                                               verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                               modifier = Modifier
-                                                   .wrapContentSize()
-                                                   .padding(0.dp, 0.dp)
-                                           ) {
-                                               Text(stringResource(
-                                                   R.string.vitamine_dosis),
-                                                   color = colorResource(R.color.disabled_color)
-                                               )
-                                               Text(stringResource(
-                                                   R.string.ferro_admin),
-                                                   color = colorResource(R.color.black_gray)
-                                               )
-                                               AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                                       && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                                       || visitState.status.value == stringResource(R.string.aguda_severa))
-                                                       && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                                                       || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
-
+                                               .padding(16.dp, 0.dp)) {
+                                               Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.disabled_color))
+                                               Text(stringResource(R.string.ferro_admin), color = colorResource(R.color.black_gray))
+                                           }
+                                           AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                                   && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                                   || visitState.status.value == stringResource(R.string.aguda_severa))
+                                                   && (visitState.womanStatus.value == stringResource(R.string.pregnant)
+                                                   || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
+                                               Column {
+                                                   Spacer(modifier = Modifier.height(8.dp))
                                                    ItemViewIcon(visitState.selectedCapsulesFerro.value, stringResource(R.string.capsules_hierro_folico_checked), Icons.Filled.Medication)
-
                                                }
 
                                            }
                                        }
-
-                                   Spacer(modifier = Modifier.height(16.dp))
                                }
-
 
                            }
 
@@ -701,28 +688,43 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    AnimatedVisibility(visitState.status.value.isNotEmpty()
                                            && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                            || visitState.status.value == stringResource(R.string.aguda_severa))){
-                                       Spacer(modifier = Modifier.height(16.dp))
-                                       SteptTitle(stringResource(R.string.step4_title))
-                                       Spacer(modifier = Modifier.height(32.dp))
+                                       Column {
+                                           Spacer(modifier = Modifier.height(16.dp))
+                                           Divider(color = colorResource(R.color.disabled_color), thickness = 1.dp)
+                                           Spacer(modifier = Modifier.height(16.dp))
+                                           SteptTitle(stringResource(R.string.step4_title))
+                                       }
                                    }
 
                                    Spacer(modifier = Modifier.height(16.dp))
 
-
-
                                    Column(
-                                       horizontalAlignment = Alignment.CenterHorizontally,
-                                       verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                        modifier = Modifier
                                            .fillMaxWidth()
                                            .padding(0.dp, 16.dp)
                                    ) {
                                        Text(
                                            text = stringResource(R.string.fefa_ration),
+                                           color = colorResource(R.color.disabled_color),
+                                           textAlign = TextAlign.Left,
+                                           modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                                           style = MaterialTheme.typography.h6,
+                                           fontWeight = FontWeight.Bold)
+                                       Spacer(modifier = Modifier.height(8.dp))
+                                       Text(
+                                           text = stringResource(R.string.fefa_ration_pam),
                                            color = colorResource(R.color.black_gray),
                                            textAlign = TextAlign.Left,
                                            modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
-                                           style = MaterialTheme.typography.h5,
+                                           style = MaterialTheme.typography.body1,
+                                           fontWeight = FontWeight.Bold)
+                                       Spacer(modifier = Modifier.height(4.dp))
+                                       Text(
+                                           text = stringResource(R.string.fefa_ration_csa),
+                                           color = colorResource(R.color.black_gray),
+                                           textAlign = TextAlign.Left,
+                                           modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                                           style = MaterialTheme.typography.body1,
                                            fontWeight = FontWeight.Bold)
                                    }
                                }

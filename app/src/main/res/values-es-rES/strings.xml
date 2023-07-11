@@ -230,6 +230,8 @@
     <string name="plumpy_mas_55">55 sobres (8 sobres al día)</string>
 
     <string name="fefa_ration">Por favor, dele la ración a la mujer</string>
+    <string name="fefa_ration_pam">PAM: CSB + 250g/día + 25g aceite/día durante 15 días</string>
+    <string name="fefa_ration_csa">CSA:</string>
 
     //Yes no options
     <string-array name="yesnooptions">
