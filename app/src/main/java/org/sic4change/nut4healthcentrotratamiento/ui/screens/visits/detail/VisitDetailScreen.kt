@@ -749,150 +749,25 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                Spacer(modifier = Modifier.height(16.dp))
                                SteptTitle(stringResource(R.string.step1_title))
                                Spacer(modifier = Modifier.height(16.dp))
-                               TextField(value = visitState.height.value.toString(),
-                                   enabled = false,
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorPrimary),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = color,
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = color,
-                                       unfocusedIndicatorColor = color,
-                                   ),
-                                   onValueChange = {},
-                                   textStyle = MaterialTheme.typography.h5,
-                                   keyboardOptions = KeyboardOptions(
-                                       keyboardType = KeyboardType.Number
-                                   ),
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary))},
-                                   label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+                               ItemViewIcon(visitState.height.value, stringResource(R.string.height), Icons.Filled.Height)
                                Spacer(modifier = Modifier.height(16.dp))
-                               TextField(value = visitState.weight.value.toString(),
-                                   enabled = false,
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorPrimary),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = color,
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = color,
-                                       unfocusedIndicatorColor = color,
-                                   ),
-                                   onValueChange = {},
-                                   textStyle = MaterialTheme.typography.h5,
-                                   keyboardOptions = KeyboardOptions(
-                                       keyboardType = KeyboardType.Number
-                                   ),
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(painterResource(R.mipmap.ic_weight), null, tint = colorResource(R.color.colorPrimary))},
-                                   label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+                               ItemViewImage(visitState.weight.value, stringResource(R.string.weight), R.mipmap.ic_weight)
                                Spacer(modifier = Modifier.height(16.dp))
-
                                AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) )) {
-                                   if (visitState.armCircunference.value < 11.5) {
-                                       TextField(value = visitState.armCircunference.value.toString(),
-                                           enabled = false,
-                                           colors = TextFieldDefaults.textFieldColors(
-                                               textColor = colorResource(R.color.error),
-                                               backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               cursorColor = colorResource(R.color.error),
-                                               disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               focusedIndicatorColor = colorResource(R.color.error),
-                                               unfocusedIndicatorColor = colorResource(R.color.error),
-                                           ),
-                                           onValueChange = {}, readOnly = true,
-                                           textStyle = MaterialTheme.typography.h5,
-                                           modifier = Modifier
-                                               .fillMaxWidth()
-                                               .padding(16.dp, 0.dp),
-                                           leadingIcon = {
-                                               Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorPrimary))},
-                                           label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                                   }  else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5) {
-                                       TextField(value = visitState.armCircunference.value.toString(),
-                                           enabled = false,
-                                           colors = TextFieldDefaults.textFieldColors(
-                                               textColor = colorResource(R.color.orange),
-                                               backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               cursorColor = colorResource(R.color.orange),
-                                               disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               focusedIndicatorColor = colorResource(R.color.orange),
-                                               unfocusedIndicatorColor = colorResource(R.color.orange),
-                                           ),
-                                           onValueChange = {}, readOnly = true,
-                                           textStyle = MaterialTheme.typography.h5,
-                                           modifier = Modifier
-                                               .fillMaxWidth()
-                                               .padding(16.dp, 0.dp),
-                                           leadingIcon = {
-                                               Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorPrimary))},
-                                           label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                                   } else {
-                                       TextField(value = visitState.armCircunference.value.toString(),
-                                           enabled = false,
-                                           colors = TextFieldDefaults.textFieldColors(
-                                               textColor = colorResource(R.color.colorAccent),
-                                               backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               cursorColor = color,
-                                               disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               focusedIndicatorColor = color,
-                                               unfocusedIndicatorColor = color,
-                                           ),
-                                           onValueChange = {}, readOnly = true,
-                                           textStyle = MaterialTheme.typography.h5,
-                                           modifier = Modifier
-                                               .fillMaxWidth()
-                                               .padding(16.dp, 0.dp),
-                                           leadingIcon = {
-                                               Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorPrimary))},
-                                           label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-                                   }
-
+                                   ItemViewIcon(visitState.armCircunference.value.toString(), stringResource(R.string.arm_circunference), Icons.Filled.MultipleStop)
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                }
-
-                               TextField(
-                                   enabled = false,
-                                   readOnly = true,
-                                   value = if (visitState.selectedEdema.value != "") visitState.selectedEdema.value else stringArrayResource(R.array.edemaOptions)[0],
-                                   onValueChange = {
-                                       visitState.selectedEdema.value = it
-                                   },
-                                   textStyle = MaterialTheme.typography.h5,
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       textColor = colorResource(R.color.colorPrimary),
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       cursorColor = color,
-                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                       focusedIndicatorColor = color,
-                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                   ),
-                                   modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                   leadingIcon = {
-                                       Icon(painterResource(R.mipmap.ic_edema), null, tint = colorResource(R.color.colorPrimary),  )},
-                                   label = { Text(stringResource(R.string.edema), color = colorResource(R.color.disabled_color)) }
-                               )
-
+                               ItemViewImage(visitState.selectedEdema.value, stringResource(R.string.edema), R.mipmap.ic_edema)
 
                                Spacer(modifier = Modifier.height(16.dp))
-
                                Card(modifier = Modifier
                                    .fillMaxWidth()
                                    .padding(16.dp, 0.dp),
                                    elevation = 0.dp,
-                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                               )
+                                   backgroundColor = colorResource(R.color.white))
                                {
                                    Column(
                                        horizontalAlignment = Alignment.CenterHorizontally,
@@ -931,8 +806,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                )
                                            }
                                        }
-
-
                                    }
                                }
 
@@ -956,86 +829,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                                        && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
-                                   Card(modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(16.dp, 0.dp),
-                                       elevation = 0.dp,
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                                   ) {
-                                       Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
-                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                           modifier = Modifier
-                                               .wrapContentSize()
-                                               .padding(16.dp)
-                                       ) {
-
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedVomitos.value == "") stringArrayResource(R.array.frecuencyOptions)[0] else visitState.selectedVomitos.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_vomit), null, tint = colorResource(R.color.colorPrimary), )},
-                                               label = { Text(stringResource(R.string.vomits), color = colorResource(R.color.disabled_color)) }
-                                           )
-
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedDiarrea.value == "") stringArrayResource(R.array.frecuencyOptions)[0] else visitState.selectedDiarrea.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_diarrea), null, tint = colorResource(R.color.colorPrimary), )},
-                                               label = { Text(stringResource(R.string.diarrea), color = colorResource(R.color.disabled_color)) }
-                                           )
-
-                                           TextField(
-                                               enabled = false,
-                                               readOnly = true,
-                                               value = if (visitState.selectedFiebre.value == "") stringArrayResource(R.array.frecuencyOptions)[0] else visitState.selectedFiebre.value,
-                                               onValueChange = {},
-                                               textStyle = MaterialTheme.typography.h5,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               leadingIcon = {
-                                                   Icon(painterResource(R.mipmap.ic_fiebre), null, tint = colorResource(R.color.colorPrimary),  )},
-                                               label = { Text(stringResource(R.string.fiebre), color = colorResource(R.color.disabled_color)) }
-                                           )
-
-
-                                       }
-
+                                   Column {
+                                       ItemViewImage(visitState.selectedVomitos.value, stringResource(R.string.vomits), R.mipmap.ic_vomit)
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       ItemViewImage(visitState.selectedDiarrea.value, stringResource(R.string.diarrea), R.mipmap.ic_diarrea)
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       ItemViewImage(visitState.selectedFiebre.value, stringResource(R.string.fiebre), R.mipmap.ic_fiebre)
+                                       Spacer(modifier = Modifier.height(16.dp))
                                    }
                                }
 
@@ -1055,111 +855,35 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
                                        && visitState.status.value == stringResource(R.string.aguda_severa)
                                        && visitState.visitNumber.value == 1) {
-                                   Card(
-                                       modifier = Modifier
-                                           .fillMaxWidth()
-                                           .padding(16.dp, 0.dp),
-                                       elevation = 0.dp,
-                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                                   ) {
+                                   Column {
                                        Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
-                                           verticalArrangement = Arrangement.spacedBy(
-                                               8.dp,
-                                               Alignment.CenterVertically
-                                           ),
                                            modifier = Modifier
                                                .wrapContentSize()
-                                               .padding(0.dp, 16.dp)
+                                               .padding(16.dp, 16.dp)
                                        ) {
-                                           Text(
-                                               stringResource(R.string.amoxicilina),
-                                               color = colorResource(R.color.colorPrimary)
-                                           )
+                                           Text(stringResource(R.string.amoxicilina), color = colorResource(R.color.disabled_color))
                                            if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() < 5.0)) {
-                                               Text(
-                                                   stringResource(R.string.amoxicilina_125),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               Text(stringResource(R.string.amoxicilina_125), color = colorResource(R.color.black_gray))
                                            } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 10.0)) {
-                                               Text(
-                                                   stringResource(R.string.amoxicilina_250),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               Text(stringResource(R.string.amoxicilina_250), color = colorResource(R.color.black_gray))
                                            } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 20.0)) {
-                                               Text(
-                                                   stringResource(R.string.amoxicilina_500),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               Text(stringResource(R.string.amoxicilina_500), color = colorResource(R.color.black_gray))
                                            } else if ((visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 20.0 && visitState.weight.value.toDouble() < 35.0)) {
-                                               Text(
-                                                   stringResource(R.string.amoxicilina_750),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               Text(stringResource(R.string.amoxicilina_750), color = colorResource(R.color.black_gray))
                                            } else {
-                                               Text(
-                                                   stringResource(R.string.amoxicilina_1000),
-                                                   color = colorResource(R.color.colorPrimary)
-                                               )
+                                               Text(stringResource(R.string.amoxicilina_1000), color = colorResource(R.color.black_gray))
                                            }
-                                           Box(
-                                               modifier = Modifier.padding(horizontal = 16.dp)
-                                                   .fillMaxSize()
-                                                   .align(Alignment.CenterHorizontally)
-                                           ) {
-                                               TextField(value = visitState.selectedAmoxicilina.value.toString(),
-                                                   enabled = false,
-                                                   colors = TextFieldDefaults.textFieldColors(
-                                                       textColor = colorResource(R.color.colorPrimary),
-                                                       backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       cursorColor = colorResource(R.color.colorAccent),
-                                                       disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                       unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   ),
-                                                   onValueChange = {
-                                                       visitState.selectedAmoxicilina.value = it
-                                                   },
-                                                   textStyle = MaterialTheme.typography.h5,
-                                                   keyboardOptions = KeyboardOptions(
-                                                       keyboardType = KeyboardType.Text
-                                                   ),
-                                                   modifier = Modifier
-                                                       .fillMaxWidth()
-                                                       .padding(16.dp, 0.dp),
-                                                   leadingIcon = {
-                                                       Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary))},
-                                                   label = { Text(stringResource(R.string.another_tratements), color = colorResource(R.color.disabled_color)) })
-
-                                           }
-                                           TextField(value = visitState.othersTratments.value.toString(),
-                                               enabled = false,
-                                               colors = TextFieldDefaults.textFieldColors(
-                                                   textColor = colorResource(R.color.colorPrimary),
-                                                   backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   cursorColor = colorResource(R.color.colorAccent),
-                                                   disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                                   focusedIndicatorColor = colorResource(R.color.colorAccent),
-                                                   unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                                               ),
-                                               onValueChange = {
-                                                   visitState.othersTratments.value = it
-                                               },
-                                               textStyle = MaterialTheme.typography.h5,
-                                               keyboardOptions = KeyboardOptions(
-                                                   keyboardType = KeyboardType.Text
-                                               ),
-                                               modifier = Modifier
-                                                   .fillMaxWidth()
-                                                   .padding(16.dp, 0.dp),
-                                               leadingIcon = {
-                                                   Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary))},
-                                               label = { Text(stringResource(R.string.another_tratements), color = colorResource(R.color.disabled_color)) })
-
                                        }
+
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       ItemViewIcon(visitState.selectedAmoxicilina.value, stringResource(R.string.another_tratements), Icons.Filled.Medication)
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       ItemViewIcon(visitState.othersTratments.value, stringResource(R.string.another_tratements), Icons.Filled.Medication)
+
                                    }
                                }
 
+                               Spacer(modifier = Modifier.height(16.dp))
 
                                ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
@@ -1363,8 +1087,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    .fillMaxWidth()
                                    .padding(16.dp, 0.dp),
                                    elevation = 0.dp,
-                                   backgroundColor = colorResource(R.color.white)
-                               )
+                                   backgroundColor = colorResource(R.color.white))
                                {
                                    Column(
                                        horizontalAlignment = Alignment.CenterHorizontally,
