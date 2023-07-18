@@ -2742,60 +2742,62 @@ fun setDefaultValues(visitState: VisitState) {
 fun AntropometricosFEFAView(visitState: VisitState,
                         onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
     Spacer(modifier = Modifier.height(16.dp))
-    ExposedDropdownMenuBox(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp),
-        expanded = visitState.expandedAddmisionType.value,
-        onExpandedChange = {
-            visitState.expandedAddmisionType.value = !visitState.expandedAddmisionType.value
-        }
-    ) {
-        TextField(
-            readOnly = true,
-            value = visitState.admissionType.value,
-            onValueChange = {
-                visitState.admissionType.value = it
-            },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = visitState.expandedAddmisionType.value
-                )
-            },
-            textStyle = MaterialTheme.typography.h5,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-            ),
+    if (visitState.visitsSize.value == 0) {
+        ExposedDropdownMenuBox(
             modifier = Modifier
-                .fillMaxWidth(),
-            leadingIcon = {
-                Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  )},
-            label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) }
-        )
-        ExposedDropdownMenu(
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
             expanded = visitState.expandedAddmisionType.value,
-            onDismissRequest = {
-                visitState.expandedAddmisionType.value = false
+            onExpandedChange = {
+                visitState.expandedAddmisionType.value = !visitState.expandedAddmisionType.value
             }
         ) {
-            stringArrayResource(id = R.array.addmisionTypeOptions).forEach { selectedEdema ->
-                DropdownMenuItem(
-                    onClick = {
-                        visitState.admissionType.value = selectedEdema
-                        visitState.expandedAddmisionType.value = false
+            TextField(
+                readOnly = true,
+                value = visitState.admissionType.value,
+                onValueChange = {
+                    visitState.admissionType.value = it
+                },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = visitState.expandedAddmisionType.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  )},
+                label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = visitState.expandedAddmisionType.value,
+                onDismissRequest = {
+                    visitState.expandedAddmisionType.value = false
+                }
+            ) {
+                stringArrayResource(id = R.array.addmisionTypeOptions).forEach { selectedEdema ->
+                    DropdownMenuItem(
+                        onClick = {
+                            visitState.admissionType.value = selectedEdema
+                            visitState.expandedAddmisionType.value = false
+                        }
+                    ) {
+                        Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
                     }
-                ) {
-                    Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
                 }
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
     }
-    Spacer(modifier = Modifier.height(16.dp))
     SteptTitle(R.mipmap.ic_step_one, stringResource(R.string.step1_title))
     Spacer(modifier = Modifier.height(16.dp))
 
@@ -2931,60 +2933,63 @@ fun AntropometricosFEFAView(visitState: VisitState,
 fun AntropometricosView(visitState: VisitState,
                         onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
     Spacer(modifier = Modifier.height(16.dp))
-    ExposedDropdownMenuBox(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp),
-        expanded = visitState.expandedAddmisionType.value,
-        onExpandedChange = {
-            visitState.expandedAddmisionType.value = !visitState.expandedAddmisionType.value
-        }
-    ) {
-        TextField(
-            readOnly = true,
-            value = visitState.admissionType.value,
-            onValueChange = {
-                visitState.admissionType.value = it
-            },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = visitState.expandedAddmisionType.value
-                )
-            },
-            textStyle = MaterialTheme.typography.h5,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colorResource(R.color.colorPrimary),
-                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                cursorColor = colorResource(R.color.colorAccent),
-                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                focusedIndicatorColor = colorResource(R.color.colorAccent),
-                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-            ),
+    if (visitState.visitsSize.value == 0) {
+        ExposedDropdownMenuBox(
             modifier = Modifier
-                .fillMaxWidth(),
-            leadingIcon = {
-                Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  )},
-            label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) }
-        )
-        ExposedDropdownMenu(
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
             expanded = visitState.expandedAddmisionType.value,
-            onDismissRequest = {
-                visitState.expandedAddmisionType.value = false
+            onExpandedChange = {
+                visitState.expandedAddmisionType.value = !visitState.expandedAddmisionType.value
             }
         ) {
-            stringArrayResource(id = R.array.addmisionTypeOptions).forEach { selectedEdema ->
-                DropdownMenuItem(
-                    onClick = {
-                        visitState.admissionType.value = selectedEdema
-                        visitState.expandedAddmisionType.value = false
+            TextField(
+                readOnly = true,
+                value = visitState.admissionType.value,
+                onValueChange = {
+                    visitState.admissionType.value = it
+                },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = visitState.expandedAddmisionType.value
+                    )
+                },
+                textStyle = MaterialTheme.typography.h5,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = colorResource(R.color.colorPrimary),
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    cursorColor = colorResource(R.color.colorAccent),
+                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                leadingIcon = {
+                    Icon(Icons.Filled.CalendarViewDay, null, tint = colorResource(R.color.colorPrimary),  )},
+                label = { Text(stringResource(R.string.admissionType), color = colorResource(R.color.disabled_color)) }
+            )
+            ExposedDropdownMenu(
+                expanded = visitState.expandedAddmisionType.value,
+                onDismissRequest = {
+                    visitState.expandedAddmisionType.value = false
+                }
+            ) {
+                stringArrayResource(id = R.array.addmisionTypeOptions).forEach { selectedEdema ->
+                    DropdownMenuItem(
+                        onClick = {
+                            visitState.admissionType.value = selectedEdema
+                            visitState.expandedAddmisionType.value = false
+                        }
+                    ) {
+                        Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
                     }
-                ) {
-                    Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
                 }
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
     }
-    Spacer(modifier = Modifier.height(16.dp))
+
     SteptTitle(R.mipmap.ic_step_one, stringResource(R.string.step1_title))
     Spacer(modifier = Modifier.height(16.dp))
     TextField(value = visitState.height.value,
