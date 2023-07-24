@@ -44,7 +44,6 @@ fun openAppInGooglePlay(context: Context, appId: String) {
     if (playStoreIntent.resolveActivity(context.packageManager) != null) {
         context.startActivity(playStoreIntent)
     } else {
-        // Si no se puede abrir Google Play, abre la web
         val webUri: Uri = Uri.parse("https://play.google.com/store/apps/details?id=$appId")
         val webIntent = Intent(Intent.ACTION_VIEW, webUri)
         if (webIntent.resolveActivity(context.packageManager) != null) {
