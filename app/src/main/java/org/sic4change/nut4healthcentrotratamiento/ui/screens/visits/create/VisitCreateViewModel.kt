@@ -107,9 +107,10 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     } else if (muac.toFloat() in 11.5..12.5 && (_state.value.imc!!.toFloat() > -3.0)) {
                         _state.value = _state.value.copy(imc = -1.5)
                     } else {
-                        if ((_state.value.imc!!.toFloat() > -1.5)) {
+                        /*if ((_state.value.imc!!.toFloat() > -1.5)) {
                             _state.value = _state.value.copy(imc = 0.0)
-                        }
+                        }*/
+                        //No hace falta hacer nada
 
                     }
                 } catch (error: Error) {
