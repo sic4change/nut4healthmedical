@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.Query
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -18,6 +19,21 @@ object FirebaseDataSource {
 
     private val firestoreAuth = NUT4HealthFirebaseService.fbAuth
     private val firestore = NUT4HealthFirebaseService.mFirestore
+    private val remoteConfig = NUT4HealthFirebaseService.remoteConfig
+
+    suspend fun checkUpdateGooglePlayVersion(versionCode: String) : Boolean = withContext(Dispatchers.IO) {
+        val configSettings = remoteConfigSettings {
+            //minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = 60
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val updated = task.result
+            }
+        }.await()
+        remoteConfig.getString("android_latest_version_name").toDouble() > versionCode.toDouble()
+    }
 
     suspend fun isLogged(): Boolean = withContext(Dispatchers.IO) {
         firestoreAuth.currentUser != null
@@ -25,7 +41,6 @@ object FirebaseDataSource {
 
     suspend fun getLoggedUser(): org.sic4change.nut4healthcentrotratamiento.data.entitities.User =
         withContext(Dispatchers.IO) {
-            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
             val userRef = firestore.collection("users")
             val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val result = query.get().await()
@@ -53,7 +68,7 @@ object FirebaseDataSource {
         var result = false
         withContext(Dispatchers.IO) {
             try {
-                val login = NUT4HealthFirebaseService.fbAuth.signInWithEmailAndPassword(email, password).await()
+                val login = firestoreAuth.signInWithEmailAndPassword(email, password).await()
                 val user = login.user
                 if (user != null) {
                     Timber.d("Login result: ok")
@@ -69,7 +84,7 @@ object FirebaseDataSource {
 
     suspend fun logout() {
         withContext(Dispatchers.IO) {
-            NUT4HealthFirebaseService.fbAuth.signOut()
+            firestoreAuth.signOut()
         }
     }
 
@@ -78,7 +93,7 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to request change password with firebase")
             try {
-                NUT4HealthFirebaseService.fbAuth.sendPasswordResetEmail(email).await()
+                firestoreAuth.sendPasswordResetEmail(email).await()
                 Timber.d("Request change password: ok")
                 result = true
             } catch (ex : Exception) {
@@ -91,7 +106,6 @@ object FirebaseDataSource {
     suspend fun updatePhotoAvatar(fileUri: String) : String {
         var result = ""
         withContext(Dispatchers.IO) {
-            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
             val userRef = firestore.collection("users")
             val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val resultUser = queryUser.get().await()
@@ -135,7 +149,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
-        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
         val userRef = firestore.collection("users")
         val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
         val resultUser = queryUser.get().await()
@@ -167,7 +180,6 @@ object FirebaseDataSource {
     suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) : String = withContext(Dispatchers.IO) {
         Timber.d("try to create tutor with firebase")
         try {
-            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
             val userRef = firestore.collection("users")
             val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val result = query.get().await()
@@ -187,32 +199,6 @@ object FirebaseDataSource {
         }
     }
 
-   /* suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) : String {
-        withContext(Dispatchers.IO) {
-            Timber.d("try to create tutor with firebase")
-            var id = ""
-            try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
-                val userRef = firestore.collection("users")
-                val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
-                val result = query.get().await()
-                val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
-                networkUserContainer.results[0].let {
-                    val user = it.toDomainUser()
-                    tutor.point = user.point
-                    val tutorsRef = firestore.collection("tutors")
-                    val id = tutorsRef.add(tutor.toServerTutor()).await().id
-                    tutorsRef.document(id).update("id", id,).await()
-                    Timber.d("Create tutor result: ok")
-                    id
-                }
-            } catch (ex : Exception) {
-                Timber.d("Create tutor result: false ${ex.message}")
-            }
-        }
-        return id
-    }*/
-
     suspend fun deleteTutor(id: String) {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete tutor from firebase")
@@ -230,7 +216,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update tutor from firebase")
             try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
                 val userRef = firestore.collection("users")
                 val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
                 val resultUser = queryUser.get().await()
@@ -349,7 +334,6 @@ object FirebaseDataSource {
             = withContext(Dispatchers.IO) {
         Timber.d("try to create case with firebase")
         try {
-            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
             val userRef = firestore.collection("users")
             val queryUser =
                 userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
@@ -432,7 +416,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update case from firebase")
             try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
                 val userRef = firestore.collection("users")
                 val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
                 val resultUser = queryUser.get().await()
@@ -474,7 +457,6 @@ object FirebaseDataSource {
 
     }
     suspend fun checkTutorByPhone(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
-        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
         val userRef = firestore.collection("users")
         val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
         val resultUser = queryUser.get().await()
@@ -578,7 +560,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to create visit with firebase")
             try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
                 val userRef = firestore.collection("users")
                 val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
                 val resultUser = queryUser.get().await()
@@ -635,7 +616,6 @@ object FirebaseDataSource {
         withContext(Dispatchers.IO) {
             Timber.d("try to update visit from firebase")
             try {
-                val firestoreAuth = NUT4HealthFirebaseService.fbAuth
                 val userRef = firestore.collection("users")
                 val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
                 val resultUser = queryUser.get().await()
@@ -746,7 +726,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getActiveCases(): List<Cuadrant?> = withContext(Dispatchers.IO) {
-        val firestoreAuth = NUT4HealthFirebaseService.fbAuth
         val userRef = firestore.collection("users")
         val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
         val resultUser = queryUser.get().await()
@@ -822,7 +801,6 @@ object FirebaseDataSource {
 
     suspend fun subscribeToPointNotifications() = withContext(Dispatchers.IO) {
         try {
-            val firestoreAuth = NUT4HealthFirebaseService.fbAuth
             val userRef = firestore.collection("users")
             val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val resultUser = queryUser.get().await()

@@ -11,6 +11,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import java.util.*
 
@@ -46,6 +47,14 @@ class NextsViewModel() : ViewModel() {
                     ), tutorChecked = "not_found"
                 )
             }
+        }
+    }
+
+    fun checkUpdateGooglePlayVersion(currentVersion: String) {
+        viewModelScope.launch {
+            _state.value = state.value.copy(
+                updateVersionGooglePlay = FirebaseDataSource.checkUpdateGooglePlayVersion(currentVersion)
+            )
         }
     }
 
@@ -137,6 +146,7 @@ class NextsViewModel() : ViewModel() {
     }
 
     data class  UiState(
+        val updateVersionGooglePlay : Boolean = false,
         val loading: Boolean = false,
         val cuadrants: List<Cuadrant?> = emptyList(),
         val user: User? = null,

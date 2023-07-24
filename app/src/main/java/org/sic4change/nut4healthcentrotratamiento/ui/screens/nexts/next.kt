@@ -33,12 +33,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberPermissionState
+import org.sic4change.nut4healthcentrotratamiento.BuildConfig
 import org.sic4change.nut4healthcentrotratamiento.MainActivity
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.MessageErrorRole
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.MessageNewVersion
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.SearchByPhoneDialog
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -63,6 +65,13 @@ fun NextScreen(
 
     val permission: PermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
+    LaunchedEffect(viewModelState.updateVersionGooglePlay) {
+        if (viewModelState.updateVersionGooglePlay) {
+            nextState.showUpdateVersionDialog.value = viewModelState.updateVersionGooglePlay
+        }
+
+    }
+
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
             nextState.id.value = viewModelState.user!!.id
@@ -77,6 +86,7 @@ fun NextScreen(
                 nextState.showRoleError()
             } else {
                 viewModel.subscribeToPointNotifications()
+                viewModel.checkUpdateGooglePlayVersion(BuildConfig.VERSION_NAME)
             }
 
             if (!permission.hasPermission) {
@@ -142,6 +152,9 @@ fun NextScreen(
 
             },
         ) {
+            if (nextState.showUpdateVersionDialog.value) {
+                MessageNewVersion(LocalContext.current)
+            }
             NextItemsListScreen(
                 loading = viewModelState.loading,
                 items = nextState.cases.value,

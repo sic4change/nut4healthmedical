@@ -392,5 +392,9 @@
         <item>Récidive</item>
     </string-array>
 
+    <string name="new_version">Il y a une nouvelle version disponible sur Google Play.</string>
+    <string name="update">Mettre à jour</string>
+
+
 
 </resources>

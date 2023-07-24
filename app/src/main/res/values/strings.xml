@@ -393,4 +393,7 @@
         <item>Recaída</item>
     </string-array>
 
+    <string name="new_version">Hay una nueva versión disponible en Google Play.</string>
+    <string name="update">Actualizar</string>
+
 </resources>

@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.ui.ExperimentalComposeUiApi
-import com.google.firebase.messaging.FirebaseMessaging
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthApp
 
 @ExperimentalComposeUiApi
