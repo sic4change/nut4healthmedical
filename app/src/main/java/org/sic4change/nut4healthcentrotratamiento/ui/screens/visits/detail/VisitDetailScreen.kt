@@ -46,6 +46,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -104,12 +105,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
         stringResource(R.string.female), stringResource(R.string.male)
     )
 
-    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-    val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
+    val monthsBetween = getMonthsAgo(visitState.childDateMillis.value)
 
-    val monthsBetween = ChronoUnit.MONTHS.between(
-        YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
-    )
     if (!loading) {
         LazyColumn(
             state = listState,

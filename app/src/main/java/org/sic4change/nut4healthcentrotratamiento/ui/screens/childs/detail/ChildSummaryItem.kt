@@ -18,11 +18,10 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.circleLayout
 import java.text.SimpleDateFormat
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonths
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getYears
 
 @ExperimentalCoilApi
 @Composable
@@ -60,14 +59,8 @@ fun ChildSummaryItem(
                         style = MaterialTheme.typography.h5,
                         maxLines = 2,
                     )
-                    val splitDate = SimpleDateFormat("dd/MM/yyyy").format(item.birthdate).split("/")
-                    val yearsLabel = ChronoUnit.YEARS.between(
-                        ZonedDateTime.parse(splitDate[2] + "-" +
-                                splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
-                    var monthsLabel = ChronoUnit.MONTHS.between(
-                        ZonedDateTime.parse(splitDate[2] + "-" +
-                            splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
-                    monthsLabel -= (yearsLabel * 12)
+                    val yearsLabel = getYears(item.birthdate)
+                    val monthsLabel = getMonths(item.birthdate)
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -95,3 +88,5 @@ fun ChildSummaryItem(
 
     }
 }
+
+

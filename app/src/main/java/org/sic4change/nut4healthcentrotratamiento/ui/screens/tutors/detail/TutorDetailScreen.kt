@@ -26,8 +26,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildListIte
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.FEFAListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
+
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getYears
 
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
@@ -172,10 +172,7 @@ private fun TutorView(
                         Icon(Icons.Default.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                     label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
                 Spacer(modifier = Modifier.height(16.dp))
-                val splitDate = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value).split("/")
-                val yearsLabel = ChronoUnit.YEARS.between(
-                    ZonedDateTime.parse(splitDate[2] + "-" +
-                            splitDate[1] + "-" + splitDate[0] + "T00:00:00.000Z"), ZonedDateTime.now())
+                val yearsLabel = getYears(tutorState.birthday.value)
                 TextField(value = "${SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value)} ≈${yearsLabel} ${stringResource(R.string.years)}",
                     onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
