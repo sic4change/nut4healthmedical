@@ -53,6 +53,8 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
 
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
+
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -3051,12 +3053,7 @@ fun AntropometricosView(visitState: VisitState,
         label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
     Spacer(modifier = Modifier.height(16.dp))
 
-    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-    val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
-
-    val monthsBetween = ChronoUnit.MONTHS.between(
-        YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
-    )
+    val monthsBetween = getMonthsAgo(visitState.childDateMillis.value)
 
     AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0))) {
         if (visitState.armCircunference.value < 11.5) {
