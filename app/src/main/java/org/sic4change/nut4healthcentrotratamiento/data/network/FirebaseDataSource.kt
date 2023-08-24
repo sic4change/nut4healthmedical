@@ -22,17 +22,22 @@ object FirebaseDataSource {
     private val remoteConfig = NUT4HealthFirebaseService.remoteConfig
 
     suspend fun checkUpdateGooglePlayVersion(versionCode: String) : Boolean = withContext(Dispatchers.IO) {
-        val configSettings = remoteConfigSettings {
-            //minimumFetchIntervalInSeconds = 3600
-            minimumFetchIntervalInSeconds = 60
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val updated = task.result
+        try {
+            val configSettings = remoteConfigSettings {
+                //minimumFetchIntervalInSeconds = 3600
+                minimumFetchIntervalInSeconds = 60
             }
-        }.await()
-        remoteConfig.getString("android_latest_version_name").toDouble() > versionCode.toDouble()
+            remoteConfig.setConfigSettingsAsync(configSettings)
+            remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                }
+            }.await()
+            remoteConfig.getString("android_latest_version_name").toDouble() > versionCode.toDouble()
+        } catch (e: Exception) {
+            false
+        }
+
     }
 
     suspend fun isLogged(): Boolean = withContext(Dispatchers.IO) {
