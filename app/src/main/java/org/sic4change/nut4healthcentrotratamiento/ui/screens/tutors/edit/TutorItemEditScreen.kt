@@ -20,13 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.DecimalFormat

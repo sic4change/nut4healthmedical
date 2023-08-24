@@ -31,7 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
 import kotlinx.coroutines.launch
@@ -39,12 +38,12 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.CheckNUT4H
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.arabicToDecimal
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -2879,7 +2878,13 @@ fun AntropometricosFEFAView(visitState: VisitState,
             val df = DecimalFormat("#.0")
             ruler.setOnValueChangeListener { view, position, value ->
                 tvCm.text = df.format(value).toString() + " cm"
-                visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                try {
+                    visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                } catch (e: Exception) {
+                    val convertedValue = arabicToDecimal(df.format(value).replace('٫', '.'))
+                    val doubleValue = convertedValue.toDouble()
+                    visitState.armCircunference.value = doubleValue
+                }
                 if (value < 18.0) {
                     rulerBackground.setBackgroundResource(R.color.error)
                     tvCm.setTextColor(R.color.error)
@@ -3131,7 +3136,13 @@ fun AntropometricosView(visitState: VisitState,
                 val df = DecimalFormat("#.0")
                 ruler.setOnValueChangeListener { view, position, value ->
                     tvCm.text = df.format(value).toString() + " cm"
-                    visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                    try {
+                        visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                    } catch (e: Exception) {
+                        val convertedValue = arabicToDecimal(df.format(value).replace('٫', '.'))
+                        val doubleValue = convertedValue.toDouble()
+                        visitState.armCircunference.value = doubleValue
+                    }
                     onChangeWeightOrHeight(
                         visitState.height.value.filter { !it.isWhitespace() },
                         visitState.weight.value.filter { !it.isWhitespace() },
