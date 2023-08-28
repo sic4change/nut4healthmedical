@@ -3,7 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.data.entitities
 import java.util.*
 
 data class Child(
-    override val id: String,
+    override var id: String,
     val tutorId: String,
     var name: String,
     val surnames: String,

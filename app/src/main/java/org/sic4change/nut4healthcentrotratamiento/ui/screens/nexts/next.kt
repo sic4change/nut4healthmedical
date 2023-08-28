@@ -65,12 +65,12 @@ fun NextScreen(
 
     val permission: PermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
-    LaunchedEffect(viewModelState.updateVersionGooglePlay) {
+    /*LaunchedEffect(viewModelState.updateVersionGooglePlay) {
         if (viewModelState.updateVersionGooglePlay) {
             nextState.showUpdateVersionDialog.value = viewModelState.updateVersionGooglePlay
         }
 
-    }
+    }*/
 
     LaunchedEffect(viewModelState.user) {
         if (viewModelState.user != null) {
@@ -86,7 +86,7 @@ fun NextScreen(
                 nextState.showRoleError()
             } else {
                 viewModel.subscribeToPointNotifications()
-                viewModel.checkUpdateGooglePlayVersion(BuildConfig.VERSION_NAME)
+                //viewModel.checkUpdateGooglePlayVersion(BuildConfig.VERSION_NAME)
             }
 
             if (!permission.hasPermission) {
@@ -152,9 +152,9 @@ fun NextScreen(
 
             },
         ) {
-            if (nextState.showUpdateVersionDialog.value) {
+            /*if (nextState.showUpdateVersionDialog.value) {
                 MessageNewVersion(LocalContext.current)
-            }
+            }*/
             NextItemsListScreen(
                 loading = viewModelState.loading,
                 items = nextState.cases.value,

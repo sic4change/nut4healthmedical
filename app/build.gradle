@@ -15,8 +15,8 @@ android {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
         minSdk 26
         targetSdk 33
-        versionCode 10
-        versionName "1.10"
+        versionCode 11
+        versionName "1.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -78,11 +78,12 @@ dependencies {
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth:21.1.0'
-    implementation 'com.google.firebase:firebase-storage:20.1.0'
-    implementation 'com.google.firebase:firebase-firestore:24.4.4'
+    implementation 'com.google.firebase:firebase-auth:22.1.1'
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
+    implementation 'com.google.firebase:firebase-firestore:24.7.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.7.1'
 
     // Either
     implementation 'io.arrow-kt:arrow-core:1.0.1'

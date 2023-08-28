@@ -31,10 +31,10 @@ fun rememberNextState(
     username: MutableState<String> = rememberSaveable { mutableStateOf("") },
     email: MutableState<String> = rememberSaveable { mutableStateOf("") },
     role: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    showUpdateVersionDialog: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    //showUpdateVersionDialog: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ NextState(id, username, email, role, roleError, childId, name, status, visits,
     lastDate, createdDate, observations, cuadrants, cuadrantsSize, filterValue, phoneToCheck,
-    openDialogSearchByPhone, editPhoneToCheck,point, phoneCode, phoneLength, pointId, showUpdateVersionDialog) }
+    openDialogSearchByPhone, editPhoneToCheck,point, phoneCode, phoneLength, pointId) }
 
 class NextState(
     val id: MutableState<String>,
@@ -59,7 +59,7 @@ class NextState(
     val phoneCode: MutableState<String>,
     val phoneLength: MutableState<Int>,
     val pointId: MutableState<String>,
-    val showUpdateVersionDialog: MutableState<Boolean>
+    //val showUpdateVersionDialog: MutableState<Boolean>
 ) {
 
     fun showRoleError() {

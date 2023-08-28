@@ -50,13 +50,13 @@ class NextsViewModel() : ViewModel() {
         }
     }
 
-    fun checkUpdateGooglePlayVersion(currentVersion: String) {
+    /*fun checkUpdateGooglePlayVersion(currentVersion: String) {
         viewModelScope.launch {
             _state.value = state.value.copy(
                 updateVersionGooglePlay = FirebaseDataSource.checkUpdateGooglePlayVersion(currentVersion)
             )
         }
-    }
+    }*/
 
     fun subscribeToPointNotifications() {
         viewModelScope.launch {
@@ -146,7 +146,7 @@ class NextsViewModel() : ViewModel() {
     }
 
     data class  UiState(
-        val updateVersionGooglePlay : Boolean = false,
+        //val updateVersionGooglePlay : Boolean = false,
         val loading: Boolean = false,
         val cuadrants: List<Cuadrant?> = emptyList(),
         val user: User? = null,

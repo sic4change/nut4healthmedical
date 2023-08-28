@@ -3,8 +3,8 @@ package org.sic4change.nut4healthcentrotratamiento.data.entitities
 import java.util.*
 
 data class Tutor(
-    override val id: String,
-    var name: String,
+    override var id: String,
+    val name: String,
     val surnames: String,
     val sex: String,
     val ethnicity: String,

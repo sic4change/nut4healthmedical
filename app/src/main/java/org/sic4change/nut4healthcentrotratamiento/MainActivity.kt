@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.ui.ExperimentalComposeUiApi
+import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthApp
 
 @ExperimentalComposeUiApi
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         notificationChildId = ""
         notificationSetting()
+        FirebaseDataSource.configFirestore()
         setContent {
             NUT4HealthApp()
         }

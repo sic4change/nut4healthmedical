@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 object NUT4HealthFirebaseService {
     val fbAuth = FirebaseAuth.getInstance()
