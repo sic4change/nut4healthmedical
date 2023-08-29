@@ -3150,7 +3150,7 @@ fun AntropometricosView(visitState: VisitState,
                         visitState.selectedEdema.value, visitState.complications.value
                     )
                     if (value < 11.5
-                        || (visitState.selectedEdema.value.isNotEmpty() && (visitState.selectedEdema.value != "(0) No" || visitState.selectedEdema.value != "(0) Non"))
+                        || (visitState.selectedEdema.value.isNotEmpty() && (visitState.selectedEdema.value != "(0) No" || visitState.selectedEdema.value != "(0) Non" || visitState.selectedEdema.value != "(0) لا"))
                         || (visitState.complications.value.any{it.selected})
                     ) {
                         if (value < 11.5) {
