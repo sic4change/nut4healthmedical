@@ -99,7 +99,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                         complications = _state.value.complications,
                         imc = FirebaseDataSource.checkDesnutrition(height.toDouble(), weight.toDouble()),
                         childDateMillis = state.value.childDateMillis)
-                    if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "(0) No" && edema != "(0) Non")) {
+                    if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && edema != "(0) No" && edema != "(0) Non" && edema != "(0) لا")) {
                         _state.value = _state.value.copy(imc = -3.0)
                     }
                     if (muac.toFloat() < 11.5 && _state.value.imc != -3.0) {
@@ -117,7 +117,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     println("error: ${error}")
                 }
             } else {
-                if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && (edema != "(0) No" && edema != "(0) Non"))) {
+                if (complications.filter { it.selected }.count() > 0 || (edema.isNotEmpty() && (edema != "(0) No" && edema != "(0) Non"&& edema != "(0) لا" ))) {
                     _state.value = _state.value.copy(
                         complications = _state.value.complications,
                         imc = -3.0,
