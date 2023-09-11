@@ -871,8 +871,6 @@ fun NutritionalFEFAView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -887,6 +885,19 @@ fun NutritionalFEFAView(visitState: VisitState) {
             modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold)
+
+        Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+
+            Text(
+                text = stringResource(R.string.fefa_ration_pam),
+                color = colorResource(R.color.colorPrimary),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold)
+        }
+
     }
 
 

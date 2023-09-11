@@ -717,14 +717,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                            modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                                            style = MaterialTheme.typography.body1,
                                            fontWeight = FontWeight.Bold)
-                                       Spacer(modifier = Modifier.height(4.dp))
-                                       Text(
-                                           text = stringResource(R.string.fefa_ration_csa),
-                                           color = colorResource(R.color.black_gray),
-                                           textAlign = TextAlign.Left,
-                                           modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
-                                           style = MaterialTheme.typography.body1,
-                                           fontWeight = FontWeight.Bold)
+
                                    }
                                }
 
