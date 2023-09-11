@@ -15,3 +15,8 @@ data class Case(
     val observations: String,
     var point: String?,
     ) : Item
+
+
+object STATUS {
+    val OPEN_STATUS_VALUES: List<String> = listOf("Abierto", "Ouvert", "مفتوح")
+}

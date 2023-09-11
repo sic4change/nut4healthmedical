@@ -22,6 +22,7 @@ import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseState
@@ -579,7 +580,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
         }
 
         item {
-            if (caseItem.status == stringResource(R.string.open)) {
+            if (STATUS.OPEN_STATUS_VALUES.contains(caseItem.status)) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Box(
                     modifier = Modifier.fillMaxWidth(),

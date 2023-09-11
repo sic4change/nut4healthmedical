@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import java.util.Date
@@ -31,7 +32,11 @@ class FEFAViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     }
 
     private fun isOneCaseOpen(): Boolean {
-        return _state.value.cases!!.any { it.status == "Abierto"  || it.status == "Ouvert"  || it.status == "مفتوح" }
+        return _state.value.cases!!.any {
+            it.status == STATUS.OPEN_STATUS_VALUES[0]  ||
+            it.status == STATUS.OPEN_STATUS_VALUES[1]  ||
+            it.status == STATUS.OPEN_STATUS_VALUES[2]
+        }
     }
 
     data class  UiState(

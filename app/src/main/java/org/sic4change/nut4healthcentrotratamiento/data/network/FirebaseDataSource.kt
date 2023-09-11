@@ -36,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 import kotlinx.coroutines.withTimeout
 import com.google.firebase.firestore.Source
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
 
 object FirebaseDataSource {
 
@@ -882,7 +883,7 @@ object FirebaseDataSource {
             val visits = networkVisitsContainer.results.map { it.toDomainVisit() }
 
             val casesRef = firestore.collection("cases")
-            val query = casesRef.whereIn("status", listOf("Abierto", "Ouvert"))
+            val query = casesRef.whereIn("status", STATUS.OPEN_STATUS_VALUES)
                 .orderBy("lastdate", Query.Direction.DESCENDING)
             val result = query.get(source).await()
             val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
