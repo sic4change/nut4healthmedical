@@ -45,8 +45,8 @@
     <string name="sex">Sexe</string>
     <string name="phone">Téléphone</string>
     <string name="address">Quartier</string>
-    <string name="surnames">Prénom</string>
-    <string name="name">Nom</string>
+    <string name="surnames">Nom</string>
+    <string name="name">Prénom</string>
     <string name="creation_date">Date d’inscription</string>
     <string name="last_date">Dernière visite</string>
     <string name="total_visits">Nombre de visites</string>
@@ -107,9 +107,9 @@
     <string name="edema">Oedemes</string>
     <string-array name="edemaOptions">
         <item>(0) Non</item>
-        <item>(+) Bénin</item>
+        <item>(+) Léger</item>
         <item>(++) Modéré</item>
-        <item>(++) Grave</item>
+        <item>(++) Sévère</item>
     </string-array>
     <string name="complications">Complications</string>
     <string name="no_complications">Pas de complications</string>
