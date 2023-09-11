@@ -21,14 +21,11 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.aaronat1.hackaton.ui.navigation.NavItem
 import org.sic4change.nut4healthcentrotratamiento.BuildConfig
 import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.BottomView
 
 @Composable
 fun DrawerContent(

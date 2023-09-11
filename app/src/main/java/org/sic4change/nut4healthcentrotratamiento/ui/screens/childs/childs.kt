@@ -26,6 +26,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.edit.ChildIt
 fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onEditChildClick: (Child) -> Unit,
                       onCaseCreated: (Case) -> Unit,
+                      onGoToUniqueCase: (Case) -> Unit,
                       onItemClick: (Case) -> Unit,
                       onDeleteChildClick: (String) -> Unit,
                       onClickDetail: (Case) -> Unit,
@@ -53,6 +54,15 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
             childDetailState.selectedOptionBrothers.value = viewModelState.child!!.brothers
             childDetailState.selectedOptionSex.value = viewModelState.child!!.sex
             childDetailState.selectedOptionEtnician.value = viewModelState.child!!.ethnicity
+        }
+    }
+
+    LaunchedEffect(viewModelState.cases) {
+        if (viewModelState.firstUpdate &&
+            viewModelState.cases != null && viewModelState.cases!!.isNotEmpty() &&
+            viewModelState.cases!!.size == 1) {
+            onGoToUniqueCase(viewModelState.cases!![0])
+            viewModel.confirmFirstUpdate()
         }
     }
 

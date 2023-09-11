@@ -1,1 +1,100 @@
+{
+  "project_info": {
+    "project_number": "1055399108789",
+    "firebase_url": "https://nut4health-830cc.firebaseio.com",
+    "project_id": "nut4health-830cc",
+    "storage_bucket": "nut4health-830cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055399108789:android:b3a49fa995729241",
+        "android_client_info": {
+          "package_name": "org.sic4change.nut4health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJy4cuSKF18zG-O_4UdgC1cqyRtD_Vc9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055399108789:android:84d9f57a2197b8ccdf9efc",
+        "android_client_info": {
+          "package_name": "org.sic4change.nut4healthcentrotratamiento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJy4cuSKF18zG-O_4UdgC1cqyRtD_Vc9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055399108789:android:e0df31d7eae3f04ddf9efc",
+        "android_client_info": {
+          "package_name": "org.sic4changeach.nut4health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJy4cuSKF18zG-O_4UdgC1cqyRtD_Vc9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055399108789-697ufvu0cidhnv0n253060g53ci424md.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+
 

@@ -1,4 +1,4 @@
-package com.aaronat1.hackaton.ui.navigation
+package org.sic4change.nut4healthcentrotratamiento.ui.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 
 enum class NavItem(
     val navCommand: NavCommand,

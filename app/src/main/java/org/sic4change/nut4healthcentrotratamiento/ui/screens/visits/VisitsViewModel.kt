@@ -3,7 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aaronat1.hackaton.ui.navigation.NavArg
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.NavArg
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

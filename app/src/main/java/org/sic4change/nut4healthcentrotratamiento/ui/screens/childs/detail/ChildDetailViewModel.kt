@@ -3,7 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aaronat1.hackaton.ui.navigation.NavArg
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.NavArg
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +25,7 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = _state.value.copy(child = FirebaseDataSource.getChild(id))
             _state.value = _state.value.copy(cases = FirebaseDataSource.getChildCases(id))
+            _state.value = _state.value.copy(firstUpdate = true)
             _state.value = _state.value.copy(loading = false)
         }
     }
@@ -33,10 +34,17 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val loading: Boolean = false,
         val child: Child? = null,
         val cases: List<Case>? = null,
+        val firstUpdate: Boolean = false,
         val updateTutor: Boolean = false,
         val newCase: Case? = null,
         val newCaseCreated: Boolean = false,
     )
+
+    fun confirmFirstUpdate() {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(firstUpdate = false)
+        }
+    }
 
     fun createCase(name: String, status: String, observations: String) {
         viewModelScope.launch {

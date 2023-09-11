@@ -3,7 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aaronat1.hackaton.ui.navigation.NavArg
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.NavArg
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +14,6 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 
 class VisitDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 

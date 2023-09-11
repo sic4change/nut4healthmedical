@@ -12,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
-import com.aaronat1.hackaton.ui.navigation.NavCommand
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
@@ -412,6 +411,11 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutorId)
+                    )
+                },
+                onGoToUniqueCase = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(case.id)
                     )
                 },
                 onItemClick = { case ->
