@@ -693,7 +693,7 @@ object FirebaseDataSource {
                             visit.complications.filter { it.selected }.toMutableList(),
                             visit.observations, user.point)
                         val visitsRef = firestore.collection("visits")
-                        val id = "${case.childId}_${case.createdate.time}"
+                        val id = "${case.childId}_${visit.createdate.time}"
                         visitToUpdate.id = id
                         visitsRef.document(visitToUpdate.id).set(visitToUpdate.toServerVisit())
                         Timber.d("Create visit result: ok")

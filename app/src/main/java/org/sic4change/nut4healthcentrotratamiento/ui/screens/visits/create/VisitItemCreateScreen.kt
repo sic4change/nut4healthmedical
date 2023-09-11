@@ -717,7 +717,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
                                         visitState.complications.value, visitState.observations.value)
                                 } else {
-                                    if (visitState.currentStep.value >= numberStep) {
+                                    if (visitState.currentStep.value == numberStep) {
                                         visitState.createdVisit.value = true
                                         if (visitState.selectedCartilla.value == "" && visitState.visits.value.size > 0) {
                                             visitState.selectedCartilla.value = visitState.visits.value[0].vaccinationCard

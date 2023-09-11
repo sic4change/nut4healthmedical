@@ -154,7 +154,7 @@ class VisitState(
 ) {
 
     fun incrementStep() {
-        if (point.value.type != "Otro") {
+        /*if (point.value.type != "Otro") {
             currentStep.value += 1
         } else {
             if (currentStep.value == 2) {
@@ -162,7 +162,8 @@ class VisitState(
             } else {
                 currentStep.value += 1
             }
-        }
+        }*/
+        currentStep.value += 1
     }
 
     fun decrementStep() {
