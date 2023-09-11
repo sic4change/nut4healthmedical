@@ -35,6 +35,7 @@ fun ChildItemDetailScreen(
     loading: Boolean = false,
     childItem: Child?,
     cases: List<Case>?,
+    isOneCaseOpen: Boolean,
     onEditClick: (Child) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit,
     onItemClick: (Case) -> Unit,
@@ -73,6 +74,7 @@ fun ChildItemDetailScreen(
                         childItem = childItem,
                         childState = childState,
                         cases = cases,
+                        isOneCaseOpen = isOneCaseOpen,
                         onItemClick = onItemClick,
                         onCreateCaseClick = onCreateCaseClick,
                         onClickDetail = onClickDetail,
@@ -98,6 +100,7 @@ private fun ChildView(
     childItem: Child,
     childState: ChildState,
     cases: List<Case>?,
+    isOneCaseOpen: Boolean,
     onItemClick: (Case) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit,
     onClickDetail: (Case) -> Unit,
@@ -317,31 +320,33 @@ private fun ChildView(
 
         if (!childState.disabledView.value){
             item {
-                Spacer(modifier = Modifier.height(16.dp))
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
-                    val status = stringResource(R.string.open)
-                    Button(
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                        onClick = {
-                            onCreateCaseClick(name, status, "")
-                            childState.enableDisableView()
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
+                if (!isOneCaseOpen) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            stringResource(R.string.create_case),
-                            color = colorResource(R.color.white),
-                            style = MaterialTheme.typography.h5,
-                        )
+                        val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
+                        val status = stringResource(R.string.open)
+                        Button(
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                            onClick = {
+                                onCreateCaseClick(name, status, "")
+                                childState.enableDisableView()
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
+                        ) {
+                            Text(
+                                stringResource(R.string.create_case),
+                                color = colorResource(R.color.white),
+                                style = MaterialTheme.typography.h5,
+                            )
+                        }
                     }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

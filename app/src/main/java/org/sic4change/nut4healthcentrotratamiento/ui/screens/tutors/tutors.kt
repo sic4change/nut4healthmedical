@@ -238,6 +238,7 @@ fun FEFADetailScreen(
         loading = viewModelState.loading,
         tutorItem = viewModelState.tutor,
         cases = viewModelState.cases,
+        isOneCaseOpen = viewModelState.isOneCaseOpen,
         fefaState = fefaDetailState,
         onItemClick = onItemClick,
         onClickDetail = onClickDetail,

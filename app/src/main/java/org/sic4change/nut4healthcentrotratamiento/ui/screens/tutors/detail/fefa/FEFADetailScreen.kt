@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
@@ -39,6 +40,7 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                          loading: Boolean = false,
                          tutorItem: Tutor?,
                          cases: List<Case>?,
+                         isOneCaseOpen: Boolean,
                          onItemClick: (Case) -> Unit,
                          onClickDetail: (Case) -> Unit,
                          onClickEdit: (Case) -> Unit,
@@ -75,6 +77,7 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                         tutorItem = tutorItem,
                         tutorState = fefaState,
                         cases = cases,
+                        isOneCaseOpen = isOneCaseOpen,
                         onItemClick = onItemClick,
                         onClickDetail = onClickDetail,
                         onClickEdit = onClickEdit,
@@ -95,6 +98,7 @@ private fun FEFAView(
     tutorItem: Tutor,
     tutorState: TutorState,
     cases: List<Case>?,
+    isOneCaseOpen: Boolean,
     onClickDetail: (Case) -> Unit,
     onItemClick: (Case) -> Unit,
     onClickEdit: (Case) -> Unit,
@@ -454,30 +458,33 @@ private fun FEFAView(
         }
 
         item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
-                val status = stringResource(R.string.open)
-                Button(
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                    onClick = {
-                        onCreateCaseClick(name, status, "")
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+            if (!isOneCaseOpen) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        stringResource(R.string.create_case),
-                        color = colorResource(R.color.white),
-                        style = MaterialTheme.typography.h5,
-                    )
+                    val name = "${stringResource(R.string.caso)}_${if(cases == null) 1 else (cases?.size!!.plus(1))}"
+                    val status = stringResource(R.string.open)
+                    Button(
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                        onClick = {
+                            onCreateCaseClick(name, status, "")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        Text(
+                            stringResource(R.string.create_case),
+                            color = colorResource(R.color.white),
+                            style = MaterialTheme.typography.h5,
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
         }
 
     }

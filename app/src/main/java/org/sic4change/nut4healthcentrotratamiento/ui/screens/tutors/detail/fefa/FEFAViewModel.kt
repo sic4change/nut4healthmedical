@@ -25,14 +25,20 @@ class FEFAViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = _state.value.copy(tutor = FirebaseDataSource.getTutor(id))
             _state.value = _state.value.copy(cases = FirebaseDataSource.getFEFACases(id))
+            _state.value = _state.value.copy(isOneCaseOpen = isOneCaseOpen())
             _state.value = _state.value.copy(loading = false)
         }
+    }
+
+    private fun isOneCaseOpen(): Boolean {
+        return _state.value.cases!!.any { it.status == "Abierto"  || it.status == "Ouvert"  || it.status == "مفتوح" }
     }
 
     data class  UiState(
         val loading: Boolean = false,
         val tutor: Tutor? = null,
         val cases: List<Case>? = null,
+        val isOneCaseOpen: Boolean = false,
         val updateTutor: Boolean = false,
         val newCase: Case? = null,
         val newCaseCreated: Boolean = false,
