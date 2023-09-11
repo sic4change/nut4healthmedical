@@ -1449,34 +1449,103 @@ fun SistemicView(visitState: VisitState) {
             }
         }
     }
-
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada)
-            && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
-            && visitState.visitsSize.value == 1)) {
-        Spacer(modifier = Modifier.height(16.dp))
-    }
-
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)
-            && visitState.visitsSize.value == 0) {
-        if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                Spacer(modifier = Modifier.width(16.dp))
-                Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
-            }
+    if (visitState.point.value.type != "Otro") {
+        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                && visitState.visitsSize.value == 1)) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-    }
 
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada)
-            && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
-            && visitState.visitsSize.value == 1)) {
+        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && visitState.visitsSize.value == 0) {
+            if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.disabled_color))
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
 
-        if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                && visitState.visitsSize.value == 1)) {
+
+            if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    elevation = 0.dp,
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(0.dp, 16.dp)
+                    ) {
+                        if ((monthsBetween >= 12 && monthsBetween < 24)) {
+                            Text(
+                                stringResource(R.string.admin_dosis),
+                                color = colorResource(R.color.black_gray)
+                            )
+                            Text(
+                                stringResource(R.string.abendazol_400_half),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                            Text("o", color = colorResource(R.color.colorPrimary))
+                            Text(
+                                stringResource(R.string.mebendazol_400_half),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        } else if ((monthsBetween >= 24)) {
+                            Text(
+                                stringResource(R.string.admin_dosis),
+                                color = colorResource(R.color.black_gray)
+                            )
+                            Text(
+                                stringResource(R.string.abendazol_400_full),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                            Text("o", color = colorResource(R.color.colorPrimary))
+                            Text(
+                                stringResource(R.string.mebendazol_400_full),
+                                color = colorResource(R.color.colorPrimary)
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+
+        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                Spacer(modifier = Modifier.width(16.dp))
+                Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+        }
+
+        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -1491,130 +1560,61 @@ fun SistemicView(visitState: VisitState) {
                         .wrapContentSize()
                         .padding(0.dp, 16.dp)
                 ) {
-                    if ((monthsBetween >= 12 && monthsBetween < 24)) {
-                        Text(
-                            stringResource(R.string.admin_dosis),
-                            color = colorResource(R.color.black_gray)
-                        )
-                        Text(
-                            stringResource(R.string.abendazol_400_half),
-                            color = colorResource(R.color.colorPrimary)
-                        )
-                        Text("o", color = colorResource(R.color.colorPrimary))
-                        Text(
-                            stringResource(R.string.mebendazol_400_half),
-                            color = colorResource(R.color.colorPrimary)
-                        )
-                    } else if ((monthsBetween >= 24)) {
-                        Text(
-                            stringResource(R.string.admin_dosis),
-                            color = colorResource(R.color.black_gray)
-                        )
-                        Text(
-                            stringResource(R.string.abendazol_400_full),
-                            color = colorResource(R.color.colorPrimary)
-                        )
-                        Text("o", color = colorResource(R.color.colorPrimary))
-                        Text(
-                            stringResource(R.string.mebendazol_400_full),
-                            color = colorResource(R.color.colorPrimary)
-                        )
-                    }
-                }
-            }
-        }
-
-    }
-
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-        Spacer(modifier = Modifier.height(16.dp))
-    }
-
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.disabled_color))
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-    }
-
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            elevation = 0.dp,
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(0.dp, 16.dp)
-            ) {
-                ExposedDropdownMenuBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    expanded = visitState.expandedCapsulesFerro.value,
-                    onExpandedChange = {
-                        visitState.expandedCapsulesFerro.value = !visitState.expandedCapsulesFerro.value
-                    }
-                ) {
-                    TextField(
-                        readOnly = true,
-                        value = visitState.selectedCapsulesFerro.value,
-                        onValueChange = {
-                            visitState.selectedCapsulesFerro.value = it
-                        },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = visitState.expandedCapsulesFerro.value
-                            )
-                        },
-                        textStyle = MaterialTheme.typography.h5,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = colorResource(R.color.colorPrimary),
-                            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            cursorColor = colorResource(R.color.colorAccent),
-                            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                            focusedIndicatorColor = colorResource(R.color.colorAccent),
-                            unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                        ),
+                    ExposedDropdownMenuBox(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        leadingIcon = {
-                            Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary), )},
-                        label = { Text(stringResource(R.string.capsules_hierro_folico_checked), color = colorResource(R.color.disabled_color)) }
-                    )
-                    ExposedDropdownMenu(
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
                         expanded = visitState.expandedCapsulesFerro.value,
-                        onDismissRequest = {
-                            visitState.expandedCapsulesFerro.value = false
+                        onExpandedChange = {
+                            visitState.expandedCapsulesFerro.value = !visitState.expandedCapsulesFerro.value
                         }
                     ) {
-                        stringArrayResource(id = R.array.yesnooptions).forEach { selectedFerro ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    visitState.selectedCapsulesFerro.value = selectedFerro
-                                    visitState.expandedCapsulesFerro.value = false
+                        TextField(
+                            readOnly = true,
+                            value = visitState.selectedCapsulesFerro.value,
+                            onValueChange = {
+                                visitState.selectedCapsulesFerro.value = it
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = visitState.expandedCapsulesFerro.value
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.h5,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            leadingIcon = {
+                                Icon(Icons.Filled.Medication, null, tint = colorResource(R.color.colorPrimary), )},
+                            label = { Text(stringResource(R.string.capsules_hierro_folico_checked), color = colorResource(R.color.disabled_color)) }
+                        )
+                        ExposedDropdownMenu(
+                            expanded = visitState.expandedCapsulesFerro.value,
+                            onDismissRequest = {
+                                visitState.expandedCapsulesFerro.value = false
+                            }
+                        ) {
+                            stringArrayResource(id = R.array.yesnooptions).forEach { selectedFerro ->
+                                DropdownMenuItem(
+                                    onClick = {
+                                        visitState.selectedCapsulesFerro.value = selectedFerro
+                                        visitState.expandedCapsulesFerro.value = false
+                                    }
+                                ) {
+                                    Text(text = selectedFerro, color = colorResource(R.color.colorPrimary))
                                 }
-                            ) {
-                                Text(text = selectedFerro, color = colorResource(R.color.colorPrimary))
                             }
                         }
                     }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Column(
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                         modifier = Modifier
@@ -1636,11 +1636,14 @@ fun SistemicView(visitState: VisitState) {
                                 color = colorResource(R.color.colorPrimary)
                             )
                         }
+                    }
                 }
-            }
 
+            }
         }
     }
+
+
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
             && visitState.status.value == stringResource(R.string.aguda_moderada)
