@@ -3012,65 +3012,69 @@ fun AntropometricosView(visitState: VisitState,
     }
 
     SteptTitle(R.mipmap.ic_step_one, stringResource(R.string.step1_title))
+
     Spacer(modifier = Modifier.height(16.dp))
-    TextField(value = visitState.height.value,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = colorResource(R.color.colorPrimary),
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-            cursorColor = colorResource(R.color.colorAccent),
-            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-            focusedIndicatorColor = colorResource(R.color.colorAccent),
-            unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-        ),
-        onValueChange = {
-            visitState.formatHeightValue(it)
-            onChangeWeightOrHeight(
-                visitState.height.value.filter { !it.isWhitespace() },
-                visitState.weight.value.filter { !it.isWhitespace() },
-                visitState.armCircunference.value,
-                visitState.selectedEdema.value,
-                visitState.complications.value)
-        },
-        textStyle = MaterialTheme.typography.h5,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp),
-        leadingIcon = {
-            Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-        label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
-    Spacer(modifier = Modifier.height(16.dp))
-    TextField(value = visitState.weight.value,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = colorResource(R.color.colorPrimary),
-            backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-            cursorColor = colorResource(R.color.colorAccent),
-            disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-            focusedIndicatorColor = colorResource(R.color.colorAccent),
-            unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-        ),
-        onValueChange = {
-            visitState.formatWeightValue(it)
-            onChangeWeightOrHeight(
-                visitState.height.value.filter { !it.isWhitespace() },
-                visitState.weight.value.filter { !it.isWhitespace() },
-                visitState.armCircunference.value,
-                visitState.selectedEdema.value, visitState.complications.value
-            )
-        },
-        textStyle = MaterialTheme.typography.h5,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp),
-        leadingIcon = {
-            Icon(painterResource(R.mipmap.ic_weight), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
-        label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
-    Spacer(modifier = Modifier.height(16.dp))
+
+    if (visitState.point.value.type != "Otro") {
+        TextField(value = visitState.height.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {
+                visitState.formatHeightValue(it)
+                onChangeWeightOrHeight(
+                    visitState.height.value.filter { !it.isWhitespace() },
+                    visitState.weight.value.filter { !it.isWhitespace() },
+                    visitState.armCircunference.value,
+                    visitState.selectedEdema.value,
+                    visitState.complications.value)
+            },
+            textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.Height, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.height), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(value = visitState.weight.value,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorPrimary),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {
+                visitState.formatWeightValue(it)
+                onChangeWeightOrHeight(
+                    visitState.height.value.filter { !it.isWhitespace() },
+                    visitState.weight.value.filter { !it.isWhitespace() },
+                    visitState.armCircunference.value,
+                    visitState.selectedEdema.value, visitState.complications.value
+                )
+            },
+            textStyle = MaterialTheme.typography.h5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(painterResource(R.mipmap.ic_weight), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
+        Spacer(modifier = Modifier.height(16.dp))
+    }
 
     val monthsBetween = getMonthsAgo(visitState.childDateMillis.value)
 
