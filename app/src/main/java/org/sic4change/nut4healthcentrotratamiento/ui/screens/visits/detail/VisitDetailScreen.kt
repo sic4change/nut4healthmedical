@@ -555,7 +555,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
                            Spacer(modifier = Modifier.height(16.dp))
-                           AnimatedVisibility(visitState.status.value.isNotEmpty()
+                           /*AnimatedVisibility(visitState.status.value.isNotEmpty()
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                    || visitState.status.value == stringResource(R.string.aguda_severa))){
                                Column {
@@ -567,9 +567,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                            }
 
-                           Spacer(modifier = Modifier.height(16.dp))
+                           Spacer(modifier = Modifier.height(16.dp))*/
 
-                           AnimatedVisibility(visitState.status.value.isNotEmpty()
+                           /*AnimatedVisibility(visitState.status.value.isNotEmpty()
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                    || visitState.status.value == stringResource(R.string.aguda_severa))
                                    && (visitState.womanStatus.value == stringResource(R.string.pregnant)
@@ -609,9 +609,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                    Spacer(modifier = Modifier.height(16.dp))
                                }
-                           }
+                           }*/
 
-                           AnimatedVisibility(visitState.status.value.isNotEmpty()
+                           /*AnimatedVisibility(visitState.status.value.isNotEmpty()
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                    || visitState.status.value == stringResource(R.string.aguda_severa))
                                    && (visitState.womanStatus.value == stringResource(R.string.pregnant)
@@ -646,23 +646,24 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        }
                                }
 
-                           }
+                           }*/
 
                            AnimatedVisibility(visitState.status.value.isNotEmpty()
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
                                    || visitState.status.value == stringResource(R.string.aguda_severa))
                                    && (visitState.womanStatus.value == stringResource(R.string.infant)
                                    || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))
-                                   && (visitState.womanChildWeeks.value <= 6)){
+                                   && (visitState.womanChildWeeks.value <= 6)
+                           ){
 
                                Column {
-                                   Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
+                                   /*Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
                                        Spacer(modifier = Modifier.width(8.dp))
                                        Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
                                        Spacer(modifier = Modifier.width(8.dp))
                                        Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
-                                   }
-                                       Column(
+                                   }*/
+                                       /*Column(
                                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                                            modifier = Modifier
                                                .wrapContentSize()
@@ -681,7 +682,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                    color = colorResource(R.color.black_gray)
                                                )
                                            }
-                                       }
+                                       }*/
 
                                    Spacer(modifier = Modifier.height(16.dp))
                                    AnimatedVisibility(visitState.status.value.isNotEmpty()
@@ -752,10 +753,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) )) {
                                    ItemViewIcon(visitState.armCircunference.value.toString(), stringResource(R.string.arm_circunference), Icons.Filled.MultipleStop)
                                }
+                               Spacer(modifier = Modifier.height(16.dp))
 
-                               AnimatedVisibility(visible = (visitState.status.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
-                                   Spacer(modifier = Modifier.height(16.dp))
-                               }
                                ItemViewImage(visitState.selectedEdema.value, stringResource(R.string.edema), R.mipmap.ic_edema)
 
                                Spacer(modifier = Modifier.height(16.dp))
@@ -1073,9 +1072,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    ItemViewIcon(visitState.armCircunference.value.toString(), stringResource(R.string.arm_circunference), Icons.Filled.MultipleStop)
                                }
 
-                               AnimatedVisibility(visible = (visitState.status.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
-                                   Spacer(modifier = Modifier.height(16.dp))
-                               }
+                               Spacer(modifier = Modifier.height(16.dp))
 
                                ItemViewImage(visitState.selectedEdema.value, stringResource(R.string.edema), R.mipmap.ic_edema)
 
@@ -1224,12 +1221,12 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    Column(
                                        modifier = Modifier
                                            .wrapContentSize()
-                                           .padding(0.dp, 16.dp)
+                                           .padding(top = 16.dp, bottom = 0.dp, start = 0.dp, end = 0.dp)
                                    ) {
 
                                        ItemViewIcon(visitState.selectedVitamineAVaccinated.value, stringResource(R.string.vitamineAVaccinated), Icons.Filled.Book)
 
-                                       AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
+                                       /*AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
                                            Spacer(modifier = Modifier.height(16.dp))
                                        }
                                        AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
@@ -1251,7 +1248,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                    )
                                                }
                                            }
-                                       }
+                                       }*/
                                    }
                                }
 
@@ -1395,7 +1392,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        AnimatedVisibility(visitState.status.value.isNotEmpty()
                                                && visitState.status.value == stringResource(R.string.aguda_moderada)
                                                && monthsBetween >= 9
-                                               && visitState.selectedCartilla.value != stringArrayResource(id = R.array.yesnooptions)[1]) {
+                                               && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
                                            Column(
                                                horizontalAlignment = Alignment.CenterHorizontally,
                                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),

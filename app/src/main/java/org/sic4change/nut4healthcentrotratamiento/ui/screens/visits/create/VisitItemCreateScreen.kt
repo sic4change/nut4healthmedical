@@ -128,7 +128,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
     } else {
         arrayListOf(
             stringResource(R.string.step1),
-            stringResource(R.string.step3),
             stringResource(R.string.step4)
         )
     }
@@ -682,9 +681,9 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                     if (visitState.currentStep.value == 1) {
                         AntropometricosFEFAView(visitState, onChangeWeightOrHeight)
                     }
-                    else if (visitState.currentStep.value == 2) {
+                    /*else if (visitState.currentStep.value == 2) {
                         SistemicFEFAView(visitState)
-                    }
+                    }*/
                     else if (visitState.currentStep.value == numberStep) {
                         NutritionalFEFAView(visitState)
                     }
@@ -865,7 +864,7 @@ fun NutritionalFEFAView(visitState: VisitState) {
             && (visitState.status.value == stringResource(R.string.aguda_moderada)
             || visitState.status.value == stringResource(R.string.aguda_severa))){
         Spacer(modifier = Modifier.height(16.dp))
-        SteptTitle(R.mipmap.ic_step_three, stringResource(R.string.step4_title))
+        SteptTitle(R.mipmap.ic_step_two, stringResource(R.string.step4_title))
         Spacer(modifier = Modifier.height(32.dp))
     }
 
@@ -1263,7 +1262,7 @@ fun SistemicFEFAView(visitState: VisitState) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            /*Spacer(modifier = Modifier.height(16.dp))
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -1295,7 +1294,7 @@ fun SistemicFEFAView(visitState: VisitState) {
                         )
                     }
                 }
-            }
+            }*/
             Spacer(modifier = Modifier.height(16.dp))
 
         }
@@ -1418,7 +1417,7 @@ fun SistemicView(visitState: VisitState) {
                         }
                     }
                 }
-                AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
+                /*AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
                     Spacer(modifier = Modifier.height(16.dp))
                 }
                 AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
@@ -1445,7 +1444,7 @@ fun SistemicView(visitState: VisitState) {
                             )
                         }
                     }
-                }
+                }*/
             }
         }
     }
@@ -1734,7 +1733,8 @@ fun SistemicView(visitState: VisitState) {
                 AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
-                        && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
+                        && (visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1] ||
+                        visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[2])) {
 
                     ExposedDropdownMenuBox(
                         modifier = Modifier
@@ -1777,14 +1777,14 @@ fun SistemicView(visitState: VisitState) {
                                 visitState.expandedRubeola.value = false
                             }
                         ) {
-                            stringArrayResource(id = R.array.yesnooptions).forEach { selectedEdema ->
+                            stringArrayResource(id = R.array.yesnooptions).forEach { selectedRubeola ->
                                 DropdownMenuItem(
                                     onClick = {
-                                        visitState.selectedRubeola.value = selectedEdema
+                                        visitState.selectedRubeola.value = selectedRubeola
                                         visitState.expandedRubeola.value = false
                                     }
                                 ) {
-                                    Text(text = selectedEdema, color = colorResource(R.color.colorPrimary))
+                                    Text(text = selectedRubeola, color = colorResource(R.color.colorPrimary))
                                 }
                             }
                         }
@@ -1794,8 +1794,7 @@ fun SistemicView(visitState: VisitState) {
                 AnimatedVisibility(visitState.status.value.isNotEmpty()
                         && visitState.status.value == stringResource(R.string.aguda_moderada)
                         && monthsBetween >= 9
-                        && (visitState.selectedCartilla.value != stringArrayResource(id = R.array.yesnooptions)[1]
-                        || visitState.selectedRubeola.value != stringArrayResource(id = R.array.yesnooptions)[1])) {
+                        && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
