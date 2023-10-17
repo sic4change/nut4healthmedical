@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
 import kotlinx.coroutines.launch
@@ -53,6 +54,7 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
@@ -68,7 +70,9 @@ fun VisitItemCreateScreen(
         String, String, complications: List<Complication>,
         String
     ) -> Unit,
-    onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit
+    onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
+    onRemoveTodayVisit: (String) -> Unit,
+    onCancelCreateVisit: () -> Unit
 ) {
 
     Box(
@@ -92,7 +96,9 @@ fun VisitItemCreateScreen(
                 child = child,
                 fefa = fefa,
                 onCreateVisit = onCreateVisit,
-                onChangeWeightOrHeight = onChangeWeightOrHeight
+                onChangeWeightOrHeight = onChangeWeightOrHeight,
+                onRemoveTodayVisit = onRemoveTodayVisit,
+                onCancelCreateVisit = onCancelCreateVisit
             )
 
         }
@@ -112,7 +118,10 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                        String, String, String, String, String, String, String,
                        String, String, String, String, String, String, String,
                        complications: List<Complication>, String) -> Unit,
-                      onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
+                      onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
+                      onRemoveTodayVisit: (String) -> Unit,
+                      onCancelCreateVisit: () -> Unit
+) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -760,6 +769,16 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
 
             }
 
+        }
+        if (visitState.visits.value != null && visitState.visits.value.size > 0) {
+            visitState.checkCanCreateVisit(visitState.visits.value[0].createdate)
+            MessageDuplicateVisitToDay(
+                visitState.showQuestionMessageDuplicateVisitToDay.value,
+                visitState::showQuestionMessageDuplicateVisitToDay,
+                visitState.visits.value[0].id,
+                onRemoveTodayVisit,
+                onCancelCreateVisit
+            )
         }
     }
 
@@ -3389,11 +3408,7 @@ fun AntropometricosView(visitState: VisitState,
         leadingIcon = {
             Icon(Icons.Filled.Edit, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
         label = { Text(stringResource(R.string.observations), color = colorResource(R.color.disabled_color)) })
-
-
-
 }
-
 
 @Composable
 fun SteptTitle(imageDrawable: Int, title: String) {
@@ -3403,6 +3418,49 @@ fun SteptTitle(imageDrawable: Int, title: String) {
         Spacer(modifier = Modifier.width(8.dp))
         Text(title, color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
     }
+}
+
+@Composable
+fun MessageDuplicateVisitToDay(showDialog: Boolean?,
+                               setShowDialog: () -> Unit,
+                               visitCreatedTodayId: String,
+                               onAccept: (String) -> Unit,
+                               onCancel: () -> Unit) {
+    if (showDialog!!) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onAccept(visitCreatedTodayId)
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onCancel()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.no_duplicated_visit_same_day))
+            },
+        )
+    }
+
 }
 
 

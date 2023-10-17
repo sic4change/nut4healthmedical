@@ -65,6 +65,12 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val created: Boolean = false,
     )
 
+    fun removeTodayVisit(visitId: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.deleteVisit(visitId)
+        }
+    }
+
     fun createVisit(admissionType: String, height: Double, weight: Double, arm_circunference: Double,
                     status: String, edema: String, respiratonStatus: String, appetiteTest: String,
                     infection: String, eyesDeficiency: String, deshidratation: String, vomiting: String,

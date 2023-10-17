@@ -75,6 +75,7 @@ fun rememberVisitsState(
     currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
     visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
     point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", 0)) },
+    showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
     expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation,
@@ -84,7 +85,7 @@ fun rememberVisitsState(
     expandedVitamineAVaccinated, selectedCapsulesFerro, expandedCapsulesFerro, selectedAmoxicilina,
     expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
-    visitsSize, visits, deleteVisit, currentStep, visitNumber, point,
+    visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay
 ) }
 
 
@@ -150,19 +151,10 @@ class VisitState(
     val currentStep: MutableState<Int>,
     val visitNumber: MutableState<Int>,
     val point: MutableState<Point>,
-
+    val showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?>,
 ) {
 
     fun incrementStep() {
-        /*if (point.value.type != "Otro") {
-            currentStep.value += 1
-        } else {
-            if (currentStep.value == 2) {
-                currentStep.value = 4
-            } else {
-                currentStep.value += 1
-            }
-        }*/
         currentStep.value += 1
     }
 
@@ -194,12 +186,19 @@ class VisitState(
         }
     }
 
-    fun isOneComplicationSelected(): Boolean {
-        return complications.value.filter { it.selected }.count() > 0
+    fun checkCanCreateVisit(createDate: Date): Boolean {
+        val currentDate = Calendar.getInstance()
+        currentDate.time = createDate
+        val todayDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val dateDay = currentDate.get(Calendar.DAY_OF_MONTH)
+        if (showQuestionMessageDuplicateVisitToDay.value == null) {
+            showQuestionMessageDuplicateVisitToDay.value = todayDay == dateDay
+        }
+        return showQuestionMessageDuplicateVisitToDay.value!!
     }
 
-    fun updateValuesByMUAC() {
-
+    fun showQuestionMessageDuplicateVisitToDay() {
+        showQuestionMessageDuplicateVisitToDay.value = !showQuestionMessageDuplicateVisitToDay.value!!
     }
 
 

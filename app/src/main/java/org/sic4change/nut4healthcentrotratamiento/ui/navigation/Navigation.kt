@@ -538,6 +538,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onChangeWeightOrHeight = { height, weight ->
 
                 },
+                onCancelCreateVisit = {
+                    navController.popBackStack()
+                },
             )
         }
 

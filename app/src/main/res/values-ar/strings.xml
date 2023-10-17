@@ -393,5 +393,7 @@
         <item>انتكاس</item>
     </string-array>
 
+    <string name="no_duplicated_visit_same_day">هناك زيارة تم إنشاؤها اليوم بالفعل، هل ترغب في حذفها وإدخال البيانات مرة أخرى؟</string>
+
 
 </resources>

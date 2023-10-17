@@ -396,4 +396,6 @@
     <string name="new_version">Hay una nueva versión disponible en Google Play.</string>
     <string name="update">Actualizar</string>
 
+    <string name="no_duplicated_visit_same_day">Ya hay una visita creada el día de hoy, ¿desea eliminarla e introducir de nuevo los datos?</string>
+
 </resources>
