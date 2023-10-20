@@ -34,6 +34,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -152,12 +153,7 @@ private fun Header(visitState: VisitState,
             label = { Text(stringResource(R.string.weight), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
-
-        val monthsBetween = ChronoUnit.MONTHS.between(
-            YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
-        )
+        val monthsBetween = getMonthsAgo(visitState.childDateMillis.value)
 
         AnimatedVisibility(visible = (visitState.armCircunference.value != 0.0 && (monthsBetween >= 6 && monthsBetween <= 60))) {
             if (visitState.armCircunference.value < 11.5) {

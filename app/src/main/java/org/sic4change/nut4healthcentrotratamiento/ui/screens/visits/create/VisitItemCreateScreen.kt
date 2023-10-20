@@ -1335,13 +1335,8 @@ fun SistemicFEFAView(visitState: VisitState) {
 fun SistemicView(visitState: VisitState) {
 
     val EMPTYVALUE = stringArrayResource(R.array.yesnooptions)[0]
-
-    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-    val dateString = simpleDateFormat.format(visitState.childDateMillis.value)
-
-    val monthsBetween = ChronoUnit.MONTHS.between(
-        YearMonth.from(LocalDate.parse(dateString)), YearMonth.from(LocalDate.now())
-    )
+    
+    val monthsBetween = getMonthsAgo(visitState.childDateMillis.value)
 
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
