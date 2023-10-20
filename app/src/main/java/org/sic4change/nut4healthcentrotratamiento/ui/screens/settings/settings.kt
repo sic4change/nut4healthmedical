@@ -277,7 +277,7 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
                                     },
                                     label = {
                                         Text(
-                                            stringResource(R.string.username),
+                                            stringResource(R.string.centre),
                                             color = colorResource(R.color.disabled_color)
                                         )
                                     })
