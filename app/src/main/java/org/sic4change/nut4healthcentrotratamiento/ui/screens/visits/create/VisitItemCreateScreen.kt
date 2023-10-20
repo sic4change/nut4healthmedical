@@ -3115,7 +3115,7 @@ fun AntropometricosView(visitState: VisitState,
                 leadingIcon = {
                     Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
                 label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-        }  else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5) {
+        }  else if (visitState.armCircunference.value in 11.5..12.4) {
             TextField(value = visitState.armCircunference.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.orange),
@@ -3192,14 +3192,14 @@ fun AntropometricosView(visitState: VisitState,
                         if (value < 11.5) {
                             rulerBackground.setBackgroundResource(R.color.error)
                         }
-                        else if (value in 11.5..12.5) {
+                        else if (value in 11.5..12.4) {
                             rulerBackground.setBackgroundResource(R.color.orange)
                         }
                         else {
                             rulerBackground.setBackgroundResource(R.color.colorAccent)
                         }
                         tvCm.setTextColor(R.color.error)
-                    } else if (value in 11.5..12.5) {
+                    } else if (value in 11.5..12.4) {
                         rulerBackground.setBackgroundResource(R.color.orange)
                         tvCm.setTextColor(R.color.orange)
                     } else {
@@ -3351,7 +3351,7 @@ fun AntropometricosView(visitState: VisitState,
 
         if (visitState.armCircunference.value < 11.5) {
             statusFormated = stringResource(R.string.aguda_severa)
-        } else if (visitState.armCircunference.value >= 11.5 && visitState.armCircunference.value <= 12.5 &&
+        } else if (visitState.armCircunference.value in 11.5..12.4 &&
             (statusFormated == stringResource(R.string.normopeso) || statusFormated == stringResource(R.string.objetive_weight))) {
             statusFormated = stringResource(R.string.aguda_moderada)
         }

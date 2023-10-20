@@ -212,8 +212,8 @@
     <string name="another_tratements">Autres traitements administrés</string>
 
     <string name="cartilla">Carnet de vaccination:</string>
-    <string name="rubeola">L\'enfant est-il vacciné contre la rubéole?</string>
-    <string name="must_rubeola">L\'enfant doit se faire vacciner contre la rubéole</string>
+    <string name="rubeola">L\'enfant est-il vacciné contre la rougeole?</string>
+    <string name="must_rubeola">L\'enfant doit se faire vacciner contre la rougeole</string>
 
     <string name="plumpy_one">Le nombre de sachets de Plumpy\'Sup à prendre est de:</string>
     <string name="plumpy_fiveteeen">15 sachets (1 sachet par jour)</string>
@@ -389,7 +389,7 @@
         <item>Nouvelle admission</item>
         <item>Dérivé</item>
         <item>Transféré</item>
-        <item>Récidive</item>
+        <item>Rechute</item>
     </string-array>
 
     <string name="new_version">Il y a une nouvelle version disponible sur Google Play.</string>

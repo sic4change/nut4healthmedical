@@ -108,7 +108,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     }
                     if (muac.toFloat() < 11.5 && _state.value.imc != -3.0) {
                         _state.value = _state.value.copy(imc = -3.0)
-                    } else if (muac.toFloat() in 11.5..12.5 && (_state.value.imc!!.toFloat() > -3.0)) {
+                    } else if (muac.toFloat() in 11.5..12.4 && (_state.value.imc!!.toFloat() > -3.0)) {
                         _state.value = _state.value.copy(imc = -1.5)
                     } else {
                         /*if ((_state.value.imc!!.toFloat() > -1.5)) {
@@ -130,7 +130,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 } else {
                     if (muac.toFloat() < 11.5) {
                         _state.value = _state.value.copy(imc = -3.0)
-                    } else if (muac.toFloat() in 11.5..12.5) {
+                    } else if (muac.toFloat() in 11.5..12.4) {
                         _state.value = _state.value.copy(imc = -1.5)
                     } else {
                         _state.value = _state.value.copy(imc = 0.0)
