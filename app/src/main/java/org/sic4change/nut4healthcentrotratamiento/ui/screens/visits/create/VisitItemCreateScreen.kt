@@ -1335,7 +1335,7 @@ fun SistemicFEFAView(visitState: VisitState) {
 fun SistemicView(visitState: VisitState) {
 
     val EMPTYVALUE = stringArrayResource(R.array.yesnooptions)[0]
-    
+
     val monthsBetween = getMonthsAgo(visitState.childDateMillis.value)
 
     CurrenStatusView(visitState = visitState)

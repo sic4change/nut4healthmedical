@@ -43,34 +43,60 @@ object FirebaseDataSource {
     private val firestoreAuth = NUT4HealthFirebaseService.fbAuth
     private val firestore = NUT4HealthFirebaseService.mFirestore
     private val remoteConfig = NUT4HealthFirebaseService.remoteConfig
+    private var source = Source.DEFAULT
 
+    fun getFirestoreSource(): Source {
+        return source
+    }
+
+    fun setFirestoreSource(conexion: Boolean) {
+        if (conexion) {
+            source = Source.SERVER
+        } else {
+            source = Source.CACHE
+        }
+    }
 
     fun configFirestore() {
-        val settings = firestoreSettings {
-            // Use memory cache
-            setLocalCacheSettings(memoryCacheSettings {
-
-            })
-            // Use persistent disk cache (default)
-            setLocalCacheSettings(persistentCacheSettings {
-                this.setSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-            })
-        }
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .build()
         firestore.firestoreSettings = settings
     }
 
-    suspend fun checkFirebaseConnection(): Boolean = withContext(Dispatchers.IO) {
+    /*suspend fun checkFirebaseConnection() : Boolean = withContext(Dispatchers.IO) {
         try {
-            withTimeout(5000) {
-                firestore.collection("conexion").document("conexion").get(Source.SERVER).await()
-            }
-            true
+            val conexionRef = firestore.collection("conexion")
+            val query = conexionRef.whereEqualTo("conexion", true).limit(1)
+            val result = query.get(Source.SERVER).await()
+            return@withContext result.size() > 0
         } catch (e: Exception) {
             false
         }
-    }
+    }*/
 
-
+    /*suspend fun loadInitialData(): Boolean  = withContext(Dispatchers.IO) {
+        firestore.collection("configurations").get().await()
+        firestore.collection("cities").get().await()
+        firestore.collection("countries").get().await()
+        firestore.collection("provinces").get().await()
+        firestore.collection("regions").get().await()
+        firestore.collection("users").get().await()
+        firestore.collection("points").get().await()
+        firestore.collection("tutors").get().await()
+        firestore.collection("childs").get().await()
+        firestore.collection("cases").get().await()
+        firestore.collection("contracts").get().await()
+        firestore.collection("visits").get().await()
+        firestore.collection("complications").get().await()
+        firestore.collection("symtoms").get().await()
+        firestore.collection("treatments").get().await()
+        firestore.collection("malnutritionTeenagersTable").get().await()
+        firestore.collection("malnutritionChildTable").get().await()
+        firestore.collection("malnutritionAdultTable").get().await()
+        Timber.d("Getting inntial data result: ok")
+        true
+    }*/
 
     suspend fun checkUpdateGooglePlayVersion(versionCode: String) : Boolean = withContext(Dispatchers.IO) {
         try {
@@ -97,8 +123,6 @@ object FirebaseDataSource {
 
     suspend fun getLoggedUser(): org.sic4change.nut4healthcentrotratamiento.data.entitities.User =
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             val userRef = firestore.collection("users")
             val query = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val result = query.get(source).await()
@@ -109,8 +133,6 @@ object FirebaseDataSource {
         }
 
     suspend fun getUser(email: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.User? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val userRef = firestore.collection("users")
         val query = userRef.whereEqualTo("email", email).limit(1)
         val result = query.get(source).await()
@@ -166,8 +188,6 @@ object FirebaseDataSource {
     suspend fun updatePhotoAvatar(fileUri: String) : String {
         var result = ""
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             val userRef = firestore.collection("users")
             val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val resultUser = queryUser.get(source).await()
@@ -197,8 +217,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getPoint(id: String?): org.sic4change.nut4healthcentrotratamiento.data.entitities.Point? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val pointsRef = firestore.collection("points")
         val query = pointsRef.whereEqualTo("id", id)
         val result = query.get(source).await()
@@ -213,8 +231,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val userRef = firestore.collection("users")
         val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
         val resultUser = queryUser.get(source).await()
@@ -230,8 +246,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTutor(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val tutorsRef = firestore.collection("tutors")
         val query = tutorsRef.whereEqualTo("id", id)
         val result = query.get(source).await()
@@ -246,8 +260,6 @@ object FirebaseDataSource {
     }
 
     suspend fun createTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) : String = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         Timber.d("try to create tutor with firebase")
         try {
             val userRef = firestore.collection("users")
@@ -285,8 +297,6 @@ object FirebaseDataSource {
 
     suspend fun updateTutor(tutor: org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             Timber.d("try to update tutor from firebase")
             try {
                 val userRef = firestore.collection("users")
@@ -309,8 +319,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getChilds(tutorId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Child> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val childsRef = firestore.collection("childs")
         val query = childsRef.whereEqualTo("tutorId", tutorId).orderBy("name", Query.Direction.ASCENDING )
         val result = query.get(source).await()
@@ -319,8 +327,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getChild(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Child? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val childRef = firestore.collection("childs")
         val query = childRef.whereEqualTo("id", id)
         val result = query.get(source).await()
@@ -336,8 +342,6 @@ object FirebaseDataSource {
 
     suspend fun createChild(child: org.sic4change.nut4healthcentrotratamiento.data.entitities.Child) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             Timber.d("try to create child with firebase")
             try {
                 val userRef = firestore.collection("tutors")
@@ -375,8 +379,6 @@ object FirebaseDataSource {
 
     suspend fun updateChild(child: org.sic4change.nut4healthcentrotratamiento.data.entitities.Child) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             Timber.d("try to update child from firebase")
             try {
                 val userRef = firestore.collection("tutors")
@@ -397,8 +399,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getChildCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val casesRef = firestore.collection("cases")
         val query = casesRef.whereEqualTo("childId", childId).orderBy("lastdate", Query.Direction.DESCENDING )
         val result = query.get(source).await()
@@ -407,8 +407,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getFEFACases(fefaId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val casesRef = firestore.collection("cases")
         val query = casesRef.whereEqualTo("fefaId", fefaId).orderBy("lastdate", Query.Direction.DESCENDING )
         val result = query.get(source).await()
@@ -418,8 +416,6 @@ object FirebaseDataSource {
 
     suspend fun createCase(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) : org.sic4change.nut4healthcentrotratamiento.data.entitities.Case?
             = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         Timber.d("try to create case with firebase")
         try {
             val userRef = firestore.collection("users")
@@ -475,8 +471,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getCase(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Case? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val caseRef = firestore.collection("cases")
         val query = caseRef.whereEqualTo("id", id)
         val result = query.get(source).await()
@@ -505,8 +499,6 @@ object FirebaseDataSource {
 
     suspend fun updateCase(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             Timber.d("try to update case from firebase")
             try {
                 val userRef = firestore.collection("users")
@@ -528,8 +520,6 @@ object FirebaseDataSource {
 
     suspend fun checkDiagnosis(phone: String) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             val contractsRef = firestore.collection("contracts")
             val query = contractsRef.whereEqualTo("childPhoneContract", phone.filter { !it.isWhitespace() })
             val result = query.get(source).await()
@@ -552,8 +542,6 @@ object FirebaseDataSource {
 
     }
     suspend fun checkTutorByPhone(phone: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val userRef = firestore.collection("users")
         val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
         val resultUser = queryUser.get(source).await()
@@ -579,8 +567,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getMalnutritionChildTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val malnutritionChildTableRef = firestore.collection("malnutritionChildTable")
         val query = malnutritionChildTableRef.whereEqualTo("createdby", "aasencio@sic4change.org")
         val result = query.get(source).await()
@@ -589,8 +575,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getMalnutritionTeenegerTable(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val casesRef = firestore.collection("malnutritionTeenagersTable")
         val query = casesRef.whereEqualTo("createdby", "aasencio@sic4change.org")
         val result = query.get(source).await()
@@ -599,8 +583,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getSymtoms(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Symtom> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val casesRef = firestore.collection("symtoms")
         val query = casesRef.whereNotEqualTo("name", "")
         val result = query.get(source).await()
@@ -609,8 +591,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getTreatments(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val casesRef = firestore.collection("treatments")
         val query = casesRef.whereEqualTo("active", true)
         val result = query.get(source).await()
@@ -619,8 +599,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getComplications(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val casesRef = firestore.collection("complications")
         val query = casesRef.whereNotEqualTo("name", "")
         val result = query.get(source).await()
@@ -629,8 +607,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getVisits(caseId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val visitsRef = firestore.collection("visits")
         val query = visitsRef.whereEqualTo("caseId", caseId).orderBy("createdate", Query.Direction.DESCENDING )
         val result = query.get(source).await()
@@ -639,8 +615,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getVisit(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit? = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val visitRef = firestore.collection("visits")
         val query = visitRef.whereEqualTo("id", id)
         val result = query.get(source).await()
@@ -669,8 +643,6 @@ object FirebaseDataSource {
 
     suspend fun createVisit(visit: org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             Timber.d("try to create visit with firebase")
             try {
                 val userRef = firestore.collection("users")
@@ -728,8 +700,6 @@ object FirebaseDataSource {
 
     suspend fun updateVisit(visit: org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit) {
         withContext(Dispatchers.IO) {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             Timber.d("try to update visit from firebase")
             try {
                 val userRef = firestore.collection("users")
@@ -750,8 +720,6 @@ object FirebaseDataSource {
     }
 
     suspend fun checkDesnutrition(height: Double, weight: Double): Double = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         var status = 0.0
         if (height > 120 && height <= 155) {
             val childMalNutritionTeenagerTableRef = firestore.collection("malnutritionTeenagersTable")
@@ -820,8 +788,6 @@ object FirebaseDataSource {
     }
 
     suspend fun checkAdultDesnutrition(height: Double, weight: Double): Double = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         var status = 0.0
         val childMalNutritionAdultTableRef = firestore.collection("malnutritionAdultTable")
         val queryChildMalNutritionAdultTable = childMalNutritionAdultTableRef.whereGreaterThanOrEqualTo("cm", height - 0.1)
@@ -846,8 +812,6 @@ object FirebaseDataSource {
     }
 
     suspend fun getActiveCases(): List<Cuadrant?> = withContext(Dispatchers.IO) {
-        val isConnected = checkFirebaseConnection()
-        val source = if (isConnected) Source.SERVER else Source.CACHE
         val userRef = firestore.collection("users")
         val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
         val resultUser = queryUser.get(source).await()
@@ -923,8 +887,6 @@ object FirebaseDataSource {
 
     suspend fun subscribeToPointNotifications() = withContext(Dispatchers.IO) {
         try {
-            val isConnected = checkFirebaseConnection()
-            val source = if (isConnected) Source.SERVER else Source.CACHE
             val userRef = firestore.collection("users")
             val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
             val resultUser = queryUser.get(source).await()

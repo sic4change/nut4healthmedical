@@ -23,7 +23,6 @@ class LoginViewModel  : ViewModel() {
             if (!_state.value.loggedUser) {
                 _state.value = UiState(loading = false)
             }
-
         }
     }
 
