@@ -1441,7 +1441,6 @@ fun SistemicView(visitState: VisitState) {
                         }
                     }
                 }
-                //En estos dos animated visibility es donde hay que poner lo del "Otro"
                 AnimatedVisibility((visitState.point.value.type != "Otro") && visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
                     Spacer(modifier = Modifier.height(16.dp))
                 }
