@@ -2077,12 +2077,12 @@ fun SistemicView(visitState: VisitState) {
                                 R.string.vitamine_dosis),
                                 color = colorResource(R.color.black_gray)
                             )
-                            if ((monthsBetween in 6..11) && (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 6.0 && visitState.weight.value.toDouble() <= 8.0)) {
+                            if ((monthsBetween in 6..11) || (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 6.0 && visitState.weight.value.toDouble() <= 8.0)) {
                                 Text(stringResource(
                                     R.string.vitamine_blue),
                                     color = colorResource(R.color.colorPrimary)
                                 )
-                            } else if ((monthsBetween >= 12) && (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() > 8.0)) {
+                            } else if ((monthsBetween >= 12) || (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() > 8.0)) {
                                 Text(stringResource(
                                     R.string.vitamine_red),
                                     color = colorResource(R.color.colorPrimary)
