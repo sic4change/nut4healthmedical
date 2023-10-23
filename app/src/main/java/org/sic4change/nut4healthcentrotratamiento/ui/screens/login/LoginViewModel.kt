@@ -40,6 +40,8 @@ class LoginViewModel  : ViewModel() {
             _state.value = UiState(loggedUser = FirebaseDataSource.login(email.filter { !it.isWhitespace() }, pass.filter { !it.isWhitespace() }))
             if (!_state.value.loggedUser) {
                 _state.value = UiState(errorLogin = "Email o pass invalid")
+            } else {
+                FirebaseDataSource.loadInitialData()
             }
         }
     }

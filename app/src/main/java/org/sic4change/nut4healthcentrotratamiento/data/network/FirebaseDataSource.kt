@@ -75,7 +75,7 @@ object FirebaseDataSource {
         }
     }*/
 
-    /*suspend fun loadInitialData(): Boolean  = withContext(Dispatchers.IO) {
+    suspend fun loadInitialData(): Boolean  = withContext(Dispatchers.IO) {
         firestore.collection("configurations").get().await()
         firestore.collection("cities").get().await()
         firestore.collection("countries").get().await()
@@ -96,7 +96,7 @@ object FirebaseDataSource {
         firestore.collection("malnutritionAdultTable").get().await()
         Timber.d("Getting inntial data result: ok")
         true
-    }*/
+    }
 
     suspend fun checkUpdateGooglePlayVersion(versionCode: String) : Boolean = withContext(Dispatchers.IO) {
         try {
