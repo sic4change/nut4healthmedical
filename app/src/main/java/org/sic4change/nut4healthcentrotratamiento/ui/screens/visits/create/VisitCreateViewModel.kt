@@ -68,6 +68,10 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     fun removeTodayVisit(visitId: String) {
         viewModelScope.launch {
             FirebaseDataSource.deleteVisit(visitId)
+            _state.value = _state.value.copy(
+                visits = FirebaseDataSource.getVisits(caseId),
+                case = FirebaseDataSource.getCase(caseId),
+            )
         }
     }
 
