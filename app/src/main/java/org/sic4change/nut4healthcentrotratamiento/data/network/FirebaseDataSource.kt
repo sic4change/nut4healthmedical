@@ -85,7 +85,7 @@ object FirebaseDataSource {
         firestore.collection("points").get().await()
         firestore.collection("tutors").get().await()
         firestore.collection("childs").get().await()
-        firestore.collection("cases").get().await()
+        //firestore.collection("cases").get().await()
         firestore.collection("contracts").get().await()
         firestore.collection("visits").get().await()
         firestore.collection("complications").get().await()

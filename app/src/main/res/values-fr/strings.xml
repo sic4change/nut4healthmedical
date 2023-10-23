@@ -211,6 +211,7 @@
     <string name="amoxicilina_question">Avez-vous donné de l\'amoxicilline à l\'enfant?</string>
     <string name="another_tratements">Autres traitements administrés</string>
 
+    <string name="administration_vitamine">Avez vous administré de la VitA a l\'enfant?</string>
     <string name="cartilla">Carnet de vaccination:</string>
     <string name="rubeola">L\'enfant est-il vacciné contre la rougeole?</string>
     <string name="must_rubeola">L\'enfant doit se faire vacciner contre la rougeole</string>

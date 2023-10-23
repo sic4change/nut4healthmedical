@@ -114,10 +114,10 @@ fun VisitItemCreateScreen(
 @Composable
 private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                       fefa: Tutor?, onCreateVisit: (
-                       String, Double, Double, Double, String, String, String, String,
-                       String, String, String, String, String, String, String,
-                       String, String, String, String, String, String, String,
-                       complications: List<Complication>, String) -> Unit,
+        String, Double, Double, Double, String, String, String, String,
+        String, String, String, String, String, String, String,
+        String, String, String, String, String, String, String,
+        complications: List<Complication>, String) -> Unit,
                       onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
                       onRemoveTodayVisit: (String) -> Unit,
                       onCancelCreateVisit: () -> Unit
@@ -315,7 +315,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
 
                     AnimatedVisibility(visible = (visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value < 30) {
                         val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
-                            visitState.status.value == stringResource(R.string.objetive_weight))
+                                visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
                             enabled = !visitState.createdVisit.value,
                             modifier = Modifier
@@ -938,7 +938,7 @@ fun NutritionalView(visitState: VisitState) {
     Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && visitState.status.value == stringResource(R.string.aguda_moderada)
             )) {
 
         Column(
@@ -978,7 +978,7 @@ fun NutritionalView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                    && visitState.status.value == stringResource(R.string.aguda_severa)
+            && visitState.status.value == stringResource(R.string.aguda_severa)
             )) {
 
         Column(
@@ -1972,7 +1972,428 @@ fun SistemicView(visitState: VisitState) {
         }
     }
 
+    AnimatedVisibility(visitState.status.value.isNotEmpty()
+            && visitState.status.value == stringResource(R.string.aguda_severa)
+            && visitState.visits.value.size >= 3) {
 
+        //Aqui
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(0.dp, 16.dp)
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp),
+                elevation = 0.dp,
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(0.dp, 16.dp)
+                ) {
+                    ExposedDropdownMenuBox(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp, 0.dp),
+                        expanded = visitState.expandedVitamineAVaccinated.value,
+                        onExpandedChange = {
+                            visitState.expandedVitamineAVaccinated.value =
+                                !visitState.expandedVitamineAVaccinated.value
+                        }
+                    ) {
+                        TextField(
+                            readOnly = true,
+                            value = visitState.selectedVitamineAVaccinated.value,
+                            onValueChange = {
+                                visitState.selectedVitamineAVaccinated.value = it
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = visitState.expandedVitamineAVaccinated.value
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.h5,
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                cursorColor = colorResource(R.color.colorAccent),
+                                disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Filled.Vaccines,
+                                    null,
+                                    tint = colorResource(R.color.colorPrimary),
+                                )
+                            },
+                            label = {
+                                Text(
+                                    stringResource(R.string.vitamineAVaccinated),
+                                    color = colorResource(R.color.disabled_color)
+                                )
+                            }
+                        )
+                        ExposedDropdownMenu(
+                            expanded = visitState.expandedVitamineAVaccinated.value,
+                            onDismissRequest = {
+                                visitState.expandedVitamineAVaccinated.value = false
+                            }
+                        ) {
+                            stringArrayResource(id = R.array.yesnooptions).forEach { selectedVitamineA ->
+                                DropdownMenuItem(
+                                    onClick = {
+                                        visitState.selectedVitamineAVaccinated.value = selectedVitamineA
+                                        visitState.expandedVitamineAVaccinated.value = false
+                                    }
+                                ) {
+                                    Text(
+                                        text = selectedVitamineA,
+                                        color = colorResource(R.color.colorPrimary)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    AnimatedVisibility(visitState.selectedVitamineAVaccinated.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(0.dp, 0.dp)
+                        ) {
+                            Text(stringResource(
+                                R.string.vitamine_dosis),
+                                color = colorResource(R.color.black_gray)
+                            )
+                            if ((monthsBetween in 6..11) && (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 6.0 && visitState.weight.value.toDouble() <= 8.0)) {
+                                Text(stringResource(
+                                    R.string.vitamine_blue),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            } else if ((monthsBetween >= 12) && (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() > 8.0)) {
+                                Text(stringResource(
+                                    R.string.vitamine_red),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            ExposedDropdownMenuBox(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp, 0.dp),
+                                expanded = visitState.expandedAdministration.value,
+                                onExpandedChange = {
+                                    visitState.expandedAdministration.value = !visitState.expandedAdministration.value
+                                }
+                            ) {
+                                TextField(
+                                    readOnly = true,
+                                    value = visitState.selectedAdministration.value,
+                                    onValueChange = {
+                                        visitState.selectedAdministration.value = it
+                                    },
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = visitState.expandedAdministration.value
+                                        )
+                                    },
+                                    textStyle = MaterialTheme.typography.h5,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    leadingIcon = {
+                                        Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary), )},
+                                    label = { Text(stringResource(R.string.administration_vitamine), color = colorResource(R.color.disabled_color)) }
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = visitState.expandedAdministration.value,
+                                    onDismissRequest = {
+                                        visitState.expandedAdministration.value = false
+                                    }
+                                ) {
+                                    stringArrayResource(id = R.array.yesnooptions).forEach { selectedAdministration ->
+                                        DropdownMenuItem(
+                                            onClick = {
+                                                visitState.selectedAdministration.value = selectedAdministration
+                                                visitState.expandedAdministration.value = false
+                                            }
+                                        ) {
+                                            Text(text = selectedAdministration, color = colorResource(R.color.colorPrimary))
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+
+            AnimatedVisibility(monthsBetween > 9) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    elevation = 0.dp,
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(0.dp, 16.dp)
+                    ) {
+                        ExposedDropdownMenuBox(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            expanded = visitState.expandedCartilla.value,
+                            onExpandedChange = {
+                                visitState.expandedCartilla.value = !visitState.expandedCartilla.value
+                            }
+                        ) {
+                            TextField(
+                                readOnly = true,
+                                value = visitState.selectedCartilla.value,
+                                onValueChange = {
+                                    visitState.selectedCartilla.value = it
+                                },
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(
+                                        expanded = visitState.expandedCartilla.value
+                                    )
+                                },
+                                textStyle = MaterialTheme.typography.h5,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = colorResource(R.color.colorPrimary),
+                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    cursorColor = colorResource(R.color.colorAccent),
+                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary), )},
+                                label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = visitState.expandedCartilla.value,
+                                onDismissRequest = {
+                                    visitState.expandedCartilla.value = false
+                                }
+                            ) {
+                                stringArrayResource(id = R.array.yesnooptions).forEach { selectedCartilla ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            visitState.selectedCartilla.value = selectedCartilla
+                                            visitState.expandedCartilla.value = false
+                                            visitState.selectedRubeola.value = EMPTYVALUE
+                                        }
+                                    ) {
+                                        Text(text = selectedCartilla, color = colorResource(R.color.colorPrimary))
+                                    }
+                                }
+                            }
+                        }
+
+                        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                && monthsBetween >= 9
+                                && (visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1] ||
+                                visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[2]))) {
+
+                            ExposedDropdownMenuBox(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp, 0.dp),
+                                expanded = visitState.expandedRubeola.value,
+                                onExpandedChange = {
+                                    visitState.expandedRubeola.value = !visitState.expandedRubeola.value
+                                }
+                            ) {
+                                TextField(
+                                    readOnly = true,
+                                    value = visitState.selectedRubeola.value,
+                                    onValueChange = {
+                                        visitState.selectedRubeola.value = it
+                                    },
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = visitState.expandedRubeola.value
+                                        )
+                                    },
+                                    textStyle = MaterialTheme.typography.h5,
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        cursorColor = colorResource(R.color.colorAccent),
+                                        disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                        unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    leadingIcon = {
+                                        Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  )},
+                                    label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = visitState.expandedRubeola.value,
+                                    onDismissRequest = {
+                                        visitState.expandedRubeola.value = false
+                                    }
+                                ) {
+                                    stringArrayResource(id = R.array.yesnooptions).forEach { selectedRubeola ->
+                                        DropdownMenuItem(
+                                            onClick = {
+                                                visitState.selectedRubeola.value = selectedRubeola
+                                                visitState.expandedRubeola.value = false
+                                            }
+                                        ) {
+                                            Text(text = selectedRubeola, color = colorResource(R.color.colorPrimary))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                && monthsBetween >= 9
+                                && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2])) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .padding(0.dp, 16.dp)
+                            ) {
+                                Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                                Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            AnimatedVisibility(monthsBetween > 9) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp, 0.dp),
+                    elevation = 0.dp,
+                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterVertically
+                        ),
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(0.dp, 16.dp)
+                    ) {
+                        ExposedDropdownMenuBox(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 0.dp),
+                            expanded = visitState.expandedRubeola.value,
+                            onExpandedChange = {
+                                visitState.expandedRubeola.value = !visitState.expandedRubeola.value
+                            }
+                        ) {
+                            TextField(
+                                readOnly = true,
+                                value = visitState.selectedRubeola.value,
+                                onValueChange = {
+                                    visitState.selectedRubeola.value = it
+                                },
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(
+                                        expanded = visitState.expandedRubeola.value
+                                    )
+                                },
+                                textStyle = MaterialTheme.typography.h5,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = colorResource(R.color.colorPrimary),
+                                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    cursorColor = colorResource(R.color.colorAccent),
+                                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                    focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  )},
+                                label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = visitState.expandedRubeola.value,
+                                onDismissRequest = {
+                                    visitState.expandedRubeola.value = false
+                                }
+                            ) {
+                                stringArrayResource(id = R.array.yesnooptions).forEach { selectedRubeola ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            visitState.selectedRubeola.value = selectedRubeola
+                                            visitState.expandedRubeola.value = false
+                                        }
+                                    ) {
+                                        Text(text = selectedRubeola, color = colorResource(R.color.colorPrimary))
+                                    }
+                                }
+                            }
+                        }
+
+                        AnimatedVisibility(visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .padding(0.dp, 16.dp)
+                            ) {
+                                Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                                Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
 
 
 }
@@ -2773,7 +3194,7 @@ fun setDefaultValues(visitState: VisitState) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AntropometricosFEFAView(visitState: VisitState,
-                        onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
+                            onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit) {
     Spacer(modifier = Modifier.height(16.dp))
     if (visitState.visitsSize.value == 0) {
         ExposedDropdownMenuBox(
@@ -2836,62 +3257,62 @@ fun AntropometricosFEFAView(visitState: VisitState,
 
     if (visitState.armCircunference.value < 18.0) {
         visitState.status.value = stringResource(R.string.aguda_severa)
-            TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_severa),
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.error),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.error),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.error),
-                    unfocusedIndicatorColor = colorResource(R.color.error),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-        }  else if (visitState.armCircunference.value >= 18.0 && visitState.armCircunference.value < 21.0) {
-            visitState.status.value = stringResource(R.string.aguda_moderada)
-            TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_moderada),
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.orange),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.orange),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.orange),
-                    unfocusedIndicatorColor = colorResource(R.color.orange),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-        } else {
-            visitState.status.value = stringResource(R.string.normopeso)
-            TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.normopeso),
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorAccent),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(R.color.colorAccent),
-                ),
-                onValueChange = {}, readOnly = true,
-                textStyle = MaterialTheme.typography.h5,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
-                label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
-        }
+        TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_severa),
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.error),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.error),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.error),
+                unfocusedIndicatorColor = colorResource(R.color.error),
+            ),
+            onValueChange = {}, readOnly = true,
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+    }  else if (visitState.armCircunference.value >= 18.0 && visitState.armCircunference.value < 21.0) {
+        visitState.status.value = stringResource(R.string.aguda_moderada)
+        TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_moderada),
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.orange),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.orange),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.orange),
+                unfocusedIndicatorColor = colorResource(R.color.orange),
+            ),
+            onValueChange = {}, readOnly = true,
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+    } else {
+        visitState.status.value = stringResource(R.string.normopeso)
+        TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.normopeso),
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colorResource(R.color.colorAccent),
+                backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                cursorColor = colorResource(R.color.colorAccent),
+                disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                focusedIndicatorColor = colorResource(R.color.colorAccent),
+                unfocusedIndicatorColor = colorResource(R.color.colorAccent),
+            ),
+            onValueChange = {}, readOnly = true,
+            textStyle = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp),
+            leadingIcon = {
+                Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})},
+            label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
+    }
 
 
 
@@ -3160,57 +3581,57 @@ fun AntropometricosView(visitState: VisitState,
     }
 
     AndroidView(
-            factory = {
-                val view = LayoutInflater.from(it)
-                    .inflate(R.layout.muac_view, null, false)
-                view
-            },
-            update  = {view ->
-                val ruler = view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.id.ruler)
-                val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
-                val tvCm = view.findViewById<TextView>(R.id.tvCm)
-                val df = DecimalFormat("#.0")
-                ruler.setOnValueChangeListener { view, position, value ->
-                    tvCm.text = df.format(value).toString() + " cm"
-                    try {
-                        visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
-                    } catch (e: Exception) {
-                        val convertedValue = arabicToDecimal(df.format(value).replace('٫', '.'))
-                        val doubleValue = convertedValue.toDouble()
-                        visitState.armCircunference.value = doubleValue
-                    }
-                    onChangeWeightOrHeight(
-                        visitState.height.value.filter { !it.isWhitespace() },
-                        visitState.weight.value.filter { !it.isWhitespace() },
-                        visitState.armCircunference.value,
-                        visitState.selectedEdema.value, visitState.complications.value
-                    )
-                    if (value < 11.5
-                        || (visitState.selectedEdema.value.isNotEmpty() && (visitState.selectedEdema.value != "(0) No" || visitState.selectedEdema.value != "(0) Non" || visitState.selectedEdema.value != "(0) لا"))
-                        || (visitState.complications.value.any{it.selected})
-                    ) {
-                        if (value < 11.5) {
-                            rulerBackground.setBackgroundResource(R.color.error)
-                        }
-                        else if (value in 11.5..12.4) {
-                            rulerBackground.setBackgroundResource(R.color.orange)
-                        }
-                        else {
-                            rulerBackground.setBackgroundResource(R.color.colorAccent)
-                        }
-                        tvCm.setTextColor(R.color.error)
-                    } else if (value in 11.5..12.4) {
-                        rulerBackground.setBackgroundResource(R.color.orange)
-                        tvCm.setTextColor(R.color.orange)
-                    } else {
-                        rulerBackground.setBackgroundResource(R.color.colorAccent)
-                        tvCm.setTextColor(R.color.colorAccent)
-                    }
+        factory = {
+            val view = LayoutInflater.from(it)
+                .inflate(R.layout.muac_view, null, false)
+            view
+        },
+        update  = {view ->
+            val ruler = view.findViewById<org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer>(R.id.ruler)
+            val rulerBackground = view.findViewById<View>(R.id.rulerBackground)
+            val tvCm = view.findViewById<TextView>(R.id.tvCm)
+            val df = DecimalFormat("#.0")
+            ruler.setOnValueChangeListener { view, position, value ->
+                tvCm.text = df.format(value).toString() + " cm"
+                try {
+                    visitState.armCircunference.value = df.format(value).replace(",", ".").toDouble()
+                } catch (e: Exception) {
+                    val convertedValue = arabicToDecimal(df.format(value).replace('٫', '.'))
+                    val doubleValue = convertedValue.toDouble()
+                    visitState.armCircunference.value = doubleValue
                 }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
+                onChangeWeightOrHeight(
+                    visitState.height.value.filter { !it.isWhitespace() },
+                    visitState.weight.value.filter { !it.isWhitespace() },
+                    visitState.armCircunference.value,
+                    visitState.selectedEdema.value, visitState.complications.value
+                )
+                if (value < 11.5
+                    || (visitState.selectedEdema.value.isNotEmpty() && (visitState.selectedEdema.value != "(0) No" || visitState.selectedEdema.value != "(0) Non" || visitState.selectedEdema.value != "(0) لا"))
+                    || (visitState.complications.value.any{it.selected})
+                ) {
+                    if (value < 11.5) {
+                        rulerBackground.setBackgroundResource(R.color.error)
+                    }
+                    else if (value in 11.5..12.4) {
+                        rulerBackground.setBackgroundResource(R.color.orange)
+                    }
+                    else {
+                        rulerBackground.setBackgroundResource(R.color.colorAccent)
+                    }
+                    tvCm.setTextColor(R.color.error)
+                } else if (value in 11.5..12.4) {
+                    rulerBackground.setBackgroundResource(R.color.orange)
+                    tvCm.setTextColor(R.color.orange)
+                } else {
+                    rulerBackground.setBackgroundResource(R.color.colorAccent)
+                    tvCm.setTextColor(R.color.colorAccent)
+                }
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp),
     )
 
     ExposedDropdownMenuBox(
@@ -3462,5 +3883,3 @@ fun MessageDuplicateVisitToDay(showDialog: Boolean?,
     }
 
 }
-
-

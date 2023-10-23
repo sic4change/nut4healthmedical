@@ -211,6 +211,7 @@
     <string name="amoxicilina_question">هل أعطيت أموكسيسيلين للطفل؟</string>
     <string name="another_tratements">العلاجات الأخرى المعطاة؟</string>
 
+    <string name="administration_vitamine">هل أعطيت الطفل/الطفلة فيتامين أ؟</string>
     <string name="cartilla">سجل لقاح:</string>
     <string name="rubeola">هل تم تلقيح الطفل ضد الحصبة الألمانية؟</string>
     <string name="must_rubeola">يجب تلقيح الطفل ضد الحصبة الألمانية</string>

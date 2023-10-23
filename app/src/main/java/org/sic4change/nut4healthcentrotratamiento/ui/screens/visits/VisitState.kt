@@ -61,6 +61,8 @@ fun rememberVisitsState(
     othersTratments: MutableState<String> = rememberSaveable { mutableStateOf("") },
     selectedCartilla: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedCartilla: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    selectedAdministration: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    expandedAdministration: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedRubeola: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedRubeola: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     observations: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -83,7 +85,8 @@ fun rememberVisitsState(
     selectedFiebre, expandedFiebre, selectedTos, expandedTos, selectedRespiration, expandedRespiration,
     selectedApetit, expandedApetit, selectedTemperature, expandedTemperature, selectedVitamineAVaccinated,
     expandedVitamineAVaccinated, selectedCapsulesFerro, expandedCapsulesFerro, selectedAmoxicilina,
-    expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla, selectedRubeola,
+    expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla,
+    selectedAdministration, expandedAdministration, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
     visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay
 ) }
@@ -137,6 +140,8 @@ class VisitState(
     val othersTratments: MutableState<String>,
     val selectedCartilla: MutableState<String>,
     val expandedCartilla: MutableState<Boolean>,
+    val selectedAdministration: MutableState<String>,
+    val expandedAdministration: MutableState<Boolean>,
     val selectedRubeola: MutableState<String>,
     val expandedRubeola: MutableState<Boolean>,
     val observations: MutableState<String>,
