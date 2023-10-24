@@ -1433,7 +1433,20 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        Spacer(modifier = Modifier.height(16.dp))
                                        Divider(color = Color.Gray, thickness = 1.dp)
                                        Spacer(modifier = Modifier.height(16.dp))
-                                       SteptTitle(stringResource(R.string.step4_title))
+                                       SteptTitle(stringResource(R.string.step3_title))
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                   }
+
+                               }
+
+                               AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && visitState.visitNumber.value == 3) {
+                                   Column {
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       Divider(color = Color.Gray, thickness = 1.dp)
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       SteptTitle(stringResource(R.string.step3_title))
                                        Spacer(modifier = Modifier.height(16.dp))
                                    }
 
@@ -1467,6 +1480,275 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        ItemViewIcon(visitState.othersTratments.value, stringResource(R.string.another_tratements), Icons.Filled.Medication)
                                        Spacer(modifier = Modifier.height(16.dp))
                                    }
+                               }
+
+                               AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && visitState.visits.value.size >= 3) {
+                                   Column {
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       Divider(color = Color.Gray, thickness = 1.dp)
+                                       Spacer(modifier = Modifier.height(16.dp))
+                                       SteptTitle(stringResource(R.string.step3_title))
+                                   }
+
+                               }
+
+                               AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && visitState.visits.value.size >= 3) {
+
+
+                                   //Aqui
+                                   Column(
+                                       horizontalAlignment = Alignment.CenterHorizontally,
+                                       verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                       modifier = Modifier
+                                           .wrapContentSize()
+                                           .padding(0.dp, 16.dp)
+                                   ) {
+
+                                       Card(
+                                           modifier = Modifier
+                                               .fillMaxWidth()
+                                               .padding(8.dp, 0.dp),
+                                           elevation = 0.dp,
+                                           backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                                       ) {
+                                           Column(
+                                               horizontalAlignment = Alignment.CenterHorizontally,
+                                               verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                               modifier = Modifier
+                                                   .wrapContentSize()
+                                                   .padding(0.dp, 8.dp)
+                                           ) {
+                                               TextField(
+                                                   readOnly = true,
+                                                   value = visitState.selectedVitamineAVaccinated.value,
+                                                   onValueChange = {
+                                                       visitState.selectedVitamineAVaccinated.value = it
+                                                   },
+                                                   trailingIcon = {
+                                                       ExposedDropdownMenuDefaults.TrailingIcon(
+                                                           expanded = visitState.expandedVitamineAVaccinated.value
+                                                       )
+                                                   },
+                                                   textStyle = MaterialTheme.typography.h5,
+                                                   colors = TextFieldDefaults.textFieldColors(
+                                                       textColor = colorResource(R.color.colorPrimary),
+                                                       backgroundColor = colorResource(R.color.white),
+                                                       cursorColor = colorResource(R.color.colorAccent),
+                                                       disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                       focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                       unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                   ),
+                                                   modifier = Modifier
+                                                       .fillMaxWidth(),
+                                                   leadingIcon = {
+                                                       Icon(
+                                                           Icons.Filled.Vaccines,
+                                                           null,
+                                                           tint = colorResource(R.color.colorPrimary),
+                                                       )
+                                                   },
+                                                   label = {
+                                                       Text(
+                                                           stringResource(R.string.vitamineAVaccinated),
+                                                           color = colorResource(R.color.disabled_color)
+                                                       )
+                                                   }
+                                               )
+                                               AnimatedVisibility(visitState.selectedVitamineAVaccinated.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
+                                                   Column(
+                                                       horizontalAlignment = Alignment.CenterHorizontally,
+                                                       verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                                       modifier = Modifier
+                                                           .wrapContentSize()
+                                                           .padding(0.dp, 0.dp)
+                                                   ) {
+                                                       Text(stringResource(
+                                                           R.string.vitamine_dosis),
+                                                           color = colorResource(R.color.black_gray)
+                                                       )
+                                                       if ((monthsBetween in 6..11) || (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() >= 6.0 && visitState.weight.value.toDouble() <= 8.0)) {
+                                                           Text(stringResource(
+                                                               R.string.vitamine_blue),
+                                                               color = colorResource(R.color.colorPrimary)
+                                                           )
+                                                       } else if ((monthsBetween >= 12) || (visitState.weight.value.isNotEmpty() && visitState.weight.value.toDouble() > 8.0)) {
+                                                           Text(stringResource(
+                                                               R.string.vitamine_red),
+                                                               color = colorResource(R.color.colorPrimary)
+                                                           )
+                                                       }
+
+
+                                                   }
+
+                                               }
+                                           }
+
+                                       }
+
+                                       AnimatedVisibility(monthsBetween > 9) {
+                                           Card(
+                                               modifier = Modifier
+                                                   .fillMaxWidth()
+                                                   .padding(8.dp, 0.dp),
+                                               elevation = 0.dp,
+                                               backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                                           ) {
+                                               Column(
+                                                   horizontalAlignment = Alignment.CenterHorizontally,
+                                                   verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                                   modifier = Modifier
+                                                       .wrapContentSize()
+                                                       .padding(0.dp, 0.dp)
+                                               ) {
+                                                   TextField(
+                                                       readOnly = true,
+                                                       value = visitState.selectedCartilla.value,
+                                                       onValueChange = {
+                                                           visitState.selectedCartilla.value = it
+                                                       },
+                                                       trailingIcon = {
+                                                           ExposedDropdownMenuDefaults.TrailingIcon(
+                                                               expanded = visitState.expandedCartilla.value
+                                                           )
+                                                       },
+                                                       textStyle = MaterialTheme.typography.h5,
+                                                       colors = TextFieldDefaults.textFieldColors(
+                                                           textColor = colorResource(R.color.colorPrimary),
+                                                           backgroundColor = colorResource(R.color.white),
+                                                           cursorColor = colorResource(R.color.colorAccent),
+                                                           disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                           focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                           unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                       ),
+                                                       modifier = Modifier
+                                                           .fillMaxWidth(),
+                                                       leadingIcon = {
+                                                           Icon(Icons.Filled.Book, null, tint = colorResource(R.color.colorPrimary), )},
+                                                       label = { Text(stringResource(R.string.cartilla), color = colorResource(R.color.disabled_color)) }
+                                                   )
+
+                                                   AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                                           && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                                           && monthsBetween >= 9
+                                                           && (visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1] ||
+                                                           visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[2]))) {
+
+                                                       TextField(
+                                                           readOnly = true,
+                                                           value = visitState.selectedRubeola.value,
+                                                           onValueChange = {
+                                                               visitState.selectedRubeola.value = it
+                                                           },
+                                                           trailingIcon = {
+                                                               ExposedDropdownMenuDefaults.TrailingIcon(
+                                                                   expanded = visitState.expandedRubeola.value
+                                                               )
+                                                           },
+                                                           textStyle = MaterialTheme.typography.h5,
+                                                           colors = TextFieldDefaults.textFieldColors(
+                                                               textColor = colorResource(R.color.colorPrimary),
+                                                               backgroundColor = colorResource(R.color.white),
+                                                               cursorColor = colorResource(R.color.colorAccent),
+                                                               disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                               focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                               unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                           ),
+                                                           modifier = Modifier
+                                                               .fillMaxWidth(),
+                                                           leadingIcon = {
+                                                               Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  )},
+                                                           label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                                       )
+                                                   }
+
+                                                   AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                                           && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                                           && monthsBetween >= 9
+                                                           && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2])) {
+                                                       Column(
+                                                           horizontalAlignment = Alignment.CenterHorizontally,
+                                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                                           modifier = Modifier
+                                                               .wrapContentSize()
+                                                               .padding(0.dp, 0.dp)
+                                                       ) {
+                                                           Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                                                           Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
+                                                       }
+                                                   }
+                                               }
+                                           }
+
+                                       }
+
+                                       AnimatedVisibility(monthsBetween > 9) {
+                                           Card(
+                                               modifier = Modifier
+                                                   .fillMaxWidth()
+                                                   .padding(8.dp, 0.dp),
+                                               elevation = 0.dp,
+                                               backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
+                                           ) {
+                                               Column(
+                                                   horizontalAlignment = Alignment.CenterHorizontally,
+                                                   verticalArrangement = Arrangement.spacedBy(
+                                                       8.dp,
+                                                       Alignment.CenterVertically
+                                                   ),
+                                                   modifier = Modifier
+                                                       .wrapContentSize()
+                                                       .padding(0.dp, 0.dp)
+                                               ) {
+                                                   TextField(
+                                                       readOnly = true,
+                                                       value = visitState.selectedRubeola.value,
+                                                       onValueChange = {
+                                                           visitState.selectedRubeola.value = it
+                                                       },
+                                                       trailingIcon = {
+                                                           ExposedDropdownMenuDefaults.TrailingIcon(
+                                                               expanded = visitState.expandedRubeola.value
+                                                           )
+                                                       },
+                                                       textStyle = MaterialTheme.typography.h5,
+                                                       colors = TextFieldDefaults.textFieldColors(
+                                                           textColor = colorResource(R.color.colorPrimary),
+                                                           backgroundColor = colorResource(R.color.white),
+                                                           cursorColor = colorResource(R.color.colorAccent),
+                                                           disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                           focusedIndicatorColor = colorResource(R.color.colorAccent),
+                                                           unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                                       ),
+                                                       modifier = Modifier
+                                                           .fillMaxWidth(),
+                                                       leadingIcon = {
+                                                           Icon(Icons.Filled.Vaccines, null, tint = colorResource(R.color.colorPrimary),  )},
+                                                       label = { Text(stringResource(R.string.rubeola), color = colorResource(R.color.disabled_color)) }
+                                                   )
+
+                                                   AnimatedVisibility(visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
+                                                       Column(
+                                                           horizontalAlignment = Alignment.CenterHorizontally,
+                                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                                                           modifier = Modifier
+                                                               .wrapContentSize()
+                                                               .padding(0.dp, 0.dp)
+                                                       ) {
+                                                           Icon(Icons.Filled.Error, null, tint = colorResource(R.color.error))
+                                                           Text(text = stringResource(R.string.must_rubeola), color = colorResource(R.color.error))
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+
+                                   }
+
                                }
 
 
