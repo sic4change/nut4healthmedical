@@ -23,8 +23,6 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
@@ -127,7 +125,7 @@ private fun Header(childState: ChildState,
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.surnames), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
+        TextField(value = if (childState.birthday.value == null) "" else SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -351,18 +349,21 @@ private fun Header(childState: ChildState,
 
         AnimatedVisibility(visible = childState.showDateDialog.value) {
             CustomDatePickerDialog(
-                value = formatDateToString(childState.birthday.value, "dd/MM/yyyy"),
-                onDismissRequest = {
-                    childState.showDateDialog.value = false
+                value = if (childState.birthday.value == null) formatDateToString(Date(), "dd/MM/yyyy") else formatDateToString(childState.birthday.value!!, "dd/MM/yyyy"),
+                onAccept = {
                     var date = SimpleDateFormat("dd-MM-yyyy").parse(it)
                     childState.birthday.value = date
+                    childState.showDateDialog.value = false
+                },
+                onDismissRequest = {
+                    childState.showDateDialog.value = false
                 },
             )
         }
 
 
         AnimatedVisibility(visible = (childState.name.value.isNotEmpty() &&
-                childState.surnames.value.isNotEmpty())) {
+                childState.surnames.value.isNotEmpty() && childState.birthday.value != null)) {
             Button(
                 enabled = !childState.createdChild.value,
                 modifier = Modifier
@@ -372,7 +373,7 @@ private fun Header(childState: ChildState,
                 onClick = {
                     childState.createdChild.value = true
                     onCreateChild(childState.name.value, childState.surnames.value,
-                        childState.birthday.value, childState.selectedOptionBrothers.value,
+                        childState.birthday.value!!, childState.selectedOptionBrothers.value,
                         childState.selectedOptionEtnician.value, childState.selectedOptionSex.value,
                         childState.observations.value)
 

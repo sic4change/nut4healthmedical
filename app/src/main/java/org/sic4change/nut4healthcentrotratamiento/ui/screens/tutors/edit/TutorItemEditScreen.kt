@@ -176,7 +176,7 @@ private fun Header(tutorState: TutorState,
                 Icon(Icons.Filled.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
+        TextField(value = if (tutorState.birthday.value == null) "" else SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value),
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -601,10 +601,14 @@ private fun Header(tutorState: TutorState,
 
         AnimatedVisibility(visible = tutorState.showDateDialog.value) {
             CustomDatePickerDialog(
-                value = formatDateToString(tutorState.birthday.value, "dd/MM/yyyy"),
+                value = if (tutorState.birthday.value == null) formatDateToString(Date(), "dd/MM/yyyy") else formatDateToString(tutorState.birthday.value!!, "dd/MM/yyyy"),
+                onAccept = {
+                    var date = SimpleDateFormat("dd-MM-yyyy").parse(it)
+                    tutorState.birthday.value = date
+                    tutorState.showDateDialog.value = false
+                },
                 onDismissRequest = {
                     tutorState.showDateDialog.value = false
-                    tutorState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)
                 },
             )
         }
@@ -636,7 +640,7 @@ private fun Header(tutorState: TutorState,
                 onClick = {
                     tutorState.createdTutor.value = true
                     onEditTutor(tutorState.id.value, tutorState.name.value, tutorState.surnames.value,
-                        tutorState.address.value, tutorState.phone.value, tutorState.birthday.value,
+                        tutorState.address.value, tutorState.phone.value, tutorState.birthday.value!!,
                         tutorState.selectedOptionEtnician.value, tutorState.selectedOptionSex.value,
                         tutorState.selectedOptionMaleRelations.value, tutorState.selectedOptionWomanStatus.value,
                         tutorState.weeks.value, tutorState.selectedOptionChildMinor.value,

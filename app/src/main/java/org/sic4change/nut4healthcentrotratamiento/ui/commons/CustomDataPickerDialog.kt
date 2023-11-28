@@ -1,6 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.commons
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -11,32 +10,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.sic4change.nut4healthcentrotratamiento.R
-import java.util.*
 
 @Composable
 fun CustomDatePickerDialog(
     value: String,
-    onDismissRequest: (String) -> Unit
+    onAccept: (String) -> Unit,
+    onDismissRequest: () -> Unit
 ) {
     Dialog(
         onDismissRequest = {
-            onDismissRequest("${value.split("/")[0].toInt()}-${value.split("/")[1].toInt()}-${value.split("/")[2].toInt()}")
-        }) {
-        DatePickerUI(value, onDismissRequest)
+            onDismissRequest()
+        }){
+        DatePickerUI(value, onAccept)
     }
 }
 
 @Composable
 fun DatePickerUI(
     value: String,
-    onDismissRequest: (String) -> Unit
+    onAccept: (String) -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
@@ -98,7 +96,7 @@ fun DatePickerUI(
                     modifier = Modifier
                         .fillMaxWidth().padding(4.dp),
                     onClick = {
-                        onDismissRequest("${chosenDay.value}-${chosenMonth.value}-${chosenYear.value}")
+                        onAccept("${chosenDay.value}-${chosenMonth.value}-${chosenYear.value}")
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 ) {

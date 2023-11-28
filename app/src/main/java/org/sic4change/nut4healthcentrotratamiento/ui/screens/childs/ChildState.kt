@@ -3,6 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.childs
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -13,7 +14,7 @@ fun rememberChildsState(
     tutorId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
     surnames: MutableState<String> = rememberSaveable { mutableStateOf("") },
-    birthday: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
+    birthday: MutableState<Date?> = rememberSaveable { mutableStateOf(null) },
     brothers: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     expandedBrothers: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionBrothers: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
@@ -44,7 +45,7 @@ class ChildState(
     val tutorId: MutableState<String>,
     val name: MutableState<String>,
     val surnames: MutableState<String>,
-    val birthday: MutableState<Date>,
+    val birthday: MutableState<Date?>,
     val brothers: MutableState<Int>,
     val selectedOptionBrothers: MutableState<Int>,
     val expandedBrothers: MutableState<Boolean>,
@@ -65,6 +66,7 @@ class ChildState(
     val deleteCase: MutableState<Boolean>,
     val caseId: MutableState<String>,
 ) {
+
 
     fun expandContractDetail() {
         expandedDetail.value = !expandedDetail.value

@@ -119,13 +119,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.surnames), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-        /*DatePickerView(
-            context = LocalContext.current,
-            showMonths = true,
-            value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
-            setValue = { childState.birthday.value = SimpleDateFormat("dd-MM-yyyy").parse(it)}
-        )*/
-        TextField(value = SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
+        TextField(value = if (childState.birthday.value == null) "" else SimpleDateFormat("dd/MM/yyyy").format(childState.birthday.value),
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),
@@ -349,11 +343,14 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
 
         AnimatedVisibility(visible = childState.showDateDialog.value) {
             CustomDatePickerDialog(
-                value = formatDateToString(childState.birthday.value, "dd/MM/yyyy"),
-                onDismissRequest = {
-                    childState.showDateDialog.value = false
+                value = if (childState.birthday.value == null) formatDateToString(Date(), "dd/MM/yyyy") else formatDateToString(childState.birthday.value!!, "dd/MM/yyyy"),
+                onAccept = {
                     var date = SimpleDateFormat("dd-MM-yyyy").parse(it)
                     childState.birthday.value = date
+                    childState.showDateDialog.value = false
+                },
+                onDismissRequest = {
+                    childState.showDateDialog.value = false
                 },
             )
         }
@@ -367,7 +364,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                 onClick = {
                     onEditChild(childState.id.value, childState.tutorId.value, childState.name.value,
-                        childState.surnames.value, childState.birthday.value, childState.selectedOptionBrothers.value,
+                        childState.surnames.value, childState.birthday.value!!, childState.selectedOptionBrothers.value,
                         childState.selectedOptionEtnician.value, childState.selectedOptionSex.value,
                         childState.observations.value)
 

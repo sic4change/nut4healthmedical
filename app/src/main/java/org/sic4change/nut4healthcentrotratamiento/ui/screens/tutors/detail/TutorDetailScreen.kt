@@ -172,7 +172,7 @@ private fun TutorView(
                         Icon(Icons.Default.Phone, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                     label = { Text(stringResource(R.string.phone), color = colorResource(R.color.disabled_color)) })
                 Spacer(modifier = Modifier.height(16.dp))
-                val yearsLabel = getYears(tutorState.birthday.value)
+                val yearsLabel = getYears(tutorState.birthday.value!!)
                 TextField(value = "${SimpleDateFormat("dd/MM/yyyy").format(tutorState.birthday.value)} ≈${yearsLabel} ${stringResource(R.string.years)}",
                     onValueChange = {}, readOnly = true,
                     colors = TextFieldDefaults.textFieldColors(
