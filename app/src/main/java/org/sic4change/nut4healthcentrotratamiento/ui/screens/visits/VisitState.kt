@@ -3,13 +3,13 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.res.stringResource
-import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.ErrorType
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 
@@ -78,6 +78,7 @@ fun rememberVisitsState(
     visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
     point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", 0)) },
     showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
+    showErrorMessageCreateVisitCRENAS: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
     expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation,
@@ -88,7 +89,8 @@ fun rememberVisitsState(
     expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla,
     selectedAdministration, expandedAdministration, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
-    visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay
+    visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
+    showErrorMessageCreateVisitCRENAS
 ) }
 
 
@@ -157,6 +159,7 @@ class VisitState(
     val visitNumber: MutableState<Int>,
     val point: MutableState<Point>,
     val showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?>,
+    val showErrorMessageCreateVisitCRENAS: MutableState<Boolean?>,
 ) {
 
     fun incrementStep() {
@@ -191,19 +194,40 @@ class VisitState(
         }
     }
 
-    fun checkCanCreateVisit(createDate: Date): Boolean {
+    fun checkCanNotCreateVisit(createDate: Date): Boolean {
         val currentDate = Calendar.getInstance()
         currentDate.time = createDate
         val todayDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val dateDay = currentDate.get(Calendar.DAY_OF_MONTH)
-        if (showQuestionMessageDuplicateVisitToDay.value == null) {
-            showQuestionMessageDuplicateVisitToDay.value = todayDay == dateDay
-        }
+        showQuestionMessageDuplicateVisitToDay.value = todayDay == dateDay
         return showQuestionMessageDuplicateVisitToDay.value!!
+    }
+
+    fun convertDateToLocalDate(date: Date): LocalDate {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+    }
+
+    fun checkCanNotCreateVisitInCrenas(createDate: Date): Boolean {
+        if (checkCanNotCreateVisit(createDate)) {
+            showErrorMessageCreateVisitCRENAS.value = false
+        } else {
+            if ((point.value != null) && (point.value!!.type == "CRENAS")) {
+                val currentDate = LocalDate.now()
+                val daysBetween = ChronoUnit.DAYS.between(convertDateToLocalDate(createDate), currentDate)
+                showErrorMessageCreateVisitCRENAS.value = daysBetween < 5
+            } else {
+                showErrorMessageCreateVisitCRENAS.value = false
+            }
+        }
+        return showErrorMessageCreateVisitCRENAS.value!!
     }
 
     fun showQuestionMessageDuplicateVisitToDay() {
         showQuestionMessageDuplicateVisitToDay.value = !showQuestionMessageDuplicateVisitToDay.value!!
+    }
+
+    fun showErrorMessageCanCreateVisitCRENAS() {
+        showErrorMessageCreateVisitCRENAS.value = !showErrorMessageCreateVisitCRENAS.value!!
     }
 
 

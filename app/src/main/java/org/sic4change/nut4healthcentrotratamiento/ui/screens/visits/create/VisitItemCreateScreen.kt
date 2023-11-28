@@ -31,7 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
 import kotlinx.coroutines.launch
@@ -47,14 +46,11 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.arabicToDecimal
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.YearMonth
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
 
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
@@ -772,13 +768,19 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
 
         }
         if (visitState.visits.value != null && visitState.visits.value.size > 0) {
-            visitState.checkCanCreateVisit(visitState.visits.value[0].createdate)
+            visitState.checkCanNotCreateVisit(visitState.visits.value[0].createdate)
             MessageDuplicateVisitToDay(
                 visitState.showQuestionMessageDuplicateVisitToDay.value,
                 visitState::showQuestionMessageDuplicateVisitToDay,
                 visitState.visits.value[0].id,
                 onRemoveTodayVisit,
                 onCancelCreateVisit
+            )
+            visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
+            MessageErrorCreateVisitCRENAS(
+                visitState.showErrorMessageCreateVisitCRENAS.value,
+                visitState::showErrorMessageCanCreateVisitCRENAS,
+                onCancelCreateVisit,
             )
         }
     }
@@ -3878,6 +3880,37 @@ fun MessageDuplicateVisitToDay(showDialog: Boolean?,
             },
             text = {
                 Text(stringResource(R.string.no_duplicated_visit_same_day))
+            },
+        )
+    }
+
+}
+
+@Composable
+fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?,
+                               setShowDialog: () -> Unit,
+                               onCancel: () -> Unit) {
+    if (showDialog!!) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {},
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onCancel()
+                    },
+                ) {
+                    Text(stringResource(R.string.accept),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.error_can_not_create_visit_in_crenas))
             },
         )
     }

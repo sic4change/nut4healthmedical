@@ -395,6 +395,7 @@
     </string-array>
 
     <string name="no_duplicated_visit_same_day">هناك زيارة تم إنشاؤها اليوم بالفعل، هل ترغب في حذفها وإدخال البيانات مرة أخرى؟</string>
+    <string name="error_can_not_create_visit_in_crenas">Deben pasar al menos 5 días para crear un nueva visita</string>
 
 
 </resources>
