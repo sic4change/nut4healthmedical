@@ -532,7 +532,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
 
                 Image(
                     modifier = Modifier.size(78.dp),
-                    painter = painterResource(id = R.mipmap.ic_cases),
+                    painter = if (caseItem.status == stringResource(R.string.close)) painterResource(id = R.mipmap.ic_case_closed) else painterResource(id = R.mipmap.ic_cases),
                     contentDescription = null,
                 )
             }
