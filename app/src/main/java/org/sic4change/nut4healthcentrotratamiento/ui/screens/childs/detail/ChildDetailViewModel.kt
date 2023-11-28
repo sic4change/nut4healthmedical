@@ -26,17 +26,10 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = UiState(loading = true)
             _state.value = _state.value.copy(child = FirebaseDataSource.getChild(id))
             _state.value = _state.value.copy(cases = FirebaseDataSource.getChildCases(id))
+            checkEmptyCasesToDelete()
             _state.value = _state.value.copy(isOneCaseOpen = isOneCaseOpen())
             _state.value = _state.value.copy(firstUpdate = true)
             _state.value = _state.value.copy(loading = false)
-        }
-    }
-
-    private fun isOneCaseOpen(): Boolean {
-        return _state.value.cases!!.any {
-            it.status == STATUS.OPEN_STATUS_VALUES[0]  ||
-            it.status == STATUS.OPEN_STATUS_VALUES[1]  ||
-            it.status == STATUS.OPEN_STATUS_VALUES[2]
         }
     }
 
@@ -50,6 +43,22 @@ class ChildDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val newCase: Case? = null,
         val newCaseCreated: Boolean = false,
     )
+
+    private fun checkEmptyCasesToDelete() {
+        _state.value.cases?.forEach { case ->
+            if (case.visits == "0") {
+                deleteCase(case.id)
+            }
+        }
+    }
+
+    fun isOneCaseOpen(): Boolean {
+        return _state.value.cases!!.any {
+            it.status == STATUS.OPEN_STATUS_VALUES[0]  ||
+                    it.status == STATUS.OPEN_STATUS_VALUES[1]  ||
+                    it.status == STATUS.OPEN_STATUS_VALUES[2]
+        }
+    }
 
     fun confirmFirstUpdate() {
         viewModelScope.launch {

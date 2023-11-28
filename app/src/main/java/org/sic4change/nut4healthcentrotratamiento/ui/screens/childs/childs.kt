@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
@@ -60,7 +61,8 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
     LaunchedEffect(viewModelState.cases) {
         if (viewModelState.firstUpdate &&
             viewModelState.cases != null && viewModelState.cases!!.isNotEmpty() &&
-            viewModelState.cases!!.size == 1) {
+            viewModelState.cases!!.size == 1 && viewModel.isOneCaseOpen()
+        ) {
             onGoToUniqueCase(viewModelState.cases!![0])
             viewModel.confirmFirstUpdate()
         }

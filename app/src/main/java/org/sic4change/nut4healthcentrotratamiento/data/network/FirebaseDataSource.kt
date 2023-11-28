@@ -400,11 +400,16 @@ object FirebaseDataSource {
 
     suspend fun getChildCases(childId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("cases")
-        val query = casesRef.whereEqualTo("childId", childId).orderBy("lastdate", Query.Direction.DESCENDING )
+        val query = casesRef
+            .whereEqualTo("childId", childId)
+            .whereGreaterThan("visits", 0)
+            .orderBy("visits")
+            .orderBy("lastdate", Query.Direction.DESCENDING)
         val result = query.get(source).await()
         val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
         networkCasesContainer.results.map { it.toDomainCase() }
     }
+
 
     suspend fun getFEFACases(fefaId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("cases")
