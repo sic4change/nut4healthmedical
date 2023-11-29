@@ -76,7 +76,7 @@ fun rememberVisitsState(
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
     visitNumber: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
-    point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", 0)) },
+    point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", "", "", 0)) },
     showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showErrorMessageCreateVisitCRENAS: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,

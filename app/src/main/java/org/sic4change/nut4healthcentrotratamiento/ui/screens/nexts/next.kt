@@ -122,7 +122,7 @@ fun NextScreen(
     LaunchedEffect(viewModelState.point) {
         if (viewModelState.point != null) {
             nextState.pointId.value = viewModelState.point!!.id
-            nextState.point.value = viewModelState.point!!.fullName
+            nextState.point.value = viewModelState.point!!.pointName
             nextState.phoneCode.value = viewModelState.point!!.phoneCode
             nextState.phoneLength.value = viewModelState.point!!.phoneLength
         }

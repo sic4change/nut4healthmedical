@@ -84,7 +84,6 @@ class NextsViewModel() : ViewModel() {
             _state.value = _state.value.copy(loading = true)
             _state.value = _state.value.copy(cuadrants = FirebaseDataSource.getActiveCases().filterNotNull(), loading = false)
             val days = if (_state.value.point!!.type == "CRENAS") 7 else 14
-            val todayVisits = _state.value.cuadrants.filter { isSameDay(Date(it!!.createdate.time + (days * 24 * 60 * 60 * 1000)), Date()) }
             if (value == 0) {
                 val todayVisits = _state.value.cuadrants.filter { isSameDay(Date(it!!.createdate.time + (days * 24 * 60 * 60 * 1000)), Date()) }
                 if (todayVisits != null) {

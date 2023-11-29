@@ -88,7 +88,7 @@ fun SettingsScreen(viewModel: MainViewModel = viewModel(), onLogout: () -> Unit)
     LaunchedEffect(viewModelState.point) {
         if (viewModelState.point != null) {
             mainState.pointId.value = viewModelState.point!!.id
-            mainState.point.value = viewModelState.point!!.fullName
+            mainState.point.value = viewModelState.point!!.pointName
             mainState.phoneCode.value = viewModelState.point!!.phoneCode
             mainState.phoneLength.value = viewModelState.point!!.phoneLength
         }

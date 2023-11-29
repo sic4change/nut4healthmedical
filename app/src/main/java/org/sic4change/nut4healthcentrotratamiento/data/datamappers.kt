@@ -23,7 +23,7 @@ fun ServerUser.toDomainUser() : User = User(
 )
 
 fun ServerPoint.toDomainPoint() : Point = Point(
-    id, name, fullName, phoneCode, type, phoneLength
+    id, name, pointName, pointCode,  fullName, phoneCode, type, phoneLength
 )
 
 fun ServerTutor.toDomainTutor() : Tutor = Tutor(
