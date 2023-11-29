@@ -92,8 +92,7 @@
     <string name="welcome">Rosa del Desierto مرحبا بكم في مركز الصحة</string>
     <string name="pulaar">بولار</string>
     <string name="wolof">الولوف</string>
-    <string name="beydan">البيظان</string>
-    <string name="haratin">حراتين</string>
+    <string name="hassanya">Hassanya</string>
     <string name="soninke">سونينكي</string>
     <string name="autre">آخر</string>
     <string name="check_tutor">أدخل رقم هاتف المرافق أو المرأة الحامل والمرضع لتأكيد وجودها </string>
@@ -392,6 +391,8 @@
         <item>إحالة</item>
         <item>تحويل</item>
         <item>انتكاس</item>
+        <item>Readmission</item>
+        <item>Suivi ex-MAS</item>
     </string-array>
 
     <string name="no_duplicated_visit_same_day">هناك زيارة تم إنشاؤها اليوم بالفعل، هل ترغب في حذفها وإدخال البيانات مرة أخرى؟</string>

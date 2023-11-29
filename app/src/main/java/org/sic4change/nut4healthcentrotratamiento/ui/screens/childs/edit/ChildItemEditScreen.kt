@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.Gender
-import org.sic4change.nut4healthcentrotratamiento.ui.commons.GenderToggleButton
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildState
 import java.text.SimpleDateFormat
@@ -67,7 +65,7 @@ private fun Header(childState: ChildState,  onEditChild: (String, String, String
 
     val etnicians = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
-            R.string.beydan), stringResource(R.string.haratin), stringResource(R.string.soninke),
+            R.string.hassanya), stringResource(R.string.soninke),
         stringResource(R.string.autre))
 
     val brotherOptions = listOf(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20, 21)

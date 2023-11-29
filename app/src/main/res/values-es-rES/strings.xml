@@ -92,8 +92,7 @@
     <string name="welcome">Bienvenido al Centro de Tratamiento de Rosa del Desierto</string>
     <string name="pulaar">Pulaar</string>
     <string name="wolof">Wolof</string>
-    <string name="beydan">Beydan</string>
-    <string name="haratin">Haratin</string>
+    <string name="hassanya">Hassanya</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
     <string name="check_tutor">Introduce el teléfono del acompañanate para validar si existe</string>
@@ -392,6 +391,8 @@
         <item>Derivado</item>
         <item>Transferido</item>
         <item>Recaída</item>
+        <item>Readmisión</item>
+        <item>Seguimiento ex-MAS</item>
     </string-array>
 
     <string name="new_version">Hay una nueva versión disponible en Google Play.</string>

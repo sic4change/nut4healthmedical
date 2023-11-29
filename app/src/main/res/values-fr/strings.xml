@@ -92,8 +92,7 @@
     <string name="welcome">Bienvenue au poste de santé de Rosa del Desierto</string>
     <string name="pulaar">Pulaar</string>
     <string name="wolof">Wolof</string>
-    <string name="beydan">Beydan</string>
-    <string name="haratin">Haratin</string>
+    <string name="hassanya">Hassanya</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
     <string name="check_tutor">Entrez le numéro de téléphone de l’accompagnant ou FEFA pour valider qu’il existe</string>
@@ -391,6 +390,8 @@
         <item>Dérivé</item>
         <item>Transféré</item>
         <item>Rechute</item>
+        <item>Readmission</item>
+        <item>Suivi ex-MAS</item>
     </string-array>
 
     <string name="new_version">Il y a une nouvelle version disponible sur Google Play.</string>

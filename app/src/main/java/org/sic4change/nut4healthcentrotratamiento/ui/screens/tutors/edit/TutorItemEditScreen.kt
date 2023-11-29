@@ -1,8 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.edit
 
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.TextView
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,7 +22,6 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -86,7 +82,7 @@ private fun Header(tutorState: TutorState,
 
     val ETNICIANS = listOf(
         stringResource(R.string.pulaar), stringResource(R.string.wolof), stringResource(
-            R.string.beydan), stringResource(R.string.haratin), stringResource(R.string.soninke),
+            R.string.hassanya), stringResource(R.string.soninke),
         stringResource(R.string.autre)
     )
 
