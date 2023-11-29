@@ -100,6 +100,7 @@ fun SearchByPhoneDialog(
             Spacer(modifier = Modifier.width(8.dp))
 
             Button(
+                enabled = editMessage.value.length == phoneLength.value,
                 onClick = {
                     message.value = "${editMessage.value}"
                     openDialog.value = false
