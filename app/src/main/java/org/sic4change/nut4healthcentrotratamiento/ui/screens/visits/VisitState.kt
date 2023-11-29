@@ -79,6 +79,7 @@ fun rememberVisitsState(
     point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", "", "", 0)) },
     showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showErrorMessageCreateVisitCRENAS: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
+    showNextVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
     expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation,
@@ -90,7 +91,7 @@ fun rememberVisitsState(
     selectedAdministration, expandedAdministration, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
     visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
-    showErrorMessageCreateVisitCRENAS
+    showErrorMessageCreateVisitCRENAS, showNextVisit
 ) }
 
 
@@ -160,6 +161,7 @@ class VisitState(
     val point: MutableState<Point>,
     val showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?>,
     val showErrorMessageCreateVisitCRENAS: MutableState<Boolean?>,
+    val showNextVisit: MutableState<Boolean>,
 ) {
 
     fun incrementStep() {
@@ -228,6 +230,10 @@ class VisitState(
 
     fun showErrorMessageCanCreateVisitCRENAS() {
         showErrorMessageCreateVisitCRENAS.value = !showErrorMessageCreateVisitCRENAS.value!!
+    }
+
+    fun showNextVisit() {
+        showNextVisit.value = !showNextVisit.value
     }
 
 

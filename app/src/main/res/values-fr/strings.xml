@@ -399,6 +399,7 @@
 
     <string name="no_duplicated_visit_same_day">Il y a déjà une visite créée aujourd\'hui, souhaitez-vous la supprimer et saisir à nouveau les données ?</string>
     <string name="error_can_not_create_visit_in_crenas">Deben pasar al menos 5 días para crear un nueva visita</string>
+    <string name="next_visit_after_creation">Caso registrado. La próxima visita está programada para el </string>
 
 
 </resources>

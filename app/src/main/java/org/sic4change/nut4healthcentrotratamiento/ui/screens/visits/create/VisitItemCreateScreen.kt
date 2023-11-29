@@ -49,6 +49,8 @@ import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
 
@@ -108,15 +110,17 @@ fun VisitItemCreateScreen(
 @OptIn(ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
-                      fefa: Tutor?, onCreateVisit: (
+private fun VisitView(
+    loading: Boolean, visitState: VisitState, child: Child?,
+    fefa: Tutor?, onCreateVisit: (
         String, Double, Double, Double, String, String, String, String,
         String, String, String, String, String, String, String,
         String, String, String, String, String, String, String,
-        complications: List<Complication>, String) -> Unit,
-                      onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
-                      onRemoveTodayVisit: (String) -> Unit,
-                      onCancelCreateVisit: () -> Unit
+        complications: List<Complication>, String
+    ) -> Unit,
+    onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
+    onRemoveTodayVisit: (String) -> Unit,
+    onCancelCreateVisit: () -> Unit
 ) {
 
     val SEXS = listOf(
@@ -320,20 +324,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = {
                                 if (lastStep) {
-                                    onCreateVisit(
-                                        visitState.admissionType.value,
-                                        visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                                        visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                                        visitState.selectedRespiration.value, visitState.selectedApetit.value,
-                                        visitState.selectedInfection.value, visitState.selectedEyes.value,
-                                        visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
-                                        visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
-                                        visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                        visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
-                                        visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                        visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
-                                        visitState.complications.value, visitState.observations.value)
+                                    visitState.showNextVisit()
                                 } else {
                                     if (visitState.currentStep.value == numberStep) {
                                         visitState.createdVisit.value = true
@@ -344,21 +335,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
                                             visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
                                         }
-
-                                        onCreateVisit(
-                                            visitState.admissionType.value,
-                                            visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                                            visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                                            visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                                            visitState.selectedRespiration.value, visitState.selectedApetit.value,
-                                            visitState.selectedInfection.value, visitState.selectedEyes.value,
-                                            visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
-                                            visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
-                                            visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                            visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
-                                            visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                            visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
-                                            visitState.complications.value, visitState.observations.value)
+                                        visitState.showNextVisit()
                                     } else {
                                         coroutineScope.launch {
                                             listState.animateScrollToItem(index = 0)
@@ -707,20 +684,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                             onClick = {
                                 if (lastStep) {
-                                    onCreateVisit(
-                                        visitState.admissionType.value,
-                                        visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                                        visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                                        visitState.selectedRespiration.value, visitState.selectedApetit.value,
-                                        visitState.selectedInfection.value, visitState.selectedEyes.value,
-                                        visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
-                                        visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
-                                        visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                        visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
-                                        visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                        visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
-                                        visitState.complications.value, visitState.observations.value)
+                                    visitState.showNextVisit()
                                 } else {
                                     if (visitState.currentStep.value == numberStep) {
                                         visitState.createdVisit.value = true
@@ -731,21 +695,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                                         if (visitState.selectedRubeola.value == "" && visitState.visits.value.size > 0) {
                                             visitState.selectedRubeola.value = visitState.visits.value[0].rubeolaVaccinated
                                         }
-
-                                        onCreateVisit(
-                                            visitState.admissionType.value,
-                                            visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
-                                            visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
-                                            visitState.armCircunference.value, visitState.status.value, visitState.selectedEdema.value,
-                                            visitState.selectedRespiration.value, visitState.selectedApetit.value,
-                                            visitState.selectedInfection.value, visitState.selectedEyes.value,
-                                            visitState.selectedDeshidratation.value, visitState.selectedVomitos.value,
-                                            visitState.selectedDiarrea.value, visitState.selectedFiebre.value,
-                                            visitState.selectedTos.value, visitState.selectedTemperature.value,
-                                            visitState.selectedVitamineAVaccinated.value, visitState.selectedCapsulesFerro.value,
-                                            visitState.selectedCartilla.value, visitState.selectedRubeola.value,
-                                            visitState.selectedAmoxicilina.value, visitState.othersTratments.value,
-                                            visitState.complications.value, visitState.observations.value)
+                                        visitState.showNextVisit()
                                     } else {
                                         coroutineScope.launch {
                                             listState.animateScrollToItem(index = 0)
@@ -781,6 +731,43 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?,
                 visitState.showErrorMessageCreateVisitCRENAS.value,
                 visitState::showErrorMessageCanCreateVisitCRENAS,
                 onCancelCreateVisit,
+            )
+        }
+
+        val currentDate = LocalDateTime.now()
+        val currentDateMore = if (visitState.point.value.type == "CRENAS") currentDate.plusDays(7) else currentDate.plusDays(15)
+        val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val dateFormat = currentDateMore.format(format)
+        val message = stringResource(R.string.next_visit_after_creation) + " " + dateFormat
+        MessageNextVisit(
+            visitState.showNextVisit.value,
+            visitState::showNextVisit,
+            message) {
+            onCreateVisit(
+                visitState.admissionType.value,
+                visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                visitState.armCircunference.value,
+                visitState.status.value,
+                visitState.selectedEdema.value,
+                visitState.selectedRespiration.value,
+                visitState.selectedApetit.value,
+                visitState.selectedInfection.value,
+                visitState.selectedEyes.value,
+                visitState.selectedDeshidratation.value,
+                visitState.selectedVomitos.value,
+                visitState.selectedDiarrea.value,
+                visitState.selectedFiebre.value,
+                visitState.selectedTos.value,
+                visitState.selectedTemperature.value,
+                visitState.selectedVitamineAVaccinated.value,
+                visitState.selectedCapsulesFerro.value,
+                visitState.selectedCartilla.value,
+                visitState.selectedRubeola.value,
+                visitState.selectedAmoxicilina.value,
+                visitState.othersTratments.value,
+                visitState.complications.value,
+                visitState.observations.value
             )
         }
     }
@@ -3911,6 +3898,35 @@ fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?,
             },
             text = {
                 Text(stringResource(R.string.error_can_not_create_visit_in_crenas))
+            },
+        )
+    }
+
+}
+
+@Composable
+fun MessageNextVisit(showDialog: Boolean, setShowDialog: () -> Unit, message: String, onClick: () -> Unit,) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {},
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onClick()
+                    },
+                ) {
+                    Text(stringResource(R.string.accept),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(message)
             },
         )
     }
