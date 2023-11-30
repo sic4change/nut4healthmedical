@@ -399,7 +399,7 @@
     <string name="update">Actualizar</string>
 
     <string name="no_duplicated_visit_same_day">Ya hay una visita creada el día de hoy, ¿desea eliminarla e introducir de nuevo los datos?</string>
-    <string name="error_can_not_create_visit_in_crenas">Deben pasar al menos 5 días para crear un nueva visita</string>
-    <string name="next_visit_after_creation">Caso registrado. La próxima visita está programada para el </string>
+    <string name="error_can_not_create_visit_in_crenas">Las visitas en los CRENAS son cada 7 días, la próxima visita está programada para el </string>
+    <string name="next_visit_after_creation">La visita ha sido registrada satisfactoriamente. La próxima visita está programada para el  </string>
 
 </resources>

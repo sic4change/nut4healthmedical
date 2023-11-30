@@ -92,7 +92,7 @@
     <string name="welcome">Rosa del Desierto مرحبا بكم في مركز الصحة</string>
     <string name="pulaar">بولار</string>
     <string name="wolof">الولوف</string>
-    <string name="hassanya">Hassanya</string>
+    <string name="hassanya">حسانية</string>
     <string name="soninke">سونينكي</string>
     <string name="autre">آخر</string>
     <string name="check_tutor">أدخل رقم هاتف المرافق أو المرأة الحامل والمرضع لتأكيد وجودها </string>
@@ -391,13 +391,13 @@
         <item>إحالة</item>
         <item>تحويل</item>
         <item>انتكاس</item>
-        <item>Readmission</item>
-        <item>Suivi ex-MAS</item>
+        <item>إعادة القبول</item>
+        <item>et MAS متابعة السابقة</item>
     </string-array>
 
     <string name="no_duplicated_visit_same_day">هناك زيارة تم إنشاؤها اليوم بالفعل، هل ترغب في حذفها وإدخال البيانات مرة أخرى؟</string>
-    <string name="error_can_not_create_visit_in_crenas">Deben pasar al menos 5 días para crear un nueva visita</string>
-    <string name="next_visit_after_creation">Caso registrado. La próxima visita está programada para el </string>
+    <string name="error_can_not_create_visit_in_crenas">تم تسجيل الزيارة بنجاح .  ومن المقرر إجراء الزيارة القادمة في </string>
+    <string name="next_visit_after_creation">تم تسجيل الزيارة بنجاح .  ومن المقرر إجراء الزيارة القادمة في </string>
 
 
 </resources>

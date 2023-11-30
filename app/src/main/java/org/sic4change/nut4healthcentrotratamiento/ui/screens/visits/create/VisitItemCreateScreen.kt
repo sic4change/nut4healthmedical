@@ -727,10 +727,16 @@ private fun VisitView(
                 onCancelCreateVisit
             )
             visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
+            val currentDate = LocalDateTime.now()
+            val currentDateMore = currentDate.plusDays(7)
+            val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val dateFormat = currentDateMore.format(format)
+            val message = stringResource(R.string.error_can_not_create_visit_in_crenas) + " " + dateFormat
             MessageErrorCreateVisitCRENAS(
                 visitState.showErrorMessageCreateVisitCRENAS.value,
                 visitState::showErrorMessageCanCreateVisitCRENAS,
-                onCancelCreateVisit,
+                message,
+                onCancelCreateVisit
             )
         }
 
@@ -3874,8 +3880,7 @@ fun MessageDuplicateVisitToDay(showDialog: Boolean?,
 }
 
 @Composable
-fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?,
-                               setShowDialog: () -> Unit,
+fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?, setShowDialog: () -> Unit, message: String,
                                onCancel: () -> Unit) {
     if (showDialog!!) {
         AlertDialog(
@@ -3897,7 +3902,7 @@ fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?,
                 }
             },
             text = {
-                Text(stringResource(R.string.error_can_not_create_visit_in_crenas))
+                Text(message)
             },
         )
     }
