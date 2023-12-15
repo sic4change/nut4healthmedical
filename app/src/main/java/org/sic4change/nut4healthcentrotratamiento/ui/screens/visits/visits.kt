@@ -145,6 +145,7 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.visits) {
         if (viewModelState.visits != null) {
             visitCreateState.visits.value = viewModelState.visits.toMutableList()
+            visitCreateState.visitsSize.value = visitCreateState.visits.value.size
         }
     }
 
