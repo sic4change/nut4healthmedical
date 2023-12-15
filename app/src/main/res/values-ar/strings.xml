@@ -37,7 +37,7 @@
     <string name="infant">مرضعة</string>
     <string name="pregnant_and_infant">حامل و مرضعة</string>
     <string name="nothing">ليست حاملا أو مرضعة</string>
-    <string name="baby_age">عمر الطفل (أسابيع)</string>
+    <string name="baby_age">عمر الطفل (أشهر)</string>
     <string name="no_pregnant">ليست حاملا</string>
     <string name="child">طفل</string>
     <string name="observations">ملاحظات</string>
