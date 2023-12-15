@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.sic4change.nut4healthcentrotratamiento.R
+import java.time.LocalDate
 
 @Composable
 fun CustomDatePickerDialog(
@@ -114,28 +115,55 @@ fun DateSelectionSection(
     onMonthChosen: (String) -> Unit,
     onDayChosen: (String) -> Unit,
 ) {
+    val today = LocalDate.now()
+    val currentYear = today.year
+    val currentMonth = today.monthValue
+    val currentDay = today.dayOfMonth
+
+    val years = remember { (1950..currentYear).map { it.toString() } }
+    val monthsNumber = remember(currentYear) { (1..if (currentYear == today.year) currentMonth else 12).map { it.toString() } }
+
+    var lastYear by remember { mutableStateOf(currentYear) }
+    var lastMonth by remember { mutableStateOf(currentMonth) }
+
+    val days = remember(lastMonth, lastYear) {
+        val maxDay = when (lastMonth) {
+            4, 6, 9, 11 -> 30
+            2 -> if (lastYear % 4 == 0 && (lastYear % 100 != 0 || lastYear % 400 == 0)) 29 else 28
+            else -> 31
+        }
+        (1..if (lastYear == today.year && lastMonth == today.monthValue) currentDay else maxDay).map { it.toString() }
+    }
+
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp)
     ) {
+
         InfiniteItemsPicker(
             items = days,
-            firstIndex = Int.MAX_VALUE / 2 + (value.split("/")[0].toInt() - 2),
-            onItemSelected =  onDayChosen
+            firstIndex = value.split("/")[0].toInt() - 2,
+            onItemSelected = onDayChosen
         )
 
         InfiniteItemsPicker(
             items = monthsNumber,
             firstIndex = Int.MAX_VALUE / 2 - 4 + (value.split("/")[1].toInt() - 1),
-            onItemSelected =  onMonthChosen
+            onItemSelected = { month ->
+                lastMonth = month.toInt()
+                onMonthChosen(month)
+            }
         )
 
         InfiniteItemsPicker(
             items = years,
-            firstIndex = Int.MAX_VALUE / 2 + (value.split("/")[2].toInt() - 1967),
-            onItemSelected = onYearChosen
+            firstIndex = Int.MAX_VALUE / 2 + (value.split("/")[2].toInt()),
+            onItemSelected = { year ->
+                lastYear = year.toInt()
+                onYearChosen(year)
+            }
         )
     }
 }
@@ -183,10 +211,3 @@ fun InfiniteItemsPicker(
     }
 }
 
-/*val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-val currentMonth = Calendar.getInstance().get(Calendar.MONTH)*/
-
-val years = (1950..2050).map { it.toString() }
-val monthsNumber = (1..12).map { it.toString() }
-val days = (1..31).map { it.toString() }
