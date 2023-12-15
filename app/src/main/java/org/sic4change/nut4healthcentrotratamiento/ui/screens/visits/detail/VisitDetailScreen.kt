@@ -555,98 +555,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
 
                            Spacer(modifier = Modifier.height(16.dp))
-                           /*AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                   && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                   || visitState.status.value == stringResource(R.string.aguda_severa))){
-                               Column {
-                                   Spacer(modifier = Modifier.height(16.dp))
-                                   Divider(color = colorResource(R.color.disabled_color), thickness = 1.dp)
-                                   Spacer(modifier = Modifier.height(16.dp))
-                                   SteptTitle(stringResource(R.string.step3_title))
-                               }
-
-                           }
-
-                           Spacer(modifier = Modifier.height(16.dp))*/
-
-                           /*AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                   && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                   || visitState.status.value == stringResource(R.string.aguda_severa))
-                                   && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                                   || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))
-                                   && visitState.pregnantWeeks.value >= 24
-                                   && visitState.visitNumber.value == 1) {
-                               Column {
-                                   Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(8.dp))
-                                       Icon(painterResource(R.mipmap.ic_capsules), null, tint = colorResource(R.color.colorPrimary))
-                                       Spacer(modifier = Modifier.width(8.dp))
-                                       Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
-                                   }
-
-                                       Column(
-                                           horizontalAlignment = Alignment.CenterHorizontally,
-                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                           modifier = Modifier
-                                               .wrapContentSize()
-                                               .padding(16.dp, 0.dp)
-                                       ) {
-                                           Column(
-                                               verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                               modifier = Modifier
-                                                   .wrapContentSize()
-                                                   .padding(0.dp, 0.dp)
-                                           ) {
-                                               Text(stringResource(R.string.vitamine_dosis),
-                                                   color = colorResource(R.color.disabled_color)
-                                               )
-                                               Text("${stringResource(R.string.abendazol_400_full)} o ${stringResource(R.string.mebendazol_400_full)}",
-                                                   color = colorResource(R.color.black_gray)
-                                               )
-                                               
-                                           }
-                                       }
-
-                                   Spacer(modifier = Modifier.height(16.dp))
-                               }
-                           }*/
-
-                           /*AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                   && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                   || visitState.status.value == stringResource(R.string.aguda_severa))
-                                   && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                                   || visitState.womanStatus.value == stringResource(R.string.infant)
-                                   || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
-                               Column {
-                                   Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(8.dp))
-                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
-                                       Spacer(modifier = Modifier.width(8.dp))
-                                       Text(stringResource(R.string.ferro_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
-                                   }
-
-                                       Column {
-                                           Column(modifier = Modifier
-                                               .wrapContentSize()
-                                               .padding(16.dp, 0.dp)) {
-                                               Text(stringResource(R.string.vitamine_dosis), color = colorResource(R.color.disabled_color))
-                                               Text(stringResource(R.string.ferro_admin), color = colorResource(R.color.black_gray))
-                                           }
-                                           AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                                   && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                                   || visitState.status.value == stringResource(R.string.aguda_severa))
-                                                   && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                                                   || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
-                                               Column {
-                                                   Spacer(modifier = Modifier.height(8.dp))
-                                                   ItemViewIcon(visitState.selectedCapsulesFerro.value, stringResource(R.string.capsules_hierro_folico_checked), Icons.Filled.Medication)
-                                               }
-
-                                           }
-                                       }
-                               }
-
-                           }*/
 
                            AnimatedVisibility(visitState.status.value.isNotEmpty()
                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
@@ -657,33 +565,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            ){
 
                                Column {
-                                   /*Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
-                                       Spacer(modifier = Modifier.width(8.dp))
-                                       Icon(painterResource(R.mipmap.ic_vitamine), null, tint = colorResource(R.color.colorPrimary))
-                                       Spacer(modifier = Modifier.width(8.dp))
-                                       Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
-                                   }*/
-                                       /*Column(
-                                           verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                           modifier = Modifier
-                                               .wrapContentSize()
-                                               .padding(16.dp, 0.dp)
-                                       ) {
-                                           Column(
-                                               verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                                               modifier = Modifier
-                                                   .wrapContentSize()
-                                                   .padding(0.dp, 0.dp)
-                                           ) {
-                                               Text(stringResource(R.string.vitamine_dosis),
-                                                   color = colorResource(R.color.disabled_color)
-                                               )
-                                               Text(stringResource(R.string.vitamine_red),
-                                                   color = colorResource(R.color.black_gray)
-                                               )
-                                           }
-                                       }*/
-
                                    Spacer(modifier = Modifier.height(16.dp))
                                    AnimatedVisibility(visitState.status.value.isNotEmpty()
                                            && (visitState.status.value == stringResource(R.string.aguda_moderada)
@@ -746,10 +627,10 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
                                SteptTitle(stringResource(R.string.step1_title))
                                Spacer(modifier = Modifier.height(16.dp))
-                               ItemViewIcon(visitState.height.value, stringResource(R.string.height), Icons.Filled.Height)
+                               /*ItemViewIcon(visitState.height.value, stringResource(R.string.height), Icons.Filled.Height)
                                Spacer(modifier = Modifier.height(16.dp))
                                ItemViewImage(visitState.weight.value, stringResource(R.string.weight), R.mipmap.ic_weight)
-                               Spacer(modifier = Modifier.height(16.dp))
+                               Spacer(modifier = Modifier.height(16.dp))*/
                                AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) )) {
                                    ItemViewIcon(visitState.armCircunference.value.toString(), stringResource(R.string.arm_circunference), Icons.Filled.MultipleStop)
                                }
