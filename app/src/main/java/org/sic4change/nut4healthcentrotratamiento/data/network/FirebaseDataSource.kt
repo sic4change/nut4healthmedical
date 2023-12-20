@@ -687,14 +687,70 @@ object FirebaseDataSource {
                             } else if (visits == 0 && (visit.status == "Normopeso" || visit.status == "Peso objetivo")) {
                                 status = "Cerrado"
                             }
-                            caseRef.document(visit.caseId)
-                                .update(
-                                    "visits", visits + 1, "status", status,
-                                    "lastdate", Date()
-                                )
+                            caseRef.document(visit.caseId).update(
+                                    "visits", visits + 1,
+                                "status", status,
+                                    "lastdate", Date())
+                            updateFEFAStatusAfterVisit(case.toDomainCase())
                         }
 
                     }
+                }
+
+            } catch (ex : Exception) {
+                Timber.d("Create visit result: false ${ex.message}")
+            }
+        }
+    }
+
+    private suspend fun updateFEFAStatusAfterVisit(case: org.sic4change.nut4healthcentrotratamiento.data.entitities.Case) {
+        withContext(Dispatchers.IO) {
+            try {
+                if (case.childId == null || case.childId == "") {
+                    val tutorRef = firestore.collection("tutors")
+                    val queryTutor = tutorRef.whereEqualTo("id", case.tutorId)
+                    val resultTutor = queryTutor.get(source).await()
+                    val networkTutorContainer = NetworkTutorsContainer(resultTutor.toObjects(Tutor::class.java))
+                    networkTutorContainer.results[0].let { fefa ->
+                        val babyAge = fefa.babyAge
+                        if (babyAge > 6) {
+                            val visitRef = firestore.collection("visits")
+                            val queryVisit = visitRef.whereEqualTo("caseId", case.id).orderBy("createdate", Query.Direction.DESCENDING)
+                            val resultVisit = queryVisit.get(source).await()
+                            val networkVisitContainer = NetworkVisitContainer(resultVisit.toObjects(Visit::class.java))
+                            var count = 0
+                            for (visit in networkVisitContainer.results) {
+                                if (visit.armCircunference > 23.0) {
+                                    count++
+                                } else {
+                                    break
+                                }
+                            }
+                            if (count == 2) {
+                                val casesRef = firestore.collection("cases")
+                                val queryCase = casesRef.whereEqualTo("id", case.id)
+                                val resultCase = queryCase.get(source).await()
+                                val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
+                                networkCasesContainer.results[0].let { case ->
+                                    val caseRef = firestore.collection("cases")
+                                    var status = ""
+                                    var observations = ""
+                                    if ((case.status == "Ouvert")) {
+                                        status = "Fermé"
+                                        observations = "Récupéré"
+                                    } else if (case.status == "Abierto") {
+                                        status = "Cerrado"
+                                        observations = "Recuperado"
+                                    }
+                                    caseRef.document(case.id)
+                                        .update("visits", networkVisitContainer.results.size,
+                                            "status", status,
+                                            "observations", observations).await()
+                                }
+                            }
+                        }
+                    }
+
                 }
 
             } catch (ex : Exception) {
