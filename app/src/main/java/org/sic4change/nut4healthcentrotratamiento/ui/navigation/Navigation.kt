@@ -541,6 +541,13 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onCancelCreateVisit = {
                     navController.popBackStack()
                 },
+                onCreateVisitSucessfull = { caseId ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
+                    )
+                },
             )
         }
 

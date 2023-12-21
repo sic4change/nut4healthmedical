@@ -10,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.VisitItemCreateScreen
@@ -119,7 +118,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
                       onChangeWeightOrHeight: (String, String) -> Unit,
-                      onCancelCreateVisit: () -> Unit) {
+                      onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -171,9 +170,19 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         visitCreateState.complications.value = viewModelState.complications.toMutableList()
     }
 
-    LaunchedEffect(viewModelState.created) {
+    /*LaunchedEffect(viewModelState.created) {
         if (viewModelState.created) {
-            onCreateVisit(visitCreateState.caseId.value)
+            visitCreateState.showNextVisit()
+        }
+    }*/
+
+    LaunchedEffect(viewModelState.caseClosed) {
+        if (viewModelState.caseClosed != null) {
+            if (viewModelState.caseClosed!!) {
+                onCreateVisit(visitCreateState.caseId.value)
+            } else {
+                visitCreateState.showNextVisit()
+            }
         }
     }
 
@@ -216,7 +225,8 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         onCreateVisit = viewModel::createVisit,
         onChangeWeightOrHeight = viewModel::checkDesnutrition,
         onRemoveTodayVisit = viewModel::removeTodayVisit,
-        onCancelCreateVisit = onCancelCreateVisit
+        onCancelCreateVisit = onCancelCreateVisit,
+        onCreateVisitSucessfull = onCreateVisitSucessfull
     )
 }
 

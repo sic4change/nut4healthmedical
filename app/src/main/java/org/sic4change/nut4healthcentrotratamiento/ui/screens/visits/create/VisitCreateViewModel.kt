@@ -63,6 +63,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         val weight: Double? = null,
         var imc: Double? = 0.0,
         val created: Boolean = false,
+        val caseClosed: Boolean? = null,
     )
 
     fun removeTodayVisit(visitId: String) {
@@ -95,7 +96,18 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 amoxicilina, otherTratments, complications.toMutableList(), observations, "")
             _state.value = _state.value.copy(loading = true, visit = visit)
             FirebaseDataSource.createVisit(visit)
-            _state.value = _state.value.copy(loading = true, created = true)
+            checkCloseCase(caseId)
+        }
+    }
+
+    fun checkCloseCase(caseId: String) {
+        viewModelScope.launch {
+            val case = FirebaseDataSource.getCase(caseId)
+            if (case?.status =="Abierto" || case?.status =="Ouvert" || case?.status =="مفتوح"){
+                _state.value = _state.value.copy(loading = false, caseClosed = false, created = false)
+            } else {
+                _state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
+            }
         }
     }
 
