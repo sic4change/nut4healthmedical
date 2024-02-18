@@ -395,9 +395,14 @@
         <item>et MAS متابعة السابقة</item>
     </string-array>
 
+    <string name="new_version">Hay una nueva versión disponible en Google Play.</string>
+    <string name="update">Actualizar</string>
+
     <string name="no_duplicated_visit_same_day">هناك زيارة تم إنشاؤها اليوم بالفعل، هل ترغب في حذفها وإدخال البيانات مرة أخرى؟</string>
-    <string name="error_can_not_create_visit_in_crenas">تم تسجيل الزيارة بنجاح .  ومن المقرر إجراء الزيارة القادمة في </string>
+    <string name="error_can_not_create_visit">لم يمر وقت كاف لإنشاء جولة ، تأكد من مرور أيام كافية للتوزيع التالي</string>
     <string name="next_visit_after_creation">تم تسجيل الزيارة بنجاح .  ومن المقرر إجراء الزيارة القادمة في </string>
+
+    <string name="crenam_communitary_csa_nutritional">150 جرام دقيق مخصب يوميا (10 أكياس)</string>
 
 
 </resources>

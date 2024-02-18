@@ -317,8 +317,17 @@ private fun VisitView(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     AnimatedVisibility(visible = (visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value < 30) {
-                        val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
-                                visitState.status.value == stringResource(R.string.objetive_weight))
+                        var lastStep = false
+
+                        if (visitState.status.value == stringResource(R.string.normopeso) ||
+                                visitState.status.value == stringResource(R.string.objetive_weight)) {
+                            lastStep = true
+                        }
+                        if (visitState.status.value == stringResource(R.string.aguda_severa) &&
+                            (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
+                            lastStep = true
+                        }
+
                         Button(
                             enabled = !visitState.createdVisit.value,
                             modifier = Modifier
@@ -820,6 +829,7 @@ private fun VisitView(
             }
 
         }
+
         if (visitState.visits.value != null && visitState.visits.value.size > 0) {
             visitState.checkCanNotCreateVisit(visitState.visits.value[0].createdate)
             MessageDuplicateVisitToDay(
@@ -829,16 +839,31 @@ private fun VisitView(
                 onRemoveTodayVisit,
                 onCancelCreateVisit
             )
-            visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
-            val currentDate = LocalDateTime.now()
-            val currentDateMore = currentDate.plusDays(7)
             val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            val dateFormat = currentDateMore.format(format)
-            val message = stringResource(R.string.error_can_not_create_visit_in_crenas) + " " + dateFormat
+
+            visitState.checkCanNotCreateVisitInCrenanComunitary(visitState.visits.value[0].createdate)
+            //val currentDate = LocalDateTime.now()
+            //val currentDateMore = currentDate.plusDays(8)
+            //val dateFormat = currentDateMore.format(format)
+            //val message = stringResource(R.string.error_can_not_create_visit) + " " + dateFormat
+            val message = stringResource(R.string.error_can_not_create_visit)
+            MessageErrorCreateVisitCRENAS(
+                visitState.showErrorMessageCreateVisitCRENAMComunitary.value,
+                visitState::showErrorMessageCanCreateVisitCRENAMComunitary,
+                message,
+                onCancelCreateVisit
+            )
+
+            visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
+            //val currentDateCRENAS = LocalDateTime.now()
+            //val currentDateMoreCRENAS = currentDateCRENAS.plusDays(7)
+            //val dateFormatCRENAS = currentDateMoreCRENAS.format(format)
+            //val messageCRENAS = stringResource(R.string.error_can_not_create_visit) + " " + dateFormatCRENAS
+            val messageCRENAS = stringResource(R.string.error_can_not_create_visit)
             MessageErrorCreateVisitCRENAS(
                 visitState.showErrorMessageCreateVisitCRENAS.value,
                 visitState::showErrorMessageCanCreateVisitCRENAS,
-                message,
+                messageCRENAS,
                 onCancelCreateVisit
             )
         }
@@ -1015,6 +1040,11 @@ fun NutritionalView(visitState: VisitState) {
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             )) {
 
+        var nutricionalText = stringResource(R.string.plumpy_fiveteeen)
+        if (visitState.point.value.type == "Otro") {
+            nutricionalText = nutricionalText + " / " +  stringResource(R.string.crenam_communitary_csa_nutritional)
+        }
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -1040,11 +1070,12 @@ fun NutritionalView(visitState: VisitState) {
                 )
 
                 Text(
-                    text = stringResource(R.string.plumpy_fiveteeen),
+                    text = nutricionalText,
                     color = colorResource(R.color.colorPrimary),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold)
+
             }
 
         }

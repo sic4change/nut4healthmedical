@@ -394,12 +394,14 @@
         <item>Suivi ex-MAS</item>
     </string-array>
 
-    <string name="new_version">Il y a une nouvelle version disponible sur Google Play.</string>
-    <string name="update">Mettre à jour</string>
+    <string name="new_version">Hay una nueva versión disponible en Google Play.</string>
+    <string name="update">Actualizar</string>
 
     <string name="no_duplicated_visit_same_day">Il y a déjà une visite créée aujourd\'hui, souhaitez-vous la supprimer et saisir à nouveau les données ?</string>
-    <string name="error_can_not_create_visit_in_crenas">Les visites dans les CRENAS sont chaque 7 jours, la prochaine visite est programmé pour le </string>
+    <string name="error_can_not_create_visit">Il ne s\'est pas écoulé suffisamment de temps pour créer une visite, assurez-vous qu\'il s\'est écoulé suffisamment de jours pour la prochaine distribution</string>
     <string name="next_visit_after_creation">La visite a été enregistrée avec succès. La prochaine visite est programmée pour le </string>
+
+    <string name="crenam_communitary_csa_nutritional">150 g de farine enrichie par jour (10 sachets)</string>
 
 
 </resources>

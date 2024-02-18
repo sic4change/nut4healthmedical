@@ -399,7 +399,9 @@
     <string name="update">Actualizar</string>
 
     <string name="no_duplicated_visit_same_day">Ya hay una visita creada el día de hoy, ¿desea eliminarla e introducir de nuevo los datos?</string>
-    <string name="error_can_not_create_visit_in_crenas">Las visitas en los CRENAS son cada 7 días, la próxima visita está programada para el </string>
+    <string name="error_can_not_create_visit">No ha pasado el suficiente tiempo para crear una visita, asegúrese de que han pasado los días necesarios para la siguiente distribución</string>
     <string name="next_visit_after_creation">La visita ha sido registrada satisfactoriamente. La próxima visita está programada para el  </string>
+
+    <string name="crenam_communitary_csa_nutritional">150gr harina fortificada por día (10 sobres)</string>
 
 </resources>

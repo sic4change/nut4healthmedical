@@ -9,14 +9,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
-        minSdk 26
+        minSdk 24
         targetSdk 33
-        versionCode 16
-        versionName "1.16"
+        versionCode 19
+        versionName "1.19"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

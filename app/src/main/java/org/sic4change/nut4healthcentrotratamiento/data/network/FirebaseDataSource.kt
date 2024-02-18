@@ -670,29 +670,47 @@ object FirebaseDataSource {
                             visit.amoxicilina, visit.otherTratments,
                             visit.complications.filter { it.selected }.toMutableList(),
                             visit.observations, user.point)
-                        val visitsRef = firestore.collection("visits")
-                        val id = "${case.childId}_${visit.createdate.time}"
-                        visitToUpdate.id = id
-                        visitsRef.document(visitToUpdate.id).set(visitToUpdate.toServerVisit())
-                        Timber.d("Create visit result: ok")
-                        val caseRef = firestore.collection("cases")
-                        val query = caseRef.whereEqualTo("id", visit.caseId)
-                        val result = query.get(source).await()
-                        val networkCaseContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
-                        networkCaseContainer.results[0].let { case ->
-                            val visits = case.visits
-                            var status = case.status
-                            if (visits == 0 && (visit.status == "Poids Normal" || visit.status == "Poids Cible")) {
-                                status = "Fermé"
-                            } else if (visits == 0 && (visit.status == "Normopeso" || visit.status == "Peso objetivo")) {
-                                status = "Cerrado"
-                            }
-                            caseRef.document(visit.caseId).update(
+                        val pointsRef = firestore.collection("points")
+                        val queryPoint = pointsRef.whereEqualTo("pointId", user.point)
+                        val resultPoint = queryPoint.get(source).await()
+                        val networkPointsContainer = NetworkPointsContainer(resultPoint.toObjects(Point::class.java))
+                        networkPointsContainer.results[0].let { point ->
+                            val visitsRef = firestore.collection("visits")
+                            val id = "${case.childId}_${visit.createdate.time}"
+                            visitToUpdate.id = id
+                            visitsRef.document(visitToUpdate.id).set(visitToUpdate.toServerVisit())
+                            Timber.d("Create visit result: ok")
+                            val caseRef = firestore.collection("cases")
+                            val query = caseRef.whereEqualTo("id", visit.caseId)
+                            val result = query.get(source).await()
+                            val networkCaseContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+                            networkCaseContainer.results[0].let { case ->
+                                val visits = case.visits
+                                var status = case.status
+                                if (visits == 0 && (visit.status == "Poids Normal" || visit.status == "Poids Cible")) {
+                                    status = "Fermé"
+                                } else if (visits == 0 && (visit.status == "Normopeso" || visit.status == "Peso objetivo")) {
+                                    status = "Cerrado"
+                                } else if (visits == 0 && (visit.status == "وزن طبيعي" || visit.status == "الوزن المستهدف")) {
+                                    status = " اغلاق"
+                                }
+                                if (point.type == "Otro" || point.type == "CRENAM") {
+                                    if (visit.status == "Desnutrición Aguda Severa") {
+                                        status = "Cerrado"
+                                    } else if (visit.status == "Malnutrition Aiguë Sévère") {
+                                        status = "Fermé"
+                                    } else if (visit.status == "سوء التغذية الحاد الوخيم") {
+                                        status = " اغلاق"
+                                    }
+                                }
+                                caseRef.document(visit.caseId).update(
                                     "visits", visits + 1,
-                                "status", status,
+                                    "status", status,
                                     "lastdate", Date())
-                            updateFEFAStatusAfterVisit(case.toDomainCase())
+                                updateFEFAStatusAfterVisit(case.toDomainCase())
+                            }
                         }
+
 
                     }
                 }

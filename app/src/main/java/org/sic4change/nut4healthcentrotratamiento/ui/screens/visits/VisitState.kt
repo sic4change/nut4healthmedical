@@ -79,6 +79,7 @@ fun rememberVisitsState(
     point: MutableState<Point> = remember{mutableStateOf<Point>(Point("", "", "", "", "", "", "", 0)) },
     showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showErrorMessageCreateVisitCRENAS: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
+    showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showNextVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
@@ -91,7 +92,7 @@ fun rememberVisitsState(
     selectedAdministration, expandedAdministration, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
     visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
-    showErrorMessageCreateVisitCRENAS, showNextVisit
+    showErrorMessageCreateVisitCRENAS, showErrorMessageCreateVisitCRENAMComunitary, showNextVisit
 ) }
 
 
@@ -161,6 +162,7 @@ class VisitState(
     val point: MutableState<Point>,
     val showQuestionMessageDuplicateVisitToDay: MutableState<Boolean?>,
     val showErrorMessageCreateVisitCRENAS: MutableState<Boolean?>,
+    val showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?>,
     val showNextVisit: MutableState<Boolean>,
 ) {
 
@@ -224,12 +226,31 @@ class VisitState(
         return showErrorMessageCreateVisitCRENAS.value!!
     }
 
+    fun checkCanNotCreateVisitInCrenanComunitary(createDate: Date): Boolean {
+        if (checkCanNotCreateVisit(createDate)) {
+            showErrorMessageCreateVisitCRENAMComunitary.value = false
+        } else {
+            if ((point.value != null) && (point.value!!.type == "Otro")) {
+                val currentDate = LocalDate.now()
+                val daysBetween = ChronoUnit.DAYS.between(convertDateToLocalDate(createDate), currentDate)
+                showErrorMessageCreateVisitCRENAMComunitary.value = daysBetween < 8
+            } else {
+                showErrorMessageCreateVisitCRENAMComunitary.value = false
+            }
+        }
+        return showErrorMessageCreateVisitCRENAMComunitary.value!!
+    }
+
     fun showQuestionMessageDuplicateVisitToDay() {
         showQuestionMessageDuplicateVisitToDay.value = !showQuestionMessageDuplicateVisitToDay.value!!
     }
 
     fun showErrorMessageCanCreateVisitCRENAS() {
         showErrorMessageCreateVisitCRENAS.value = !showErrorMessageCreateVisitCRENAS.value!!
+    }
+
+    fun showErrorMessageCanCreateVisitCRENAMComunitary() {
+        showErrorMessageCreateVisitCRENAMComunitary.value = !showErrorMessageCreateVisitCRENAMComunitary.value!!
     }
 
     fun showNextVisit() {
