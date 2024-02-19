@@ -231,7 +231,7 @@
 
     <string name="fefa_ration">Por favor, dele la ración a la mujer</string>
     <string name="fefa_ration_pam">PAM: CSB + 250g/día + 25g aceite/día durante 15 días</string>
-    <string name="fefa_ration_csa">CSA:</string>
+    <string name="fefa_ration_csa">CSA: 150gr harina fortificada por día (10 sobres)</string>
 
     //Yes no options
     <string-array name="yesnooptions">
@@ -402,7 +402,8 @@
     <string name="error_can_not_create_visit">No ha pasado el suficiente tiempo para crear una visita, asegúrese de que han pasado los días necesarios para la siguiente distribución</string>
     <string name="next_visit_after_creation">La visita ha sido registrada satisfactoriamente. La próxima visita está programada para el  </string>
 
-    <string name="crenam_communitary_csa_nutritional">150gr harina fortificada por día (10 sobres)</string>
+    <string name="crenam_communitary_pam_nutritional">PAM: 15 sobres (1 sobre al día)</string>
+    <string name="crenam_communitary_csa_nutritional">CSA: 150gr harina fortificada por día (10 sobres)</string>
 
 
 </resources>

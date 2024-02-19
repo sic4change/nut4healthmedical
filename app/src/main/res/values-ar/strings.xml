@@ -232,7 +232,7 @@
     
     <string name="fefa_ration"> يرجى إعطاء الحصة للمرأة.</string>
     <string name="fefa_ration_pam"> جم / يوم + 25 جم زيت / يوم لمدة 15 يومًا</string>
-    <string name="fefa_ration_csa">CSA:</string>
+    <string name="fefa_ration_csa">CSA: 150 جرام دقيق مخصب يوميا (10 أكياس)</string>
 
     <string-array name="yesnooptions">
         <item>--</item>
@@ -402,7 +402,8 @@
     <string name="error_can_not_create_visit">لم يمر وقت كاف لإنشاء جولة ، تأكد من مرور أيام كافية للتوزيع التالي</string>
     <string name="next_visit_after_creation">تم تسجيل الزيارة بنجاح .  ومن المقرر إجراء الزيارة القادمة في </string>
 
-    <string name="crenam_communitary_csa_nutritional">150 جرام دقيق مخصب يوميا (10 أكياس)</string>
+    <string name="crenam_communitary_pam_nutritional">PAM: 15 كيسًا (كيس واحد يوميًا)</string>
+    <string name="crenam_communitary_csa_nutritional">CSA: 150 جرام دقيق مخصب يوميا (10 أكياس)</string>
 
 
 </resources>

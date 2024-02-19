@@ -54,7 +54,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="@dimen/margin_card"
         seek:minValue ="6.0"
-        seek:maxValue ="28.0"
+        seek:maxValue ="50.0"
         seek:intervalValue="0.1"
         seek:retainLength ="5"
         seek:rulerColor="@color/back_courses"

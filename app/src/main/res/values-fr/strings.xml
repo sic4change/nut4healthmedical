@@ -231,7 +231,7 @@
 
     <string name="fefa_ration">S\'il vous plaît, donnez la portion à la femme.</string>
     <string name="fefa_ration_pam">PAM: CSB + 250g/jour + 25g d\'huile/jour pendant 15 jours</string>
-    <string name="fefa_ration_csa">CSA:</string>
+    <string name="fefa_ration_csa">CSA: 150 g de farine enrichie par jour (10 sachets)</string>
 
     <string-array name="yesnooptions">
         <item>--</item>
@@ -401,7 +401,8 @@
     <string name="error_can_not_create_visit">Il ne s\'est pas écoulé suffisamment de temps pour créer une visite, assurez-vous qu\'il s\'est écoulé suffisamment de jours pour la prochaine distribution</string>
     <string name="next_visit_after_creation">La visite a été enregistrée avec succès. La prochaine visite est programmée pour le </string>
 
-    <string name="crenam_communitary_csa_nutritional">150 g de farine enrichie par jour (10 sachets)</string>
+    <string name="crenam_communitary_pam_nutritional">PAM: 15 sachets (1 sachet par jour)</string>
+    <string name="crenam_communitary_csa_nutritional">CSA: 150 g de farine enrichie par jour (10 sachets)</string>
 
 
 </resources>

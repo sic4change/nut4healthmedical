@@ -316,7 +316,7 @@ private fun VisitView(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = (visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value < 30) {
+                    AnimatedVisibility(visible = (visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value <= 50) {
                         var lastStep = false
 
                         if (visitState.status.value == stringResource(R.string.normopeso) ||
@@ -735,7 +735,7 @@ private fun VisitView(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = visitState.armCircunference.value < 30) {
+                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50) {
                         val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
                                 visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
@@ -1008,8 +1008,13 @@ fun NutritionalFEFAView(visitState: VisitState) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically) {
 
+            var nutricionalText = stringResource(R.string.fefa_ration_pam)
+            if (visitState.point.value.type == "Otro") {
+                nutricionalText = nutricionalText + " / " +  stringResource(R.string.fefa_ration_csa)
+            }
+
             Text(
-                text = stringResource(R.string.fefa_ration_pam),
+                text = nutricionalText,
                 color = colorResource(R.color.colorPrimary),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.h5,
@@ -1040,7 +1045,7 @@ fun NutritionalView(visitState: VisitState) {
             && visitState.status.value == stringResource(R.string.aguda_moderada)
             )) {
 
-        var nutricionalText = stringResource(R.string.plumpy_fiveteeen)
+        var nutricionalText = stringResource(R.string.crenam_communitary_pam_nutritional)
         if (visitState.point.value.type == "Otro") {
             nutricionalText = nutricionalText + " / " +  stringResource(R.string.crenam_communitary_csa_nutritional)
         }

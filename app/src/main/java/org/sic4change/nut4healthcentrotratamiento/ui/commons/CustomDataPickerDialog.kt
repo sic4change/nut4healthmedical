@@ -120,8 +120,9 @@ fun DateSelectionSection(
     val currentMonth = today.monthValue
     val currentDay = today.dayOfMonth
 
+
     val years = remember { (1950..currentYear).map { it.toString() } }
-    val monthsNumber = remember(currentYear) { (1..if (currentYear == today.year) currentMonth else 12).map { it.toString() } }
+    val monthsNumber = remember(currentYear) { (1.. 12).map { it.toString() } }
 
     var lastYear by remember { mutableStateOf(currentYear) }
     var lastMonth by remember { mutableStateOf(currentMonth) }
