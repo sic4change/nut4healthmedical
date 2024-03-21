@@ -514,6 +514,14 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                     )
                     Text(
                         modifier = Modifier.padding(8.dp, 0.dp),
+                        text = caseItem.admissionType,
+                        color = colorResource(R.color.colorPrimary),
+                        style = MaterialTheme.typography.body1,
+                        textAlign = TextAlign.Start,
+                        maxLines = 3
+                    )
+                    Text(
+                        modifier = Modifier.padding(8.dp, 0.dp),
                         text = caseItem.status,
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.body1,

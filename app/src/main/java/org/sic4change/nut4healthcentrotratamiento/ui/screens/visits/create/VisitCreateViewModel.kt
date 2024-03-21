@@ -89,12 +89,15 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (weight != null && height != null && weight > 0 && height > 0) {
                 imc = FirebaseDataSource.checkDesnutrition(height, weight)
             }
-            val visit = Visit("", caseId, caseId, null, caseId, Date(), admissionType, height,
+            val caseToUpdate = _state.value.case!!.copy(admissionType = admissionType)
+
+            val visit = Visit("", caseId, caseId, null, caseId, Date(), height,
                 weight, imc, arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
                 amoxicilina, otherTratments, complications.toMutableList(), observations, "")
             _state.value = _state.value.copy(loading = true, visit = visit)
+            FirebaseDataSource.updateCase(caseToUpdate)
             FirebaseDataSource.createVisit(visit)
             checkCloseCase(caseId)
         }

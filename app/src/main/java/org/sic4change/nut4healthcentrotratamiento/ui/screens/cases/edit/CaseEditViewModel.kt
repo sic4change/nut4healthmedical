@@ -36,7 +36,9 @@ class CaseEditViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     fun editCase(id: String, name: String, status: String, observations: String) {
         viewModelScope.launch {
             val case = Case(id, _state.value.case!!.childId, _state.value.case!!.fefaId,
-                _state.value.case!!.tutorId, name, status, Date(), Date(), _state.value.case!!.visits,
+                _state.value.case!!.tutorId, name, _state.value.case!!.admissionType,
+                _state.value.case!!.admissionTypeServer,
+                status, Date(), Date(), _state.value.case!!.visits,
                 observations, _state.value.case!!.point)
             _state.value= UiState(case = case)
             FirebaseDataSource.updateCase(case)

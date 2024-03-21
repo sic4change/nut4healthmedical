@@ -621,16 +621,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    textAlign = TextAlign.Center
                                )
                                Spacer(modifier = Modifier.height(16.dp))
-                               if (visitState.visitNumber.value == 1) {
-                                   AddmisionTypeView(visitState.admissionType.value)
-                                   Spacer(modifier = Modifier.height(16.dp))
-                               }
                                SteptTitle(stringResource(R.string.step1_title))
                                Spacer(modifier = Modifier.height(16.dp))
-                               /*ItemViewIcon(visitState.height.value, stringResource(R.string.height), Icons.Filled.Height)
-                               Spacer(modifier = Modifier.height(16.dp))
-                               ItemViewImage(visitState.weight.value, stringResource(R.string.weight), R.mipmap.ic_weight)
-                               Spacer(modifier = Modifier.height(16.dp))*/
                                AnimatedVisibility(visible = ((visitState.armCircunference.value != 30.0) )) {
                                    ItemViewIcon(visitState.armCircunference.value.toString(), stringResource(R.string.arm_circunference), Icons.Filled.MultipleStop)
                                }

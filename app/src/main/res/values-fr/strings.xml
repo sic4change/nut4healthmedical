@@ -387,10 +387,10 @@
     <string name="admissionType">Type d\'admission</string>
     <string-array name="addmisionTypeOptions">
         <item>Nouvelle admission</item>
-        <item>Dérivé</item>
-        <item>Transféré</item>
+        <item>Réadmission</item>
         <item>Rechute</item>
-        <item>Readmission</item>
+        <item>Réferencement</item>
+        <item>Transfer</item>
         <item>Suivi ex-MAS</item>
     </string-array>
 

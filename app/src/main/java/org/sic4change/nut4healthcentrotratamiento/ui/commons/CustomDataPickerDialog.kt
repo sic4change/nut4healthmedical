@@ -145,7 +145,7 @@ fun DateSelectionSection(
 
         InfiniteItemsPicker(
             items = days,
-            firstIndex = value.split("/")[0].toInt() - 2,
+            firstIndex = value.split("/")[0].toInt(),
             onItemSelected = onDayChosen
         )
 

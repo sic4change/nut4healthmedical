@@ -54,7 +54,8 @@ class FEFAViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = _state.value.copy(loading = true)
             val case = Case(_state.value.tutor!!.id, null,
                 _state.value.tutor!!.id, _state.value.tutor!!.id,
-                name, status, Date(), Date(), "0", observations, "")
+                name, "", "",
+                status, Date(), Date(), "0", observations, "")
             val newCase = FirebaseDataSource.createCase(case)
             _state.value = _state.value.copy(newCase = newCase)
             _state.value = _state.value.copy(newCaseCreated = true)

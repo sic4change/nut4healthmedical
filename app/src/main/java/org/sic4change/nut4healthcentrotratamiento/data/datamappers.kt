@@ -45,11 +45,12 @@ fun Child.toServerChild() : ServerChild = ServerChild(
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, fefaId, tutorId, name, status, createdate, lastdate, visits.toString(), observations, point
+    id, childId, fefaId, tutorId, name, admissionType, admissionTypeServer, status, createdate, lastdate, visits.toString(), observations, point
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, fefaId, tutorId, name, status, createdate, lastdate, visits.toInt(), observations, point
+    id, childId, fefaId, tutorId, name, admissionType, admissionTypeServer, status, createdate,
+    lastdate, visits.toInt(), observations, point
 )
 
 fun ServerContract.toDomainContract() : Contract = Contract(
@@ -101,7 +102,7 @@ fun Complication.toServerComplication() : ServerComplication = ServerComplicatio
 )
 
 fun ServerVisit.toDomainVisit() : Visit {
-    return Visit(id, caseId, childId, fefaId, tutorId, createdate, admission, height, weight, imc, armCircunference,
+    return Visit(id, caseId, childId, fefaId, tutorId, createdate, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated, amoxicilina, otherTratments,
@@ -109,7 +110,7 @@ fun ServerVisit.toDomainVisit() : Visit {
 }
 
 fun Visit.toServerVisit() : ServerVisit  {
-    return ServerVisit(id, caseId, childId, fefaId, tutorId, createdate, admissionType, height, weight, imc, armCircunference,
+    return ServerVisit(id, caseId, childId, fefaId, tutorId, createdate, height, weight, imc, armCircunference,
         status, edema, respiratonStatus, appetiteTest, infection, eyesDeficiency, deshidratation,
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated,  amoxicilina, otherTratments,

@@ -439,7 +439,7 @@ object FirebaseDataSource {
                         val pointId = user.point
                         val caseToUpload =
                             org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                                case.id, case.childId, case.fefaId, tutorId, case.name, case.status, case.createdate,
+                                case.id, case.childId, case.fefaId, tutorId, case.name, "", "", case.status, case.createdate,
                                 case.lastdate, case.visits, case.observations, pointId
                             )
                         val casesRef = firestore.collection("cases")
@@ -455,7 +455,7 @@ object FirebaseDataSource {
                     val pointId = user.point
                     val caseToUpload =
                         org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                            case.id, "", case.fefaId, tutorId, case.name, case.status, case.createdate,
+                            case.id, "", case.fefaId, tutorId, case.name, "", "", case.status, case.createdate,
                             case.lastdate, case.visits, case.observations, pointId
                         )
                     val casesRef = firestore.collection("cases")
@@ -662,7 +662,7 @@ object FirebaseDataSource {
                     networkCasesContainer.results[0].let { case ->
                         val visitToUpdate = org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit(
                             "", case.id, case.childId, case.fefaId, case.tutorId, visit.createdate,
-                            visit.admissionType, visit.height, visit.weight, visit.imc, visit.armCircunference,
+                            visit.height, visit.weight, visit.imc, visit.armCircunference,
                             visit.status, visit.edema, visit.respiratonStatus, visit.appetiteTest, visit.infection,
                             visit.eyesDeficiency, visit.deshidratation, visit.vomiting, visit.diarrhea,
                             visit.fever, visit.cough, visit.temperature, visit.vitamineAVaccinated,

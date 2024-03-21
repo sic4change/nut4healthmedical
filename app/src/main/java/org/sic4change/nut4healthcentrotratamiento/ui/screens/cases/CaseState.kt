@@ -14,6 +14,8 @@ fun rememberCasesState(
     expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     childId: MutableState<String?> = rememberSaveable { mutableStateOf("") },
     name: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    admissionType: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    admissionTypeServer: MutableState<String> = rememberSaveable { mutableStateOf("") },
     status: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedStatus: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionStatus: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -25,7 +27,9 @@ fun rememberCasesState(
     casesSize:  MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     createdCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     deleteCase:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-) = remember{ CaseState(id, expandedDetail, childId, name, status, expandedStatus, selectedOptionStatus,
+) = remember{ CaseState(id, expandedDetail, childId, name,
+    admissionType, admissionTypeServer,
+    status, expandedStatus, selectedOptionStatus,
     visits, lastDate, createdDate, observations, cases, casesSize, createdCase, deleteCase) }
 
 class CaseState(
@@ -33,6 +37,8 @@ class CaseState(
     val expandedDetail: MutableState<Boolean>,
     val childId: MutableState<String?>,
     val name: MutableState<String>,
+    val admissionType: MutableState<String>,
+    val addmissionTypeServer: MutableState<String>,
     val status: MutableState<String>,
     val expandedStatus: MutableState<Boolean>,
     val selectedOptionStatus: MutableState<String>,

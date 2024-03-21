@@ -15,8 +15,8 @@ android {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
         minSdk 24
         targetSdk 33
-        versionCode 19
-        versionName "1.19"
+        versionCode 21
+        versionName "1.21"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

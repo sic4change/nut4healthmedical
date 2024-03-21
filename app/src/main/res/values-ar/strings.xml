@@ -388,11 +388,11 @@
     <string name="admissionType">نوع القبول</string>
     <string-array name="addmisionTypeOptions">
         <item>قبول جديد</item>
-        <item>إحالة</item>
-        <item>تحويل</item>
-        <item>انتكاس</item>
-        <item>إعادة القبول</item>
-        <item>et MAS متابعة السابقة</item>
+        <item>إعادة القبو</item>
+        <item>انتكاسة</item>
+        <item>الإحالة</item>
+        <item>التحويل</item>
+        <item>متابعة سابقة لـMAS</item>
     </string-array>
 
     <string name="new_version">Hay una nueva versión disponible en Google Play.</string>

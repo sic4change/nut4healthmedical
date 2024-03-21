@@ -8,6 +8,8 @@ data class Case(
     val fefaId: String?,
     val tutorId: String,
     val name: String,
+    val admissionType: String,
+    val admissionTypeServer: String,
     var status: String,
     val createdate: Date,
     val lastdate: Date,

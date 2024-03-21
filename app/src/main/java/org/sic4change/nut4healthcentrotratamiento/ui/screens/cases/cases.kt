@@ -33,7 +33,10 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
             caseDetailState.id.value = viewModelState.case!!.id
             caseDetailState.childId.value = viewModelState.case!!.childId
             caseDetailState.name.value = viewModelState.case!!.name
+            caseDetailState.admissionType.value = viewModelState.case!!.admissionType
+            caseDetailState.addmissionTypeServer.value = viewModelState.case!!.admissionTypeServer
             caseDetailState.status.value = viewModelState.case!!.status
+            caseDetailState.status.value = viewModelState.case!!.admissionType
             caseDetailState.visits.value = viewModelState.case!!.visits
             caseDetailState.observations.value = viewModelState.case!!.observations
         }
