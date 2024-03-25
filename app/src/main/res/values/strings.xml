@@ -405,4 +405,8 @@
     <string name="crenam_communitary_pam_nutritional">PAM: 15 sobres (1 sobre al día)</string>
     <string name="crenam_communitary_csa_nutritional">CSA: 150gr harina fortificada por día (10 sobres)</string>
 
+    <string name="go_to_form">Ir al formulario</string>
+    <string name="child_refer_to_crenas">El niño debe acudir a un CRENAS</string>
+    <string name="fefa_refer_to_crenas">La FEFA debe acudir a un CRENAS</string>
+
 </resources>

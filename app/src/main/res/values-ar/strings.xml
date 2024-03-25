@@ -21,7 +21,7 @@
     <string name="email_or_pass_incorrect">عنوان البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
     <string name="no_error">لا خطأعنوان البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
     <string name="accept">يقبل</string>
-    <string name="close"> اغلاق</string>
+    <string name="close">اغلاق</string>
     <string name="logout"> تسجيل الخروج</string>
     <string name="logout_question">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
     <string name="credential_error">دخول غيرمسموح </string>
@@ -404,6 +404,10 @@
 
     <string name="crenam_communitary_pam_nutritional">PAM: 15 كيسًا (كيس واحد يوميًا)</string>
     <string name="crenam_communitary_csa_nutritional">CSA: 150 جرام دقيق مخصب يوميا (10 أكياس)</string>
+
+    <string name="go_to_form">الذهاب إلى النموذج</string>
+    <string name="child_refer_to_crenas">يجب أن يذهب الطفل إلى CRENAS</string>
+    <string name="fefa_refer_to_crenas">يجب أن تذهب الفيفا إلى CRENAS</string>
 
 
 </resources>

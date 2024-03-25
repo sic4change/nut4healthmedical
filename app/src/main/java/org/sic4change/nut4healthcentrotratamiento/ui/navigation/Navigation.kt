@@ -541,6 +541,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onCancelCreateVisit = {
                     navController.popBackStack()
                 },
+                onRefererCase = {},
                 onCreateVisitSucessfull = { caseId ->
                     navController.popBackStack()
                     navController.popBackStack()

@@ -116,7 +116,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @ExperimentalMaterialApi
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
-                      onChangeWeightOrHeight: (String, String) -> Unit,
+                      onChangeWeightOrHeight: (String, String) -> Unit, onRefererCase: () -> Unit,
                       onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
@@ -168,16 +168,14 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         visitCreateState.complications.value = viewModelState.complications.toMutableList()
     }
 
-    /*LaunchedEffect(viewModelState.created) {
-        if (viewModelState.created) {
-            visitCreateState.showNextVisit()
-        }
-    }*/
-
     LaunchedEffect(viewModelState.caseClosed) {
         if (viewModelState.caseClosed != null) {
             if (viewModelState.caseClosed!!) {
-                onCreateVisit(visitCreateState.caseId.value)
+                if (viewModelState.refered) {
+                    visitCreateState.showViewToGoToDerivationForm()
+                } else {
+                    onCreateVisit(visitCreateState.caseId.value)
+                }
             } else {
                 visitCreateState.showNextVisit()
             }

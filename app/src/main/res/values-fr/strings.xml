@@ -404,5 +404,8 @@
     <string name="crenam_communitary_pam_nutritional">PAM: 15 sachets (1 sachet par jour)</string>
     <string name="crenam_communitary_csa_nutritional">CSA: 150 g de farine enrichie par jour (10 sachets)</string>
 
+    <string name="go_to_form">Remplir formulaire</string>
+    <string name="child_refer_to_crenas">L\'enfant doit se rendre dans un CRENAS</string>
+    <string name="fefa_refer_to_crenas">FEFA doit se rendre dans un CRENAS</string>
 
 </resources>

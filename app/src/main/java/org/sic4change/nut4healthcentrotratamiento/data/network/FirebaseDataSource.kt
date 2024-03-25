@@ -692,7 +692,7 @@ object FirebaseDataSource {
                                 } else if (visits == 0 && (visit.status == "Normopeso" || visit.status == "Peso objetivo")) {
                                     status = "Cerrado"
                                 } else if (visits == 0 && (visit.status == "وزن طبيعي" || visit.status == "الوزن المستهدف")) {
-                                    status = " اغلاق"
+                                    status = "اغلاق"
                                 }
                                 if (point.type == "Otro" || point.type == "CRENAM") {
                                     if (visit.status == "Desnutrición Aguda Severa") {
@@ -700,7 +700,7 @@ object FirebaseDataSource {
                                     } else if (visit.status == "Malnutrition Aiguë Sévère") {
                                         status = "Fermé"
                                     } else if (visit.status == "سوء التغذية الحاد الوخيم") {
-                                        status = " اغلاق"
+                                        status = "اغلاق"
                                     }
                                 }
                                 caseRef.document(visit.caseId).update(

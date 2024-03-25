@@ -81,6 +81,7 @@ fun rememberVisitsState(
     showErrorMessageCreateVisitCRENAS: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showNextVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    showViewToGoToDerivationForm: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
     expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation,
@@ -92,7 +93,7 @@ fun rememberVisitsState(
     selectedAdministration, expandedAdministration, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
     visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
-    showErrorMessageCreateVisitCRENAS, showErrorMessageCreateVisitCRENAMComunitary, showNextVisit
+    showErrorMessageCreateVisitCRENAS, showErrorMessageCreateVisitCRENAMComunitary, showNextVisit, showViewToGoToDerivationForm
 ) }
 
 
@@ -164,6 +165,7 @@ class VisitState(
     val showErrorMessageCreateVisitCRENAS: MutableState<Boolean?>,
     val showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?>,
     val showNextVisit: MutableState<Boolean>,
+    val showViewToGoToDerivationForm: MutableState<Boolean>,
 ) {
 
     fun incrementStep() {
@@ -255,6 +257,10 @@ class VisitState(
 
     fun showNextVisit() {
         showNextVisit.value = !showNextVisit.value
+    }
+
+    fun showViewToGoToDerivationForm() {
+        showViewToGoToDerivationForm.value = !showViewToGoToDerivationForm.value
     }
 
 

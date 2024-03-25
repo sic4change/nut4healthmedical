@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
@@ -316,7 +317,8 @@ private fun VisitView(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = (visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value <= 50) {
+                    AnimatedVisibility(visible = ((visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value <= 50)
+                            && !visitState.showViewToGoToDerivationForm.value) {
                         var lastStep = false
 
                         if (visitState.status.value == stringResource(R.string.normopeso) ||
@@ -411,6 +413,41 @@ private fun VisitView(
                         ) {
                             Text(stringResource(R.string.save), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
                         }
+                    }
+
+                    AnimatedVisibility(visitState.showViewToGoToDerivationForm.value) {
+
+                        Column {
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Image(
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                painter = painterResource(id = R.mipmap.ic_advise),
+                                contentDescription = "Advise"
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_crenas),
+                                color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            Button(
+                                enabled = !visitState.createdVisit.value,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp, 0.dp),
+                                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                                onClick = {
+
+
+                                },
+                            ) {
+                                Text(text = stringResource(R.string.go_to_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+                            }
+                        }
+
                     }
 
                     AnimatedVisibility(visible = visitState.status.value.isNotEmpty()) {
@@ -735,7 +772,7 @@ private fun VisitView(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50) {
+                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50 && !visitState.showViewToGoToDerivationForm.value) {
                         val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
                                 visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
@@ -823,6 +860,42 @@ private fun VisitView(
                         }
 
                     }
+                    AnimatedVisibility(visitState.showViewToGoToDerivationForm.value) {
+
+                        Column {
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Image(
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                painter = painterResource(id = R.mipmap.ic_advise),
+                                contentDescription = "Advise"
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_crenas),
+                                color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            Button(
+                                enabled = !visitState.createdVisit.value,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp, 0.dp),
+                                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                                onClick = {
+
+
+                                },
+                            ) {
+                                Text(stringResource(R.string.go_to_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+                            }
+                        }
+
+
+
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
@@ -842,10 +915,6 @@ private fun VisitView(
             val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
             visitState.checkCanNotCreateVisitInCrenanComunitary(visitState.visits.value[0].createdate)
-            //val currentDate = LocalDateTime.now()
-            //val currentDateMore = currentDate.plusDays(8)
-            //val dateFormat = currentDateMore.format(format)
-            //val message = stringResource(R.string.error_can_not_create_visit) + " " + dateFormat
             val message = stringResource(R.string.error_can_not_create_visit)
             MessageErrorCreateVisitCRENAS(
                 visitState.showErrorMessageCreateVisitCRENAMComunitary.value,
@@ -855,10 +924,6 @@ private fun VisitView(
             )
 
             visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
-            //val currentDateCRENAS = LocalDateTime.now()
-            //val currentDateMoreCRENAS = currentDateCRENAS.plusDays(7)
-            //val dateFormatCRENAS = currentDateMoreCRENAS.format(format)
-            //val messageCRENAS = stringResource(R.string.error_can_not_create_visit) + " " + dateFormatCRENAS
             val messageCRENAS = stringResource(R.string.error_can_not_create_visit)
             MessageErrorCreateVisitCRENAS(
                 visitState.showErrorMessageCreateVisitCRENAS.value,

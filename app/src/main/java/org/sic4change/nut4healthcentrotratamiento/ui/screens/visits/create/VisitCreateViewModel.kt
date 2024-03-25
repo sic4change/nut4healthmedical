@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import java.util.*
@@ -64,6 +66,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         var imc: Double? = 0.0,
         val created: Boolean = false,
         val caseClosed: Boolean? = null,
+        val refered: Boolean = false,
     )
 
     fun removeTodayVisit(visitId: String) {
@@ -103,13 +106,19 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
-    fun checkCloseCase(caseId: String) {
+    private fun checkCloseCase(caseId: String) {
         viewModelScope.launch {
             val case = FirebaseDataSource.getCase(caseId)
             if (case?.status =="Abierto" || case?.status =="Ouvert" || case?.status =="مفتوح"){
                 _state.value = _state.value.copy(loading = false, caseClosed = false, created = false)
             } else {
-                _state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
+                if ((_state.value.point!!.type == "CRENAM" || _state.value.point!!.type == "Otro") &&
+                    (_state.value.visit!!.status == "Desnutrición Aguda Severa" || _state.value.visit!!.status == "Malnutrition Aiguë Sévère" || _state.value.visit!!.status == "سوء التغذية الحاد الوخيم")) {
+                    _state.value = _state.value.copy(loading = false, caseClosed = true, created = true, refered = true)
+                } else {
+                    _state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
+                }
+
             }
         }
     }
