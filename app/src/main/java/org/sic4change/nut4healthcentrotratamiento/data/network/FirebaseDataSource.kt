@@ -146,6 +146,20 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun getHealthServiceUsers(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.User> = withContext(Dispatchers.IO) {
+        val userRef = firestore.collection("users")
+        val query = userRef.whereEqualTo("role", "Servicio Salud").limit(1)
+        val result = query.get(source).await()
+        val networkUserContainer = NetworkUsersContainer(result.toObjects(User::class.java))
+        networkUserContainer.results[0].let {
+            val usersRef = firestore.collection("users")
+            val query = usersRef.orderBy("name", Query.Direction.ASCENDING )
+            val result = query.get(source).await()
+            val networkUsersContainer = NetworkUsersContainer(result.toObjects(User::class.java))
+            networkUsersContainer.results.map { it.toDomainUser() }
+        }
+    }
+
     suspend fun login(email: String, password: String): Boolean {
         var result = false
         withContext(Dispatchers.IO) {
@@ -227,6 +241,20 @@ object FirebaseDataSource {
             }
         } catch (e : Exception) {
             null
+        }
+    }
+
+    suspend fun getPointsByType(type: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Point> = withContext(Dispatchers.IO) {
+        val userRef = firestore.collection("users")
+        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+        val resultUser = queryUser.get(source).await()
+        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+        networkUserContainer.results[0].let {
+            val pointsRef = firestore.collection("points")
+            val query = pointsRef.orderBy("name", Query.Direction.ASCENDING )
+            val result = query.get(source).await()
+            val networkPointsContainer = NetworkPointsContainer(result.toObjects(Point::class.java))
+            networkPointsContainer.results.filter { it.type == type }.map { it.toDomainPoint() }
         }
     }
 
@@ -439,8 +467,8 @@ object FirebaseDataSource {
                         val pointId = user.point
                         val caseToUpload =
                             org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                                case.id, case.childId, case.fefaId, tutorId, case.name, "", "", case.status, case.createdate,
-                                case.lastdate, case.visits, case.observations, pointId
+                                case.id, case.childId, case.fefaId, tutorId, case.name, "", "", case.status, "",
+                                case.createdate, case.lastdate, case.visits, case.observations, pointId
                             )
                         val casesRef = firestore.collection("cases")
 
@@ -455,7 +483,7 @@ object FirebaseDataSource {
                     val pointId = user.point
                     val caseToUpload =
                         org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                            case.id, "", case.fefaId, tutorId, case.name, "", "", case.status, case.createdate,
+                            case.id, "", case.fefaId, tutorId, case.name, "", "", case.status, "", case.createdate,
                             case.lastdate, case.visits, case.observations, pointId
                         )
                     val casesRef = firestore.collection("cases")

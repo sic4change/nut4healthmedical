@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.data.network.Derivation
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
@@ -25,6 +26,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.settings.SettingsSc
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.derivations.DerivationCreateScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -541,7 +543,13 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 onCancelCreateVisit = {
                     navController.popBackStack()
                 },
-                onRefererCase = {},
+                onGoToDerivationFom = { caseId ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION).createRoute(caseId)
+                    )
+                },
                 onCreateVisitSucessfull = { caseId ->
                     navController.popBackStack()
                     navController.popBackStack()
@@ -549,6 +557,13 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
                 },
+            )
+        }
+
+        composable(NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION)) {
+            DerivationCreateScreen(onCreateDerivation = {
+
+                }
             )
         }
 

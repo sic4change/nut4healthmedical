@@ -69,6 +69,7 @@ fun VisitItemCreateScreen(
         String, String, complications: List<Complication>,
         String
     ) -> Unit,
+    onGoToDerivationFom: (String) -> Unit,
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
@@ -99,7 +100,8 @@ fun VisitItemCreateScreen(
                 onChangeWeightOrHeight = onChangeWeightOrHeight,
                 onRemoveTodayVisit = onRemoveTodayVisit,
                 onCancelCreateVisit = onCancelCreateVisit,
-                onCreateVisitSucessfull = onCreateVisitSucessfull
+                onCreateVisitSucessfull = onCreateVisitSucessfull,
+                onGoToDerivationFom = onGoToDerivationFom
             )
 
         }
@@ -115,12 +117,14 @@ fun VisitItemCreateScreen(
 @Composable
 private fun VisitView(
     loading: Boolean, visitState: VisitState, child: Child?,
-    fefa: Tutor?, onCreateVisit: (
+    fefa: Tutor?,
+    onCreateVisit: (
         String, Double, Double, Double, String, String, String, String,
         String, String, String, String, String, String, String,
         String, String, String, String, String, String, String,
         complications: List<Complication>, String
     ) -> Unit,
+    onGoToDerivationFom: (String) -> Unit,
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
@@ -422,7 +426,7 @@ private fun VisitView(
 
                             Image(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                                painter = painterResource(id = R.mipmap.ic_advise),
+                                painter = painterResource(id = R.mipmap.ic_ref),
                                 contentDescription = "Advise"
                             )
 
@@ -440,7 +444,7 @@ private fun VisitView(
                                     .padding(16.dp, 0.dp),
                                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                                 onClick = {
-
+                                    onGoToDerivationFom(visitState.caseId.value)
 
                                 },
                             ) {
@@ -867,7 +871,7 @@ private fun VisitView(
 
                             Image(
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                                painter = painterResource(id = R.mipmap.ic_advise),
+                                painter = painterResource(id = R.mipmap.ic_ref),
                                 contentDescription = "Advise"
                             )
 
@@ -885,7 +889,7 @@ private fun VisitView(
                                     .padding(16.dp, 0.dp),
                                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                                 onClick = {
-
+                                    onGoToDerivationFom(visitState.caseId.value)
 
                                 },
                             ) {
@@ -3878,7 +3882,7 @@ fun AntropometricosView(visitState: VisitState,
 
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(0.dp, 0.dp),
+        .padding(16.dp, 0.dp),
         elevation = 0.dp,
         backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
     )

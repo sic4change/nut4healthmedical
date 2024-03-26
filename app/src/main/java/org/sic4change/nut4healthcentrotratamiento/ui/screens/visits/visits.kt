@@ -116,7 +116,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @ExperimentalMaterialApi
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
-                      onChangeWeightOrHeight: (String, String) -> Unit, onRefererCase: () -> Unit,
+                      onChangeWeightOrHeight: (String, String) -> Unit, onGoToDerivationFom: (String) -> Unit,
                       onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
@@ -222,7 +222,8 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         onChangeWeightOrHeight = viewModel::checkDesnutrition,
         onRemoveTodayVisit = viewModel::removeTodayVisit,
         onCancelCreateVisit = onCancelCreateVisit,
-        onCreateVisitSucessfull = onCreateVisitSucessfull
+        onCreateVisitSucessfull = onCreateVisitSucessfull,
+        onGoToDerivationFom = onGoToDerivationFom
     )
 }
 

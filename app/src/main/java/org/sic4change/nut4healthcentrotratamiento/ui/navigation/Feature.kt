@@ -31,4 +31,6 @@ enum class Feature(val route: String) {
     VISIT_DETAIL ("visitdetail"),
     CREATEVISIT("createvisit"),
     EDITVISIT("editvisit"),
+
+    CREATEDERIVATION("createderivation"),
 }

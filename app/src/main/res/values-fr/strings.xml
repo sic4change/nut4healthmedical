@@ -408,4 +408,13 @@
     <string name="child_refer_to_crenas">L\'enfant doit se rendre dans un CRENAS</string>
     <string name="fefa_refer_to_crenas">FEFA doit se rendre dans un CRENAS</string>
 
+    //Form derivation
+    <string name="form_derivation">Formulario de derivación</string>
+    <string name="current_centre">Nombre del centro actual</string>
+    <string name="select_derivation_centre">Selecciona un centro de derivación</string>
+    <string name="centre_name">Nombre del centro</string>
+    <string name="case_info">Información del caso</string>
+    <string name="derivation_date">Fecha de transferencia/referencia</string>
+    <string name="derivation_child_name">Nombre y apellidos del niño/a</string>
+
 </resources>

@@ -5,6 +5,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
+import java.util.Date
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Point as ServerPoint
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
@@ -17,9 +18,10 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.Symtom as ServerS
 import org.sic4change.nut4healthcentrotratamiento.data.network.Treatment as ServerTreatment
 import org.sic4change.nut4healthcentrotratamiento.data.network.Complication as ServerComplication
 import org.sic4change.nut4healthcentrotratamiento.data.network.Visit as ServerVisit
+import org.sic4change.nut4healthcentrotratamiento.data.network.Derivation as ServerDerivation
 
 fun ServerUser.toDomainUser() : User = User(
-    id, email, role, username, point, photo
+    id, email, phone, role, username, point, photo
 )
 
 fun ServerPoint.toDomainPoint() : Point = Point(
@@ -45,11 +47,11 @@ fun Child.toServerChild() : ServerChild = ServerChild(
 )
 
 fun ServerCase.toDomainCase() : Case = Case(
-    id, childId, fefaId, tutorId, name, admissionType, admissionTypeServer, status, createdate, lastdate, visits.toString(), observations, point
+    id, childId, fefaId, tutorId, name, admissionType, admissionTypeServer, status, closedReason,  createdate, lastdate, visits.toString(), observations, point
 )
 
 fun Case.toServerCase() : ServerCase = ServerCase(
-    id, childId, fefaId, tutorId, name, admissionType, admissionTypeServer, status, createdate,
+    id, childId, fefaId, tutorId, name, admissionType, admissionTypeServer, status, closedReason, createdate,
     lastdate, visits.toInt(), observations, point
 )
 
@@ -115,6 +117,14 @@ fun Visit.toServerVisit() : ServerVisit  {
         vomiting, diarrhea, fever, cough, temperature,vitamineAVaccinated, acidfolicAndFerroVaccinated,
         vaccinationCard, rubeolaVaccinated,  amoxicilina, otherTratments,
         complications.map { it.toServerComplication() }, observations, point)
+}
+
+fun ServerDerivation.toDomainDerivation() : Derivation {
+    return Derivation(id, originId, destinationId, childId, fefaId, createdate)
+}
+
+fun Derivation.toServerDerivation() : ServerDerivation  {
+    return ServerDerivation(id, originId, destinationId, childId, fefaId, createdate)
 }
 
 

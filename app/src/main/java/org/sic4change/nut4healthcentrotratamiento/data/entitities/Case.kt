@@ -11,6 +11,7 @@ data class Case(
     val admissionType: String,
     val admissionTypeServer: String,
     var status: String,
+    var closedReason: String,
     val createdate: Date,
     val lastdate: Date,
     var visits: String,

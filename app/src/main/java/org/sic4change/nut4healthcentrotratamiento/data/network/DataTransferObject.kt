@@ -2,6 +2,8 @@ package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import com.google.firebase.firestore.Exclude
 import com.squareup.moshi.JsonClass
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Item
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -11,9 +13,10 @@ data class NetworkUsersContainer(val results: List<User>)
 data class User(
     @Exclude val id: String = "",
     @Exclude val email: String = "",
+    @Exclude val phone: String = "",
     @Exclude val role: String = "",
     @Exclude val username: String = "",
-    @Exclude var photo: String = "",
+    @Exclude var photo: String? = "",
     @Exclude val point: String = ""
 )
 
@@ -91,6 +94,7 @@ data class Case(
     @Exclude val admissionType: String = "",
     @Exclude val admissionTypeServer: String = "",
     @Exclude val status: String = "",
+    @Exclude val closedReason: String = "",
     @Exclude val createdate: Date = Date(),
     @Exclude val lastdate: Date = Date(),
     @Exclude val visits: Int = 0,
@@ -226,6 +230,20 @@ data class Visit(
     @Exclude var observations: String = "",
     @Exclude var point: String? = ""
 )
+
+@JsonClass(generateAdapter = true)
+data class NetworkDerivationContainer(val results: List<Derivation>)
+
+@JsonClass(generateAdapter = true)
+data class Derivation(
+    @Exclude val id: String = "",
+    @Exclude val originId: String = "",
+    @Exclude val destinationId: String = "",
+    @Exclude val childId: String? = "",
+    @Exclude val fefaId: String? = "",
+    @Exclude val createdate: Date = Date()
+)
+
 
 
 
