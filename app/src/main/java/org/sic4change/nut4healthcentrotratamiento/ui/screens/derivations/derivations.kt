@@ -55,7 +55,7 @@ fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(), o
 
     LaunchedEffect(viewModelState.tutor) {
         if (viewModelState.tutor != null) {
-
+            derivationCreateState.tutor.value = viewModelState.tutor!!
         }
     }
 

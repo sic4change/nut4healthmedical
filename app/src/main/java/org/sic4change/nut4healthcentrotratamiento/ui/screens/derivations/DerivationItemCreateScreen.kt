@@ -343,8 +343,8 @@ private fun DerivationView(loading: Boolean,
                         stringResource(R.string.case_info),
                         color = colorResource(R.color.disabled_color),
                         style = MaterialTheme.typography.h5,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth().padding(start = 16.dp)
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -403,7 +403,6 @@ private fun DerivationView(loading: Boolean,
                         }
                     )
 
-
                     TextField(
                         value = getAgeFormatted(derivationState.child.value!!),
                         visualTransformation = ColorsTransformation(),
@@ -454,6 +453,60 @@ private fun DerivationView(loading: Boolean,
                         label = {
                             Text(
                                 stringResource(R.string.sex),
+                                color = colorResource(R.color.disabled_color)
+                            )
+                        }
+                    )
+
+                    TextField(
+                        value = derivationState.tutor.value?.let { "${it.name} ${it.surnames}" } ?: "",
+                        onValueChange = { },
+                        enabled = false,
+                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.full_transparent),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledTextColor = colorResource(R.color.colorPrimary),
+                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        label = {
+                            Text(
+                                stringResource(R.string.derivation_tutor_name),
+                                color = colorResource(R.color.disabled_color)
+                            )
+                        }
+                    )
+
+                    TextField(
+                        value = derivationState.tutor.value?.let { it.phone } ?: "",
+                        onValueChange = { },
+                        enabled = false,
+                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.full_transparent),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledTextColor = colorResource(R.color.colorPrimary),
+                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        label = {
+                            Text(
+                                stringResource(R.string.derivation_tutor_phone),
                                 color = colorResource(R.color.disabled_color)
                             )
                         }

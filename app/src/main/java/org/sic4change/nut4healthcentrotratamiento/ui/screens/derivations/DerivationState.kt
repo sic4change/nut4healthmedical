@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonths
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getYears
@@ -22,7 +23,7 @@ import java.util.Locale
 fun rememberDerivationState(
     id: MutableState<String> = rememberSaveable { mutableStateOf("") },
     caseId:  MutableState<String> = rememberSaveable { mutableStateOf("") },
-    tutorId: MutableState<String?> = rememberSaveable { mutableStateOf("") },
+    tutor: MutableState<Tutor?> = rememberSaveable { mutableStateOf(null) },
     child: MutableState<Child?> = rememberSaveable { mutableStateOf(null) },
     pointId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     currentPointName: MutableState<String> = rememberSaveable { mutableStateOf("") },
@@ -31,13 +32,13 @@ fun rememberDerivationState(
     selectedOptionDerivationCentre: MutableState<String> = rememberSaveable { mutableStateOf("") },
     points: MutableState<MutableList<Point>> = rememberSaveable {mutableStateOf(mutableListOf<Point>())},
     healthCentres: MutableState<MutableList<User>> = rememberSaveable {mutableStateOf(mutableListOf<User>())},
-) = remember{ DerivationState(id, caseId, tutorId, child, pointId, currentPointName, currentPointPhone,
+) = remember{ DerivationState(id, caseId, tutor, child, pointId, currentPointName, currentPointPhone,
     expandedDerivationCentre, selectedOptionDerivationCentre, points, healthCentres) }
 
 class DerivationState(
     val id: MutableState<String>,
     val caseId: MutableState<String>,
-    val tutorId: MutableState<String?>,
+    val tutor: MutableState<Tutor?>,
     val child: MutableState<Child?>,
     val pointId: MutableState<String>,
     val currentPointName: MutableState<String>,
@@ -71,9 +72,5 @@ class DerivationState(
         val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return formatter.format(calendar.time)
     }
-
-
-
-
 
 }
