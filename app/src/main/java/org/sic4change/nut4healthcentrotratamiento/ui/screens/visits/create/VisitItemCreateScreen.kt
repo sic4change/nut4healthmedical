@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import com.maryamrzdh.stepper.Stepper
 import kotlinx.coroutines.launch
@@ -67,7 +68,7 @@ fun VisitItemCreateScreen(
         String, String, String, String, String,
         String, String, String, String, String,
         String, String, complications: List<Complication>,
-        String
+        String, Boolean
     ) -> Unit,
     onGoToDerivationFom: (String) -> Unit,
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
@@ -122,13 +123,13 @@ private fun VisitView(
         String, Double, Double, Double, String, String, String, String,
         String, String, String, String, String, String, String,
         String, String, String, String, String, String, String,
-        complications: List<Complication>, String
+        complications: List<Complication>, String, Boolean
     ) -> Unit,
-    onGoToDerivationFom: (String) -> Unit,
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
-    onCreateVisitSucessfull: (String) -> Unit
+    onCreateVisitSucessfull: (String) -> Unit,
+    onGoToDerivationFom: (String) -> Unit,
 ) {
 
     val SEXS = listOf(
@@ -321,10 +322,13 @@ private fun VisitView(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    visitState.showViewToGoToDerivationForm.value = visitState.status.value == stringResource(R.string.aguda_severa) &&
+                            (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")
+
                     AnimatedVisibility(visible = ((visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value <= 50)
                             && !visitState.showViewToGoToDerivationForm.value) {
                         var lastStep = false
-
+                        visitState.showViewToGoToDerivationForm.value = false
                         if (visitState.status.value == stringResource(R.string.normopeso) ||
                                 visitState.status.value == stringResource(R.string.objetive_weight)) {
                             lastStep = true
@@ -332,6 +336,7 @@ private fun VisitView(
                         if (visitState.status.value == stringResource(R.string.aguda_severa) &&
                             (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
                             lastStep = true
+
                         }
 
                         Button(
@@ -366,7 +371,8 @@ private fun VisitView(
                                         visitState.selectedAmoxicilina.value,
                                         visitState.othersTratments.value,
                                         visitState.complications.value,
-                                        visitState.observations.value
+                                        visitState.observations.value,
+                                        false
                                     )
                                 } else {
                                     if (visitState.currentStep.value == numberStep) {
@@ -402,7 +408,8 @@ private fun VisitView(
                                             visitState.selectedAmoxicilina.value,
                                             visitState.othersTratments.value,
                                             visitState.complications.value,
-                                            visitState.observations.value
+                                            visitState.observations.value,
+                                            false
                                         )
                                     } else {
                                         coroutineScope.launch {
@@ -444,7 +451,34 @@ private fun VisitView(
                                     .padding(16.dp, 0.dp),
                                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                                 onClick = {
-                                    onGoToDerivationFom(visitState.caseId.value)
+                                    //onGoToDerivationFom(visitState.caseId.value)
+                                    onCreateVisit(
+                                        visitState.admissionType.value,
+                                        visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                                        visitState.armCircunference.value,
+                                        visitState.status.value,
+                                        visitState.selectedEdema.value,
+                                        visitState.selectedRespiration.value,
+                                        visitState.selectedApetit.value,
+                                        visitState.selectedInfection.value,
+                                        visitState.selectedEyes.value,
+                                        visitState.selectedDeshidratation.value,
+                                        visitState.selectedVomitos.value,
+                                        visitState.selectedDiarrea.value,
+                                        visitState.selectedFiebre.value,
+                                        visitState.selectedTos.value,
+                                        visitState.selectedTemperature.value,
+                                        visitState.selectedVitamineAVaccinated.value,
+                                        visitState.selectedCapsulesFerro.value,
+                                        visitState.selectedCartilla.value,
+                                        visitState.selectedRubeola.value,
+                                        visitState.selectedAmoxicilina.value,
+                                        visitState.othersTratments.value,
+                                        visitState.complications.value,
+                                        visitState.observations.value,
+                                        true
+                                    )
 
                                 },
                             ) {
@@ -776,7 +810,7 @@ private fun VisitView(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50 && !visitState.showViewToGoToDerivationForm.value) {
+                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50) {
                         val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
                                 visitState.status.value == stringResource(R.string.objetive_weight))
                         Button(
@@ -811,7 +845,8 @@ private fun VisitView(
                                         visitState.selectedAmoxicilina.value,
                                         visitState.othersTratments.value,
                                         visitState.complications.value,
-                                        visitState.observations.value
+                                        visitState.observations.value,
+                                        false
                                     )
                                 } else {
                                     if (visitState.currentStep.value == numberStep) {
@@ -847,7 +882,8 @@ private fun VisitView(
                                             visitState.selectedAmoxicilina.value,
                                             visitState.othersTratments.value,
                                             visitState.complications.value,
-                                            visitState.observations.value
+                                            visitState.observations.value,
+                                            false
                                         )
                                     } else {
                                         coroutineScope.launch {
@@ -889,7 +925,35 @@ private fun VisitView(
                                     .padding(16.dp, 0.dp),
                                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                                 onClick = {
-                                    onGoToDerivationFom(visitState.caseId.value)
+                                    //onGoToDerivationFom(visitState.caseId.value)
+                                    onCreateVisit(
+                                        visitState.admissionType.value,
+                                        visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
+                                        visitState.weight.value.filter { !it.isWhitespace() }.toDouble(),
+                                        visitState.armCircunference.value,
+                                        visitState.status.value,
+                                        visitState.selectedEdema.value,
+                                        visitState.selectedRespiration.value,
+                                        visitState.selectedApetit.value,
+                                        visitState.selectedInfection.value,
+                                        visitState.selectedEyes.value,
+                                        visitState.selectedDeshidratation.value,
+                                        visitState.selectedVomitos.value,
+                                        visitState.selectedDiarrea.value,
+                                        visitState.selectedFiebre.value,
+                                        visitState.selectedTos.value,
+                                        visitState.selectedTemperature.value,
+                                        visitState.selectedVitamineAVaccinated.value,
+                                        visitState.selectedCapsulesFerro.value,
+                                        visitState.selectedCartilla.value,
+                                        visitState.selectedRubeola.value,
+                                        visitState.selectedAmoxicilina.value,
+                                        visitState.othersTratments.value,
+                                        visitState.complications.value,
+                                        visitState.observations.value,
+                                        true
+                                    )
+
 
                                 },
                             ) {

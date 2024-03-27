@@ -259,9 +259,6 @@ class VisitState(
         showNextVisit.value = !showNextVisit.value
     }
 
-    fun showViewToGoToDerivationForm() {
-        showViewToGoToDerivationForm.value = !showViewToGoToDerivationForm.value
-    }
 
 
 }

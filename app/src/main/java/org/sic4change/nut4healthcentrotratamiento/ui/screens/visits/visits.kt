@@ -171,11 +171,7 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.caseClosed) {
         if (viewModelState.caseClosed != null) {
             if (viewModelState.caseClosed!!) {
-                if (viewModelState.refered) {
-                    visitCreateState.showViewToGoToDerivationForm()
-                } else {
-                    onCreateVisit(visitCreateState.caseId.value)
-                }
+                onCreateVisit(visitCreateState.caseId.value)
             } else {
                 visitCreateState.showNextVisit()
             }
@@ -213,6 +209,12 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         }
     }
 
+    LaunchedEffect(viewModelState.derivation) {
+        if (viewModelState.derivation) {
+            onGoToDerivationFom(visitCreateState.caseId.value)
+        }
+    }
+
     VisitItemCreateScreen(
         loading = viewModelState.loading,
         visitState = visitCreateState,
@@ -223,7 +225,7 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         onRemoveTodayVisit = viewModel::removeTodayVisit,
         onCancelCreateVisit = onCancelCreateVisit,
         onCreateVisitSucessfull = onCreateVisitSucessfull,
-        onGoToDerivationFom = onGoToDerivationFom
+        onGoToDerivationFom =  onGoToDerivationFom
     )
 }
 

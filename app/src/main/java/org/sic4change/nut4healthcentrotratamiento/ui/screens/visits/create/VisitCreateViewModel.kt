@@ -66,7 +66,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         var imc: Double? = 0.0,
         val created: Boolean = false,
         val caseClosed: Boolean? = null,
-        val refered: Boolean = false,
+        val derivation: Boolean = false
     )
 
     fun removeTodayVisit(visitId: String) {
@@ -85,7 +85,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     diarrhea: String, fever: String, cough: String, temperature: String,
                     vitamineAVaccinated: String, acidfolicAndFerroVaccinated: String,
                     vaccinationCard: String, rubeolaVaccinated: String, amoxicilina: String, otherTratments: String,
-                    complications: List<Complication>, observations: String) {
+                    complications: List<Complication>, observations: String, derivation: Boolean = false) {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
             var imc = 0.0
@@ -102,7 +102,13 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             _state.value = _state.value.copy(loading = true, visit = visit)
             FirebaseDataSource.updateCase(caseToUpdate)
             FirebaseDataSource.createVisit(visit)
-            checkCloseCase(caseId)
+
+            if (derivation) {
+                _state.value = _state.value.copy(loading = true, visit = visit, derivation = true)
+            } else {
+                checkCloseCase(caseId)
+            }
+
         }
     }
 
@@ -112,13 +118,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (case?.status =="Abierto" || case?.status =="Ouvert" || case?.status =="مفتوح"){
                 _state.value = _state.value.copy(loading = false, caseClosed = false, created = false)
             } else {
-                if ((_state.value.point!!.type == "CRENAM" || _state.value.point!!.type == "Otro") &&
-                    (_state.value.visit!!.status == "Desnutrición Aguda Severa" || _state.value.visit!!.status == "Malnutrition Aiguë Sévère" || _state.value.visit!!.status == "سوء التغذية الحاد الوخيم")) {
-                    _state.value = _state.value.copy(loading = false, caseClosed = true, created = true, refered = true)
-                } else {
-                    _state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
-                }
-
+                _state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
             }
         }
     }

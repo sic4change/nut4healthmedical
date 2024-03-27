@@ -530,19 +530,16 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.CREATEVISIT)) {
             VisitCreateScreen(
-                onCreateVisit = { caseId ->
-                    navController.popBackStack()
-                    navController.popBackStack()
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
-                    )
+                onCreateVisit = {
                 },
-                onChangeWeightOrHeight = { height, weight ->
 
+                onChangeWeightOrHeight = { height, weight ->
                 },
+
                 onCancelCreateVisit = {
                     navController.popBackStack()
                 },
+
                 onGoToDerivationFom = { caseId ->
                     navController.popBackStack()
                     navController.popBackStack()
@@ -550,6 +547,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION).createRoute(caseId)
                     )
                 },
+
                 onCreateVisitSucessfull = { caseId ->
                     navController.popBackStack()
                     navController.popBackStack()
@@ -557,6 +555,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
                 },
+
             )
         }
 
