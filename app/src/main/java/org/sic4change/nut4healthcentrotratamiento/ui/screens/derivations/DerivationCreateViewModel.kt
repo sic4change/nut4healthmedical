@@ -13,6 +13,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.create.ChildCreateViewModel
 import java.util.*
@@ -31,6 +32,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
             caseToUpdate?.closedReason = "Referred"
             FirebaseDataSource.updateCase(caseToUpdate!!)
             _state.value = UiState(case = FirebaseDataSource.getCase(caseId), loading = true)
+            _state.value = _state.value.copy(lastVisit = FirebaseDataSource.getLastVisitInCase(caseId), loading = true)
             _state.value = _state.value.copy(user = FirebaseDataSource.getLoggedUser(), loading = true)
             _state.value = _state.value.copy(healthCentreUsers = FirebaseDataSource.getHealthServiceUsers(), loading = true)
             if (_state.value.case != null && _state.value.case!!.childId != null) {
@@ -57,6 +59,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
         val user: User? = null,
         val healthCentreUsers : List<User> = emptyList(),
         val case: Case? = null,
+        val lastVisit: Visit? = null,
         val child: Child? = null,
         val tutor: Tutor? = null,
         val point: Point? = null,

@@ -414,12 +414,13 @@
     <string name="current_centre">Nombre del centro actual</string>
     <string name="select_derivation_centre">Selecciona un centro de derivación</string>
     <string name="centre_name">Nombre del centro</string>
-
     <string name="case_info">Información del caso</string>
     <string name="derivation_date">Fecha de transferencia/referencia</string>
     <string name="derivation_child_name">Nombre y apellidos del niño/a</string>
-
     <string name="derivation_tutor_name">Nombre y apellidos del acompañante</string>
     <string name="derivation_tutor_phone">Teléfono del acompañante</string>
+    <string name="admission_date">Fecha de admisión</string>
+    <string name="derivation_reason">Motivo de derivación</string>
+    <string name="save_derivation_form">Guardar formulario</string>
 
 </resources>

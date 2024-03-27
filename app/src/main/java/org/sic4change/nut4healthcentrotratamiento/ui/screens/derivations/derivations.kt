@@ -24,7 +24,13 @@ fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(), o
 
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
+            derivationCreateState.case.value = viewModelState.case!!
+        }
+    }
 
+    LaunchedEffect(viewModelState.lastVisit) {
+        if (viewModelState.lastVisit != null) {
+            derivationCreateState.lastVisit.value = viewModelState.lastVisit!!
         }
     }
 

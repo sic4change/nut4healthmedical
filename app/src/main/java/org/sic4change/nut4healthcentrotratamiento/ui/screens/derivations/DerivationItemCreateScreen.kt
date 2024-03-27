@@ -10,6 +10,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -37,6 +39,9 @@ import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonths
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getYears
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.foundation.lazy.grid.items
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
@@ -347,8 +352,6 @@ private fun DerivationView(loading: Boolean,
                         modifier = Modifier.fillMaxWidth().padding(start = 16.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
-
                     TextField(
                         value = derivationState.getCurrentDate(),
                         onValueChange = { },
@@ -512,16 +515,268 @@ private fun DerivationView(loading: Boolean,
                         }
                     )
 
+                    TextField(
+                        value = derivationState.getAdmissionDate(),
+                        onValueChange = { },
+                        enabled = false,
+                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.full_transparent),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledTextColor = colorResource(R.color.colorPrimary),
+                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        label = {
+                            Text(
+                                stringResource(R.string.admission_date),
+                                color = colorResource(R.color.disabled_color)
+                            )
+                        }
+                    )
+
                     Spacer(modifier = Modifier.height(8.dp))
 
 
+                }
+
+            }
+
+            item {
+
+                Column {
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        stringResource(R.string.step1_title),
+                        color = colorResource(R.color.disabled_color),
+                        style = MaterialTheme.typography.h5,
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth().padding(start = 16.dp)
+                    )
+
+                    Column(horizontalAlignment = Alignment.Start) {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                TextField(
+                                    value = derivationState.getWeight(),
+                                    onValueChange = { },
+                                    enabled = false,
+                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(R.color.full_transparent),
+                                        cursorColor = colorResource(R.color.full_transparent),
+                                        disabledTextColor = colorResource(R.color.colorPrimary),
+                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                    ),
+                                    label = {
+                                        Text(
+                                            stringResource(R.string.weight),
+                                            color = colorResource(R.color.disabled_color)
+                                        )
+                                    }
+                                )
+                            }
+                            Box(modifier = Modifier.weight(1f)) {
+                                TextField(
+                                    value = derivationState.getHeight(),
+                                    onValueChange = { },
+                                    enabled = false,
+                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(R.color.full_transparent),
+                                        cursorColor = colorResource(R.color.full_transparent),
+                                        disabledTextColor = colorResource(R.color.colorPrimary),
+                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                    ),
+                                    label = {
+                                        Text(
+                                            stringResource(R.string.height),
+                                            color = colorResource(R.color.disabled_color)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                TextField(
+                                    value = derivationState.getIMC(),
+                                    onValueChange = { },
+                                    enabled = false,
+                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(R.color.full_transparent),
+                                        cursorColor = colorResource(R.color.full_transparent),
+                                        disabledTextColor = colorResource(R.color.colorPrimary),
+                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                    ),
+                                    label = {
+                                        Text("P/T (Z-score)",
+                                            color = colorResource(R.color.disabled_color)
+                                        )
+                                    }
+                                )
+                            }
+                            Box(modifier = Modifier.weight(1f)) {
+                                TextField(
+                                    value = derivationState.getArmCircunference(),
+                                    onValueChange = { },
+                                    enabled = false,
+                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = colorResource(R.color.colorPrimary),
+                                        backgroundColor = colorResource(R.color.full_transparent),
+                                        cursorColor = colorResource(R.color.full_transparent),
+                                        disabledTextColor = colorResource(R.color.colorPrimary),
+                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                    ),
+                                    label = {
+                                        Text(stringResource(R.string.arm_circunference),
+                                            color = colorResource(R.color.disabled_color)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    TextField(
+                        value = derivationState.lastVisit.value?.let { it.edema } ?: "",
+                        onValueChange = { },
+                        enabled = false,
+                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.full_transparent),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledTextColor = colorResource(R.color.colorPrimary),
+                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        label = {
+                            Text(
+                                stringResource(R.string.edema),
+                                color = colorResource(R.color.disabled_color)
+                            )
+                        }
+                    )
+
+                    TextField(
+                        value = derivationState.getComplications(),
+                        onValueChange = { },
+                        enabled = false,
+                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = colorResource(R.color.colorPrimary),
+                            backgroundColor = colorResource(R.color.full_transparent),
+                            cursorColor = colorResource(R.color.full_transparent),
+                            disabledTextColor = colorResource(R.color.colorPrimary),
+                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                        ),
+                        label = {
+                            Text(
+                                stringResource(R.string.complications),
+                                color = colorResource(R.color.disabled_color)
+                            )
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Divider(color = colorResource(R.color.colorPrimary), thickness = 1.dp)
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                 }
+            }
 
+            item {
+
+                Column {
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        stringResource(R.string.derivation_reason),
+                        color = colorResource(R.color.colorPrimary),
+                        style = MaterialTheme.typography.h4,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    CurrenStatusView(derivationState = derivationState)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp, 0.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                        onClick = {
+
+
+                        },
+                    ) {
+                        Text(text = stringResource(R.string.save_derivation_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
 
         }
@@ -529,6 +784,52 @@ private fun DerivationView(loading: Boolean,
 }
 
 
+@ExperimentalCoilApi
+@Composable
+fun CurrenStatusView(
+    derivationState: DerivationState,
+    modifier: Modifier = Modifier
+) {
+    var colorBackground : Color = Color.White
+    if (formatStatus(derivationState.lastVisit.value!!.status)  == stringResource(R.string.normopeso)) {
+        colorBackground = colorResource(R.color.colorAccent)
+    } else if (formatStatus(derivationState.lastVisit.value!!.status)  == stringResource(R.string.objetive_weight)) {
+        colorBackground = colorResource(R.color.colorPrimary)
+    } else if (formatStatus(derivationState.lastVisit.value!!.status)  == stringResource(R.string.aguda_moderada)) {
+        colorBackground = colorResource(R.color.orange)
+    } else {
+        colorBackground = colorResource(R.color.error)
+    }
+    Column(
+        modifier = modifier.padding(8.dp)
+    ) {
+        Card(
+            backgroundColor = colorBackground,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = {}) {
+                    Icon(
+                        tint = colorResource(R.color.white),
+                        imageVector = Icons.Default.Folder,
+                        contentDescription = null
+                    )
+                }
+                Text(
+                    color = colorResource(R.color.white),
+                    text = "${formatStatus(derivationState.lastVisit.value!!.status) }".toString().capitalize()  ,
+                    style = MaterialTheme.typography.h6,
+                    maxLines = 2,
+                    modifier = Modifier
+                        .padding(8.dp, 16.dp)
+                        .weight(1f)
+                )
+
+            }
+        }
+    }
+}
 
 
 class ColorsTransformation() : VisualTransformation {

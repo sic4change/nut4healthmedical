@@ -661,6 +661,20 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun getLastVisitInCase(caseId: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit? = withContext(Dispatchers.IO) {
+        val visitRef = firestore.collection("visits")
+        val query = visitRef.whereEqualTo("caseId", caseId).orderBy("createdate", Query.Direction.DESCENDING ).limit(1)
+        val result = query.get(source).await()
+        val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
+        try {
+            networkVisitsContainer.results[0].let {
+                it.toDomainVisit()
+            }
+        } catch (e : Exception) {
+            null
+        }
+    }
+
     suspend fun deleteVisit(id: String) {
         withContext(Dispatchers.IO) {
             Timber.d("try to delete visit from firebase")
