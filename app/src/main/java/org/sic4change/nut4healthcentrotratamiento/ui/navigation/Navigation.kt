@@ -540,28 +540,35 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                 },
 
-                onGoToDerivationFom = { caseId ->
-                    navController.popBackStack()
-                    navController.popBackStack()
-                    navController.navigate(
-                        NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION).createRoute(caseId)
-                    )
-                },
+                onCreateVisitSucessfull = { caseId, derivation ->
+                    if (derivation) {
+                        navController.navigate(
+                            NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION).createRoute(caseId)
+                        )
+                    } else {
+                        navController.popBackStack()
+                        navController.popBackStack()
+                        navController.navigate(
+                            NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
+                        )
+                    }
 
-                onCreateVisitSucessfull = { caseId ->
-                    navController.popBackStack()
-                    navController.popBackStack()
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
-                    )
                 },
 
             )
         }
 
         composable(NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION)) {
-            DerivationCreateScreen(onCreateDerivation = {
+            DerivationCreateScreen(
+                onCreateDerivation = {
 
+                },
+                onCreateDerivationSucessfull = { caseId ->
+                    /*navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
+                    )*/
+                    navController.popBackStack()
+                    navController.popBackStack()
                 }
             )
         }

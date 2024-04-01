@@ -3,6 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Treatment
@@ -72,6 +73,7 @@ fun rememberVisitsState(
     createdDate: MutableState<Date> = rememberSaveable { mutableStateOf(Date()) },
     createdVisit:  MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     visits: MutableState<MutableList<Visit>> = rememberSaveable {mutableStateOf(mutableListOf<Visit>())},
+    case: MutableState<Case?> = rememberSaveable { mutableStateOf(null) },
     visitsSize: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
     deleteVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     currentStep: MutableState<Int> = rememberSaveable{mutableStateOf(1) },
@@ -82,6 +84,7 @@ fun rememberVisitsState(
     showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showNextVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showViewToGoToDerivationForm: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    showMessageCaseDerived: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
     expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation,
@@ -92,8 +95,9 @@ fun rememberVisitsState(
     expandedAmoxicilina, othersTratments, selectedCartilla, expandedCartilla,
     selectedAdministration, expandedAdministration, selectedRubeola,
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
-    visitsSize, visits, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
-    showErrorMessageCreateVisitCRENAS, showErrorMessageCreateVisitCRENAMComunitary, showNextVisit, showViewToGoToDerivationForm
+    visitsSize, visits, case, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
+    showErrorMessageCreateVisitCRENAS, showErrorMessageCreateVisitCRENAMComunitary, showNextVisit, showViewToGoToDerivationForm,
+    showMessageCaseDerived
 ) }
 
 
@@ -157,6 +161,7 @@ class VisitState(
     val createdVisit: MutableState<Boolean>,
     val visitsSize: MutableState<Int>,
     val visits: MutableState<MutableList<Visit>>,
+    val case: MutableState<Case?>,
     val deleteVisit: MutableState<Boolean>,
     val currentStep: MutableState<Int>,
     val visitNumber: MutableState<Int>,
@@ -166,6 +171,7 @@ class VisitState(
     val showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?>,
     val showNextVisit: MutableState<Boolean>,
     val showViewToGoToDerivationForm: MutableState<Boolean>,
+    val showMessageCaseDerived: MutableState<Boolean>,
 ) {
 
     fun incrementStep() {
@@ -205,9 +211,13 @@ class VisitState(
         currentDate.time = createDate
         val todayDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val dateDay = currentDate.get(Calendar.DAY_OF_MONTH)
-        showQuestionMessageDuplicateVisitToDay.value = todayDay == dateDay
+        showQuestionMessageDuplicateVisitToDay.value = (todayDay == dateDay) && (case.value != null && case.value!!.closedReason.isNotEmpty())
         return showQuestionMessageDuplicateVisitToDay.value!!
     }
+
+    /*fun checkRefererSuccessfull(): Boolean {
+        return showMessageCaseDerived.value != null && showMessageCaseDerived.value!!
+    }*/
 
     fun convertDateToLocalDate(date: Date): LocalDate {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()

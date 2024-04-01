@@ -54,7 +54,8 @@ fun NUT4HealthApp() {
                     ) {
                         Row(Modifier.fillMaxWidth()) {
                             Box(modifier = Modifier.weight(1f)) {
-                                if (!appState.currentRoute.contains("login/detail") &&
+                                if (!appState.currentRoute.contains("createderivation") &&
+                                    !appState.currentRoute.contains("login/detail") &&
                                     !appState.currentRoute.contains("settings/home") &&
                                     !appState.currentRoute.contains("nextvisits/home") ||
                                     (MainActivity.notificationChildId.isEmpty()) && appState.currentRoute.contains("childdetail")

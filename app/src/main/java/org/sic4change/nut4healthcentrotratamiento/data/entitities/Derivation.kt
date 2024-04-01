@@ -4,6 +4,7 @@ import java.util.*
 
 data class Derivation(
     override var id: String,
+    val caseId: String,
     val originId: String,
     val destinationId: String,
     val childId: String?,

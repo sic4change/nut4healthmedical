@@ -37,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import kotlinx.coroutines.withTimeout
 import com.google.firebase.firestore.Source
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
+import org.sic4change.nut4healthcentrotratamiento.data.toServerDerivation
 
 object FirebaseDataSource {
 
@@ -1025,6 +1026,28 @@ object FirebaseDataSource {
     suspend fun unsubscribeToPointNotifications(point: String) = withContext(Dispatchers.IO) {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(point)
     }
+
+    suspend fun createDerivation(derivation: org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation) : org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation?
+            = withContext(Dispatchers.IO) {
+        Timber.d("try to create derivation with firebase")
+        try {
+            val userRef = firestore.collection("users")
+            val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val resultUser = queryUser.get(source).await()
+            val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+            networkUserContainer.results[0].let { user ->
+                val derivationsRef = firestore.collection("derivations")
+                derivationsRef.document(derivation.id).set(derivation.toServerDerivation())
+                Timber.d("Create derivation result: ok")
+                derivation
+            }
+        } catch (ex: Exception) {
+            Timber.d("Create case result: false ${ex.message}")
+            null
+        }
+    }
+
+
 
 }
 

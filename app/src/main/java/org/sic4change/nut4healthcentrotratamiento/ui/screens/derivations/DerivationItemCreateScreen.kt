@@ -10,8 +10,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -40,6 +38,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.commons.getYears
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.foundation.lazy.grid.items
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 
@@ -49,7 +48,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 @Composable
 fun DerivationItemCreateScreen(derivationState: DerivationState,
                                loading: Boolean = false,
-                               onCreateDerivation: () -> Unit) {
+                               onCreateDerivation: (Derivation) -> Unit,
+                               onCreateDerivationSucessfull: (String) -> Unit) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -65,6 +65,7 @@ fun DerivationItemCreateScreen(derivationState: DerivationState,
                     loading = loading,
                     derivationState = derivationState,
                     onCreateDerivation = onCreateDerivation,
+                    onCreateDerivationSucessfull = onCreateDerivationSucessfull
                 )
 
         }
@@ -80,7 +81,8 @@ fun DerivationItemCreateScreen(derivationState: DerivationState,
 @Composable
 private fun DerivationView(loading: Boolean,
                            derivationState: DerivationState,
-                           onCreateDerivation: () -> Unit,
+                           onCreateDerivation: (Derivation) -> Unit,
+                           onCreateDerivationSucessfull: (String) -> Unit
 ) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -762,18 +764,25 @@ private fun DerivationView(loading: Boolean,
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp, 0.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
-                        onClick = {
+                    if (derivationState.getIdSelectedDerivationCentre().isNotEmpty()) {
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp, 0.dp),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
 
-
-                        },
-                    ) {
-                        Text(text = stringResource(R.string.save_derivation_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+                            onClick = {
+                                val id = "${derivationState.pointId.value}_${derivationState.getIdSelectedDerivationCentre()}_${derivationState.child.value?.id}_${derivationState.tutor.value?.id}"
+                                val derivation = Derivation(id, derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
+                                    derivationState.child.value?.id, derivationState.tutor.value?.id, Date())
+                                onCreateDerivation(derivation)
+                                onCreateDerivationSucessfull(derivationState.case.value!!.id)
+                            },
+                        ) {
+                            Text(text = stringResource(R.string.save_derivation_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
+                        }
                     }
+
 
                     Spacer(modifier = Modifier.height(16.dp))
                 }

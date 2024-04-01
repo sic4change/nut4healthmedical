@@ -48,6 +48,15 @@ class DerivationState(
     val healthCentres: MutableState<MutableList<User>>
 ) {
 
+    fun getIdSelectedDerivationCentre(): String {
+        if (selectedOptionDerivationCentre.value.isEmpty()) {
+            return ""
+        } else {
+            val selectedPoint = points.value.find { it.name == selectedOptionDerivationCentre.value }
+            return selectedPoint?.id ?: ""
+        }
+    }
+
     fun getPhoneSelectedDerivationCentre(): String {
         if (selectedOptionDerivationCentre.value.isEmpty()) {
             return ""
@@ -77,15 +86,6 @@ class DerivationState(
         val locale = Locale("es", "ES")
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", locale)
         return dateFormat.format(date)
-    }
-
-    fun getMASCode() : String {
-        if (selectedOptionDerivationCentre.value.isEmpty()) {
-            return ""
-        } else {
-            val selectedPoint = points.value.find { it.name == selectedOptionDerivationCentre.value }
-            return selectedPoint?.pointCode + "/"
-        }
     }
 
     fun getWeight() : String {

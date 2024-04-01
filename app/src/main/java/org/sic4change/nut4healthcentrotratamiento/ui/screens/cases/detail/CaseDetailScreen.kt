@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,8 @@ fun CaseItemDetailScreen(
     caseItem: Case?, visits: List<Visit>?, onEditClick: (Case) -> Unit,
     onCreateVisitClick: (Case) -> Unit, onItemClick: (Visit) -> Unit) {
 
+    println("Aqui3")
+
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -54,8 +57,9 @@ fun CaseItemDetailScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
+        println("Aqui4")
         if (caseItem != null) {
+            println("Aqui5")
             CaseItemDetailScaffold(
                 caseState = caseState,
                 caseItem = caseItem,
@@ -66,6 +70,7 @@ fun CaseItemDetailScreen(
                         .fillMaxWidth()
                         .padding(padding)
                 ) {
+                    println("Aqui6")
                     CaseView(
                         caseItem = caseItem,
                         caseState = caseState,
@@ -97,7 +102,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
-
+        println("Aqui7")
         item {
             Spacer(modifier = Modifier.height(16.dp))
             if (child != null) {
@@ -530,7 +535,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                     )
                     Text(
                         modifier = Modifier.padding(8.dp, 0.dp),
-                        text = if (caseItem.observations.isNotEmpty()) caseItem.observations else "--",
+                        text = getClosedReason(caseItem.closedReason),
                         color = colorResource(R.color.disabled_color),
                         style = MaterialTheme.typography.caption,
                         textAlign = TextAlign.Start,
@@ -614,6 +619,13 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
         }
 
     }
+}
+
+@Composable
+fun getClosedReason(value: String) : String {
+    if (value == "Referred") {
+        return stringArrayResource(R.array.addmisionTypeOptions)[3]
+    } else return "--"
 }
 
 @OptIn(ExperimentalMaterialApi::class)

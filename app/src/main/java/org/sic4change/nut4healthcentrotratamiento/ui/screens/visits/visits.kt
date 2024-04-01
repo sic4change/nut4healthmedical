@@ -116,8 +116,8 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @ExperimentalMaterialApi
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
-                      onChangeWeightOrHeight: (String, String) -> Unit, onGoToDerivationFom: (String) -> Unit,
-                      onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String) -> Unit) {
+                      onChangeWeightOrHeight: (String, String) -> Unit,
+                      onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String, Boolean) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -178,6 +178,15 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         }
     }
 
+    LaunchedEffect(viewModelState.derivation) {
+        if (viewModelState.derivation != null) {
+            if (viewModelState.derivation!!) {
+                //visitCreateState.showMessageCaseDerived.value = true
+                onCreateVisitSucessfull(visitCreateState.caseId.value, true)
+            }
+        }
+    }
+
     LaunchedEffect(viewModelState.height) {
         onChangeWeightOrHeight(visitCreateState.height.value, visitCreateState.weight.value)
     }
@@ -209,12 +218,6 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         }
     }
 
-    LaunchedEffect(viewModelState.derivation) {
-        if (viewModelState.derivation) {
-            onGoToDerivationFom(visitCreateState.caseId.value)
-        }
-    }
-
     VisitItemCreateScreen(
         loading = viewModelState.loading,
         visitState = visitCreateState,
@@ -224,8 +227,7 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         onChangeWeightOrHeight = viewModel::checkDesnutrition,
         onRemoveTodayVisit = viewModel::removeTodayVisit,
         onCancelCreateVisit = onCancelCreateVisit,
-        onCreateVisitSucessfull = onCreateVisitSucessfull,
-        onGoToDerivationFom =  onGoToDerivationFom
+        onCreateVisitSucessfull = onCreateVisitSucessfull
     )
 }
 

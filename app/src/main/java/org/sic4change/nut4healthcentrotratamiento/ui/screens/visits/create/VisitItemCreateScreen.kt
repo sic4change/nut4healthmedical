@@ -70,11 +70,10 @@ fun VisitItemCreateScreen(
         String, String, complications: List<Complication>,
         String, Boolean
     ) -> Unit,
-    onGoToDerivationFom: (String) -> Unit,
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
-    onCreateVisitSucessfull: (String) -> Unit
+    onCreateVisitSucessfull: (String, Boolean) -> Unit
 ) {
 
     Box(
@@ -101,8 +100,7 @@ fun VisitItemCreateScreen(
                 onChangeWeightOrHeight = onChangeWeightOrHeight,
                 onRemoveTodayVisit = onRemoveTodayVisit,
                 onCancelCreateVisit = onCancelCreateVisit,
-                onCreateVisitSucessfull = onCreateVisitSucessfull,
-                onGoToDerivationFom = onGoToDerivationFom
+                onCreateVisitSucessfull = onCreateVisitSucessfull
             )
 
         }
@@ -128,8 +126,7 @@ private fun VisitView(
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
-    onCreateVisitSucessfull: (String) -> Unit,
-    onGoToDerivationFom: (String) -> Unit,
+    onCreateVisitSucessfull: (String, Boolean) -> Unit
 ) {
 
     val SEXS = listOf(
@@ -451,7 +448,6 @@ private fun VisitView(
                                     .padding(16.dp, 0.dp),
                                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                                 onClick = {
-                                    //onGoToDerivationFom(visitState.caseId.value)
                                     onCreateVisit(
                                         visitState.admissionType.value,
                                         visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
@@ -925,7 +921,6 @@ private fun VisitView(
                                     .padding(16.dp, 0.dp),
                                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                                 onClick = {
-                                    //onGoToDerivationFom(visitState.caseId.value)
                                     onCreateVisit(
                                         visitState.admissionType.value,
                                         visitState.height.value.filter { !it.isWhitespace() }.toDouble(),
@@ -971,48 +966,57 @@ private fun VisitView(
 
         }
 
-        if (visitState.visits.value != null && visitState.visits.value.size > 0) {
-            visitState.checkCanNotCreateVisit(visitState.visits.value[0].createdate)
-            MessageDuplicateVisitToDay(
-                visitState.showQuestionMessageDuplicateVisitToDay.value,
-                visitState::showQuestionMessageDuplicateVisitToDay,
-                visitState.visits.value[0].id,
-                onRemoveTodayVisit,
-                onCancelCreateVisit
-            )
+        /*if (visitState.checkRefererSuccessfull()) {
+            onCreateVisitSucessfull(visitState.caseId.value, true)
+            visitState.showMessageCaseDerived.value = false
+            visitState.showNextVisit.value = false
+        } else {*/
+            if (visitState.visits.value != null && visitState.visits.value.size > 0) {
+                visitState.checkCanNotCreateVisit(visitState.visits.value[0].createdate)
+                MessageDuplicateVisitToDay(
+                    visitState.showQuestionMessageDuplicateVisitToDay.value,
+                    visitState::showQuestionMessageDuplicateVisitToDay,
+                    visitState.visits.value[0].id,
+                    onRemoveTodayVisit,
+                    onCancelCreateVisit
+                )
+
+
+                visitState.checkCanNotCreateVisitInCrenanComunitary(visitState.visits.value[0].createdate)
+                val message = stringResource(R.string.error_can_not_create_visit)
+                MessageErrorCreateVisitCRENAS(
+                    visitState.showErrorMessageCreateVisitCRENAMComunitary.value,
+                    visitState::showErrorMessageCanCreateVisitCRENAMComunitary,
+                    message,
+                    onCancelCreateVisit
+                )
+
+                visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
+                val messageCRENAS = stringResource(R.string.error_can_not_create_visit)
+                MessageErrorCreateVisitCRENAS(
+                    visitState.showErrorMessageCreateVisitCRENAS.value,
+                    visitState::showErrorMessageCanCreateVisitCRENAS,
+                    messageCRENAS,
+                    onCancelCreateVisit
+                )
+            }
+            val currentDate = LocalDateTime.now()
+            val currentDateMore = if (visitState.point.value.type == "CRENAS") currentDate.plusDays(7) else currentDate.plusDays(15)
             val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
-            visitState.checkCanNotCreateVisitInCrenanComunitary(visitState.visits.value[0].createdate)
-            val message = stringResource(R.string.error_can_not_create_visit)
-            MessageErrorCreateVisitCRENAS(
-                visitState.showErrorMessageCreateVisitCRENAMComunitary.value,
-                visitState::showErrorMessageCanCreateVisitCRENAMComunitary,
-                message,
-                onCancelCreateVisit
+            val dateFormat = currentDateMore.format(format)
+            val message = stringResource(R.string.next_visit_after_creation) + " " + dateFormat
+            MessageNextVisit(
+                showDialog = visitState.showNextVisit.value,
+                setShowDialog = { visitState.showNextVisit.value = false },
+                message = message,
+                caseId = visitState.caseId.value,
+                onClick = onCreateVisitSucessfull
             )
+        //}
 
-            visitState.checkCanNotCreateVisitInCrenas(visitState.visits.value[0].createdate)
-            val messageCRENAS = stringResource(R.string.error_can_not_create_visit)
-            MessageErrorCreateVisitCRENAS(
-                visitState.showErrorMessageCreateVisitCRENAS.value,
-                visitState::showErrorMessageCanCreateVisitCRENAS,
-                messageCRENAS,
-                onCancelCreateVisit
-            )
-        }
 
-        val currentDate = LocalDateTime.now()
-        val currentDateMore = if (visitState.point.value.type == "CRENAS") currentDate.plusDays(7) else currentDate.plusDays(15)
-        val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val dateFormat = currentDateMore.format(format)
-        val message = stringResource(R.string.next_visit_after_creation) + " " + dateFormat
-        MessageNextVisit(
-            showDialog = visitState.showNextVisit.value,
-            setShowDialog = { visitState.showNextVisit.value = false },
-            message = message,
-            caseId = visitState.caseId.value,
-            onClick = onCreateVisitSucessfull
-        )
+
+
     }
 
 }
@@ -4158,7 +4162,7 @@ fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?, setShowDialog: () -> Uni
 
 @Composable
 fun MessageNextVisit(showDialog: Boolean, setShowDialog: () -> Unit, message: String, caseId: String,
-                     onClick: (String) -> Unit,) {
+                     onClick: (String, Boolean) -> Unit,) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -4172,7 +4176,7 @@ fun MessageNextVisit(showDialog: Boolean, setShowDialog: () -> Unit, message: St
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
                         setShowDialog()
-                        onClick(caseId)
+                        onClick(caseId, false)
                     },
                 ) {
                     Text(stringResource(R.string.accept),color = colorResource(R.color.white))

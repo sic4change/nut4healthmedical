@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
@@ -67,9 +68,11 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
         val points: List<Point> = emptyList(),
     )
 
-    fun createDerivation() {
+    fun createDerivation(derivation: Derivation) {
         viewModelScope.launch {
-
+            _state.value = _state.value.copy(loading = true)
+            FirebaseDataSource.createDerivation(derivation)
+            _state.value = _state.value.copy(loading = false, created = true)
         }
     }
 

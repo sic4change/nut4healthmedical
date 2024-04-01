@@ -17,7 +17,8 @@ import coil.annotation.ExperimentalCoilApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(), onCreateDerivation: (String) -> Unit) {
+fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(),
+                           onCreateDerivation: (String) -> Unit,  onCreateDerivationSucessfull: (String) -> Unit) {
     val derivationCreateState = rememberDerivationState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -74,7 +75,8 @@ fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(), o
     DerivationItemCreateScreen(
         loading = viewModelState.loading,
         derivationState = derivationCreateState,
-        onCreateDerivation = viewModel::createDerivation
+        onCreateDerivation = viewModel::createDerivation,
+        onCreateDerivationSucessfull = onCreateDerivationSucessfull,
     )
 }
 

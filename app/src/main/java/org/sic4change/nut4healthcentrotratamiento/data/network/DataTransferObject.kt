@@ -237,6 +237,7 @@ data class NetworkDerivationContainer(val results: List<Derivation>)
 @JsonClass(generateAdapter = true)
 data class Derivation(
     @Exclude val id: String = "",
+    @Exclude val caseId: String = "",
     @Exclude val originId: String = "",
     @Exclude val destinationId: String = "",
     @Exclude val childId: String? = "",

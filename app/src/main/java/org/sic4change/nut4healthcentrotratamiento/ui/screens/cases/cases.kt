@@ -28,6 +28,7 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
     val caseDetailState = rememberCasesState()
     val viewModelState by viewModel.state.collectAsState()
 
+
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             caseDetailState.id.value = viewModelState.case!!.id
@@ -36,11 +37,13 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
             caseDetailState.admissionType.value = viewModelState.case!!.admissionType
             caseDetailState.addmissionTypeServer.value = viewModelState.case!!.admissionTypeServer
             caseDetailState.status.value = viewModelState.case!!.status
-            caseDetailState.status.value = viewModelState.case!!.admissionType
             caseDetailState.visits.value = viewModelState.case!!.visits
             caseDetailState.observations.value = viewModelState.case!!.observations
+            println("Aqui")
         }
     }
+
+    println("Aqui2")
 
     CaseItemDetailScreen(
         loading = viewModelState.loading,
