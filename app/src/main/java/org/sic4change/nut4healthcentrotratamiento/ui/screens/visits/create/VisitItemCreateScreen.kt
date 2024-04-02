@@ -328,7 +328,9 @@ private fun VisitView(
                         visitState.showViewToGoToDerivationForm.value = false
                         if (visitState.status.value == stringResource(R.string.normopeso) ||
                                 visitState.status.value == stringResource(R.string.objetive_weight)) {
-                            lastStep = true
+                            if (visitState.visits.value.size == 0) {
+                                lastStep = true
+                            }
                         }
                         if (visitState.status.value == stringResource(R.string.aguda_severa) &&
                             (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
@@ -811,7 +813,9 @@ private fun VisitView(
                     visitState.showViewToGoToDerivationForm.value = false
                     if (visitState.status.value == stringResource(R.string.normopeso) ||
                         visitState.status.value == stringResource(R.string.objetive_weight)) {
-                        lastStep = true
+                        if (visitState.visits.value.size == 0) {
+                            lastStep = true
+                        }
                     }
                     if (visitState.status.value == stringResource(R.string.aguda_severa) &&
                         (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
@@ -1012,6 +1016,7 @@ private fun VisitView(
             val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
             val dateFormat = currentDateMore.format(format)
             val message = stringResource(R.string.next_visit_after_creation) + " " + dateFormat
+        //Hay que mirar aqui en los casos que se crea iendo al formulario y en el caso de crear por primera visita y sin desnutricion
             MessageNextVisit(
                 showDialog = visitState.showNextVisit.value,
                 setShowDialog = { visitState.showNextVisit.value = false },
@@ -1019,9 +1024,6 @@ private fun VisitView(
                 caseId = visitState.caseId.value,
                 onClick = onCreateVisitSucessfull
             )
-        //}
-
-
 
 
     }
@@ -1175,18 +1177,14 @@ fun NutritionalFEFAView(visitState: VisitState) {
 fun NutritionalView(visitState: VisitState) {
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
-    AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada)
-            || visitState.status.value == stringResource(R.string.aguda_severa))){
-        Spacer(modifier = Modifier.height(16.dp))
-        SteptTitle(R.mipmap.ic_step_four, stringResource(R.string.step4_title))
-        Spacer(modifier = Modifier.height(32.dp))
-    }
+    Spacer(modifier = Modifier.height(16.dp))
+    SteptTitle(R.mipmap.ic_step_four, stringResource(R.string.step4_title))
+    Spacer(modifier = Modifier.height(32.dp))
 
     Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && (visitState.status.value == stringResource(R.string.aguda_moderada) || visitState.status.value == stringResource(R.string.normopeso) )
             )) {
 
         var nutricionalText = stringResource(R.string.crenam_communitary_pam_nutritional)

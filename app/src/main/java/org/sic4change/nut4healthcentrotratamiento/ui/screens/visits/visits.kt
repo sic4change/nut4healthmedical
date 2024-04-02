@@ -173,8 +173,17 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         if (viewModelState.caseClosed != null) {
             if (viewModelState.caseClosed!!) {
                 onCreateVisit(visitCreateState.caseId.value)
-            } else {
+            }
+            else {
                 visitCreateState.showNextVisit()
+            }
+        }
+    }
+
+    LaunchedEffect(viewModelState.created) {
+        if (viewModelState.created != null && viewModelState.derivation != null && viewModelState.caseClosed != null) {
+            if (viewModelState.caseClosed!! && viewModelState.created!! && !viewModelState.derivation!!) {
+                onCreateVisitSucessfull(visitCreateState.caseId.value, false)
             }
         }
     }
@@ -182,7 +191,6 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.derivation) {
         if (viewModelState.derivation != null) {
             if (viewModelState.derivation!!) {
-                //visitCreateState.showMessageCaseDerived.value = true
                 onCreateVisitSucessfull(visitCreateState.caseId.value, true)
             }
         }
