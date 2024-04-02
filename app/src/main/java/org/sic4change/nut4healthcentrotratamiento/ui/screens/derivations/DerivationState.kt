@@ -24,13 +24,14 @@ fun rememberDerivationState(
     child: MutableState<Child?> = rememberSaveable { mutableStateOf(null) },
     pointId: MutableState<String> = rememberSaveable { mutableStateOf("") },
     currentPointName: MutableState<String> = rememberSaveable { mutableStateOf("") },
+    currentPointType: MutableState<String> = rememberSaveable { mutableStateOf("") },
     currentPointPhone: MutableState<String> = rememberSaveable { mutableStateOf("") },
     expandedDerivationCentre: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     selectedOptionDerivationCentre: MutableState<String> = rememberSaveable { mutableStateOf("") },
     points: MutableState<MutableList<Point>> = rememberSaveable {mutableStateOf(mutableListOf<Point>())},
     healthCentres: MutableState<MutableList<User>> = rememberSaveable {mutableStateOf(mutableListOf<User>())},
-) = remember{ DerivationState(id, caseId, case, lastVisit, tutor, child, pointId, currentPointName, currentPointPhone,
-    expandedDerivationCentre, selectedOptionDerivationCentre, points, healthCentres) }
+) = remember{ DerivationState(id, caseId, case, lastVisit, tutor, child, pointId, currentPointName, currentPointType,
+    currentPointPhone, expandedDerivationCentre, selectedOptionDerivationCentre, points, healthCentres) }
 
 class DerivationState(
     val id: MutableState<String>,
@@ -41,6 +42,7 @@ class DerivationState(
     val child: MutableState<Child?>,
     val pointId: MutableState<String>,
     val currentPointName: MutableState<String>,
+    val currentPointType: MutableState<String>,
     val currentPointPhone: MutableState<String>,
     val expandedDerivationCentre: MutableState<Boolean>,
     val selectedOptionDerivationCentre: MutableState<String>,

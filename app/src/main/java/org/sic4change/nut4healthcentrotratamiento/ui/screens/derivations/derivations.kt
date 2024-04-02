@@ -45,6 +45,7 @@ fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(),
         if (viewModelState.point != null) {
             derivationCreateState.pointId.value = viewModelState.point!!.id
             derivationCreateState.currentPointName.value = viewModelState.point!!.name
+            derivationCreateState.currentPointType.value = viewModelState.point!!.type
         }
     }
 

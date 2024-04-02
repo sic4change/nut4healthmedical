@@ -574,93 +574,98 @@ private fun DerivationView(loading: Boolean,
                     )
 
                     Column(horizontalAlignment = Alignment.Start) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Box(modifier = Modifier.weight(1f)) {
-                                TextField(
-                                    value = derivationState.getWeight(),
-                                    onValueChange = { },
-                                    enabled = false,
-                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
-                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        textColor = colorResource(R.color.colorPrimary),
-                                        backgroundColor = colorResource(R.color.full_transparent),
-                                        cursorColor = colorResource(R.color.full_transparent),
-                                        disabledTextColor = colorResource(R.color.colorPrimary),
-                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
-                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                                    ),
-                                    label = {
-                                        Text(
-                                            stringResource(R.string.weight),
-                                            color = colorResource(R.color.disabled_color)
-                                        )
-                                    }
-                                )
-                            }
-                            Box(modifier = Modifier.weight(1f)) {
-                                TextField(
-                                    value = derivationState.getHeight(),
-                                    onValueChange = { },
-                                    enabled = false,
-                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
-                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        textColor = colorResource(R.color.colorPrimary),
-                                        backgroundColor = colorResource(R.color.full_transparent),
-                                        cursorColor = colorResource(R.color.full_transparent),
-                                        disabledTextColor = colorResource(R.color.colorPrimary),
-                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
-                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                                    ),
-                                    label = {
-                                        Text(
-                                            stringResource(R.string.height),
-                                            color = colorResource(R.color.disabled_color)
-                                        )
-                                    }
-                                )
+                        if (derivationState.currentPointType.value == "CRENAM") {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Box(modifier = Modifier.weight(1f)) {
+                                    TextField(
+                                        value = derivationState.getWeight(),
+                                        onValueChange = { },
+                                        enabled = false,
+                                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                        colors = TextFieldDefaults.textFieldColors(
+                                            textColor = colorResource(R.color.colorPrimary),
+                                            backgroundColor = colorResource(R.color.full_transparent),
+                                            cursorColor = colorResource(R.color.full_transparent),
+                                            disabledTextColor = colorResource(R.color.colorPrimary),
+                                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        ),
+                                        label = {
+                                            Text(
+                                                stringResource(R.string.weight),
+                                                color = colorResource(R.color.disabled_color)
+                                            )
+                                        }
+                                    )
+                                }
+                                Box(modifier = Modifier.weight(1f)) {
+                                    TextField(
+                                        value = derivationState.getHeight(),
+                                        onValueChange = { },
+                                        enabled = false,
+                                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                        colors = TextFieldDefaults.textFieldColors(
+                                            textColor = colorResource(R.color.colorPrimary),
+                                            backgroundColor = colorResource(R.color.full_transparent),
+                                            cursorColor = colorResource(R.color.full_transparent),
+                                            disabledTextColor = colorResource(R.color.colorPrimary),
+                                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        ),
+                                        label = {
+                                            Text(
+                                                stringResource(R.string.height),
+                                                color = colorResource(R.color.disabled_color)
+                                            )
+                                        }
+                                    )
+                                }
                             }
                         }
 
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Box(modifier = Modifier.weight(1f)) {
-                                TextField(
-                                    value = derivationState.getIMC(),
-                                    onValueChange = { },
-                                    enabled = false,
-                                    textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(colorResource(R.color.full_transparent), shape = shapeDefault)
-                                        .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        textColor = colorResource(R.color.colorPrimary),
-                                        backgroundColor = colorResource(R.color.full_transparent),
-                                        cursorColor = colorResource(R.color.full_transparent),
-                                        disabledTextColor = colorResource(R.color.colorPrimary),
-                                        disabledIndicatorColor = colorResource(R.color.full_transparent),
-                                        disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                                        focusedIndicatorColor = colorResource(R.color.full_transparent),
-                                        unfocusedIndicatorColor = colorResource(R.color.full_transparent),
-                                    ),
-                                    label = {
-                                        Text("P/T (Z-score)",
-                                            color = colorResource(R.color.disabled_color)
-                                        )
-                                    }
-                                )
+                            if (derivationState.currentPointType.value == "CRENAM") {
+                                Box(modifier = Modifier.weight(1f)) {
+                                    TextField(
+                                        value = derivationState.getIMC(),
+                                        onValueChange = { },
+                                        enabled = false,
+                                        textStyle = MaterialTheme.typography.h6.copy(color = colorResource(R.color.colorPrimary)),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(colorResource(R.color.full_transparent), shape = shapeDefault)
+                                            .border(1.dp, colorResource(R.color.full_transparent), shape = shapeDefault),
+                                        colors = TextFieldDefaults.textFieldColors(
+                                            textColor = colorResource(R.color.colorPrimary),
+                                            backgroundColor = colorResource(R.color.full_transparent),
+                                            cursorColor = colorResource(R.color.full_transparent),
+                                            disabledTextColor = colorResource(R.color.colorPrimary),
+                                            disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                            disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                            focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                            unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                                        ),
+                                        label = {
+                                            Text("P/T (Z-score)",
+                                                color = colorResource(R.color.disabled_color)
+                                            )
+                                        }
+                                    )
+                                }
                             }
+
                             Box(modifier = Modifier.weight(1f)) {
                                 TextField(
                                     value = derivationState.getArmCircunference(),
