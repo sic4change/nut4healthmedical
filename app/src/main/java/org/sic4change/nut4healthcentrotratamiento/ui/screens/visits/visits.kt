@@ -41,6 +41,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             visitDetailState.visitsSize.value = viewModelState.case!!.visits.toInt()
+            visitDetailState.admissionType.value = viewModelState.case!!.admissionType
         }
     }
 
