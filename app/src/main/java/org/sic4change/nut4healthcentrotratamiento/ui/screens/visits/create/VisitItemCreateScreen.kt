@@ -806,9 +806,21 @@ private fun VisitView(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50) {
-                        val lastStep = (visitState.status.value == stringResource(R.string.normopeso) ||
-                                visitState.status.value == stringResource(R.string.objetive_weight))
+
+                    var lastStep = false
+                    visitState.showViewToGoToDerivationForm.value = false
+                    if (visitState.status.value == stringResource(R.string.normopeso) ||
+                        visitState.status.value == stringResource(R.string.objetive_weight)) {
+                        lastStep = true
+                    }
+                    if (visitState.status.value == stringResource(R.string.aguda_severa) &&
+                        (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
+                        lastStep = true
+                        visitState.showViewToGoToDerivationForm.value = true
+                    }
+
+                    AnimatedVisibility(visible = visitState.armCircunference.value <= 50 && !visitState.showViewToGoToDerivationForm.value) {
+
                         Button(
                             enabled = !visitState.createdVisit.value,
                             modifier = Modifier
@@ -909,7 +921,7 @@ private fun VisitView(
 
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_crenas),
+                            Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.fefa_refer_to_crenas),
                                 color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
 
                             Spacer(modifier = Modifier.height(16.dp))
@@ -966,11 +978,6 @@ private fun VisitView(
 
         }
 
-        /*if (visitState.checkRefererSuccessfull()) {
-            onCreateVisitSucessfull(visitState.caseId.value, true)
-            visitState.showMessageCaseDerived.value = false
-            visitState.showNextVisit.value = false
-        } else {*/
             if (visitState.visits.value != null && visitState.visits.value.size > 0) {
                 visitState.checkCanNotCreateVisit(visitState.visits.value[0].createdate)
                 MessageDuplicateVisitToDay(

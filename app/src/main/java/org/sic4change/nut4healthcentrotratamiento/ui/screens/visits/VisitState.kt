@@ -84,7 +84,6 @@ fun rememberVisitsState(
     showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?> = rememberSaveable { mutableStateOf(null) },
     showNextVisit: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     showViewToGoToDerivationForm: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    showMessageCaseDerived: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ VisitState(id, expandedDetail, caseId, childId, tutorId, womanStatus, pregnantWeeks, womanChildWeeks,
     addmisionType, expandedAddmisionType, height, weight, imc, armCircunference, status, selectedEdema,
     expandedEdema, selectedInfection, expandedInfection, selectedEyes, expandedEyes, selectedDeshidratation,
@@ -97,7 +96,6 @@ fun rememberVisitsState(
     expandedRubeola, observations, childDateMillis, treatments, complications, createdDate, createdVisit,
     visitsSize, visits, case, deleteVisit, currentStep, visitNumber, point, showQuestionMessageDuplicateVisitToDay,
     showErrorMessageCreateVisitCRENAS, showErrorMessageCreateVisitCRENAMComunitary, showNextVisit, showViewToGoToDerivationForm,
-    showMessageCaseDerived
 ) }
 
 
@@ -171,7 +169,6 @@ class VisitState(
     val showErrorMessageCreateVisitCRENAMComunitary: MutableState<Boolean?>,
     val showNextVisit: MutableState<Boolean>,
     val showViewToGoToDerivationForm: MutableState<Boolean>,
-    val showMessageCaseDerived: MutableState<Boolean>,
 ) {
 
     fun incrementStep() {
@@ -214,10 +211,6 @@ class VisitState(
         showQuestionMessageDuplicateVisitToDay.value = (todayDay == dateDay) && (case.value != null && case.value!!.closedReason.isNotEmpty())
         return showQuestionMessageDuplicateVisitToDay.value!!
     }
-
-    /*fun checkRefererSuccessfull(): Boolean {
-        return showMessageCaseDerived.value != null && showMessageCaseDerived.value!!
-    }*/
 
     fun convertDateToLocalDate(date: Date): LocalDate {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()

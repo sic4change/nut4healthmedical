@@ -37,10 +37,9 @@ import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonths
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getYears
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.compose.foundation.lazy.grid.items
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
@@ -90,11 +89,20 @@ private fun DerivationView(loading: Boolean,
     val shapeDefault = RoundedCornerShape(8.dp)
 
     @Composable
-    fun getAgeFormatted(child: Child): String {
+    fun getAgeChildFormatted(child: Child): String {
         if (child == null) {
             return ""
         } else {
             return "${SimpleDateFormat("dd/MM/yyyy").format(child.birthdate)}!≈${getYears(child.birthdate)} ${stringResource(R.string.years)} ${getMonths(child.birthdate)} ${stringResource(R.string.months)}"
+        }
+    }
+
+    @Composable
+    fun getAgeFEFAFormatted(fefa: Tutor): String {
+        if (fefa == null) {
+            return ""
+        } else {
+            return "${SimpleDateFormat("dd/MM/yyyy").format(fefa.birthdate)}!≈${getYears(fefa.birthdate)} ${stringResource(R.string.years)} ${getMonths(fefa.birthdate)} ${stringResource(R.string.months)}"
         }
     }
 
@@ -409,7 +417,7 @@ private fun DerivationView(loading: Boolean,
                     )
 
                     TextField(
-                        value = getAgeFormatted(derivationState.child.value!!),
+                        value = if (derivationState.child.value != null) getAgeChildFormatted(derivationState.child.value!!) else getAgeFEFAFormatted(derivationState.tutor.value!!),
                         visualTransformation = ColorsTransformation(),
                         onValueChange = { },
                         enabled = false,
