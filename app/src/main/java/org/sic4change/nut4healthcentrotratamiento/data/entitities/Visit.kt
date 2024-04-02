@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.entitities
 
+import java.io.Serializable
 import java.util.*
 
 data class Visit(
@@ -34,4 +35,4 @@ data class Visit(
     val complications: MutableList<Complication>,
     var observations: String,
     var point: String?,
-    ) : Item
+    ) : Item, Serializable

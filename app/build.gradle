@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 21
         versionName "1.21"

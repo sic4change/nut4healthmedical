@@ -541,13 +541,13 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
 
                 onCreateVisitSucessfull = { caseId, derivation ->
+                    navController.popBackStack()
+                    navController.popBackStack()
                     if (derivation) {
                         navController.navigate(
-                            NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION).createRoute(caseId)
+                            NavCommand.ContentTypeDetail(Feature.CREATEDERIVATION).createRoute(caseId)
                         )
                     } else {
-                        navController.popBackStack()
-                        navController.popBackStack()
                         navController.navigate(
                             NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                         )
@@ -558,17 +558,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             )
         }
 
-        composable(NavCommand.ContentTypeCreate(Feature.CREATEDERIVATION)) {
+        composable(NavCommand.ContentTypeDetail(Feature.CREATEDERIVATION)) {
             DerivationCreateScreen(
                 onCreateDerivation = {
 
                 },
                 onCreateDerivationSucessfull = { caseId ->
-                    /*navController.navigate(
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
-                    )*/
-                    navController.popBackStack()
-                    navController.popBackStack()
+                    )
                 }
             )
         }

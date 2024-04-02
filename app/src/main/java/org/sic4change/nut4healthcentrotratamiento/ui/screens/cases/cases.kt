@@ -39,11 +39,8 @@ fun CaseDetailScreen(viewModel: CaseDetailViewModel = viewModel(),
             caseDetailState.status.value = viewModelState.case!!.status
             caseDetailState.visits.value = viewModelState.case!!.visits
             caseDetailState.observations.value = viewModelState.case!!.observations
-            println("Aqui")
         }
     }
-
-    println("Aqui2")
 
     CaseItemDetailScreen(
         loading = viewModelState.loading,

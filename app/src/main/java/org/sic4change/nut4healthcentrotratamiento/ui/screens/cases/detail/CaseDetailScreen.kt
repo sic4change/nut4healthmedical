@@ -42,8 +42,6 @@ fun CaseItemDetailScreen(
     caseItem: Case?, visits: List<Visit>?, onEditClick: (Case) -> Unit,
     onCreateVisitClick: (Case) -> Unit, onItemClick: (Visit) -> Unit) {
 
-    println("Aqui3")
-
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -51,39 +49,45 @@ fun CaseItemDetailScreen(
         ) {
             CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
         }
-    }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            if (caseItem != null) {
+                CaseItemDetailScaffold(
+                    caseState = caseState,
+                    caseItem = caseItem,
+                    onClickEdit = onEditClick
+                ) { padding ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(padding)
+                    ) {
+                        CaseView(
+                            caseItem = caseItem,
+                            caseState = caseState,
+                            child = child,
+                            fefa = fefaItem,
+                            visits = visits,
+                            onItemClick = onItemClick, onItemMore = {}, onCreateVisitClick = onCreateVisitClick)
+                    }
+                }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        println("Aqui4")
-        if (caseItem != null) {
-            println("Aqui5")
-            CaseItemDetailScaffold(
-                caseState = caseState,
-                caseItem = caseItem,
-                onClickEdit = onEditClick
-            ) { padding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(padding)
+            } else {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    println("Aqui6")
-                    CaseView(
-                        caseItem = caseItem,
-                        caseState = caseState,
-                        child = child,
-                        fefa = fefaItem,
-                        visits = visits,
-                        onItemClick = onItemClick, onItemMore = {}, onCreateVisitClick = onCreateVisitClick)
+                    CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
                 }
             }
 
         }
-
     }
+
+
 
 }
 
@@ -102,7 +106,6 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
-        println("Aqui7")
         item {
             Spacer(modifier = Modifier.height(16.dp))
             if (child != null) {

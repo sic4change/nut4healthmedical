@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.entitities
 
+import java.io.Serializable
 import java.util.*
 
 data class Tutor(
@@ -21,4 +22,4 @@ data class Tutor(
     val observations: String,
     val active: Boolean,
     var point: String?,
-    ) : Item
+    ) : Item, Serializable

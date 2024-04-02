@@ -1371,8 +1371,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        && visitState.status.value == stringResource(R.string.aguda_severa)
                                        && visitState.visits.value.size >= 3) {
 
-
-                                   //Aqui
                                    Column(
                                        horizontalAlignment = Alignment.CenterHorizontally,
                                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),

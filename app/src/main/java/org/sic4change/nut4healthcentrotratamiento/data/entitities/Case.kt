@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.entitities
 
+import java.io.Serializable
 import java.util.*
 
 data class Case(
@@ -17,7 +18,7 @@ data class Case(
     var visits: String,
     val observations: String,
     var point: String?,
-    ) : Item
+    ) : Item, Serializable
 
 
 object STATUS {

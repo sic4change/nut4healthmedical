@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.entitities
 
+import java.io.Serializable
 import java.util.*
 
 data class Child(
@@ -16,4 +17,4 @@ data class Child(
     val lastDate: Date,
     val observations: String,
     var point: String?,
-    ) : Item
+    ) : Item, Serializable
