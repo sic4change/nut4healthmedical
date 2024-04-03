@@ -33,10 +33,11 @@ fun rememberDerivationState(
     points: MutableState<MutableList<Point>> = rememberSaveable {mutableStateOf(mutableListOf<Point>())},
     healthCentres: MutableState<MutableList<User>> = rememberSaveable {mutableStateOf(mutableListOf<User>())},
     showConfirmationDialog: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    referencesNumber: MutableState<Int> = rememberSaveable { mutableStateOf(0) }
+    referencesNumber: MutableState<Int> = rememberSaveable { mutableStateOf(0) },
+    visits: MutableState<MutableList<Visit>> = rememberSaveable {mutableStateOf(mutableListOf<Visit>())},
 ) = remember{ DerivationState(id, caseId, case, lastVisit, tutor, child, pointId, currentPointName, currentPointType,
     currentPointPhone, expandedDerivationCentre, selectedOptionDerivationCentre, points, healthCentres, showConfirmationDialog,
-    referencesNumber) }
+    referencesNumber, visits) }
 
 class DerivationState(
     val id: MutableState<String>,
@@ -55,6 +56,7 @@ class DerivationState(
     val healthCentres: MutableState<MutableList<User>>,
     val showConfirmationDialog: MutableState<Boolean>,
     val referencesNumber: MutableState<Int>,
+    val visits: MutableState<MutableList<Visit>>,
 ) {
 
     fun getCode() : String {

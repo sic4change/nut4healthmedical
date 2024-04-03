@@ -426,5 +426,6 @@
     <string name="derivation_succesful">La derivación se ha registrado satisfactoriamente</string>
     <string name="reference_code">Código de referencia</string>
     <string name="go_back">Volver a la página de inicio</string>
+    <string name="antropometric_date">Antropometría en el día de la derivación</string>
 
 </resources>

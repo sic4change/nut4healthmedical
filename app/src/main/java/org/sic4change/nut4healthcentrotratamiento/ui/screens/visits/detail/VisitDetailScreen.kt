@@ -1099,29 +1099,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                        ItemViewIcon(visitState.selectedVitamineAVaccinated.value, stringResource(R.string.vitamineAVaccinated), Icons.Filled.Book)
 
-                                       /*AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
-                                           Spacer(modifier = Modifier.height(16.dp))
-                                       }
-                                       AnimatedVisibility(visitState.selectedVitamineAVaccinated.value != stringArrayResource(R.array.yesnooptions)[1]) {
-                                           Column(
-                                               modifier = Modifier
-                                                   .wrapContentSize()
-                                                   .padding(16.dp, 0.dp)
-                                           ) {
-                                               Text(stringResource(R.string.vitamine_dosis),
-                                                   color = colorResource(R.color.disabled_color)
-                                               )
-                                               if (visitState.weight.value.toDouble() in 6.0..8.0 || (monthsBetween >= 6 && monthsBetween <= 11)) {
-                                                   Text(stringResource(R.string.vitamine_blue),
-                                                       color = colorResource(R.color.black_gray)
-                                                   )
-                                               } else if (visitState.weight.value.toDouble() > 8.0 || (monthsBetween >= 12)) {
-                                                   Text(stringResource(R.string.vitamine_red),
-                                                       color = colorResource(R.color.black_gray)
-                                                   )
-                                               }
-                                           }
-                                       }*/
                                    }
                                }
 

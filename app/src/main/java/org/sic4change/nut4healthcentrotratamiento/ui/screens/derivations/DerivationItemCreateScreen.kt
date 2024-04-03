@@ -3,6 +3,7 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.derivations
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -42,7 +44,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.ItemViewIcon
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.SteptTitle
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalCoilApi
@@ -576,7 +582,7 @@ private fun DerivationView(loading: Boolean,
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        stringResource(R.string.step1_title),
+                        stringResource(R.string.antropometric_date),
                         color = colorResource(R.color.disabled_color),
                         style = MaterialTheme.typography.h5,
                         textAlign = TextAlign.Left,
@@ -762,16 +768,56 @@ private fun DerivationView(loading: Boolean,
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Divider(color = colorResource(R.color.colorPrimary), thickness = 1.dp)
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
                 }
             }
 
             item {
 
+                if (derivationState.visits.value.isNotEmpty() && derivationState.visits.value.size > 1) {
+                    Column {
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            stringResource(R.string.step3_title),
+                            color = colorResource(R.color.disabled_color),
+                            style = MaterialTheme.typography.h5,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier.fillMaxWidth().padding(start = 16.dp)
+                        )
+
+                        Column(horizontalAlignment = Alignment.Start) {
+                            var i = 1
+                            for (visit in derivationState.visits.value.subList(1, derivationState.visits.value.size)) {
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(stringResource(R.string.visit) + " $i",
+                                    color = colorResource(R.color.disabled_color),
+                                    style = MaterialTheme.typography.caption,
+                                    textAlign = TextAlign.Left,
+                                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp)
+                                )
+                                SystemicTreatmentView(derivationState.child.value!!, visit, i)
+                                i++
+                            }
+
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+
+                    }
+                }
+
+
+            }
+
+            item {
+
                 Column {
+
+                    Divider(color = colorResource(R.color.colorPrimary), thickness = 1.dp)
+
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -860,6 +906,140 @@ fun CurrenStatusView(
             }
         }
     }
+}
+
+@Composable
+fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
+
+    val monthsBetween = getMonthsAgo(child.birthdate.time)
+
+    AnimatedVisibility(visit.status.isNotEmpty()
+            && visit.status == stringResource(R.string.aguda_moderada)
+            && visitNumber == 1) {
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
+            Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
+        }
+
+    }
+
+    AnimatedVisibility(visit.status.isNotEmpty()
+            && visit.status == stringResource(R.string.aguda_moderada)
+            && visitNumber == 0) {
+        if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
+                Text(stringResource(R.string.albendazole_a_title), color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+        }
+    }
+
+    AnimatedVisibility(visit.status.isNotEmpty()
+            && (visit.status == stringResource(R.string.aguda_moderada)
+            && visitNumber == 1) || (visit.status == stringResource(R.string.aguda_severa)
+            && visitNumber == 2)) {
+        Column(
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(16.dp, 0.dp)
+        ) {
+            if ((monthsBetween >= 12 && monthsBetween < 24)) {
+                Text(stringResource(R.string.abendazol_400_half) + "/" + stringResource(R.string.mebendazol_400_half),
+                    color = colorResource(R.color.colorPrimary)
+                )
+            } else if ((monthsBetween >= 24)) {
+                Text(stringResource(R.string.abendazol_400_full) + "/" + stringResource(R.string.mebendazol_400_full),
+                    color = colorResource(R.color.colorPrimary)
+                )
+            }
+        }
+    }
+
+    AnimatedVisibility(visit.status.isNotEmpty()
+            && visit.status == stringResource(R.string.aguda_moderada)) {
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
+            Text(stringResource(R.string.ferro_title), color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
+        }
+
+    }
+
+    AnimatedVisibility(visit.status.isNotEmpty()
+            && visit.status == stringResource(R.string.aguda_moderada)) {
+        Column {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp, 0.dp)
+            ) {
+                if ((visit.weight > 0.0 && visit.weight < 10.0)) {
+                    Text(stringResource(R.string.capsules_hierro_folico_one), color = colorResource(R.color.colorPrimary)
+                    )
+                } else {
+                    Text(stringResource(R.string.capsules_hierro_folico_tow), color = colorResource(R.color.colorPrimary))
+                }
+            }
+        }
+    }
+
+    AnimatedVisibility(visit.status.isNotEmpty()
+            && visit.status == stringResource(R.string.aguda_severa)
+            && visitNumber == 1) {
+        Column(
+        ) {
+            Column(modifier = Modifier
+                .wrapContentSize()
+                .padding(16.dp, 0.dp)){
+                Text(stringResource(R.string.amoxicilina).split(": ")[0].trim(), color = colorResource(R.color.colorPrimary))
+                if ((visit.weight > 0.0 && visit.weight < 5.0)) {
+                    Text(stringResource(R.string.amoxicilina_125), color = colorResource(R.color.colorPrimary))
+                } else if ((visit.weight > 0.0 && visit.weight >= 5.0 && visit.weight < 10.0)) {
+                    Text(stringResource(R.string.amoxicilina_250), color = colorResource(R.color.colorPrimary))
+                } else if ((visit.weight > 0.0 && visit.weight >= 10.0 && visit.weight < 20.0)) {
+                    Text(stringResource(R.string.amoxicilina_500), color = colorResource(R.color.colorPrimary))
+                } else if ((visit.weight > 0.0 && visit.weight >= 20.0 && visit.weight < 35.0)) {
+                    Text(stringResource(R.string.amoxicilina_750), color = colorResource(R.color.colorPrimary))
+                } else {
+                    Text(stringResource(R.string.amoxicilina_1000), color = colorResource(R.color.colorPrimary))
+                }
+            }
+
+            if (visit.amoxicilina.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                ItemViewIcon(visit.amoxicilina, stringResource(R.string.another_tratements), Icons.Filled.Medication)
+            }
+
+            if (visit.otherTratments.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                ItemViewIcon(visit.otherTratments, stringResource(R.string.another_tratements), Icons.Filled.Medication)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+
+    AnimatedVisibility(visit.vitamineAVaccinated == stringArrayResource(id = R.array.yesnooptions)[2]) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(16.dp, 0.dp)
+        ) {
+            if ((monthsBetween in 6..11) || (visit.weight > 0.0 && visit.weight >= 6.0 && visit.weight <= 8.0)) {
+                Text(stringResource(
+                    R.string.vitamine_blue),
+                    color = colorResource(R.color.colorPrimary)
+                )
+            } else if ((monthsBetween >= 12) || (visit.weight > 0.0 && visit.weight > 8.0)) {
+                Text(stringResource(
+                    R.string.vitamine_red),
+                    color = colorResource(R.color.colorPrimary)
+                )
+            }
+        }
+    }
+
 }
 
 @Composable

@@ -73,6 +73,12 @@ fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(),
         }
     }
 
+    LaunchedEffect(viewModelState.visits) {
+        if (viewModelState.visits != null) {
+            derivationCreateState.visits.value = viewModelState.visits.toMutableList()
+        }
+    }
+
     LaunchedEffect(viewModelState.created) {
         if (viewModelState.created != null && viewModelState.created ) {
             derivationCreateState.showConfirmationDialog.value = true

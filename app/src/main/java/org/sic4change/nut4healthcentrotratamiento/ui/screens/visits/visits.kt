@@ -48,7 +48,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
     LaunchedEffect(viewModelState.visits) {
         if (viewModelState.visits != null) {
             visitDetailState.visits.value = viewModelState.visits.toMutableList()
-            if (viewModelState.visit != null) {
+            if (viewModelState.visit != null && viewModelState.visits.isNotEmpty()) {
                 visitDetailState.visitNumber.value = viewModel.getVisitNumber()
             }
         }
