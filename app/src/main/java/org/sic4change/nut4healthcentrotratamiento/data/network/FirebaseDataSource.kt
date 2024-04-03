@@ -29,14 +29,10 @@ import org.sic4change.nut4healthcentrotratamiento.data.toServerVisit
 import timber.log.Timber
 import java.util.Date
 
-import com.google.firebase.firestore.ktx.memoryCacheSettings
-import com.google.firebase.firestore.ktx.persistentCacheSettings
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.firestore.FirebaseFirestoreSettings
-
-import kotlinx.coroutines.withTimeout
 import com.google.firebase.firestore.Source
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
+import org.sic4change.nut4healthcentrotratamiento.data.toDomainDerivation
 import org.sic4change.nut4healthcentrotratamiento.data.toServerDerivation
 
 object FirebaseDataSource {
@@ -65,17 +61,6 @@ object FirebaseDataSource {
         firestore.firestoreSettings = settings
     }
 
-    /*suspend fun checkFirebaseConnection() : Boolean = withContext(Dispatchers.IO) {
-        try {
-            val conexionRef = firestore.collection("conexion")
-            val query = conexionRef.whereEqualTo("conexion", true).limit(1)
-            val result = query.get(Source.SERVER).await()
-            return@withContext result.size() > 0
-        } catch (e: Exception) {
-            false
-        }
-    }*/
-
     suspend fun loadInitialData(): Boolean  = withContext(Dispatchers.IO) {
         firestore.collection("configurations").get().await()
         firestore.collection("cities").get().await()
@@ -86,7 +71,8 @@ object FirebaseDataSource {
         firestore.collection("points").get().await()
         firestore.collection("tutors").get().await()
         firestore.collection("childs").get().await()
-        //firestore.collection("cases").get().await()
+        firestore.collection("cases").get().await()
+        firestore.collection("derivations").get().await()
         firestore.collection("contracts").get().await()
         firestore.collection("visits").get().await()
         firestore.collection("complications").get().await()
@@ -1047,7 +1033,13 @@ object FirebaseDataSource {
         }
     }
 
-
+    suspend fun getReferences(origin: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation> = withContext(Dispatchers.IO) {
+        val derivationsRef = firestore.collection("derivations")
+        val query = derivationsRef.whereEqualTo("originId", origin).orderBy("createdate", Query.Direction.DESCENDING )
+        val result = query.get(source).await()
+        val networkDerivationsContainer = NetworkDerivationContainer(result.toObjects(Derivation::class.java))
+        networkDerivationsContainer.results.map { it.toDomainDerivation() }
+    }
 
 }
 

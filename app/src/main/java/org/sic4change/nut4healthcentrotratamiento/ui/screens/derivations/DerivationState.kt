@@ -10,8 +10,10 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Locale
+
 
 
 @Composable
@@ -30,8 +32,11 @@ fun rememberDerivationState(
     selectedOptionDerivationCentre: MutableState<String> = rememberSaveable { mutableStateOf("") },
     points: MutableState<MutableList<Point>> = rememberSaveable {mutableStateOf(mutableListOf<Point>())},
     healthCentres: MutableState<MutableList<User>> = rememberSaveable {mutableStateOf(mutableListOf<User>())},
+    showConfirmationDialog: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    referencesNumber: MutableState<Int> = rememberSaveable { mutableStateOf(0) }
 ) = remember{ DerivationState(id, caseId, case, lastVisit, tutor, child, pointId, currentPointName, currentPointType,
-    currentPointPhone, expandedDerivationCentre, selectedOptionDerivationCentre, points, healthCentres) }
+    currentPointPhone, expandedDerivationCentre, selectedOptionDerivationCentre, points, healthCentres, showConfirmationDialog,
+    referencesNumber) }
 
 class DerivationState(
     val id: MutableState<String>,
@@ -47,8 +52,18 @@ class DerivationState(
     val expandedDerivationCentre: MutableState<Boolean>,
     val selectedOptionDerivationCentre: MutableState<String>,
     val points: MutableState<MutableList<Point>>,
-    val healthCentres: MutableState<MutableList<User>>
+    val healthCentres: MutableState<MutableList<User>>,
+    val showConfirmationDialog: MutableState<Boolean>,
+    val referencesNumber: MutableState<Int>,
 ) {
+
+    fun getCode() : String {
+        val referencesNumber = referencesNumber.value + 1
+        return currentPointName.value + "/" +
+                String.format("%05d", referencesNumber) + "/" +
+                LocalDate.now().year + "/" +
+                selectedOptionDerivationCentre.value
+    }
 
     fun getIdSelectedDerivationCentre(): String {
         if (selectedOptionDerivationCentre.value.isEmpty()) {

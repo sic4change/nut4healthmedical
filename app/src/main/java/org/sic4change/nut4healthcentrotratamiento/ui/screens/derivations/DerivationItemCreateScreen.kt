@@ -28,8 +28,11 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
@@ -107,6 +110,13 @@ private fun DerivationView(loading: Boolean,
     }
 
     if (!loading) {
+
+        if (derivationState.showConfirmationDialog.value) {
+            SuccessDialog(
+                onDismiss = { onCreateDerivationSucessfull(derivationState.case.value!!.id) },
+                code = derivationState.getCode())
+        }
+
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxWidth()
@@ -786,10 +796,9 @@ private fun DerivationView(loading: Boolean,
 
                             onClick = {
                                 val id = "${derivationState.pointId.value}_${derivationState.getIdSelectedDerivationCentre()}_${derivationState.child.value?.id}_${derivationState.tutor.value?.id}"
-                                val derivation = Derivation(id, derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
-                                    derivationState.child.value?.id, derivationState.tutor.value?.id, Date())
+                                val derivation = Derivation(id, "Transferred", derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
+                                    derivationState.child.value?.id, derivationState.tutor.value?.id, Date(), derivationState.getCode())
                                 onCreateDerivation(derivation)
-                                onCreateDerivationSucessfull(derivationState.case.value!!.id)
                             },
                         ) {
                             Text(text = stringResource(R.string.save_derivation_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
@@ -852,6 +861,167 @@ fun CurrenStatusView(
         }
     }
 }
+
+@Composable
+fun HeaderImage(modifier: Modifier) {
+    Image(
+        painter = painterResource(R.mipmap.ic_ref_derivation_form),
+        contentDescription = null,
+        modifier =  modifier
+    )
+}
+
+@Composable
+fun SuccessDialog(
+    code: String ="Code",
+    onDismiss: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismiss
+    ) {
+
+        Box(
+            modifier = Modifier
+                .height(370.dp)
+        ) {
+            Column(
+                modifier = Modifier
+            ) {
+                Spacer(modifier = Modifier.height(36.dp))
+                Box(
+                    modifier = Modifier
+                        .height(400.dp)
+                        .background(
+                            color = colorResource(R.color.white),
+                            shape = RoundedCornerShape(10.dp, 10.dp, 10.dp, 10.dp)
+                        )
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Text(
+                            text = stringResource(R.string.derivation_succesful).uppercase(Locale.getDefault()),
+                            color = colorResource(R.color.disabled_color),
+                            fontSize = MaterialTheme.typography.h5.fontSize,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            stringResource(R.string.reference_code).uppercase(Locale.getDefault()),
+                            color = colorResource(R.color.black_gray),
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center)
+
+                        Text(
+                            code.uppercase(Locale.getDefault()),
+                            color = colorResource(R.color.error),
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center)
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxWidth().clickable {
+                                onDismiss()
+                            }
+                        ) {
+                            Image(
+                                painter = painterResource(R.mipmap.ic_check_derivation_form),
+                                contentDescription = null,
+                                modifier =  Modifier.size(72.dp)
+                            )
+                            Text(
+                                stringResource(R.string.go_back),
+                                color = colorResource(R.color.black_gray),
+                                fontSize = MaterialTheme.typography.caption.fontSize,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center)
+                        }
+
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                }
+            }
+            HeaderImage(
+                modifier = Modifier
+                    .size(72.dp)
+                    .align(Alignment.TopCenter)
+            )
+        }
+    }
+}
+/*
+
+@Composable
+fun SuccessDialog(
+    onDismissRequest: () -> Unit,
+    codigoReferencia: String
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties()
+    ) {
+        Box(
+            modifier = Modifier
+                .background(Color.White)
+                .padding(16.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+            ) {
+                Image(
+                    painter = painterResource(R.mipmap.ic_ref_derivation_form),
+                    contentDescription = null,
+                    modifier =  Modifier.size(72.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.derivation_succesful).uppercase(Locale.getDefault()),
+                        color = colorResource(R.color.disabled_color),
+                        fontSize = MaterialTheme.typography.h5.fontSize,
+                    )
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(stringResource(R.string.reference_code).uppercase(Locale.getDefault()), color = colorResource(R.color.black_gray), fontSize = MaterialTheme.typography.h6.fontSize)
+                Text(codigoReferencia.uppercase(Locale.getDefault()), color = colorResource(R.color.error), fontSize = MaterialTheme.typography.h6.fontSize)
+                Spacer(modifier = Modifier.height(32.dp))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth().clickable {
+                        onDismissRequest()
+                    }
+                ) {
+                    Image(
+                        painter = painterResource(R.mipmap.ic_check_derivation_form),
+                        contentDescription = null,
+                        modifier =  Modifier.size(72.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.go_back), color = colorResource(R.color.black_gray), fontSize = MaterialTheme.typography.caption.fontSize)
+                }
+
+            }
+        }
+    }
+}
+*/
 
 
 class ColorsTransformation() : VisualTransformation {

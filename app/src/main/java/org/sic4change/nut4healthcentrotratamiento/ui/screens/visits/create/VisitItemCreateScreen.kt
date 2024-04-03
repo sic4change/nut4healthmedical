@@ -1016,7 +1016,6 @@ private fun VisitView(
             val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
             val dateFormat = currentDateMore.format(format)
             val message = stringResource(R.string.next_visit_after_creation) + " " + dateFormat
-        //Hay que mirar aqui en los casos que se crea iendo al formulario y en el caso de crear por primera visita y sin desnutricion
             MessageNextVisit(
                 showDialog = visitState.showNextVisit.value,
                 setShowDialog = { visitState.showNextVisit.value = false },
@@ -1535,39 +1534,6 @@ fun SistemicFEFAView(visitState: VisitState) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(stringResource(R.string.vitamine_a_title), color = colorResource(R.color.disabled_color), style = MaterialTheme.typography.h5)
                 }
-                /*Spacer(modifier = Modifier.height(16.dp))
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp, 0.dp),
-                    elevation = 0.dp,
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(0.dp, 16.dp)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .padding(0.dp, 0.dp)
-                        ) {
-                            Text(stringResource(
-                                R.string.vitamine_dosis),
-                                color = colorResource(R.color.black_gray)
-                            )
-                            Text(stringResource(
-                                R.string.vitamine_red),
-                                color = colorResource(R.color.colorPrimary)
-                            )
-                        }
-                    }
-                }*/
                 Spacer(modifier = Modifier.height(16.dp))
 
             }

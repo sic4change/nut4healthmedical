@@ -422,4 +422,8 @@
     <string name="derivation_reason">Motivo de derivación</string>
     <string name="save_derivation_form">Guardar formulario</string>
 
+    <string name="derivation_succesful">La derivación se ha registrado satisfactoriamente</string>
+    <string name="reference_code">Código de referencia</string>
+    <string name="go_back">Volver a la página de inicio</string>
+
 </resources>

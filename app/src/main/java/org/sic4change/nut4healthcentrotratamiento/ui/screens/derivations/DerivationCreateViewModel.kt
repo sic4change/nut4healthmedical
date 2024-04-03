@@ -44,7 +44,9 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
             }
             if (_state.value.case != null && _state.value.case!!.point != null) {
                 _state.value = _state.value.copy(point = FirebaseDataSource.getPoint(_state.value.case!!.point!!), loading = true)
+                _state.value = _state.value.copy(references = FirebaseDataSource.getReferences(_state.value.point!!.id), loading = true)
             }
+
             val pointType = when (_state.value.point?.type) {
                 "CRENAM", "Otro" -> "CRENAS"
                 "CRENAS" -> "CRENI"
@@ -66,6 +68,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
         val point: Point? = null,
         val created: Boolean = false,
         val points: List<Point> = emptyList(),
+        val references: List<Derivation> = emptyList()
     )
 
     fun createDerivation(derivation: Derivation) {

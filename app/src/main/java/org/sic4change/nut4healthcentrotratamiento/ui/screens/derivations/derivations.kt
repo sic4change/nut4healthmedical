@@ -73,6 +73,18 @@ fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(),
         }
     }
 
+    LaunchedEffect(viewModelState.created) {
+        if (viewModelState.created != null && viewModelState.created ) {
+            derivationCreateState.showConfirmationDialog.value = true
+        }
+    }
+
+    LaunchedEffect(viewModelState.references) {
+        if (viewModelState.references != null) {
+            derivationCreateState.referencesNumber.value = viewModelState.references.size
+        }
+    }
+
     DerivationItemCreateScreen(
         loading = viewModelState.loading,
         derivationState = derivationCreateState,

@@ -2,8 +2,6 @@ package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import com.google.firebase.firestore.Exclude
 import com.squareup.moshi.JsonClass
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Item
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -237,12 +235,14 @@ data class NetworkDerivationContainer(val results: List<Derivation>)
 @JsonClass(generateAdapter = true)
 data class Derivation(
     @Exclude val id: String = "",
+    @Exclude val type: String = "",
     @Exclude val caseId: String = "",
     @Exclude val originId: String = "",
     @Exclude val destinationId: String = "",
     @Exclude val childId: String? = "",
     @Exclude val fefaId: String? = "",
-    @Exclude val createdate: Date = Date()
+    @Exclude val createdate: Date = Date(),
+    @Exclude val code: String = "",
 )
 
 
