@@ -12,13 +12,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import coil.annotation.ExperimentalCoilApi
-import org.sic4change.nut4healthcentrotratamiento.data.network.Derivation
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseEditScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.ChildEditScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.cuadrante.CuadrantsScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.nexts.NextScreen
@@ -136,7 +134,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             )
         }
 
-        composable(NavCommand.ContentType(Feature.CUADRANTE)) {
+        /*composable(NavCommand.ContentType(Feature.CUADRANTE)) {
             CuadrantsScreen(
                 onItemClick = { cuadrant ->
                     navController.navigate(
@@ -149,7 +147,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     )
                 },
             )
-        }
+        }*/
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
             TutorsScreen(
