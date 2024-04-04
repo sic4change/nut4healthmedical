@@ -107,6 +107,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
         onEditClick = onEditVisitClick,
         onDeleteClick = onDeleteVisitClick
     )
+
     MessageDeleteVisit(visitDetailState.deleteVisit.value, visitDetailState::showDeleteQuestion,
         visitDetailState.id.value, visitDetailState.caseId.value, viewModel::deleteVisit, onDeleteVisitClick)
 }

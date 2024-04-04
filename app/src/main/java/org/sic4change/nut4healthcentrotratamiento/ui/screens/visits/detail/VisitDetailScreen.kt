@@ -63,30 +63,32 @@ fun VisitItemDetailScreen(
         ) {
             CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
         }
-    }
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        if (visitItem != null) {
-            VisitItemDetailScaffold(
-                visitState = visitState,
-                visitItem = visitItem,
-                onClickEdit = onEditClick,
-                onClickDelete = onDeleteClick
-            ) { padding ->
-                Column(modifier = Modifier
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            if (visitItem != null) {
+                VisitItemDetailScaffold(
+                    visitState = visitState,
+                    visitItem = visitItem,
+                    onClickEdit = onEditClick,
+                    onClickDelete = onDeleteClick
+                ) { padding ->
+                    Column(modifier = Modifier
                         .fillMaxWidth()
                         .padding(padding)
-                ) {
-                    VisitView(visitState = visitState, loading = loading, child = child, fefa = fefa)
+                    ) {
+                        VisitView(visitState = visitState, loading = loading, child = child, fefa = fefa)
+                    }
                 }
+
             }
 
         }
-
     }
+
+
 
 }
 
@@ -1775,6 +1777,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
             }
 
+        }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
         }
     }
 

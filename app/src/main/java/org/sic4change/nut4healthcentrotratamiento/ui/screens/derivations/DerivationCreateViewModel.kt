@@ -59,7 +59,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
     }
 
     data class  UiState(
-        val loading: Boolean = false,
+        val loading: Boolean = true,
         val user: User? = null,
         val healthCentreUsers : List<User> = emptyList(),
         val case: Case? = null,

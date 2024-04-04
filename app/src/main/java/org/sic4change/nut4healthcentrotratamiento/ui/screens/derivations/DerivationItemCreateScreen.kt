@@ -64,11 +64,16 @@ fun DerivationItemCreateScreen(derivationState: DerivationState,
         contentAlignment = Alignment.TopCenter
     ) {
         if (loading) {
-            CircularProgressIndicator()
-        }
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = colorResource(R.color.colorPrimaryDark))
+            }
+        } else {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 DerivationView(
                     loading = loading,
                     derivationState = derivationState,
@@ -76,8 +81,8 @@ fun DerivationItemCreateScreen(derivationState: DerivationState,
                     onCreateDerivationSucessfull = onCreateDerivationSucessfull
                 )
 
+            }
         }
-
     }
 
 }
@@ -116,7 +121,7 @@ private fun DerivationView(loading: Boolean,
     }
 
     if (!loading) {
-
+        print("Aqui no mostrando loading")
         if (derivationState.showConfirmationDialog.value) {
             SuccessDialog(
                 onDismiss = { onCreateDerivationSucessfull(derivationState.case.value!!.id) },
@@ -857,6 +862,14 @@ private fun DerivationView(loading: Boolean,
             }
 
         }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+
     }
 }
 
