@@ -1098,7 +1098,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    ) {
 
                                        ItemViewIcon(visitState.selectedVitamineAVaccinated.value, stringResource(R.string.vitamineAVaccinated), Icons.Filled.Book)
-
+                                       Spacer(modifier = Modifier.height(16.dp))
                                    }
                                }
 
@@ -1198,13 +1198,6 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                            }
                                        }
                                    }
-                               }
-
-
-                               AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
-                                       && monthsBetween >= 9) {
-                                   Spacer(modifier = Modifier.height(16.dp))
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
@@ -1598,6 +1591,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    }
 
                                }
+
+                               Spacer(modifier = Modifier.height(16.dp))
 
 
                                ItemViewIcon(visitState.observations.value, stringResource(R.string.observations), Icons.Filled.Edit)
