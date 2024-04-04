@@ -61,9 +61,10 @@ class DerivationState(
 
     fun getCode() : String {
         val referencesNumber = referencesNumber.value + 1
+        val year = LocalDate.now().year
         return currentPointName.value + "/" +
                 String.format("%05d", referencesNumber) + "/" +
-                LocalDate.now().year + "/" +
+                year.toString().substring(2,4) + "/" +
                 selectedOptionDerivationCentre.value
     }
 

@@ -362,6 +362,43 @@ private fun DerivationView(loading: Boolean,
                         }
                     )
 
+                    if (derivationState.getIdSelectedDerivationCentre().isNotEmpty()) {
+                        TextField(
+                            value = derivationState.getCode(),
+                            onValueChange = {  },
+                            enabled = false,
+                            textStyle = MaterialTheme.typography.body1.copy(color = colorResource(R.color.colorPrimary)),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .background(colorResource(R.color.white), shape = shapeDefault)
+                                .border(1.dp, colorResource(R.color.colorPrimary), shape = shapeDefault),
+                            leadingIcon = {
+                                Image(
+                                    painter = painterResource(R.mipmap.ic_ref_derivation_form),
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(4.dp).size(40.dp)
+                                )
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = colorResource(R.color.colorPrimary),
+                                backgroundColor = colorResource(R.color.white),
+                                cursorColor = colorResource(R.color.full_transparent),
+                                disabledTextColor = colorResource(R.color.colorPrimary),
+                                disabledIndicatorColor = colorResource(R.color.full_transparent),
+                                disabledLabelColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
+                                focusedIndicatorColor = colorResource(R.color.full_transparent),
+                                unfocusedIndicatorColor = colorResource(R.color.full_transparent),
+                            ),
+                            label = {
+                                Text(
+                                    stringResource(R.string.reference_code),
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+                            }
+                        )
+                    }
+
                 }
             }
 
