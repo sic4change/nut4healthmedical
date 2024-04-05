@@ -244,6 +244,9 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(caseId)
                     )
                 },
+                onClickTransfered = { case ->
+
+                },
             )
         }
 
@@ -446,7 +449,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(caseId)
                     )
-                }
+                },
+                onClickTransfered = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(case.id, "Transfered")
+                    )
+                },
             )
         }
 
@@ -497,13 +505,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentTypeDetail(Feature.EDITCASE)) {
-            CaseEditScreen( onEditCase = { id ->
-                navController.popBackStack()
-                navController.popBackStack()
-                navController.popBackStack()
-                navController.navigate(
-                    NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(id)
-                )
+            CaseEditScreen(
+                onEditCase = { id ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(id)
+                    )
             })
         }
 
@@ -543,7 +552,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                     if (derivation) {
                         navController.navigate(
-                            NavCommand.ContentTypeDetail(Feature.CREATEDERIVATION).createRoute(caseId)
+                            NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(caseId, "Referred")
                         )
                     } else {
                         navController.navigate(
@@ -556,7 +565,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             )
         }
 
-        composable(NavCommand.ContentTypeDetail(Feature.CREATEDERIVATION)) {
+        composable(NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION)) {
             DerivationCreateScreen(
                 onCreateDerivation = {
 
@@ -567,7 +576,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
-                }
+                },
             )
         }
 

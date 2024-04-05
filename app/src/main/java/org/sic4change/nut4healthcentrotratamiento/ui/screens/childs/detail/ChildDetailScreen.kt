@@ -37,10 +37,12 @@ fun ChildItemDetailScreen(
     cases: List<Case>?,
     isOneCaseOpen: Boolean,
     onEditClick: (Child) -> Unit,
+    onClickTransfered: (Case) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit,
     onItemClick: (Case) -> Unit,
     onClickDetail: (Case) -> Unit,
     onDeleteCase: (String) -> Unit,
+
     onClickEdit: (Case) -> Unit,
     onClickDelete: (Case) -> Unit) {
 
@@ -79,6 +81,7 @@ fun ChildItemDetailScreen(
                         onCreateCaseClick = onCreateCaseClick,
                         onClickDetail = onClickDetail,
                         onClickDelete = onClickDelete,
+                        onClickTransfered = onClickTransfered,
                         onClickEdit = onClickEdit,
                         onDeleteChild  = onDeleteCase
                     )
@@ -106,7 +109,8 @@ private fun ChildView(
     onClickDetail: (Case) -> Unit,
     onDeleteChild: (String) -> Unit,
     onClickEdit: (Case) -> Unit,
-    onClickDelete: (Case) -> Unit) {
+    onClickDelete: (Case) -> Unit,
+    onClickTransfered: (Case) -> Unit){
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -314,6 +318,7 @@ private fun ChildView(
                     onClickDetail = onClickDetail,
                     onClickEdit = onClickEdit,
                     onClickDelete = onClickDelete,
+                    onClickTransfered = onClickTransfered
                 )
             }
         }

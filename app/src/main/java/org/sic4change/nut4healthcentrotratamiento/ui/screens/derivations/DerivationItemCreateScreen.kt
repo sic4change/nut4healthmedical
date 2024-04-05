@@ -124,6 +124,7 @@ private fun DerivationView(loading: Boolean,
         print("Aqui no mostrando loading")
         if (derivationState.showConfirmationDialog.value) {
             SuccessDialog(
+                type = derivationState.type.value,
                 onDismiss = { onCreateDerivationSucessfull(derivationState.case.value!!.id) },
                 code = derivationState.getCode())
         }
@@ -136,7 +137,7 @@ private fun DerivationView(loading: Boolean,
                 Column {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        stringResource(R.string.form_derivation),
+                        if (derivationState.type.value == "Referred") stringResource(R.string.form_refence) else stringResource(R.string.form_transference),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h4,
                         textAlign = TextAlign.Center,
@@ -226,7 +227,7 @@ private fun DerivationView(loading: Boolean,
                 Column {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        stringResource(R.string.select_derivation_centre),
+                        if (derivationState.type.value == "Referred") stringResource(R.string.select_reference_centre) else stringResource(R.string.select_transference_centre),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.h5,
                         textAlign = TextAlign.Center,
@@ -392,7 +393,7 @@ private fun DerivationView(loading: Boolean,
                             ),
                             label = {
                                 Text(
-                                    stringResource(R.string.reference_code),
+                                    if (derivationState.type.value == "Referred") stringResource(R.string.reference_code) else stringResource(R.string.transference_code),
                                     color = colorResource(R.color.colorPrimary)
                                 )
                             }
@@ -441,7 +442,7 @@ private fun DerivationView(loading: Boolean,
                         ),
                         label = {
                             Text(
-                                stringResource(R.string.derivation_date),
+                                if (derivationState.type.value == "Referred") stringResource(R.string.reference_date) else stringResource(R.string.transference_date),
                                 color = colorResource(R.color.disabled_color)
                             )
                         }
@@ -624,7 +625,7 @@ private fun DerivationView(loading: Boolean,
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        stringResource(R.string.antropometric_date),
+                        if (derivationState.type.value == "Referred") stringResource(R.string.antropometric_reference_date) else stringResource(R.string.antropometric_transference_date),
                         color = colorResource(R.color.disabled_color),
                         style = MaterialTheme.typography.h5,
                         textAlign = TextAlign.Left,
@@ -863,13 +864,14 @@ private fun DerivationView(loading: Boolean,
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        stringResource(R.string.derivation_reason),
-                        color = colorResource(R.color.colorPrimary),
-                        style = MaterialTheme.typography.h4,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    if (derivationState.type.value == "Referred") {
+                        Text(stringResource(R.string.reference_reason),
+                            color = colorResource(R.color.colorPrimary),
+                            style = MaterialTheme.typography.h4,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
 
                     CurrenStatusView(derivationState = derivationState)
 
@@ -884,7 +886,7 @@ private fun DerivationView(loading: Boolean,
 
                             onClick = {
                                 val id = "${derivationState.pointId.value}_${derivationState.getIdSelectedDerivationCentre()}_${derivationState.child.value?.id}_${derivationState.tutor.value?.id}"
-                                val derivation = Derivation(id, "Transferred", derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
+                                val derivation = Derivation(id, derivationState.type.value, derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
                                     derivationState.child.value?.id, derivationState.tutor.value?.id, Date(), derivationState.getCode())
                                 onCreateDerivation(derivation)
                             },
@@ -1103,6 +1105,7 @@ fun HeaderImage(modifier: Modifier) {
 
 @Composable
 fun SuccessDialog(
+    type: String,
     code: String ="Code",
     onDismiss: () -> Unit
 ) {
@@ -1134,7 +1137,7 @@ fun SuccessDialog(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         Text(
-                            text = stringResource(R.string.derivation_succesful).uppercase(Locale.getDefault()),
+                            if (type == "Referred") stringResource(R.string.reference_succesful) else stringResource(R.string.transference_succesful),
                             color = colorResource(R.color.disabled_color),
                             fontSize = MaterialTheme.typography.h5.fontSize,
                             modifier = Modifier.fillMaxWidth(),
@@ -1143,7 +1146,7 @@ fun SuccessDialog(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            stringResource(R.string.reference_code).uppercase(Locale.getDefault()),
+                            if (type == "Referred") stringResource(R.string.reference_code).uppercase(Locale.getDefault()) else stringResource(R.string.transference_code).uppercase(Locale.getDefault()),
                             color = colorResource(R.color.black_gray),
                             fontSize = MaterialTheme.typography.h6.fontSize,
                             modifier = Modifier.fillMaxWidth(),

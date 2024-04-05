@@ -33,6 +33,7 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
                       onClickDetail: (Case) -> Unit,
                       onClickEdit: (Case) -> Unit,
                       onClickDelete: (Case) -> Unit,
+                      onClickTransfered: (Case) -> Unit,
                       onDeleteCase: (String) -> Unit,) {
 
     val childDetailState = rememberChildsState()
@@ -87,6 +88,7 @@ fun ChildDetailScreen(viewModel: ChildDetailViewModel = viewModel(),
         onClickEdit = onClickEdit,
         onClickDelete = {childDetailState.showDeleteCaseQuestion(it.id)},
         onDeleteCase = onDeleteCase,
+        onClickTransfered = onClickTransfered
     )
 
     MessageDeleteChild(childDetailState.deleteChild.value, childDetailState::showDeleteQuestion,

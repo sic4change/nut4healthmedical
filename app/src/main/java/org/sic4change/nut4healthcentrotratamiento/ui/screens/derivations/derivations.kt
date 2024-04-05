@@ -18,14 +18,15 @@ import coil.annotation.ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun DerivationCreateScreen(viewModel: DerivationCreateViewModel = viewModel(),
-                           onCreateDerivation: (String) -> Unit,  onCreateDerivationSucessfull: (String) -> Unit) {
+                           onCreateDerivation: (String) -> Unit,
+                           onCreateDerivationSucessfull: (String) -> Unit) {
     val derivationCreateState = rememberDerivationState()
     val viewModelState by viewModel.state.collectAsState()
-
 
     LaunchedEffect(viewModelState.case) {
         if (viewModelState.case != null) {
             derivationCreateState.case.value = viewModelState.case!!
+            derivationCreateState.type.value = viewModelState.type
         }
     }
 

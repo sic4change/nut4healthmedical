@@ -195,6 +195,7 @@ fun FEFADetailScreen(
     onItemClick: (Case) -> Unit,
     onClickEdit: (Case) -> Unit,
     onClickDelete: (Case) -> Unit,
+    onClickTransfered: (Case) -> Unit,
     onTutorDeleted: () -> Unit,
     onDeleteCase: (String) -> Unit,) {
 
@@ -245,6 +246,7 @@ fun FEFADetailScreen(
         onClickEdit = onClickEdit,
         onClickDelete = onDeleteCase,
         onDeleteCase = {fefaDetailState.showDeleteCaseQuestion(it.id)},
+        onClickTransfered = onClickTransfered,
         onTutorDeleted = onTutorDeleted,
         onEditClick = onEditTutorClick,
         onCreateCaseClick = viewModel::createCase,

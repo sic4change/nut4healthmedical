@@ -410,22 +410,40 @@
     <string name="fefa_refer_to_crenas">La FEFA debe acudir a un CRENAS</string>
 
     //Form derivation
-    <string name="form_derivation">Formulario de derivación</string>
+    <string name="form_refence">Formulario de referencia</string>
+    <string name="form_transference">Formulario de transferencia</string>
+
     <string name="current_centre">Nombre del centro actual</string>
-    <string name="select_derivation_centre">Selecciona un centro de derivación</string>
+
+    <string name="select_reference_centre">Selecciona un centro de referencia</string>
+    <string name="select_transference_centre">Selecciona un centro de transferencia</string>
+
     <string name="centre_name">Nombre del centro</string>
     <string name="case_info">Información del caso</string>
-    <string name="derivation_date">Fecha de transferencia/referencia</string>
+
+    <string name="reference_date">Fecha de referencia</string>
+    <string name="transference_date">Fecha de transferencia</string>
+
     <string name="derivation_child_name">Nombre y apellidos del niño/a</string>
     <string name="derivation_tutor_name">Nombre y apellidos del acompañante</string>
     <string name="derivation_tutor_phone">Teléfono del acompañante</string>
     <string name="admission_date">Fecha de admisión</string>
-    <string name="derivation_reason">Motivo de derivación</string>
+
+    <string name="reference_reason">Motivo de referencia</string>
+
     <string name="save_derivation_form">Guardar formulario</string>
 
-    <string name="derivation_succesful">La derivación se ha registrado satisfactoriamente</string>
+    <string name="reference_succesful">La referencia se ha registrado satisfactoriamente</string>
+    <string name="transference_succesful">La transferencia se ha registrado satisfactoriamente</string>
+
     <string name="reference_code">Código de referencia</string>
+    <string name="transference_code">Código de transferencia</string>
+
     <string name="go_back">Volver a la página de inicio</string>
-    <string name="antropometric_date">Antropometría en el día de la derivación</string>
+
+    <string name="antropometric_reference_date">Antropometría en el día de la referencia</string>
+    <string name="antropometric_transference_date">Antropometría en el día de la transferencia</string>
+
+    <string name="trasferred_case">Transferir caso</string>
 
 </resources>

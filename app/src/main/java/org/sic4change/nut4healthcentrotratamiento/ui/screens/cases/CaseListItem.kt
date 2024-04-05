@@ -28,7 +28,8 @@ fun  CaseListItem(
     modifier: Modifier = Modifier,
     onClickDetail: (Case) -> Unit,
     onClickEdit: (Case) -> Unit,
-    onClickDelete: (Case) -> Unit
+    onClickDelete: (Case) -> Unit,
+    onClickTransfered: (Case) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -98,6 +99,11 @@ fun  CaseListItem(
                 }
                 DropdownMenuItem(onClick = { onClickEdit(item); showMenu = false }) {
                     Text(stringResource(R.string.edit_case), color = colorResource(R.color.colorPrimary))
+                }
+                if (item.status == stringResource(R.string.open)) {
+                    DropdownMenuItem(onClick = { onClickTransfered(item); showMenu = false }) {
+                        Text(stringResource(R.string.trasferred_case), color = colorResource(R.color.colorPrimary))
+                    }
                 }
                 DropdownMenuItem(onClick = { onClickDelete(item); showMenu = false }) {
                     Text(stringResource(R.string.remove_case), color = colorResource(R.color.error))

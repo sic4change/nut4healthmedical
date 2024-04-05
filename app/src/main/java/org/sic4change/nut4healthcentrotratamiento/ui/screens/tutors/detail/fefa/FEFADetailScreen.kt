@@ -45,6 +45,7 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                          onClickDetail: (Case) -> Unit,
                          onClickEdit: (Case) -> Unit,
                          onDeleteCase: (Case) -> Unit,
+                         onClickTransfered: (Case) -> Unit,
                          onClickDelete: (String) -> Unit,
                          onTutorDeleted: () -> Unit,
                          onEditClick: (Tutor) -> Unit,
@@ -82,6 +83,7 @@ fun FEFAItemDetailScreen(fefaState: TutorState,
                         onClickDetail = onClickDetail,
                         onClickEdit = onClickEdit,
                         onClickDelete = onDeleteCase,
+                        onClickTransfered = onClickTransfered,
                         onCreateCaseClick = onCreateCaseClick)
                 }
             }
@@ -103,7 +105,8 @@ private fun FEFAView(
     onItemClick: (Case) -> Unit,
     onClickEdit: (Case) -> Unit,
     onCreateCaseClick: (String, String, String) -> Unit,
-    onClickDelete: (Case) -> Unit)  {
+    onClickDelete: (Case) -> Unit,
+    onClickTransfered: (Case) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -453,6 +456,7 @@ private fun FEFAView(
                     onClickDetail = onClickDetail,
                     onClickEdit = onClickEdit,
                     onClickDelete = onClickDelete,
+                    onClickTransfered = onClickTransfered
                 )
             }
         }
