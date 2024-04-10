@@ -25,6 +25,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.derivations.DerivationCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.references.ReferencesScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -135,79 +136,17 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentType(Feature.TRANSFERENCES)) {
-            TutorsScreen(
-                onCreateTutorClick = { phone ->
-                    navController.navigate(
-                        NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
-                    )
-                },
-                onClick = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
-                    )
-                },
-                onClickDetail = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor.id)
-                    )
-                },
-                onClickEdit = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
-                    )
-                },
-                onClickDelete = { tutor ->
+            ReferencesScreen(
+                onItemClick = { derivation ->
 
-                },
-                onDeleteTutor = {
-                    navController.popBackStack()
-                    navController.navigate(
-                        NavCommand.ContentType(Feature.TUTORS).route
-                    )
-                },
-                onLogout = {
-                    navController.navigate(
-                        NavCommand.ContentType(Feature.LOGIN).route
-                    )
                 }
             )
         }
 
         composable(NavCommand.ContentType(Feature.REFERENCES)) {
-            TutorsScreen(
-                onCreateTutorClick = { phone ->
-                    navController.navigate(
-                        NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
-                    )
-                },
-                onClick = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
-                    )
-                },
-                onClickDetail = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor.id)
-                    )
-                },
-                onClickEdit = { tutor ->
-                    navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
-                    )
-                },
-                onClickDelete = { tutor ->
+            ReferencesScreen(
+                onItemClick = { derivation ->
 
-                },
-                onDeleteTutor = {
-                    navController.popBackStack()
-                    navController.navigate(
-                        NavCommand.ContentType(Feature.TUTORS).route
-                    )
-                },
-                onLogout = {
-                    navController.navigate(
-                        NavCommand.ContentType(Feature.LOGIN).route
-                    )
                 }
             )
         }
