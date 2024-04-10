@@ -445,4 +445,7 @@
 
     <string name="trasferred_case">Transferir caso</string>
 
+    <string name="refernce_list">Lista de referencia</string>
+    <string name="trasferred_list">Lista de transferencia</string>
+
 </resources>

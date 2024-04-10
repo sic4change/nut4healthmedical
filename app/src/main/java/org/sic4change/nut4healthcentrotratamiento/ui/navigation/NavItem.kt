@@ -16,7 +16,8 @@ enum class NavItem(
     LOGIN(NavCommand.ContentType(Feature.LOGIN), Icons.Default.Home, R.string.login),
     NEXT_VISITS(NavCommand.ContentType(Feature.NEXT_VISITS), Icons.Default.CalendarToday, R.string.next_visits),
     TUTORS(NavCommand.ContentType(Feature.TUTORS), Icons.Default.People, R.string.tutors),
-    //CUADRANTE(NavCommand.ContentType(Feature.CUADRANTE), Icons.Default.CalendarViewMonth, R.string.cuadrante),
+    REFERENCES(NavCommand.ContentType(Feature.REFERENCES), Icons.Default.Refresh, R.string.refernce_list),
+    TRANSFERENCES(NavCommand.ContentType(Feature.TRANSFERENCES), Icons.Default.Refresh, R.string.trasferred_list),
     SETTINGS(NavCommand.ContentType(Feature.SETTINGS), Icons.Default.Settings, R.string.settings),
 }
 

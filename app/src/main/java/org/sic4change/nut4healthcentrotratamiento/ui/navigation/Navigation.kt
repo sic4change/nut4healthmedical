@@ -134,20 +134,83 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
             )
         }
 
-        /*composable(NavCommand.ContentType(Feature.CUADRANTE)) {
-            CuadrantsScreen(
-                onItemClick = { cuadrant ->
+        composable(NavCommand.ContentType(Feature.TRANSFERENCES)) {
+            TutorsScreen(
+                onCreateTutorClick = { phone ->
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(cuadrant.visitsCuadrant[0].caseId)
+                        NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
                     )
                 },
-                onCreateVisitClick = { caseId ->
+                onClick = { tutor ->
                     navController.navigate(
-                        NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(caseId)
+                        NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
                     )
                 },
+                onClickDetail = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor.id)
+                    )
+                },
+                onClickEdit = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
+                },
+                onClickDelete = { tutor ->
+
+                },
+                onDeleteTutor = {
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
+                    )
+                },
+                onLogout = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.LOGIN).route
+                    )
+                }
             )
-        }*/
+        }
+
+        composable(NavCommand.ContentType(Feature.REFERENCES)) {
+            TutorsScreen(
+                onCreateTutorClick = { phone ->
+                    navController.navigate(
+                        NavCommand.ContentTypeCreate(Feature.CREATETUTOR).createRoute(phone)
+                    )
+                },
+                onClick = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS).createRoute(tutor.id)
+                    )
+                },
+                onClickDetail = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.TUTORS_DETAIL).createRoute(tutor.id)
+                    )
+                },
+                onClickEdit = { tutor ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.EDITTUTOR).createRoute(tutor.id)
+                    )
+                },
+                onClickDelete = { tutor ->
+
+                },
+                onDeleteTutor = {
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.TUTORS).route
+                    )
+                },
+                onLogout = {
+                    navController.navigate(
+                        NavCommand.ContentType(Feature.LOGIN).route
+                    )
+                }
+            )
+        }
 
         composable(NavCommand.ContentType(Feature.TUTORS)) {
             TutorsScreen(

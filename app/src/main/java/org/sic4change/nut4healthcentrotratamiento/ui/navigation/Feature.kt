@@ -33,4 +33,8 @@ enum class Feature(val route: String) {
     EDITVISIT("editvisit"),
 
     CREATEDERIVATION("createderivation"),
+
+    REFERENCES("references"),
+    TRANSFERENCES("transferences"),
+
 }
