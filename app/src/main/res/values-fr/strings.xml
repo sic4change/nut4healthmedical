@@ -448,4 +448,7 @@
     <string name="refernce_list">Lista de referencia</string>
     <string name="trasferred_list">Lista de transferencia</string>
 
+    <string name="no_refernce_list">Sin referencias todavía</string>
+    <string name="no_trasferred_list">Sin transferencias todavía</string>>
+
 </resources>

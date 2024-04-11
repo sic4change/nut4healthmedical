@@ -25,7 +25,8 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.*
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.derivations.DerivationCreateScreen
-import org.sic4change.nut4healthcentrotratamiento.ui.screens.references.ReferencesScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransferences.ReferenceScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransferences.TransferenceScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
@@ -136,7 +137,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentType(Feature.TRANSFERENCES)) {
-            ReferencesScreen(
+            TransferenceScreen(
                 onItemClick = { derivation ->
 
                 }
@@ -144,7 +145,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
         }
 
         composable(NavCommand.ContentType(Feature.REFERENCES)) {
-            ReferencesScreen(
+            ReferenceScreen(
                 onItemClick = { derivation ->
 
                 }

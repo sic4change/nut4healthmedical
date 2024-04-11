@@ -1041,5 +1041,29 @@ object FirebaseDataSource {
         networkDerivationsContainer.results.map { it.toDomainDerivation() }
     }
 
+    suspend fun getReferencesDestination(origin: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation> = withContext(Dispatchers.IO) {
+        val derivationsRef = firestore.collection("derivations")
+        val query = derivationsRef.whereEqualTo("destinationId", origin).orderBy("createdate", Query.Direction.DESCENDING )
+        val result = query.get(source).await()
+        val networkDerivationsContainer = NetworkDerivationContainer(result.toObjects(Derivation::class.java))
+        networkDerivationsContainer.results.map { it.toDomainDerivation() }
+    }
+
+    suspend fun getAllTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
+        val tutorsRef = firestore.collection("tutors")
+        val query = tutorsRef.orderBy("name", Query.Direction.ASCENDING )
+        val result = query.get(source).await()
+        val networkTutorsContainer = NetworkTutorsContainer(result.toObjects(Tutor::class.java))
+        networkTutorsContainer.results.map { it.toDomainTutor() }
+    }
+
+    suspend fun getAllChilds(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Child> = withContext(Dispatchers.IO) {
+        val childsRef = firestore.collection("childs")
+        val query = childsRef.orderBy("name", Query.Direction.ASCENDING )
+        val result = query.get(source).await()
+        val networkChilldsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
+        networkChilldsContainer.results.map { it.toDomainChild() }
+    }
+
 }
 

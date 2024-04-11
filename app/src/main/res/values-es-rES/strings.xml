@@ -53,9 +53,9 @@
     <string name="create_tutor">Crear perfil de la mujer acompañante o embarazada y lactante (FEFA)</string>
     <string name="save">Guardar</string>
     <string name="delete_tutor_question">¿Estás seguro que quieres eliminar ese acompañante? Se perderá toda la información asociada</string>
-    <string name="editar_tutor">Editar acompañanate</string>
+    <string name="editar_tutor">Editar acompañante</string>
     <string name="remove_tutor">Eliminar acompañante</string>
-    <string name="editar_tutor_fefa">Editar acompañanate FEFA</string>
+    <string name="editar_tutor_fefa">Editar acompañante FEFA</string>
     <string name="remove_tutor_fefa">Eliminar acompañante FEFA</string>
     <string name="create_child">Crear perfil niño/a</string>
     <string name="delete_child_question">¿Estás seguro que quieres eliminar a ese perfil niñ@? Se perderán todos los datos asociados</string>
@@ -95,7 +95,7 @@
     <string name="hassanya">Hassanya</string>
     <string name="soninke">Soninke</string>
     <string name="autre">Autre</string>
-    <string name="check_tutor">Introduce el teléfono del acompañanate para validar si existe</string>
+    <string name="check_tutor">Introduce el teléfono del acompañante para validar si existe</string>
     <string name="edit_case">Editar caso</string>
     <string name="visitas">Visitas</string>
     <string name="no_visits">Sin visitas todavía</string>
@@ -158,7 +158,7 @@
     <string name="woman">Mujer</string>
     <string name="man">Hombre</string>
 
-    <string name="new_tutor">Crear acompañanate</string>
+    <string name="new_tutor">Crear acompañante</string>
 
     <string name="january">Enero</string>
     <string name="february">Febrero</string>
@@ -448,6 +448,9 @@
 
     <string name="refernce_list">Lista de referencia</string>
     <string name="trasferred_list">Lista de transferencia</string>
+
+    <string name="no_refernce_list">Sin referencias todavía</string>
+    <string name="no_trasferred_list">Sin transferencias todavía</string>
 
 
 </resources>
