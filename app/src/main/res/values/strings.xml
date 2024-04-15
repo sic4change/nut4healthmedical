@@ -452,4 +452,13 @@
     <string name="no_refernce_list">Sin referencias todavía</string>
     <string name="no_trasferred_list">Sin transferencias todavía</string>
 
+    <string name="search_reference">Buscar referencia</string>
+    <string name="search_transference">Buscar transferencia</string>
+
+    <string name="original_centre">Centro de salud original</string>
+    <string name="reference_number">Número de referencia</string>
+    <string name="reference_year">Año</string>
+
+    <string name="search_result">Resultado de la búsqueda</string>
+
 </resources>

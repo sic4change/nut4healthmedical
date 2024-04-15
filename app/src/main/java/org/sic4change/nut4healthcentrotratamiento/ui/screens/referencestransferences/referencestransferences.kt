@@ -28,23 +28,26 @@ fun ReferenceScreen(
         if (viewModelState.referencesTransferences != null) {
             referencesTransferencesState.tutors.value = viewModelState.fefas
             referencesTransferencesState.childs.value = viewModelState.childs
-            referencesTransferencesState.referencesTransferences.value =
-                viewModelState.referencesTransferences
+            referencesTransferencesState.referencesTransferences.value = viewModelState.referencesTransferences
         }
+    }
 
+    LaunchedEffect(viewModelState.points) {
+        if (viewModelState.points != null) {
+            referencesTransferencesState.origins.value = viewModelState.points.map { it!!.name }
+        }
     }
 
 
     NUT4HealthScreen {
-
         ReferencesTransferencesItemsListScreen(
             type = viewModelState.type,
             loading = viewModelState.loading,
             items = referencesTransferencesState.referencesTransferences.value,
             tutors = referencesTransferencesState.tutors.value,
             childs = referencesTransferencesState.childs.value,
-            onClick = onItemClick,
-            onSearch = viewModel::searchReferenceTransference,
+            points = referencesTransferencesState.origins.value,
+            onClick = onItemClick
         )
     }
 
@@ -59,7 +62,7 @@ fun TransferenceScreen(
 ) {
     val referencesTransferencesState = rememberReferencesTransferencesState()
     val viewModelState by viewModel.state.collectAsState()
-    viewModelState.type = "Transferred"
+    viewModelState.type = "Transfered"
 
     LaunchedEffect(viewModelState.referencesTransferences) {
         if (viewModelState.referencesTransferences != null) {
@@ -70,16 +73,22 @@ fun TransferenceScreen(
     }
 
 
-    NUT4HealthScreen {
+    LaunchedEffect(viewModelState.points) {
+        if (viewModelState.points != null) {
+            referencesTransferencesState.origins.value = viewModelState.points.map { it!!.name }
+        }
+    }
 
+
+    NUT4HealthScreen {
         ReferencesTransferencesItemsListScreen(
             type = viewModelState.type,
             loading = viewModelState.loading,
             items = referencesTransferencesState.referencesTransferences.value,
             tutors = referencesTransferencesState.tutors.value,
             childs = referencesTransferencesState.childs.value,
-            onClick = onItemClick,
-            onSearch = viewModel::searchReferenceTransference,
+            points = referencesTransferencesState.origins.value,
+            onClick = onItemClick
         )
     }
 

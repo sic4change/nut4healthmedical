@@ -1057,6 +1057,14 @@ object FirebaseDataSource {
         networkTutorsContainer.results.map { it.toDomainTutor() }
     }
 
+    suspend fun getAllPoints(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Point> = withContext(Dispatchers.IO) {
+        val pointsRef = firestore.collection("points")
+        val query = pointsRef.orderBy("name", Query.Direction.ASCENDING )
+        val result = query.get(source).await()
+        val networkPointsContainer = NetworkPointsContainer(result.toObjects(Point::class.java))
+        networkPointsContainer.results.map { it.toDomainPoint() }
+    }
+
     suspend fun getAllChilds(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Child> = withContext(Dispatchers.IO) {
         val childsRef = firestore.collection("childs")
         val query = childsRef.orderBy("name", Query.Direction.ASCENDING )
@@ -1064,6 +1072,7 @@ object FirebaseDataSource {
         val networkChilldsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
         networkChilldsContainer.results.map { it.toDomainChild() }
     }
+
 
 }
 

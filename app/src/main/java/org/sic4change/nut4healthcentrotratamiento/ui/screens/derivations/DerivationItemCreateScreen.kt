@@ -121,7 +121,6 @@ private fun DerivationView(loading: Boolean,
     }
 
     if (!loading) {
-        print("Aqui no mostrando loading")
         if (derivationState.showConfirmationDialog.value) {
             SuccessDialog(
                 type = derivationState.type.value,
@@ -1192,69 +1191,6 @@ fun SuccessDialog(
         }
     }
 }
-/*
-
-@Composable
-fun SuccessDialog(
-    onDismissRequest: () -> Unit,
-    codigoReferencia: String
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = DialogProperties()
-    ) {
-        Box(
-            modifier = Modifier
-                .background(Color.White)
-                .padding(16.dp)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp)
-            ) {
-                Image(
-                    painter = painterResource(R.mipmap.ic_ref_derivation_form),
-                    contentDescription = null,
-                    modifier =  Modifier.size(72.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(R.string.derivation_succesful).uppercase(Locale.getDefault()),
-                        color = colorResource(R.color.disabled_color),
-                        fontSize = MaterialTheme.typography.h5.fontSize,
-                    )
-                }
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(stringResource(R.string.reference_code).uppercase(Locale.getDefault()), color = colorResource(R.color.black_gray), fontSize = MaterialTheme.typography.h6.fontSize)
-                Text(codigoReferencia.uppercase(Locale.getDefault()), color = colorResource(R.color.error), fontSize = MaterialTheme.typography.h6.fontSize)
-                Spacer(modifier = Modifier.height(32.dp))
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth().clickable {
-                        onDismissRequest()
-                    }
-                ) {
-                    Image(
-                        painter = painterResource(R.mipmap.ic_check_derivation_form),
-                        contentDescription = null,
-                        modifier =  Modifier.size(72.dp)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(stringResource(R.string.go_back), color = colorResource(R.color.black_gray), fontSize = MaterialTheme.typography.caption.fontSize)
-                }
-
-            }
-        }
-    }
-}
-*/
 
 
 class ColorsTransformation() : VisualTransformation {
