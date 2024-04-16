@@ -1073,6 +1073,20 @@ object FirebaseDataSource {
         networkChilldsContainer.results.map { it.toDomainChild() }
     }
 
+    suspend fun getDerivation(id: String): org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation? = withContext(Dispatchers.IO) {
+        val derivationRef = firestore.collection("derivations")
+        val query = derivationRef.whereEqualTo("id", id)
+        val result = query.get(source).await()
+        val networkDerivationsContainer = NetworkDerivationContainer(result.toObjects(Derivation::class.java))
+        try {
+            networkDerivationsContainer.results[0].let {
+                it.toDomainDerivation()
+            }
+        } catch (e : Exception) {
+            null
+        }
+    }
+
 
 }
 

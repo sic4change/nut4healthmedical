@@ -345,7 +345,7 @@ fun ReferencesTransferencesItemsList(
                         derivation = filterItem!!,
                         child = childs.find { child -> child?.id == filterItem!!.childId },
                         tutor = tutors.find { tutor -> tutor?.id == filterItem!!.fefaId },
-                        modifier = Modifier.clickable { },
+                        modifier = Modifier.clickable { onItemClick(filterItem)},
                         onClickDetail = onItemClick
                     )
                 }

@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.entitities
 
+import java.io.Serializable
 import java.util.*
 
 data class Point(
@@ -11,4 +12,4 @@ data class Point(
     val phoneCode: String,
     val type: String,
     val phoneLength: Int,
-    ) : Item
+    ) : Item, Serializable

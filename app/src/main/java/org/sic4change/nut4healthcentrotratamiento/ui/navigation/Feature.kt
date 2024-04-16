@@ -36,5 +36,6 @@ enum class Feature(val route: String) {
 
     REFERENCES("references"),
     TRANSFERENCES("transferences"),
+    DERIVATIONCASEDETAIL("derivationcasedetail"),
 
 }

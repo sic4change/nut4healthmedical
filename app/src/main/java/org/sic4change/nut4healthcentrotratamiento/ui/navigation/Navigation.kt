@@ -26,6 +26,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitCreateS
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.derivations.DerivationCreateScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransferences.ReferenceScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransferences.ReferencesTransferencesCaseDetailScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransferences.TransferenceScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -138,16 +139,20 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentType(Feature.TRANSFERENCES)) {
             TransferenceScreen(
-                onItemClick = { derivation ->
-
+                onItemClick = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.DERIVATIONCASEDETAIL).createRoute(case.id)
+                    )
                 }
             )
         }
 
         composable(NavCommand.ContentType(Feature.REFERENCES)) {
             ReferenceScreen(
-                onItemClick = { derivation ->
-
+                onItemClick = { case ->
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.DERIVATIONCASEDETAIL).createRoute(case.id)
+                    )
                 }
             )
         }
@@ -579,6 +584,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.navigate(
                         NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
                     )
+                },
+            )
+        }
+
+        composable(NavCommand.ContentTypeDetail(Feature.DERIVATIONCASEDETAIL)) {
+            ReferencesTransferencesCaseDetailScreen(
+                onCrateVisit = { derivation ->
+
                 },
             )
         }

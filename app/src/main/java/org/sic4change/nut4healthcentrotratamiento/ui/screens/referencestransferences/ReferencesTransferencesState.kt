@@ -3,11 +3,17 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransfer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 @Composable
@@ -22,8 +28,19 @@ fun rememberReferencesTransferencesState(
     codeNumber: MutableState<String> = rememberSaveable { mutableStateOf("00000") },
     expandedYear: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     year: MutableState<String> = rememberSaveable { mutableStateOf(getCurrentYear()) },
+    expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
+    derivation: MutableState<Derivation> = rememberSaveable { mutableStateOf(Derivation("", "", "", "", "", "", "", Date(), "")) },
+    case: MutableState<Case> = rememberSaveable { mutableStateOf(Case("", "", "", "", "", "", "", "", "", Date(), Date(), "", "", "")) },
+    lastVisit: MutableState<Visit> = rememberSaveable { mutableStateOf(Visit("", "","" ,"", "" ,Date(), 0.0, 0.0, 0.0, 0.0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+        emptyList<Complication>().toMutableList(), "", "")) },
+    visits: MutableState<List<Visit>> = rememberSaveable { mutableStateOf(emptyList()) },
+    child: MutableState<Child> = rememberSaveable { mutableStateOf(Child("", "", "", "", "", "", Date(), 0, "", Date(), Date(), "", "")) },
+    fefa: MutableState<Tutor> = rememberSaveable { mutableStateOf(Tutor("", "", "", "", "", Date(), "", "", Date(), Date(), "", "", "", "", "", "", false, "")) },
+    point: MutableState<Point> = rememberSaveable { mutableStateOf(Point("", "" , "", "", "", "", "", 0)) }
 ) = remember{ ReferencesTransferencesState(referencesTransferences, tutors, childs, expanded,
-    origins, expandedOrigin, originName, codeNumber, expandedYear, year) }
+    origins, expandedOrigin, originName, codeNumber, expandedYear, year, expandedDetail,
+    derivation, case, lastVisit, visits, child, fefa, point) }
+
 
 fun getCurrentYear(): String {
     val calendar = Calendar.getInstance()
@@ -40,8 +57,21 @@ class ReferencesTransferencesState(
     val originName: MutableState<String>,
     val codeNumber: MutableState<String>,
     val expandedYear: MutableState<Boolean>,
-    val year: MutableState<String>
-) {
+    val year: MutableState<String>,
+
+    val expandedDetail: MutableState<Boolean>,
+    val derivation: MutableState<Derivation>,
+    val case: MutableState<Case>,
+    val lastVisit: MutableState<Visit>,
+    val visits: MutableState<List<Visit>>,
+    val child: MutableState<Child>,
+    val fefa: MutableState<Tutor>,
+    val origin: MutableState<Point>
+    ) {
+
+    fun expandContractDetail() {
+        expandedDetail.value = !expandedDetail.value
+    }
 
     fun enableSarch() : Boolean = codeNumber.value.length >= 5 && originName.value.isNotEmpty()
 
@@ -68,6 +98,8 @@ class ReferencesTransferencesState(
         }
         return null
     }
+
+
 
 
 }

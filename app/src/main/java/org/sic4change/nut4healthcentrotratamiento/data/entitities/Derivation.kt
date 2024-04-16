@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.data.entitities
 
+import java.io.Serializable
 import java.util.*
 
 data class Derivation(
@@ -12,4 +13,4 @@ data class Derivation(
     val fefaId: String?,
     val createdate: Date,
     val code: String
-    ) : Item
+    ) : Item, Serializable

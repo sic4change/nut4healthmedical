@@ -1,5 +1,6 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.referencestransferences
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,12 +12,16 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Point
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.User
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
+import org.sic4change.nut4healthcentrotratamiento.ui.navigation.NavArg
 
-class ReferencesTransferencesViewModel() : ViewModel() {
+class ReferencesTransferencesViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
+
+    private val id = savedStateHandle.get<String>(NavArg.ItemId.key) ?: "0"
 
     init {
         viewModelScope.launch {
@@ -26,7 +31,6 @@ class ReferencesTransferencesViewModel() : ViewModel() {
             _state.value = _state.value.copy(childs = FirebaseDataSource.getAllChilds(), loading = true)
             _state.value = _state.value.copy(fefas = FirebaseDataSource.getAllTutors(), loading = true)
             var points = FirebaseDataSource.getAllPoints()
-            println("Aqui1 ${points.size}")
             if (_state.value.type == "Referred" && _state.value.currentPoint!!.type == "CRENAS") {
                 points = points.filter { it.type == "CRENAM" || it.type == "Otro" }
             } else if (_state.value.type == "Referred" && _state.value.currentPoint!!.type == "CRENI") {
@@ -36,20 +40,29 @@ class ReferencesTransferencesViewModel() : ViewModel() {
             } else if (_state.value.type == "Transfered" && (_state.value.currentPoint!!.type == "CRENAM"
                         || _state.value.currentPoint!!.type == "Otro")) {
                 points = points.filter { it.type == "CRENAM" || it.type == "Otro" }
-                println("Aqui11 ${points.size}")
-                println("Aqui12 ${points.filter { it.type == "CRENAM" || it.type == "Otro" }.size}")
             } else if (_state.value.type == "Transfered" && _state.value.currentPoint!!.type == "CRENI") {
                 points = points.filter { it.type == "CRENI"}
             }
-            println("Aqui2 ${points.size}")
             _state.value = _state.value.copy(points = points, loading = true)
             _state.value = _state.value.copy(referencesTransferences =
             FirebaseDataSource.getReferencesDestination(_state.value.user!!.point!!).filter { it.type == _state.value.type }, loading = false)
         }
     }
 
-    fun searchReferenceTransference(text: String) {
+    fun getDetailData() {
         viewModelScope.launch {
+            val derivation = FirebaseDataSource.getDerivation(id)
+            _state.value = _state.value.copy(derivation = derivation, loading = true)
+            if (derivation != null) {
+                _state.value = _state.value.copy(case = FirebaseDataSource.getCase(derivation.caseId), loading = true)
+                if (derivation.childId != null) {
+                    _state.value = _state.value.copy(child = FirebaseDataSource.getChild(derivation.childId), loading = true)
+                }
+                if (derivation.fefaId != null) {
+                    _state.value = _state.value.copy(fefa = FirebaseDataSource.getTutor(derivation.fefaId), loading = true)
+                }
+            }
+            _state.value = _state.value.copy(loading = false)
 
         }
     }
@@ -63,6 +76,11 @@ class ReferencesTransferencesViewModel() : ViewModel() {
         val currentPoint: Point? = null,
         val points: List<Point?> = emptyList(),
         val referencesTransferences: List<Derivation?> = emptyList(),
+
+        val derivation: Derivation? = null,
+        val fefa: Tutor? = null,
+        val child : Child? = null,
+        val case: Case? = null
     )
 
 }
