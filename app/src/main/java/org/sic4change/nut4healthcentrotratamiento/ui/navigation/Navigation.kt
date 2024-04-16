@@ -590,8 +590,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
         composable(NavCommand.ContentTypeDetail(Feature.DERIVATIONCASEDETAIL)) {
             ReferencesTransferencesCaseDetailScreen(
-                onCrateVisit = { derivation ->
-
+                onGoToUniqueCase = { case ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CREATEVISIT).createRoute(case.id)
+                    )
                 },
             )
         }

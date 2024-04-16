@@ -60,7 +60,7 @@ fun ReferencesTransferencesCaseDetailView(
     visits: List<Visit?>,
     origin: Point?,
     loading: Boolean = false,
-    onCreateVisit: (Derivation) -> Unit
+    onCreateVisit: (Derivation, String, String, String) -> Unit
 ) {
 
     Box(
@@ -112,7 +112,7 @@ private fun DerivationView(
     lastVisit: Visit?,
     visits: List<Visit?>,
     origin: Point?,
-    onCreateVisit: (Derivation) -> Unit
+    onCreateVisit: (Derivation, String, String, String) -> Unit
 ) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -1025,7 +1025,8 @@ private fun DerivationView(
             }
 
             item {
-
+                val name = "${stringResource(R.string.caso)}_1"
+                val status = stringResource(R.string.open)
                 Column {
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -1038,6 +1039,7 @@ private fun DerivationView(
 
                         onClick = {
 
+                            onCreateVisit(derivation, name, status, derivation.type)
                         },
                     ) {
                         Text(text = stringResource(R.string.create_visit), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)
@@ -1060,53 +1062,6 @@ private fun DerivationView(
     }
 }
 
-
-/*@ExperimentalCoilApi
-@Composable
-fun CurrenStatusView(
-    referencesTransferencesState: ReferencesTransferencesState,
-    modifier: Modifier = Modifier
-) {
-    var colorBackground : Color = Color.White
-    if (formatStatus(referencesTransferencesState.lastVisit.value!!.status)  == stringResource(R.string.normopeso)) {
-        colorBackground = colorResource(R.color.colorAccent)
-    } else if (formatStatus(referencesTransferencesState.lastVisit.value!!.status)  == stringResource(R.string.objetive_weight)) {
-        colorBackground = colorResource(R.color.colorPrimary)
-    } else if (formatStatus(referencesTransferencesState.lastVisit.value!!.status)  == stringResource(R.string.aguda_moderada)) {
-        colorBackground = colorResource(R.color.orange)
-    } else {
-        colorBackground = colorResource(R.color.error)
-    }
-    Column(
-        modifier = modifier.padding(8.dp)
-    ) {
-        Card(
-            backgroundColor = colorBackground,
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = {}) {
-                    Icon(
-                        tint = colorResource(R.color.white),
-                        imageVector = Icons.Default.Folder,
-                        contentDescription = null
-                    )
-                }
-                Text(
-                    color = colorResource(R.color.white),
-                    text = "${formatStatus(referencesTransferencesState.lastVisit.value!!.status) }".toString().capitalize()  ,
-                    style = MaterialTheme.typography.h6,
-                    maxLines = 2,
-                    modifier = Modifier
-                        .padding(8.dp, 16.dp)
-                        .weight(1f)
-                )
-
-            }
-        }
-    }
-}*/
 
 @Composable
 fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {

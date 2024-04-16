@@ -243,6 +243,7 @@ data class Derivation(
     @Exclude val fefaId: String? = "",
     @Exclude val createdate: Date = Date(),
     @Exclude val code: String = "",
+    @Exclude val completed: Boolean = false
 )
 
 

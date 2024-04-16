@@ -886,7 +886,7 @@ private fun DerivationView(loading: Boolean,
                             onClick = {
                                 val id = "${derivationState.pointId.value}_${derivationState.getIdSelectedDerivationCentre()}_${derivationState.child.value?.id}_${derivationState.tutor.value?.id}"
                                 val derivation = Derivation(id, derivationState.type.value, derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
-                                    derivationState.child.value?.id, derivationState.tutor.value?.id, Date(), derivationState.getCode())
+                                    derivationState.child.value?.id, derivationState.tutor.value?.id, Date(), derivationState.getCode(), true)
                                 onCreateDerivation(derivation)
                             },
                         ) {

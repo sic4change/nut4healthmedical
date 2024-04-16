@@ -29,17 +29,19 @@ fun rememberReferencesTransferencesState(
     expandedYear: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
     year: MutableState<String> = rememberSaveable { mutableStateOf(getCurrentYear()) },
     expandedDetail: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
-    derivation: MutableState<Derivation> = rememberSaveable { mutableStateOf(Derivation("", "", "", "", "", "", "", Date(), "")) },
+    derivation: MutableState<Derivation> = rememberSaveable { mutableStateOf(Derivation("", "", "", "", "", "", "", Date(), "", false)) },
     case: MutableState<Case> = rememberSaveable { mutableStateOf(Case("", "", "", "", "", "", "", "", "", Date(), Date(), "", "", "")) },
     lastVisit: MutableState<Visit> = rememberSaveable { mutableStateOf(Visit("", "","" ,"", "" ,Date(), 0.0, 0.0, 0.0, 0.0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
         emptyList<Complication>().toMutableList(), "", "")) },
     visits: MutableState<List<Visit>> = rememberSaveable { mutableStateOf(emptyList()) },
     child: MutableState<Child> = rememberSaveable { mutableStateOf(Child("", "", "", "", "", "", Date(), 0, "", Date(), Date(), "", "")) },
     fefa: MutableState<Tutor> = rememberSaveable { mutableStateOf(Tutor("", "", "", "", "", Date(), "", "", Date(), Date(), "", "", "", "", "", "", false, "")) },
-    point: MutableState<Point> = rememberSaveable { mutableStateOf(Point("", "" , "", "", "", "", "", 0)) }
+    point: MutableState<Point> = rememberSaveable { mutableStateOf(Point("", "" , "", "", "", "", "", 0)) },
+    caseCreated: MutableState<Case> = rememberSaveable { mutableStateOf(Case("", "", "", "", "", "", "", "", "", Date(), Date(), "", "", "")) },
+    visitCreated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ ReferencesTransferencesState(referencesTransferences, tutors, childs, expanded,
     origins, expandedOrigin, originName, codeNumber, expandedYear, year, expandedDetail,
-    derivation, case, lastVisit, visits, child, fefa, point) }
+    derivation, case, lastVisit, visits, child, fefa, point, caseCreated, visitCreated) }
 
 
 fun getCurrentYear(): String {
@@ -66,7 +68,9 @@ class ReferencesTransferencesState(
     val visits: MutableState<List<Visit>>,
     val child: MutableState<Child>,
     val fefa: MutableState<Tutor>,
-    val origin: MutableState<Point>
+    val origin: MutableState<Point>,
+    val caseCreated: MutableState<Case>,
+    val visitCreated: MutableState<Boolean>,
     ) {
 
     fun expandContractDetail() {

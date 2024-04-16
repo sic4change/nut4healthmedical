@@ -454,7 +454,7 @@ object FirebaseDataSource {
                         val pointId = user.point
                         val caseToUpload =
                             org.sic4change.nut4healthcentrotratamiento.data.entitities.Case(
-                                case.id, case.childId, case.fefaId, tutorId, case.name, "", "", case.status, "",
+                                case.id, case.childId, case.fefaId, tutorId, case.name, case.admissionType, case.admissionTypeServer, case.status, "",
                                 case.createdate, case.lastdate, case.visits, case.observations, pointId
                             )
                         val casesRef = firestore.collection("cases")
@@ -1046,7 +1046,7 @@ object FirebaseDataSource {
         val query = derivationsRef.whereEqualTo("destinationId", origin).orderBy("createdate", Query.Direction.DESCENDING )
         val result = query.get(source).await()
         val networkDerivationsContainer = NetworkDerivationContainer(result.toObjects(Derivation::class.java))
-        networkDerivationsContainer.results.map { it.toDomainDerivation() }
+        networkDerivationsContainer.results.map { it.toDomainDerivation() }.filter { !it.completed }
     }
 
     suspend fun getAllTutors(): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor> = withContext(Dispatchers.IO) {
@@ -1084,6 +1084,20 @@ object FirebaseDataSource {
             }
         } catch (e : Exception) {
             null
+        }
+    }
+
+    suspend fun setDerivationCompleted(derivation: org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to update derivation from firebase")
+            try {
+                derivation.completed = true
+                val derivationRef = firestore.collection("derivations")
+                derivationRef.document(derivation.id).set(derivation.toServerDerivation()).await()
+                Timber.d("update derivation result: ok")
+            } catch (ex: Exception) {
+                Timber.d("update derivation result: false ${ex.message}")
+            }
         }
     }
 

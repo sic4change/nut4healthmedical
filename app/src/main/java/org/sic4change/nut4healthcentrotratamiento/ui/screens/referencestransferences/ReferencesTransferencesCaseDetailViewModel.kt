@@ -16,6 +16,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.NavArg
+import java.util.Date
 
 class ReferencesTransferencesCaseDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -45,6 +46,53 @@ class ReferencesTransferencesCaseDetailViewModel(savedStateHandle: SavedStateHan
         }
     }
 
+    fun createVisit(derivation: Derivation, caseName: String, caseStatus: String, admissionType: String ) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(loading = true)
+            FirebaseDataSource.setDerivationCompleted(derivation)
+            val child = _state.value.child
+            val tutor = _state.value.fefa
+            if (child != null) {
+                child.point = derivation.destinationId
+                FirebaseDataSource.updateChild(child)
+            }
+            if (tutor != null) {
+                tutor.point = derivation.destinationId
+                FirebaseDataSource.updateTutor(tutor)
+            }
+            tutor?.let {
+                val childId = child?.id
+                val fefaId = if (child == null) it.id else null
+                val tutorId = it.id
+
+                val case = Case(
+                    id = "",
+                    childId = childId,
+                    fefaId = fefaId,
+                    tutorId = tutorId,
+                    name = caseName,
+                    admissionType = admissionType,
+                    admissionTypeServer = admissionType,
+                    status = caseStatus,
+                    closedReason = "",
+                    createdate = Date(),
+                    lastdate = Date(),
+                    visits = "0",
+                    observations = "",
+                    point = derivation.destinationId
+                )
+                _state.value = _state.value.copy(caseCreated = FirebaseDataSource.createCase(case))
+            } ?: run {
+                println("Error: Tutor not null")
+            }
+
+            _state.value = _state.value.copy(visitCreated = true)
+            _state.value = _state.value.copy(loading = false)
+
+        }
+
+    }
+
 
     data class  UiState(
         val loading: Boolean = true,
@@ -54,7 +102,9 @@ class ReferencesTransferencesCaseDetailViewModel(savedStateHandle: SavedStateHan
         val child : Child? = null,
         val case: Case? = null,
         val lastVisit: Visit? = null,
-        val visits: List<Visit> = emptyList()
+        val visits: List<Visit> = emptyList(),
+        val caseCreated: Case? = null,
+        val visitCreated: Boolean = false
     )
 
 }

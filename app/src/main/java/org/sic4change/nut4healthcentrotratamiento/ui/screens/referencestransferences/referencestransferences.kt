@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthScreen
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.derivations.DerivationCreateViewModel
@@ -99,8 +100,9 @@ fun TransferenceScreen(
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun ReferencesTransferencesCaseDetailScreen(viewModel: ReferencesTransferencesCaseDetailViewModel = viewModel(),
-                                            onCrateVisit: (Derivation) -> Unit,) {
+fun ReferencesTransferencesCaseDetailScreen(
+    viewModel: ReferencesTransferencesCaseDetailViewModel = viewModel(),
+    onGoToUniqueCase: (Case) -> Unit) {
 
     val referencesTransferencesState = rememberReferencesTransferencesState()
     val viewModelState by viewModel.state.collectAsState()
@@ -148,6 +150,19 @@ fun ReferencesTransferencesCaseDetailScreen(viewModel: ReferencesTransferencesCa
         }
     }
 
+    LaunchedEffect(viewModelState.caseCreated) {
+        if (viewModelState.caseCreated != null) {
+            referencesTransferencesState.caseCreated.value = viewModelState.caseCreated!!
+        }
+    }
+
+    LaunchedEffect(viewModelState.visitCreated) {
+        if (viewModelState.visitCreated) {
+            referencesTransferencesState.visitCreated.value = viewModelState.visitCreated
+            onGoToUniqueCase(referencesTransferencesState.caseCreated.value!!)
+        }
+    }
+
     NUT4HealthScreen {
         ReferencesTransferencesCaseDetailView(
             referencesTransferencesState = referencesTransferencesState,
@@ -159,7 +174,7 @@ fun ReferencesTransferencesCaseDetailScreen(viewModel: ReferencesTransferencesCa
             visits = referencesTransferencesState.visits.value!!,
             origin = referencesTransferencesState.origin.value!!,
             loading = viewModelState.loading,
-            onCreateVisit = onCrateVisit
+            onCreateVisit = viewModel::createVisit,
         )
     }
 

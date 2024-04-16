@@ -120,11 +120,11 @@ fun Visit.toServerVisit() : ServerVisit  {
 }
 
 fun ServerDerivation.toDomainDerivation() : Derivation {
-    return Derivation(id, type, caseId, originId, destinationId, childId, fefaId, createdate, code)
+    return Derivation(id, type, caseId, originId, destinationId, childId, fefaId, createdate, code, completed)
 }
 
 fun Derivation.toServerDerivation() : ServerDerivation  {
-    return ServerDerivation(id, type, caseId, originId, destinationId, childId, fefaId, createdate, code)
+    return ServerDerivation(id, type, caseId, originId, destinationId, childId, fefaId, createdate, code, completed)
 }
 
 

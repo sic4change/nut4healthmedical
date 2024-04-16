@@ -12,5 +12,6 @@ data class Derivation(
     val childId: String?,
     val fefaId: String?,
     val createdate: Date,
-    val code: String
+    val code: String,
+    var completed: Boolean
     ) : Item, Serializable
