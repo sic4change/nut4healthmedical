@@ -37,10 +37,10 @@ sealed class NavCommand(
     }
 
     class ContentTypeDerivation(feature: Feature) :
-        NavCommand(feature, "derivation", listOf(NavArg.ItemId, NavArg.DerivationType)) {
+        NavCommand(feature, "derivation", listOf(NavArg.ItemId, NavArg.DerivationType, NavArg.Unresponsive)) {
 
-        fun createRoute(itemId: String, type: String) : String {
-            return "${feature.route}/$subRoute/$itemId/$type"
+        fun createRoute(itemId: String, type: String, unresponsive: Boolean) : String {
+            return "${feature.route}/$subRoute/$itemId/$type/$unresponsive"
         }
     }
 
@@ -68,5 +68,6 @@ sealed class NavCommand(
 
 enum class NavArg(val key: String, val navType: NavType<*>) {
     ItemId("itemId", NavType.StringType),
-    DerivationType("type", NavType.StringType)
+    DerivationType("type", NavType.StringType),
+    Unresponsive("unresponsive", NavType.BoolType)
 }

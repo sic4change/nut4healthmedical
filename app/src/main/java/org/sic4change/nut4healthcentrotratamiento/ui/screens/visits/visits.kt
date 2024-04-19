@@ -119,7 +119,7 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
                       onChangeWeightOrHeight: (String, String) -> Unit,
-                      onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String, Boolean) -> Unit) {
+                      onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String, Boolean, Boolean) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -184,7 +184,7 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.created) {
         if (viewModelState.created != null && viewModelState.derivation != null && viewModelState.caseClosed != null) {
             if (viewModelState.caseClosed!! && viewModelState.created!! && !viewModelState.derivation!!) {
-                onCreateVisitSucessfull(visitCreateState.caseId.value, false)
+                onCreateVisitSucessfull(visitCreateState.caseId.value, false, false)
             }
         }
     }
@@ -192,7 +192,12 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
     LaunchedEffect(viewModelState.derivation) {
         if (viewModelState.derivation != null) {
             if (viewModelState.derivation!!) {
-                onCreateVisitSucessfull(visitCreateState.caseId.value, true)
+                onCreateVisitSucessfull(visitCreateState.caseId.value, true,
+                    (visitCreateState.checkWeightLowFivePercent()) ||
+                            visitCreateState.checkThreeTimesSameWeightInCRENAS() ||
+                            visitCreateState.checkNewEdema() ||
+                            visitCreateState.checkEdemaPersistent()
+                )
             }
         }
     }

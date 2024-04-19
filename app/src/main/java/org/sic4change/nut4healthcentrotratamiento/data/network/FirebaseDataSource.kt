@@ -2,6 +2,7 @@ package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import android.net.Uri
 import android.util.Log
+import androidx.compose.ui.res.stringResource
 import com.google.firebase.firestore.Query
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -31,6 +32,7 @@ import java.util.Date
 
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Source
+import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
 import org.sic4change.nut4healthcentrotratamiento.data.toDomainDerivation
 import org.sic4change.nut4healthcentrotratamiento.data.toServerDerivation
@@ -1013,7 +1015,8 @@ object FirebaseDataSource {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(point)
     }
 
-    suspend fun createDerivation(derivation: org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation) : org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation?
+    suspend fun createDerivation(derivation: org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation,
+                                 closeText: String) : org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation?
             = withContext(Dispatchers.IO) {
         Timber.d("try to create derivation with firebase")
         try {
@@ -1022,6 +1025,8 @@ object FirebaseDataSource {
             val resultUser = queryUser.get(source).await()
             val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
             networkUserContainer.results[0].let { user ->
+                val caseRef = firestore.collection("cases")
+                caseRef.document(derivation.caseId).update("status", closeText)
                 val derivationsRef = firestore.collection("derivations")
                 derivationsRef.document(derivation.id).set(derivation.toServerDerivation())
                 Timber.d("Create derivation result: ok")

@@ -89,7 +89,7 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
             var imc = 0.0
-            if (weight != null && height != null && weight > 0 && height > 0) {
+            if (weight > 0 && height > 0) {
                 imc = FirebaseDataSource.checkDesnutrition(height, weight)
             }
             val caseToUpdate = _state.value.case!!.copy(admissionType = admissionType)

@@ -408,6 +408,9 @@
     <string name="child_refer_to_crenas">L\'enfant doit se rendre dans un CRENAS</string>
     <string name="fefa_refer_to_crenas">FEFA doit se rendre dans un CRENAS</string>
 
+    <string name="child_refer_to_creni">El niño debe acudir a un CRENI</string>
+    <string name="fefa_refer_to_creni">La FEFA debe acudir a un CRENI</string>
+
     //Form derivation
     <string name="form_refence">Formulario de referencia</string>
     <string name="form_transference">Formulario de transferencia</string>
@@ -459,5 +462,15 @@
     <string name="reference_year">Año</string>
 
     <string name="search_result">Resultado de la búsqueda</string>
+
+    <string name="closedReasosns">Motivos cierre</string>
+    <string-array name="closedReasosnsOptions">
+        <item>Abandono</item>
+        <item>Recuperado</item>
+        <item>No responde</item>
+        <item>Referencia</item>
+        <item>Transferencia</item>
+        <item>Fin seguimiento ex-MAS</item>
+    </string-array>
 
 </resources>

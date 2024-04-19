@@ -73,7 +73,7 @@ fun VisitItemCreateScreen(
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
-    onCreateVisitSucessfull: (String, Boolean) -> Unit
+    onCreateVisitSucessfull: (String, Boolean, Boolean) -> Unit
 ) {
 
     Box(
@@ -126,7 +126,7 @@ private fun VisitView(
     onChangeWeightOrHeight: (String, String, Double, String, List<Complication>) -> Unit,
     onRemoveTodayVisit: (String) -> Unit,
     onCancelCreateVisit: () -> Unit,
-    onCreateVisitSucessfull: (String, Boolean) -> Unit
+    onCreateVisitSucessfull: (String, Boolean, Boolean) -> Unit
 ) {
 
     val SEXS = listOf(
@@ -319,8 +319,16 @@ private fun VisitView(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    visitState.showViewToGoToDerivationForm.value = visitState.status.value == stringResource(R.string.aguda_severa) &&
-                            (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")
+                    visitState.showViewToGoToDerivationForm.value =
+                        (visitState.status.value == stringResource(R.string.aguda_severa) && (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM"))
+                                || (visitState.weight.value.isNotEmpty() && visitState.weight.value != "0" &&
+                                        (
+                                                visitState.checkWeightLowFivePercent() ||
+                                                visitState.checkThreeTimesSameWeightInCRENAS()) ||
+                                                visitState.checkNewEdema() ||
+                                                visitState.checkEdemaPersistent()
+                                        )
+
 
                     AnimatedVisibility(visible = ((visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value <= 50)
                             && !visitState.showViewToGoToDerivationForm.value) {
@@ -438,8 +446,13 @@ private fun VisitView(
 
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_crenas),
-                                color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
+                            if (visitState.point.value.type == "CRENAM" || visitState.point.value.type == "Otro") {
+                                Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_crenas),
+                                    color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
+                            } else if (visitState.point.value.type == "CRENAS") {
+                                Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_creni),
+                                    color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
+                            }
 
                             Spacer(modifier = Modifier.height(16.dp))
 
@@ -817,11 +830,17 @@ private fun VisitView(
                             lastStep = true
                         }
                     }
-                    if (visitState.status.value == stringResource(R.string.aguda_severa) &&
+                    /*if (visitState.status.value == stringResource(R.string.aguda_severa) &&
                         (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
                         lastStep = true
                         visitState.showViewToGoToDerivationForm.value = true
                     }
+
+                    if (visitState.weight.value.isNotEmpty() && visitState.weight.value != "0" && visitState.checkWeightLowFivePercent()) {
+                        println("Aqui 5%")
+                        lastStep = true
+                        visitState.showViewToGoToDerivationForm.value = true
+                    }*/
 
                     AnimatedVisibility(visible = visitState.armCircunference.value <= 50 && !visitState.showViewToGoToDerivationForm.value) {
 
@@ -4133,7 +4152,7 @@ fun MessageErrorCreateVisitCRENAS(showDialog: Boolean?, setShowDialog: () -> Uni
 
 @Composable
 fun MessageNextVisit(showDialog: Boolean, setShowDialog: () -> Unit, message: String, caseId: String,
-                     onClick: (String, Boolean) -> Unit,) {
+                     onClick: (String, Boolean, Boolean) -> Unit,) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -4147,7 +4166,7 @@ fun MessageNextVisit(showDialog: Boolean, setShowDialog: () -> Unit, message: St
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
                     onClick = {
                         setShowDialog()
-                        onClick(caseId, false)
+                        onClick(caseId, false, false)
                     },
                 ) {
                     Text(stringResource(R.string.accept),color = colorResource(R.color.white))

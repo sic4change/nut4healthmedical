@@ -56,7 +56,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.Stept
 @Composable
 fun DerivationItemCreateScreen(derivationState: DerivationState,
                                loading: Boolean = false,
-                               onCreateDerivation: (Derivation) -> Unit,
+                               onCreateDerivation: (Derivation, String) -> Unit,
                                onCreateDerivationSucessfull: (String) -> Unit) {
 
     Box(
@@ -94,7 +94,7 @@ fun DerivationItemCreateScreen(derivationState: DerivationState,
 @Composable
 private fun DerivationView(loading: Boolean,
                            derivationState: DerivationState,
-                           onCreateDerivation: (Derivation) -> Unit,
+                           onCreateDerivation: (Derivation, String) -> Unit,
                            onCreateDerivationSucessfull: (String) -> Unit
 ) {
     val listState = rememberLazyListState()
@@ -877,6 +877,7 @@ private fun DerivationView(loading: Boolean,
                     Spacer(modifier = Modifier.height(8.dp))
 
                     if (derivationState.getIdSelectedDerivationCentre().isNotEmpty()) {
+                        val closeText = stringResource(R.string.close)
                         Button(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -887,7 +888,7 @@ private fun DerivationView(loading: Boolean,
                                 val id = "${derivationState.pointId.value}_${derivationState.getIdSelectedDerivationCentre()}_${derivationState.child.value?.id}_${derivationState.tutor.value?.id}"
                                 val derivation = Derivation(id, derivationState.type.value, derivationState.case.value!!.id, derivationState.pointId.value, derivationState.getIdSelectedDerivationCentre(),
                                     derivationState.child.value?.id, derivationState.tutor.value?.id, Date(), derivationState.getCode(), true)
-                                onCreateDerivation(derivation)
+                                onCreateDerivation(derivation, closeText)
                             },
                         ) {
                             Text(text = stringResource(R.string.save_derivation_form), color = colorResource(R.color.white), style = MaterialTheme.typography.h5)

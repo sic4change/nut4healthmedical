@@ -628,7 +628,17 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
 fun getClosedReason(value: String) : String {
     if (value == "Referred") {
         return stringArrayResource(R.array.addmisionTypeOptions)[3]
-    } else return "--"
+    } else if (value == "Transfered"){
+        return stringArrayResource(R.array.closedReasosnsOptions)[4]
+    } else if (value == "Abandonment"){
+        return stringArrayResource(R.array.closedReasosnsOptions)[0]
+    } else if (value == "Recovered"){
+        return stringArrayResource(R.array.closedReasosnsOptions)[1]
+    } else if (value == "Unresponsive"){
+        return stringArrayResource(R.array.closedReasosnsOptions)[2]
+    } else {
+        return "--"
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)

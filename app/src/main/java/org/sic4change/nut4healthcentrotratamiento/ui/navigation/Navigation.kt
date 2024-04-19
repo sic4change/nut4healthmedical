@@ -460,7 +460,7 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                 },
                 onClickTransfered = { case ->
                     navController.navigate(
-                        NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(case.id, "Transfered")
+                        NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(case.id, "Transfered", false)
                     )
                 },
             )
@@ -555,16 +555,22 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                     navController.popBackStack()
                 },
 
-                onCreateVisitSucessfull = { caseId, derivation ->
+                onCreateVisitSucessfull = { caseId, derivation, notResponse ->
                     navController.popBackStack()
                     navController.popBackStack()
-                    if (derivation) {
-                        navController.navigate(
-                            NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(caseId, "Referred")
-                        )
+                    if (!notResponse) {
+                        if (derivation) {
+                            navController.navigate(
+                                NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(caseId, "Referred", false)
+                            )
+                        } else {
+                            navController.navigate(
+                                NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
+                            )
+                        }
                     } else {
                         navController.navigate(
-                            NavCommand.ContentTypeDetail(Feature.CASE_DETAIL).createRoute(caseId)
+                            NavCommand.ContentTypeDerivation(Feature.CREATEDERIVATION).createRoute(caseId, "Referred", true)
                         )
                     }
 

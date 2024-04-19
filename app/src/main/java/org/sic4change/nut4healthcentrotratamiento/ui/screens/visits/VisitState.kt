@@ -262,6 +262,65 @@ class VisitState(
         showNextVisit.value = !showNextVisit.value
     }
 
+    fun checkWeightLowFivePercent(): Boolean {
+        var checked = false
+        val lastVisit = visits.value.lastOrNull()
+        if (lastVisit != null) {
+            val lastWeight: Double = lastVisit.weight
+            val weight: Double? = weight.value.toDoubleOrNull()
+            if (weight != null && lastWeight != null && lastWeight > 0.0 && weight > 0.0) {
+                val fivePercent = lastWeight * 0.05
+                if (weight <= lastWeight - fivePercent) {
+                    checked = true
+                }
+            }
+        }
+        return checked
+    }
+
+    fun checkThreeTimesSameWeightInCRENAS(): Boolean {
+        var checked = false
+        val currentWeight: Double? = weight.value.toDoubleOrNull()
+        if (point.value.type == "CRENAS" &&
+            selectedEdema.value.contains("(0)") &&
+            visitNumber.value >= 1 && currentWeight != null
+            ) {
+            visits.value.subList(0,2).forEach { visit ->
+                if (visit.weight == currentWeight) {
+                    checked = true
+                }
+            }
+        }
+        return checked
+    }
+
+    fun checkNewEdema(): Boolean {
+        return (
+                point.value.type == "CRENAS" &&
+                selectedEdema.value.contains("+") &&
+                visitNumber.value >= 0 &&
+                visits.value.lastOrNull() != null &&
+                visits.value.lastOrNull()!!.edema.contains("(0)")
+                )
+
+    }
+
+    fun checkEdemaPersistent(): Boolean {
+        var checked = false
+        val currentEdema: String = selectedEdema.value
+        if (point.value.type == "CRENAS" &&
+            currentEdema.contains("(+)") &&
+            visitNumber.value >= 1
+        ) {
+            visits.value.subList(0,2).forEach { visit ->
+                if (visit.edema.contains("(+)")) {
+                    checked = true
+                }
+            }
+        }
+        return checked
+
+    }
 
 
 }

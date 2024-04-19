@@ -21,6 +21,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
 
     private val caseId = savedStateHandle.get<String>(NavArg.ItemId.key) ?: "0"
     val type = savedStateHandle.get<String>(NavArg.DerivationType.key) ?: "Referred"
+    private val notResponse = savedStateHandle.get<Boolean>(NavArg.Unresponsive.key) ?: false
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -29,7 +30,11 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             val caseToUpdate = FirebaseDataSource.getCase(caseId)
-            caseToUpdate?.closedReason = type
+            if (!notResponse) {
+                caseToUpdate?.closedReason = type
+            } else {
+                caseToUpdate?.closedReason = "Unresponsive"
+            }
             FirebaseDataSource.updateCase(caseToUpdate!!)
             _state.value = UiState(case = FirebaseDataSource.getCase(caseId), type = type, loading = true)
             _state.value = _state.value.copy(lastVisit = FirebaseDataSource.getLastVisitInCase(caseId), loading = true)
@@ -87,10 +92,10 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
         val visits: List<Visit> = emptyList()
     )
 
-    fun createDerivation(derivation: Derivation) {
+    fun createDerivation(derivation: Derivation, closeText: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
-            FirebaseDataSource.createDerivation(derivation)
+            FirebaseDataSource.createDerivation(derivation, closeText)
             _state.value = _state.value.copy(loading = false, created = true)
         }
     }
