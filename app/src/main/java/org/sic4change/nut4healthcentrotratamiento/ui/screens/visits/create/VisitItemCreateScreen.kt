@@ -321,13 +321,10 @@ private fun VisitView(
 
                     visitState.showViewToGoToDerivationForm.value =
                         (visitState.status.value == stringResource(R.string.aguda_severa) && (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM"))
+                                 || (visitState.point.value.type == "CRENAS" && (visitState.complications.value.any{it.selected} || visitState.selectedEdema.value.contains("(+++)")))
                                 || (visitState.weight.value.isNotEmpty() && visitState.weight.value != "0" &&
-                                        (
-                                                visitState.checkWeightLowFivePercent() ||
-                                                visitState.checkThreeTimesSameWeightInCRENAS()) ||
-                                                visitState.checkNewEdema() ||
-                                                visitState.checkEdemaPersistent()
-                                        )
+                                        (visitState.checkWeightLowFivePercent() || visitState.checkThreeTimesSameWeightInCRENAS()) ||
+                                                visitState.checkNewEdema() || visitState.checkEdemaPersistent())
 
 
                     AnimatedVisibility(visible = ((visitState.weight.value != "0" && visitState.height.value != "0") || visitState.armCircunference.value <= 50)

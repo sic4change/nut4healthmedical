@@ -280,14 +280,16 @@ class VisitState(
 
     fun checkThreeTimesSameWeightInCRENAS(): Boolean {
         var checked = false
-        val currentWeight: Double? = weight.value.toDoubleOrNull()
-        if (point.value.type == "CRENAS" &&
-            selectedEdema.value.contains("(0)") &&
-            visitNumber.value >= 1 && currentWeight != null
+        if (visitsSize.value > 1) {
+            val currentWeight: Double? = weight.value.toDoubleOrNull()
+            if (point.value.type == "CRENAS" &&
+                selectedEdema.value.contains("(0)") &&
+                visitNumber.value >= 1 && currentWeight != null
             ) {
-            visits.value.subList(0,2).forEach { visit ->
-                if (visit.weight == currentWeight) {
-                    checked = true
+                visits.value.subList(0,2).forEach { visit ->
+                    if (visit.weight == currentWeight) {
+                        checked = true
+                    }
                 }
             }
         }
@@ -307,14 +309,16 @@ class VisitState(
 
     fun checkEdemaPersistent(): Boolean {
         var checked = false
-        val currentEdema: String = selectedEdema.value
-        if (point.value.type == "CRENAS" &&
-            currentEdema.contains("(+)") &&
-            visitNumber.value >= 1
-        ) {
-            visits.value.subList(0,2).forEach { visit ->
-                if (visit.edema.contains("(+)")) {
-                    checked = true
+        if (visitsSize.value > 1) {
+            val currentEdema: String = selectedEdema.value
+            if (point.value.type == "CRENAS" &&
+                currentEdema.contains("(+)") &&
+                visitNumber.value >= 1
+            ) {
+                visits.value.subList(0,2).forEach { visit ->
+                    if (visit.edema.contains("(+)")) {
+                        checked = true
+                    }
                 }
             }
         }

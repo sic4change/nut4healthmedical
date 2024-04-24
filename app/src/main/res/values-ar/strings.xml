@@ -108,7 +108,7 @@
         <item>(0) لا</item>
         <item>(+) حميدة</item>
         <item>(++) متوسط</item>
-        <item>(++) خطير</item>
+        <item>(+++) خطير</item>
     </string-array>
     <string name="complications">مضاعفات</string>
     <string name="no_complications">لا مضاعفات</string>

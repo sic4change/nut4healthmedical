@@ -49,6 +49,7 @@ class ReferencesTransferencesCaseDetailViewModel(savedStateHandle: SavedStateHan
     fun createVisit(derivation: Derivation, caseName: String, caseStatus: String, admissionType: String ) {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
+            println("Aqui seteando derivation completed")
             FirebaseDataSource.setDerivationCompleted(derivation)
             val child = _state.value.child
             val tutor = _state.value.fefa

@@ -1028,6 +1028,7 @@ object FirebaseDataSource {
                 val caseRef = firestore.collection("cases")
                 caseRef.document(derivation.caseId).update("status", closeText)
                 val derivationsRef = firestore.collection("derivations")
+                derivation.completed = false
                 derivationsRef.document(derivation.id).set(derivation.toServerDerivation())
                 Timber.d("Create derivation result: ok")
                 derivation

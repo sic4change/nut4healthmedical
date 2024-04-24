@@ -108,7 +108,7 @@
         <item>(0) No</item>
         <item>(+) Leve</item>
         <item>(++) Moderado</item>
-        <item>(++) Grave</item>
+        <item>(+++) Grave</item>
     </string-array>
     <string name="complications">Complicaciones</string>
     <string name="no_complications">Sin complicaciones</string>
@@ -458,7 +458,7 @@
     <string name="search_reference">Buscar referencia</string>
     <string name="search_transference">Buscar transferencia</string>
 
-    <string name="original_centre">Centro de salud original</string>
+    <string name="original_centre">Centro de salud de origen</string>
     <string name="reference_number">Número de referencia</string>
     <string name="reference_year">Año</string>
 
