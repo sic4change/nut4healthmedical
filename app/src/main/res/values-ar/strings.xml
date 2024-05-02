@@ -409,70 +409,51 @@
     <string name="child_refer_to_crenas">يجب أن يذهب الطفل إلى CRENAS</string>
     <string name="fefa_refer_to_crenas">يجب أن تذهب الفيفا إلى CRENAS</string>
 
-    <string name="child_refer_to_creni">El niño debe acudir a un CRENI</string>
-    <string name="fefa_refer_to_creni">La FEFA debe acudir a un CRENI</string>
-
-    //Form derivation
-    <string name="form_refence">Formulario de referencia</string>
-    <string name="form_transference">Formulario de transferencia</string>
-
-    <string name="current_centre">Nombre del centro actual</string>
-
-    <string name="select_reference_centre">Selecciona un centro de referencia</string>
-    <string name="select_transference_centre">Selecciona un centro de transferencia</string>
-
-    <string name="centre_name">Nombre del centro</string>
-    <string name="case_info">Información del caso</string>
-
-    <string name="reference_date">Fecha de referencia</string>
-    <string name="transference_date">Fecha de transferencia</string>
-
-    <string name="derivation_child_name">Nombre y apellidos del niño/a</string>
-    <string name="derivation_tutor_name">Nombre y apellidos del acompañante</string>
-    <string name="derivation_tutor_phone">Teléfono del acompañante</string>
-    <string name="admission_date">Fecha de admisión</string>
-
-    <string name="reference_reason">Motivo de referencia</string>
-
-    <string name="save_derivation_form">Guardar formulario</string>
-
-    <string name="reference_succesful">La referencia se ha registrado satisfactoriamente</string>
-    <string name="transference_succesful">La transferencia se ha registrado satisfactoriamente</string>
-
-    <string name="reference_code">Código de referencia</string>
-    <string name="transference_code">Código de transferencia</string>
-
-    <string name="go_back">Volver a la página de inicio</string>
-
-    <string name="antropometric_reference_date">Antropometría en el día de la referencia</string>
-    <string name="antropometric_transference_date">Antropometría en el día de la transferencia</string>
-
-    <string name="trasferred_case">Transferir caso</string>
-
-    <string name="refernce_list">Lista de referencia</string>
-    <string name="trasferred_list">Lista de transferencia</string>
-
-    <string name="no_refernce_list">Sin referencias todavía</string>
-    <string name="no_trasferred_list">Sin transferencias todavía</string>
-
-    <string name="search_reference">Buscar referencia</string>
-    <string name="search_transference">Buscar transferencia</string>
-
-    <string name="original_centre">Centro de salud original</string>
-    <string name="reference_number">Número de referencia</string>
-    <string name="reference_year">Año</string>
-
-    <string name="search_result">Resultado de la búsqueda</string>
-
-    <string name="closedReasosns">Motivos cierre</string>
+    <string name="child_refer_to_creni">CRENI يجب أن يذهب الطفل إلى </string>
+    <string name="fefa_refer_to_creni">CRENI  يجب على المرأة الذهاب إلى</string>
+    <string name="form_refence"> ورقة مرجعية </string>
+    <string name="form_transference"> نموذج الإحالة </string>
+    <string name="current_centre"> اسم المركز الحالي </string>
+    <string name="select_reference_centre"> اختيار مركز الإحالة </string>
+    <string name="select_transference_centre"> اختر مركز تحويل </string>
+    <string name="centre_name"> اسم المركز </string>
+    <string name="case_info"> معلومات الحالة </string>
+    <string name="reference_date"> تاريخ الإحالة </string>
+    <string name="transference_date"> تاريخ التحويل </string>
+    <string name="derivation_child_name"> الاسم الأول والأخير للطفل </string>
+    <string name="derivation_tutor_name"> اسم ولقب الشخص المرافق </string>
+    <string name="derivation_tutor_phone"> رقم هاتف المرافق </string>
+    <string name="admission_date"> تاريخ القبول </string>
+    <string name="reference_reason"> الدافع المرجعي </string>
+    <string name="save_derivation_form"> احفظ النموذج </string>
+    <string name="reference_succesful"> تم تسجيل المرجع بنجاح </string>
+    <string name="transference_succesful"> تم تسجيل التحويل بنجاح</string>
+    <string name="reference_code"> رمز الإحالة </string>
+    <string name="transference_code"> رمز التحويل </string>
+    <string name="go_back"> العودة إلى الصفحة الرئيسية </string>
+    <string name="antropometric_reference_date"> الأنثروبومترية في يوم المرجع </string>
+    <string name="antropometric_transference_date"> الأنثروبومترية في يوم النقل </string>
+    <string name="trasferred_case"> حالة النقل </string>
+    <string name="refernce_list"> قائمة المراجع </string>
+    <string name="trasferred_list"> قائمة التحويلات </string>
+    <string name="no_refernce_list"> لا توجد مراجع في الوقت الحالي </string>
+    <string name="no_trasferred_list"> لا توجد تحويلات في الوقت الحالي </string>
+    <string name="search_reference"> البحث عن مرجع </string>
+    <string name="search_transference"> البحث عن نقل </string>
+    <string name="original_centre"> مركز صحي منزلي </string>
+    <string name="reference_number"> الرقم المرجعي </string>
+    <string name="reference_year"> سنة</string>
+    <string name="search_result"> نتائج البحث </string>
+    <string name="closedReasosns"> أسباب الإغلاق </string>
     <string-array name="closedReasosnsOptions">
-        <item>Abandono</item>
-        <item>Recuperado</item>
-        <item>No responde</item>
-        <item>Referencia</item>
-        <item>Transferencia</item>
-        <item>Fin seguimiento ex-MAS</item>
+        <item> التخلي </item>
+        <item> الشفاء </item>
+        <item> عدم الاستجابة </item>
+        <item> احال </item>
+        <item> نقل</item>
+        <item> MAS السابق نهاية متابعة  </item>
     </string-array>
+
 
 
 </resources>
