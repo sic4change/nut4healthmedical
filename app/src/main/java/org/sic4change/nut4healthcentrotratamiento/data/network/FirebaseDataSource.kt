@@ -530,7 +530,8 @@ object FirebaseDataSource {
                 networkUserContainer.results[0].let { user ->
                     case.point = user.point
                     val casesRef = firestore.collection("cases")
-                    casesRef.document(case.id).set(case.toServerCase()).await()
+                    val caseServer = case.toServerCase()
+                    casesRef.document(case.id).set(caseServer)
                     Timber.d("update case result: ok")
                 }
 
