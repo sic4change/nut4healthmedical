@@ -304,6 +304,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(child.id)
                     )
                 },
+                onClickDeath = { child ->
+
+                },
+                onConfirmationChildDeath = { child ->
+
+                }
             )
         }
 
@@ -360,6 +366,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(child.id)
                     )
                 },
+                onClickDeath = { child ->
+
+                },
+                onConfirmationChildDeath = { child ->
+
+                }
             )
         }
 
@@ -407,6 +419,12 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
                         NavCommand.ContentTypeDetail(Feature.FEFA).createRoute(child.id)
                     )
                 },
+                onClickDeath = { child ->
+
+                },
+                onConfirmationChildDeath = { child ->
+
+                }
             )
         }
 

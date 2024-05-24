@@ -44,7 +44,9 @@ fun TutorItemDetailScreen(tutorState: TutorState,
                           onClickDetail: (Child) -> Unit,
                           onDeleteChild: (String) -> Unit,
                           onClickEdit: (Child) -> Unit,
-                          onClickDelete: (Child) -> Unit) {
+                          onClickDelete: (Child) -> Unit,
+                          onClickDeath: (Child) -> Unit,
+                          onConfirmationChildDeath: (String) -> Unit,){
     if (loading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -79,7 +81,8 @@ fun TutorItemDetailScreen(tutorState: TutorState,
                         onClickDetail = onClickDetail,
                         onClickDelete = onClickDelete,
                         onClickEdit = onClickEdit,
-                        onDeleteChild  = onDeleteChild)
+                        onDeleteChild  = onDeleteChild,
+                        onClickDeath = onClickDeath)
                 }
             }
 
@@ -101,7 +104,8 @@ private fun TutorView(
     onClickDetail: (Child) -> Unit,
     onDeleteChild: (String) -> Unit,
     onClickEdit: (Child) -> Unit,
-    onClickDelete: (Child) -> Unit)  {
+    onClickDelete: (Child) -> Unit,
+    onClickDeath: (Child) -> Unit) {
 
     val SEXS = listOf(
         stringResource(R.string.female), stringResource(R.string.male)
@@ -476,6 +480,7 @@ private fun TutorView(
                     onClickDetail = onClickDetail,
                     onClickEdit = onClickEdit,
                     onClickDelete = onClickDelete,
+                    onClickDeath = onClickDeath
                 )
             }
         }
@@ -581,6 +586,45 @@ fun MessageDeleteChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: 
             },
             text = {
                 Text(stringResource(R.string.delete_child_question))
+            },
+        )
+    }
+
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun MessageConfirmDeathChild(showDialog: Boolean, setShowDialog: () -> Unit, childId: String, onConfirmDeathChild: (String) -> Unit) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(stringResource(R.string.nut4health))
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                        onConfirmDeathChild(childId)
+                    },
+                ) {
+                    Text(stringResource(R.string.accept), color = colorResource(R.color.white))
+                }
+            },
+            dismissButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.colorPrimary)),
+                    onClick = {
+                        setShowDialog()
+                    },
+                ) {
+                    Text(stringResource(R.string.cancel),color = colorResource(R.color.white))
+                }
+            },
+            text = {
+                Text(stringResource(R.string.death_notification_confirmation))
             },
         )
     }

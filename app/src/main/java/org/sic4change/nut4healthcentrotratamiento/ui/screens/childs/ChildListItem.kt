@@ -31,7 +31,8 @@ fun  ChildListItem(
     modifier: Modifier = Modifier,
     onClickDetail: (Child) -> Unit,
     onClickEdit: (Child) -> Unit,
-    onClickDelete: (Child) -> Unit
+    onClickDelete: (Child) -> Unit,
+    onClickDeath: (Child) -> Unit
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
@@ -76,6 +77,9 @@ fun  ChildListItem(
                 }
                 DropdownMenuItem(onClick = { onClickDelete(item); showMenu = false }) {
                     Text(stringResource(R.string.remove_child), color = colorResource(R.color.error))
+                }
+                DropdownMenuItem(onClick = { onClickDeath(item); showMenu = false }) {
+                    Text(stringResource(R.string.death_notification), color = colorResource(R.color.black))
                 }
             }
         }

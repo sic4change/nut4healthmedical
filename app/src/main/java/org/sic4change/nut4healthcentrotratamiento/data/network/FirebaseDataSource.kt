@@ -1108,6 +1108,33 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun closeActiveCasesByChildDeath(childId: String) = withContext(Dispatchers.IO) {
+        val casesRef = firestore.collection("cases")
+        val query = casesRef
+            .whereEqualTo("childId", childId)
+            .whereIn("status", listOf("Abierto", "Ouvert", "مفتوح"))
+            .orderBy("lastdate", Query.Direction.DESCENDING)
+        val result = query.get(source).await()
+        val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+        val cases = networkCasesContainer.results.map { it.toDomainCase() }
+        cases.forEach { case ->
+            val newStatus = when (case.status) {
+                "Abierto" -> "Cerrado"
+                "Ouvert" -> "Fermé"
+                "اغلاق" -> "مغلق"
+                else -> case.status
+            }
+            val caseRef = casesRef.document(case.id)
+            caseRef.update(
+                "status", newStatus,
+                "closedReason", "Death"
+            ).await()
+        }
+    }
+
+
+
+
 
 }
 

@@ -32,6 +32,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.rememberMainState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorCreateViewModel
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.create.TutorItemCreateScreen
+import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageConfirmDeathChild
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteChild
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.MessageDeleteTutor
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorDetailViewModel
@@ -274,7 +275,9 @@ fun TutorDetailScreen(
     onClickDetail: (Child) -> Unit,
     onClickEdit: (Child) -> Unit,
     onClickDelete: (Child) -> Unit,
-    onDeleteChild: (String) -> Unit) {
+    onDeleteChild: (String) -> Unit,
+    onClickDeath: (Child) -> Unit,
+    onConfirmationChildDeath: (String) -> Unit,){
 
     val tutorDetailState = rememberTutorState()
     val viewModelState by viewModel.state.collectAsState()
@@ -319,6 +322,8 @@ fun TutorDetailScreen(
         onClickEdit = onClickEdit,
         onClickDelete = {tutorDetailState.showDeleteChildQuestion(it.id)},
         onDeleteChild = onDeleteChild,
+        onClickDeath = {tutorDetailState.showConfirmDeathChildQuestion(it.id)},
+        onConfirmationChildDeath = onConfirmationChildDeath
     )
 
     MessageDeleteTutor(tutorDetailState.deleteTutor.value, tutorDetailState::showDeleteQuestion,
@@ -326,6 +331,9 @@ fun TutorDetailScreen(
 
     MessageDeleteChild(tutorDetailState.deleteChild.value, tutorDetailState::showDeleteChildQuestion,
         tutorDetailState.childId.value, viewModel::deleteChild, tutorDetailState.id.value, onDeleteChild)
+
+    MessageConfirmDeathChild(tutorDetailState.confirmDeathChild.value, tutorDetailState::showConfirmDeathChildQuestion,
+        tutorDetailState.childId.value, viewModel::closeAllChildCasesByDeath)
 }
 
 @ExperimentalCoilApi

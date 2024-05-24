@@ -636,6 +636,8 @@ fun getClosedReason(value: String) : String {
         return stringArrayResource(R.array.closedReasosnsOptions)[1]
     } else if (value == "Unresponsive"){
         return stringArrayResource(R.array.closedReasosnsOptions)[2]
+    } else if (value == "Death"){
+        return stringArrayResource(R.array.closedReasosnsOptions)[6]
     } else {
         return "--"
     }

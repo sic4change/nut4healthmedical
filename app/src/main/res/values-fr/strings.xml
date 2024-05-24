@@ -451,6 +451,10 @@
         <item>Référé</item>
         <item>Transferé</item>
         <item>Fin de Suivi ex-MAS</item>
+        <item>Décès</item>
     </string-array>
+
+    <string name="death_notification">Notifier le décès</string>
+    <string name="death_notification_confirmation">Êtes-vous sûr de vouloir notifier le décès du mineur ? Cette action ne peut pas être annulée</string>
 
 </resources>

@@ -47,4 +47,11 @@ class TutorDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         }
     }
 
+    fun closeAllChildCasesByDeath(id: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.closeActiveCasesByChildDeath(id)
+        }
+    }
+
+
 }

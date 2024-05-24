@@ -452,8 +452,10 @@
         <item> احال </item>
         <item> نقل</item>
         <item> MAS السابق نهاية متابعة  </item>
+        <item>وفاة</item>
     </string-array>
 
-
+    <string name="death_notification">إخطار الوفاة</string>
+    <string name="death_notification_confirmation">هل أنت متأكد من الإبلاغ عن وفاة القاصر؟ لا يمكن التراجع عن هذا الإجراء</string>
 
 </resources>

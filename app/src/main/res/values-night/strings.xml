@@ -472,8 +472,10 @@
         <item>Referencia</item>
         <item>Transferencia</item>
         <item>Fin seguimiento ex-MAS</item>
+        <item>Defunción</item>
     </string-array>
 
-
+    <string name="death_notification">Notificar muerte</string>
+    <string name="death_notification_confirmation">¿Está seguro de notificar el deceso del menor? Esta acción no se puede rehacer</string>
 
 </resources>
