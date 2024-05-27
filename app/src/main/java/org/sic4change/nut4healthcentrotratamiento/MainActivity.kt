@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.ui.ExperimentalComposeUiApi
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import org.sic4change.nut4healthcentrotratamiento.ui.NUT4HealthApp
 
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NUT4HealthApp()
         }
+        FirebaseCrashlytics.getInstance().log("Init Crashlitics")
     }
 
     private fun notificationSetting() {
