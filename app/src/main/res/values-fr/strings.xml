@@ -423,7 +423,7 @@
     <string name="derivation_tutor_name">Nom et prénom de l\'accompagnant</string>
     <string name="derivation_tutor_phone">Téléphone de l\'accompagnant </string>
     <string name="admission_date">Date d\'admission</string>
-    <string name="reference_reason">Motivo de referencia</string>
+    <string name="reference_reason">Motif du référencement</string>
     <string name="save_derivation_form">Enregistrer le formulaire</string>
     <string name="reference_succesful">La référence a été enregistrée avec succès</string>
     <string name="transference_succesful">Le transfert a été enregistré avec succès</string>

@@ -36,7 +36,7 @@ fun CaseItemEditScreen(caseState: CaseState, loading: Boolean = false,
                        onEditCase: (String, String, String, String) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
         if (loading) {
             CircularProgressIndicator()
@@ -96,7 +96,7 @@ private fun Header(caseState: CaseState,  onEditCase: (String, String, String, S
             label = { Text(stringResource(R.string.name), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
 
-        ExposedDropdownMenuBox(
+/*        ExposedDropdownMenuBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -148,7 +148,7 @@ private fun Header(caseState: CaseState,  onEditCase: (String, String, String, S
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))*/
 
         TextField(value = caseState.observations.value,
             colors = TextFieldDefaults.textFieldColors(
