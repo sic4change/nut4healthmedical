@@ -522,7 +522,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                     )
                     Text(
                         modifier = Modifier.padding(8.dp, 0.dp),
-                        text = caseItem.admissionType,
+                        text = getAdmissionTypeServer(caseItem.admissionTypeServer),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.body1,
                         textAlign = TextAlign.Start,
@@ -638,6 +638,23 @@ fun getClosedReason(value: String) : String {
         return stringArrayResource(R.array.closedReasosnsOptions)[2]
     } else if (value == "Death"){
         return stringArrayResource(R.array.closedReasosnsOptions)[6]
+    } else {
+        return "--"
+    }
+}
+
+@Composable
+fun getAdmissionTypeServer(value: String) : String {
+    if (value == "Referred") {
+        return stringArrayResource(R.array.addmisionTypeOptions)[3]
+    } else if (value == "Transfered"){
+        return stringArrayResource(R.array.addmisionTypeOptions)[4]
+    } else if (value == "New Admission"){
+        return stringArrayResource(R.array.addmisionTypeOptions)[0]
+    } else if (value == "Readmission"){
+        return stringArrayResource(R.array.addmisionTypeOptions)[1]
+    } else if (value == "Relapse"){
+        return stringArrayResource(R.array.addmisionTypeOptions)[2]
     } else {
         return "--"
     }

@@ -429,7 +429,7 @@
     <string name="transference_succesful">Le transfert a été enregistré avec succès</string>
     <string name="reference_code">Code de référence</string>
     <string name="transference_code">Code de transfert</string>
-    <string name="go_back">Volver a la página de inicio</string>
+    <string name="go_back">Aller à la page d’accueil</string>
     <string name="antropometric_reference_date">Anthropométrie le jour de la référence</string>
     <string name="antropometric_transference_date">Anthropométrie le jour du transfert</string>
     <string name="trasferred_case">Transférer le cas</string>
