@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -521,7 +522,6 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                         maxLines = 3
                     )
                     Text(
-                        modifier = Modifier.padding(8.dp, 0.dp),
                         text = getAdmissionTypeServer(caseItem.admissionTypeServer),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.body1,
@@ -529,7 +529,6 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                         maxLines = 3
                     )
                     Text(
-                        modifier = Modifier.padding(8.dp, 0.dp),
                         text = caseItem.status,
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.body1,
@@ -537,7 +536,6 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                         maxLines = 3
                     )
                     Text(
-                        modifier = Modifier.padding(8.dp, 0.dp),
                         text = getClosedReason(caseItem.closedReason),
                         color = colorResource(R.color.disabled_color),
                         style = MaterialTheme.typography.caption,
@@ -547,11 +545,15 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                 }
 
                 Image(
-                    modifier = Modifier.size(78.dp),
-                    painter = if (caseItem.status == stringResource(R.string.close)) painterResource(id = R.mipmap.ic_case_closed) else painterResource(id = R.mipmap.ic_cases),
+                    modifier = Modifier.size(50.dp),
+                    painter = if (caseItem.status == stringResource(R.string.close)) painterResource(id = R.drawable.ic_closed_case) else painterResource(id = R.drawable.ic_open_case),
                     contentDescription = null,
                 )
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Divider(color = colorResource(androidx.browser.R.color.browser_actions_bg_grey), thickness = 1.dp)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -566,14 +568,14 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                 )
             } else if (visits != null && visits.isNotEmpty()){
                 Text(
-                    text = stringResource(R.string.visits_title),
+                    text = stringResource(R.string.visits_title).toUpperCase(),
                     color = colorResource(R.color.colorPrimary),
                     style = MaterialTheme.typography.h4,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 0.dp, 0.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             if (visits == null) {
                 Box(
                     contentAlignment = Alignment.Center,

@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
@@ -43,13 +44,13 @@ fun  CaseListItem(
                 if (item.status == stringResource(R.string.open)) {
                     IconButton(onClick = {}) {
                         Icon(
-                            tint = colorResource(R.color.colorAccent),
-                            imageVector = Icons.Default.FolderOpen,
+                            tint = colorResource(R.color.colorPrimary),
+                            painter = painterResource(id = R.drawable.ic_open_case),
                             contentDescription = null
                         )
                     }
                     Text(
-                        color = colorResource(R.color.colorAccent),
+                        color = colorResource(R.color.colorPrimary),
                         text = "${item.name}" ,
                         style = MaterialTheme.typography.h5,
                         maxLines = 2,
@@ -59,7 +60,7 @@ fun  CaseListItem(
                     )
                     IconButton(onClick = { showMenu = !showMenu }) {
                         Icon(
-                            tint = colorResource(R.color.colorAccent),
+                            tint = colorResource(R.color.colorPrimary),
                             imageVector = Icons.Default.MoreVert,
                             contentDescription = stringResource(R.string.more_actions)
                         )
@@ -68,7 +69,7 @@ fun  CaseListItem(
                     IconButton(onClick = { }) {
                         Icon(
                             tint = colorResource(R.color.colorPrimary),
-                            imageVector = Icons.Default.Folder,
+                            painter = painterResource(id = R.drawable.ic_closed_case),
                             contentDescription = null
                         )
                     }

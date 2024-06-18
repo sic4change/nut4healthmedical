@@ -3,15 +3,13 @@ package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EditCalendar
-import androidx.compose.material.icons.filled.FolderOpen
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
@@ -45,29 +43,22 @@ fun  VisitListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = {}) {
-                    Icon(
-                        tint = colorResource(R.color.white),
-                        imageVector = Icons.Default.EditCalendar,
-                        contentDescription = null
-                    )
-                }
                 Text(
                     color = colorResource(R.color.white),
                     text = "${formatStatus(item.status) }".toString().capitalize()  ,
                     style = MaterialTheme.typography.h6,
                     maxLines = 2,
                     modifier = Modifier
-                        .padding(8.dp, 16.dp)
-                        .weight(1f)
+                        .padding(16.dp, 16.dp)
+                        .weight(2f)
                 )
                 Text(
                     color = colorResource(R.color.white),
                     text = "${SimpleDateFormat("dd/MM/yyyy").format(item.createdate)}",
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.ExtraBold),
                     maxLines = 2,
                     modifier = Modifier
-                        .padding(8.dp, 16.dp)
+                        .padding(16.dp, 16.dp)
                         .weight(1f)
                 )
                 /*IconButton(onClick = { onItemMore(item) }) {

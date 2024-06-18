@@ -412,8 +412,8 @@ private fun FEFAView(
                         maxLines = 3
                     )
                     Image(
-                        modifier = Modifier.size(78.dp).weight(1f),
-                        painter = painterResource(id = R.mipmap.ic_cases),
+                        modifier = Modifier.size(50.dp).weight(1f),
+                        painter = painterResource(id = R.drawable.ic_generic_case),
                         contentDescription = null,
                     )
                 }
@@ -430,8 +430,8 @@ private fun FEFAView(
                         maxLines = 3
                     )
                     Image(
-                        modifier = Modifier.size(64.dp),
-                        painter = painterResource(id = R.mipmap.ic_cases),
+                        modifier = Modifier.size(50.dp),
+                        painter = painterResource(id = R.drawable.ic_generic_case),
                         contentDescription = null
                     )
                 }
