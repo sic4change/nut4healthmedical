@@ -5,7 +5,6 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Contract
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionChildTable
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.MalNutritionTeenagerTable
-import java.util.Date
 import org.sic4change.nut4healthcentrotratamiento.data.network.User as ServerUser
 import org.sic4change.nut4healthcentrotratamiento.data.network.Point as ServerPoint
 import org.sic4change.nut4healthcentrotratamiento.data.network.Tutor as ServerTutor
@@ -19,6 +18,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.network.Treatment as Serv
 import org.sic4change.nut4healthcentrotratamiento.data.network.Complication as ServerComplication
 import org.sic4change.nut4healthcentrotratamiento.data.network.Visit as ServerVisit
 import org.sic4change.nut4healthcentrotratamiento.data.network.Derivation as ServerDerivation
+import org.sic4change.nut4healthcentrotratamiento.data.network.VisitWithoutDiagnosis as ServerVisitWithoutDiagnosis
 
 fun ServerUser.toDomainUser() : User = User(
     id, email, phone, role, username, point, photo
@@ -125,6 +125,16 @@ fun ServerDerivation.toDomainDerivation() : Derivation {
 
 fun Derivation.toServerDerivation() : ServerDerivation  {
     return ServerDerivation(id, type, caseId, originId, destinationId, childId, fefaId, createdate, code, completed)
+}
+
+fun ServerVisitWithoutDiagnosis.toDomainVisitWithoutDiagnosis() : VisitWithoutDiagnosis {
+    return VisitWithoutDiagnosis(id, childId, fefaId, tutorId, createdate, height, weight, imc, armCircunference,
+        observations, point)
+}
+
+fun VisitWithoutDiagnosis.toServerVisitWithoutDiagnosis() : ServerVisitWithoutDiagnosis  {
+    return ServerVisitWithoutDiagnosis(id,  childId, fefaId, tutorId, createdate, height, weight, imc, armCircunference,
+        observations, point)
 }
 
 

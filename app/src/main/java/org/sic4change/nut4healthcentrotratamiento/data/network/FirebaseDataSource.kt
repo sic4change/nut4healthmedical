@@ -34,8 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Source
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
+import org.sic4change.nut4healthcentrotratamiento.data.entitities.VisitWithoutDiagnosis
 import org.sic4change.nut4healthcentrotratamiento.data.toDomainDerivation
 import org.sic4change.nut4healthcentrotratamiento.data.toServerDerivation
+import org.sic4change.nut4healthcentrotratamiento.data.toServerVisitWithoutDiagnosis
 
 object FirebaseDataSource {
 
@@ -1129,6 +1131,35 @@ object FirebaseDataSource {
                 "status", newStatus,
                 "closedReason", "Death"
             ).await()
+        }
+    }
+
+    suspend fun createVisitWithoutDiagnosis(visit: org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit) = withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
+            Timber.d("try to create visitWithoutDiagnosis with firebase")
+            try {
+                val userRef = firestore.collection("users")
+                val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+                val resultUser = queryUser.get(source).await()
+                val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+                networkUserContainer.results[0].let { user ->
+                    val casesRef = firestore.collection("cases")
+                    val queryCase = casesRef.whereEqualTo("id", visit.caseId)
+                    val resultCase = queryCase.get(source).await()
+                    val networkCasesContainer = NetworkCasesContainer(resultCase.toObjects(Case::class.java))
+                    networkCasesContainer.results[0].let { case ->
+                        val visitWithoutDiagnosisToUpdate = VisitWithoutDiagnosis(
+                            "${case.childId}_${visit.createdate.time}", case.childId, case.fefaId, case.tutorId, visit.createdate,
+                            visit.height, visit.weight, visit.imc, visit.armCircunference,
+                            visit.observations, user.point)
+                        val visitWithoutDiagnosisRef = firestore.collection("visitsWithoutDiagnosis")
+                        visitWithoutDiagnosisRef.document(visitWithoutDiagnosisToUpdate.id).set(visitWithoutDiagnosisToUpdate.toServerVisitWithoutDiagnosis())
+                        Timber.d("Create visitWithoutDiagnosis result: ok")
+                    }
+                }
+            } catch (ex : Exception) {
+                Timber.d("Create visit result: false ${ex.message}")
+            }
         }
     }
 

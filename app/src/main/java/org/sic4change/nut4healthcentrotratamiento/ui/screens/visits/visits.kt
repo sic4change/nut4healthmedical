@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -119,7 +118,9 @@ fun VisitDetailScreen(viewModel: VisitDetailViewModel = viewModel(),
 @Composable
 fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVisit: (String) -> Unit,
                       onChangeWeightOrHeight: (String, String) -> Unit,
-                      onCancelCreateVisit: () -> Unit, onCreateVisitSucessfull: (String, Boolean, Boolean) -> Unit) {
+                      onCancelCreateVisit: () -> Unit,
+                      onCreateVisitSucessfull: (String, Boolean, Boolean) -> Unit,
+                      onCreateVisitWithoutDiagnosis: (String) -> Unit) {
     val visitCreateState = rememberVisitsState()
     val viewModelState by viewModel.state.collectAsState()
 
@@ -185,6 +186,14 @@ fun VisitCreateScreen(viewModel: VisitCreateViewModel = viewModel(), onCreateVis
         if (viewModelState.created != null && viewModelState.derivation != null && viewModelState.caseClosed != null) {
             if (viewModelState.caseClosed!! && viewModelState.created!! && !viewModelState.derivation!!) {
                 onCreateVisitSucessfull(visitCreateState.caseId.value, false, false)
+            }
+        }
+    }
+
+    LaunchedEffect(viewModelState.createdVisitWithoutDiagnosis) {
+        if (viewModelState.createdVisitWithoutDiagnosis != null && viewModelState.child != null) {
+            if (viewModelState.createdVisitWithoutDiagnosis!!) {
+                onCreateVisitWithoutDiagnosis(viewModelState.child!!.id)
             }
         }
     }

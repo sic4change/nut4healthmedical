@@ -246,6 +246,24 @@ data class Derivation(
     @Exclude val completed: Boolean = false
 )
 
+@JsonClass(generateAdapter = true)
+data class NetworkVisitWithoutDiagnosisContainer(val results: List<VisitWithoutDiagnosis>)
+
+@JsonClass(generateAdapter = true)
+data class VisitWithoutDiagnosis(
+    @Exclude val id: String = "",
+    @Exclude val childId: String? = "",
+    @Exclude val fefaId: String? = "",
+    @Exclude val tutorId: String = "",
+    @Exclude val createdate: Date = Date(),
+    @Exclude val height: Double = 0.0,
+    @Exclude val weight: Double = 0.0,
+    @Exclude val imc: Double = 0.0,
+    @Exclude val armCircunference: Double = 0.0,
+    @Exclude var observations: String = "",
+    @Exclude var point: String? = ""
+)
+
 
 
 

@@ -1,6 +1,5 @@
 package org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.*
 import org.sic4change.nut4healthcentrotratamiento.data.network.FirebaseDataSource
 import java.util.*
@@ -66,7 +64,8 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
         var imc: Double? = 0.0,
         val created: Boolean = false,
         val caseClosed: Boolean? = null,
-        val derivation: Boolean = false
+        val derivation: Boolean = false,
+        val createdVisitWithoutDiagnosis: Boolean = false
     )
 
     fun removeTodayVisit(visitId: String) {
@@ -106,19 +105,22 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (derivation) {
                 _state.value = _state.value.copy(loading = true, visit = visit, derivation = true)
             } else {
-                checkCloseCase(caseId)
+                checkCloseCase(caseId, visit)
             }
 
         }
     }
 
-    private fun checkCloseCase(caseId: String) {
+    private fun checkCloseCase(caseId: String, visit: Visit) {
         viewModelScope.launch {
             val case = FirebaseDataSource.getCase(caseId)
             if (case?.status =="Abierto" || case?.status =="Ouvert" || case?.status =="مفتوح"){
                 _state.value = _state.value.copy(loading = false, caseClosed = false, created = false)
             } else {
-                _state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
+                //_state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
+                FirebaseDataSource.createVisitWithoutDiagnosis(visit)
+                FirebaseDataSource.deleteCase(caseId) //this remove case (visits from case is removed in backend)
+                _state.value = _state.value.copy(loading = false, createdVisitWithoutDiagnosis = true)
             }
         }
     }

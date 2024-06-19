@@ -594,6 +594,14 @@ private fun NavGraphBuilder.mainNav(navController: NavController) {
 
                 },
 
+                onCreateVisitWithoutDiagnosis = { childId ->
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate(
+                        NavCommand.ContentTypeDetail(Feature.CHILD_DETAIL).createRoute(childId)
+                    )
+                },
+
             )
         }
 
