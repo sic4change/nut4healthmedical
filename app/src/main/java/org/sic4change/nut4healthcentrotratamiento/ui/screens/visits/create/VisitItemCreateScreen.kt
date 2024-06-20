@@ -3549,7 +3549,7 @@ fun AntropometricosFEFAView(visitState: VisitState,
 
 
 
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(8.dp))
 
     AndroidView(
         factory = {
@@ -3810,7 +3810,7 @@ fun AntropometricosView(visitState: VisitState,
     }
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty() && (monthsBetween >= 6 && monthsBetween <= 60))) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
     }
 
     AndroidView(
