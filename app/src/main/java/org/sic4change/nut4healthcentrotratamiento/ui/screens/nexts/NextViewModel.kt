@@ -15,7 +15,7 @@ import org.sic4change.nut4healthcentrotratamiento.ui.screens.login.LoginViewMode
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.main.MainViewModel
 import java.util.*
 
-class NextsViewModel() : ViewModel() {
+class NextsViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -24,6 +24,7 @@ class NextsViewModel() : ViewModel() {
         viewModelScope.launch {
             filterNext(0)
             _state.value = UiState(user = FirebaseDataSource.getLoggedUser())
+            clearEmptyCases()
         }
     }
 
@@ -50,13 +51,11 @@ class NextsViewModel() : ViewModel() {
         }
     }
 
-    /*fun checkUpdateGooglePlayVersion(currentVersion: String) {
+    fun clearEmptyCases() {
         viewModelScope.launch {
-            _state.value = state.value.copy(
-                updateVersionGooglePlay = FirebaseDataSource.checkUpdateGooglePlayVersion(currentVersion)
-            )
+            FirebaseDataSource.clearEmptyCases()
         }
-    }*/
+    }
 
     fun subscribeToPointNotifications() {
         viewModelScope.launch {

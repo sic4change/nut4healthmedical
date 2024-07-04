@@ -429,7 +429,6 @@ object FirebaseDataSource {
         networkCasesContainer.results.map { it.toDomainCase() }
     }
 
-
     suspend fun getFEFACases(fefaId: String): List<org.sic4change.nut4healthcentrotratamiento.data.entitities.Case> = withContext(Dispatchers.IO) {
         val casesRef = firestore.collection("cases")
         val query = casesRef.whereEqualTo("fefaId", fefaId).orderBy("lastdate", Query.Direction.DESCENDING )
@@ -1163,9 +1162,28 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun clearEmptyCases() = withContext(Dispatchers.IO) {
+        val userRef = firestore.collection("users")
+        val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+        val resultUser = queryUser.get(source).await()
+        val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+        networkUserContainer.results[0].let { user ->
+            val point = user.point
+            val casesRef = firestore.collection("cases")
+            val query = casesRef
+                .whereEqualTo("point", point)
+                .whereEqualTo("visits", 0)
+            val result = query.get(source).await()
+            val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+            networkCasesContainer.results.map { case ->
+                val caseDomain =  case.toDomainCase()
+                casesRef.document(caseDomain.id).delete().await()
+                Timber.d("Delete empty case ${caseDomain.id} result: ok")
+            }
+        }
 
 
-
+    }
 
 }
 
