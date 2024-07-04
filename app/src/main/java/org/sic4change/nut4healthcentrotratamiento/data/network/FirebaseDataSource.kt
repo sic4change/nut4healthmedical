@@ -1317,10 +1317,10 @@ object FirebaseDataSource {
                     Timber.d("Checking case $lastDate")
                     Timber.d("Checking case $currentDate")
                     val caseRef = casesRef.document(caseDomain.id)
-                    /*caseRef.update(
+                    caseRef.update(
                         "closedReason", "Abandonment",
                         "status", statusToUpdate
-                    ).await()*/
+                    ).await()
                 }
             }
         }
