@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -27,6 +28,8 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorSummaryItem
@@ -92,7 +95,6 @@ fun CaseItemDetailScreen(
 
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalCoilApi
 @Composable
 private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: Tutor?,
@@ -371,7 +373,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                         },
                         label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                     Spacer(modifier = Modifier.height(16.dp))
-                    AnimatedVisibility(visible = (fefa.sex== stringResource(R.string.male))) {
+                    AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa.sex)) {
                         TextField(value = fefa.maleRelation,
                             onValueChange = {}, readOnly = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -390,10 +392,10 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                                 Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                             label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
                     }
-                    AnimatedVisibility(visible = (fefa.sex == stringResource(R.string.male))) {
+                    AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa.sex)) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
-                    AnimatedVisibility(visible = (fefa.sex == stringResource(R.string.female))) {
+                    AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa.sex)) {
                         TextField(value = fefa.womanStatus,
                             onValueChange = {}, readOnly = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -412,11 +414,12 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                                 Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                             label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
                     }
-                    AnimatedVisibility(visible = (fefa.sex== stringResource(R.string.female))) {
+                    AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa.sex)) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
-                    AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant) ||
-                            fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                    AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)  ||
+                            doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus)
+                            ) {
                         TextField(value = fefa.weeks,
                             onValueChange = {}, readOnly = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -435,11 +438,11 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                                 Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                             label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
                     }
-                    AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant) ||
-                            fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                    AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus) ||
+                            doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
-                    AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant))) {
+                    AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus))) {
                         TextField(value = fefa.childMinor,
                             onValueChange = {}, readOnly = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -458,11 +461,11 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                                 Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                             label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) })
                     }
-                    AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant))) {
+                    AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus))) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
-                    AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.infant) ||
-                            fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                    AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", fefa.womanStatus) ||
+                            doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                         TextField(value = fefa.babyAge,
                             onValueChange = {}, readOnly = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -481,8 +484,8 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                                 Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                             label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) })
                     }
-                    AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.infant) ||
-                            fefa.womanStatus  == stringResource(R.string.pregnant_and_infant))) {
+                    AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", fefa.womanStatus) ||
+                            doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                         Spacer(modifier = Modifier.height(16.dp))
                     }
 
@@ -546,7 +549,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
 
                 Image(
                     modifier = Modifier.size(50.dp),
-                    painter = if (caseItem.status == stringResource(R.string.close)) painterResource(id = R.drawable.ic_closed_case) else painterResource(id = R.drawable.ic_open_case),
+                    painter = if (doesStringMatchAnyLocale(LocalContext.current, "close", caseItem.status) ) painterResource(id = R.drawable.ic_closed_case) else painterResource(id = R.drawable.ic_open_case),
                     contentDescription = null,
                 )
             }

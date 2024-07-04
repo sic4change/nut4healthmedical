@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 
 @ExperimentalCoilApi
 @Composable
@@ -41,7 +42,7 @@ fun  CaseListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (item.status == stringResource(R.string.open)) {
+                if (doesStringMatchAnyLocale(LocalContext.current, "open", item.status)) {
                     IconButton(onClick = {}) {
                         Icon(
                             tint = colorResource(R.color.colorPrimary),

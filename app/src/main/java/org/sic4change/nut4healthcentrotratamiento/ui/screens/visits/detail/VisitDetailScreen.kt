@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -37,13 +38,12 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.VisitState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.create.CurrenStatusView
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.YearMonth
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
@@ -378,7 +378,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                             },
                             label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                         Spacer(modifier = Modifier.height(16.dp))
-                        AnimatedVisibility(visible = (fefa.sex== stringResource(R.string.male))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa.sex) ) {
                             TextField(value = fefa.maleRelation,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -397,10 +397,10 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                     Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa.sex == stringResource(R.string.male))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa.sex) ) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa.sex == stringResource(R.string.female))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa.sex) ) {
                             TextField(value = fefa.womanStatus,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -419,11 +419,12 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                     Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa.sex== stringResource(R.string.female))) {
+
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa.sex)) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant) ||
-                                fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)  ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                             TextField(value = fefa.weeks,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -442,11 +443,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                     Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant) ||
-                                fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus) ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)) {
                             TextField(value = fefa.childMinor,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -465,11 +466,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                     Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.infant) ||
-                                fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "infant", fefa.womanStatus)  ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus)) {
                             TextField(value = fefa.babyAge,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -488,8 +489,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                     Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.infant) ||
-                                fefa.womanStatus  == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", fefa.womanStatus) ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
 
@@ -521,11 +522,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
            item {
                 Spacer(modifier = Modifier.height(16.dp))
-               val color = if (visitState.status.value == stringResource(R.string.aguda_severa)) {
+               val color = if (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                    colorResource(R.color.error)
-               } else if (visitState.status.value == stringResource(R.string.aguda_moderada)){
+               } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)){
                    colorResource(R.color.orange)
-               } else if (visitState.status.value == stringResource(R.string.normopeso)){
+               } else if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value)){
                    colorResource(R.color.colorAccent)
                } else {
                    colorResource(R.color.colorPrimary)
@@ -559,18 +560,18 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            Spacer(modifier = Modifier.height(16.dp))
 
                            AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                   && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                   || visitState.status.value == stringResource(R.string.aguda_severa))
-                                   && (visitState.womanStatus.value == stringResource(R.string.infant)
-                                   || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))
+                                   && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                                   || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))
+                                   && (doesStringMatchAnyLocale(LocalContext.current, "infant", visitState.womanStatus.value)
+                                   || doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", visitState.womanStatus.value) )
                                    && (visitState.womanChildWeeks.value <= 6)
                            ){
 
                                Column {
                                    Spacer(modifier = Modifier.height(16.dp))
                                    AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                           && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                           || visitState.status.value == stringResource(R.string.aguda_severa))){
+                                           && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                                           || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))){
                                        Column {
                                            Spacer(modifier = Modifier.height(16.dp))
                                            Divider(color = colorResource(R.color.disabled_color), thickness = 1.dp)
@@ -688,7 +689,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                Spacer(modifier = Modifier.height(16.dp))
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                                       && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
                                    Column{
                                        Divider(color = Color.Gray, thickness = 1.dp)
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -698,7 +699,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                                       && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
                                    Column {
                                        ItemViewImage(visitState.selectedVomitos.value, stringResource(R.string.vomits), R.mipmap.ic_vomit)
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -710,7 +711,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 1) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -723,7 +724,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 1) {
                                    Column {
                                        Column(
@@ -761,7 +762,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                Spacer(modifier = Modifier.height(16.dp))
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        )) {
                                    Column{
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -774,7 +775,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        )) {
 
                                    Column(
@@ -814,7 +815,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        )) {
                                    Column{
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -827,7 +828,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        )) {
 
                                    Column(
@@ -1008,7 +1009,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                Spacer(modifier = Modifier.height(16.dp))
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                                       && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
                                    Column{
                                        Divider(color = Color.Gray, thickness = 1.dp)
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1018,7 +1019,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                                       && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
                                    Card(modifier = Modifier
                                        .fillMaxWidth()
                                        .padding(0.dp, 0.dp),
@@ -1034,11 +1035,11 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        ) {
 
 
-                                           AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                                           AnimatedVisibility(doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                                                ItemViewImage(visitState.selectedRespiration.value, stringResource(R.string.respiration), R.mipmap.ic_respiration)
                                            }
 
-                                           AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                                           AnimatedVisibility(doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                                                ItemViewImage(visitState.selectedApetit.value, stringResource(R.string.apetit), R.mipmap.ic_apetit)
                                            }
 
@@ -1054,7 +1055,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                            ItemViewImage(visitState.selectedFiebre.value, stringResource(R.string.fiebre), R.mipmap.ic_tos)
 
-                                           AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                                           AnimatedVisibility(doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                                                ItemViewImage(visitState.selectedTos.value, stringResource(R.string.tos), R.mipmap.ic_fiebre)
                                            }
 
@@ -1066,7 +1067,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
                                    Column{
                                        Divider(color = Color.Gray, thickness = 1.dp)
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1077,7 +1078,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && visitState.visitNumber.value == 1) {
 
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 8.dp)) {
@@ -1091,7 +1092,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && visitState.visitNumber.value == 1) {
                                    Column(
                                        modifier = Modifier
@@ -1105,7 +1106,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       &&  (visitState.status.value == stringResource(R.string.aguda_severa)
+                                       &&  (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 2)) {
                                    Column{
                                        Divider(color = Color.Gray, thickness = 1.dp)
@@ -1116,7 +1117,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && visitState.visitsSize.value == 0) {
                                    if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
                                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -1131,8 +1132,8 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                       && visitState.visitNumber.value == 1) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                                       && visitState.visitNumber.value == 1) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 2)) {
                                    Column(
                                        modifier = Modifier
@@ -1166,12 +1167,12 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
 
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
                                        Spacer(modifier = Modifier.width(8.dp))
@@ -1183,7 +1184,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
                                    Column {
                                        ItemViewIcon(visitState.selectedCapsulesFerro.value, stringResource(R.string.capsules_hierro_folico_checked), Icons.Filled.Medication)
                                        Column(
@@ -1203,7 +1204,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && monthsBetween >= 9
                                        && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -1215,7 +1216,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && monthsBetween >= 9
                                        && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
                                    Column(
@@ -1227,7 +1228,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                    ) {
                                        ItemViewIcon(visitState.selectedCartilla.value, stringResource(R.string.cartilla), Icons.Filled.Book)
                                        AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                               && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                               && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                                && monthsBetween >= 9
                                                && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]) {
 
@@ -1235,7 +1236,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        }
 
                                        AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                               && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                               && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                                && monthsBetween >= 9
                                                && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
                                            Column(
@@ -1252,7 +1253,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                        }
 
                                        AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                               && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                               && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                                && monthsBetween >= 9
                                                && visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1]
                                                && visitState.selectedRubeola.value != stringArrayResource(id = R.array.yesnooptions)[1]) {
@@ -1272,7 +1273,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 1) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1285,7 +1286,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 3) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1298,7 +1299,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visitNumber.value == 1) {
                                    Column(
                                    ) {
@@ -1328,7 +1329,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visits.value.size >= 3) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1340,7 +1341,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        && visitState.visits.value.size >= 3) {
 
                                    Column(
@@ -1476,7 +1477,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                    )
 
                                                    AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                                           && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                                           && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                                            && monthsBetween >= 9
                                                            && (visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1] ||
                                                            visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[2]))) {
@@ -1510,7 +1511,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                                    }
 
                                                    AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                                           && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                                           && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                                            && monthsBetween >= 9
                                                            && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2])) {
                                                        Column(
@@ -1602,7 +1603,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                Spacer(modifier = Modifier.height(16.dp))
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        )) {
                                    Column{
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1615,7 +1616,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_moderada)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        )) {
 
                                    Column(
@@ -1655,7 +1656,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        )) {
                                    Column{
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1668,7 +1669,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                                       && visitState.status.value == stringResource(R.string.aguda_severa)
+                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                                        )) {
 
                                    Column(

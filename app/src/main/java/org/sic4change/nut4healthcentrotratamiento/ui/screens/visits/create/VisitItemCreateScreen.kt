@@ -22,6 +22,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -41,6 +42,7 @@ import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Complication
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.SimpleRulerViewer
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorSummaryItem
@@ -320,7 +322,7 @@ private fun VisitView(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     visitState.showViewToGoToDerivationForm.value =
-                        (visitState.status.value == stringResource(R.string.aguda_severa) && (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM"))
+                        (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value) && (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM"))
                                  || (visitState.point.value.type == "CRENAS" && (visitState.complications.value.any{it.selected} || visitState.selectedEdema.value.contains("(+++)")))
                                 || (visitState.weight.value.isNotEmpty() && visitState.weight.value != "0" &&
                                         (visitState.checkWeightLowFivePercent() || visitState.checkThreeTimesSameWeightInCRENAS()) ||
@@ -331,13 +333,13 @@ private fun VisitView(
                             && !visitState.showViewToGoToDerivationForm.value) {
                         var lastStep = false
                         visitState.showViewToGoToDerivationForm.value = false
-                        if (visitState.status.value == stringResource(R.string.normopeso) ||
-                                visitState.status.value == stringResource(R.string.objetive_weight)) {
+                        if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value) ||
+                            doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", visitState.status.value)) {
                             if (visitState.visits.value.size == 0) {
                                 lastStep = true
                             }
                         }
-                        if (visitState.status.value == stringResource(R.string.aguda_severa) &&
+                        if (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value) &&
                             (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
                             lastStep = true
 
@@ -645,7 +647,7 @@ private fun VisitView(
                             },
                             label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                         Spacer(modifier = Modifier.height(16.dp))
-                        AnimatedVisibility(visible = (fefa!!.sex== stringResource(R.string.male))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa!!.sex)) {
                             TextField(value = fefa!!.maleRelation,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -664,10 +666,10 @@ private fun VisitView(
                                     Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa!!.sex == stringResource(R.string.male))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa!!.sex)) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa!!.sex == stringResource(R.string.female))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa!!.sex)) {
                             TextField(value = fefa!!.womanStatus,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -686,11 +688,11 @@ private fun VisitView(
                                     Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa!!.sex == stringResource(R.string.female))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa!!.sex)) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa!!.womanStatus == stringResource(R.string.pregnant) ||
-                                fefa!!.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa!!.womanStatus) ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa!!.womanStatus) )) {
                             TextField(value = fefa!!.weeks,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -709,11 +711,11 @@ private fun VisitView(
                                     Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa!!.womanStatus == stringResource(R.string.pregnant) ||
-                                fefa!!.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa!!.womanStatus)) ||
+                                (doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa!!.womanStatus))) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa!!.womanStatus == stringResource(R.string.pregnant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa!!.womanStatus)) {
                             TextField(value = fefa!!.childMinor,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -732,11 +734,11 @@ private fun VisitView(
                                     Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa!!.womanStatus == stringResource(R.string.pregnant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa!!.womanStatus)) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        AnimatedVisibility(visible = (fefa!!.womanStatus == stringResource(R.string.infant) ||
-                                fefa!!.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "infant", fefa!!.womanStatus) ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa!!.womanStatus)) {
                             TextField(value = fefa!!.babyAge,
                                 onValueChange = {}, readOnly = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -755,11 +757,10 @@ private fun VisitView(
                                     Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                                 label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) })
                         }
-                        AnimatedVisibility(visible = (fefa!!.womanStatus == stringResource(R.string.infant) ||
-                                fefa!!.womanStatus== stringResource(R.string.pregnant_and_infant))) {
+                        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "infant", fefa!!.womanStatus)  ||
+                                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa!!.womanStatus)) {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-
 
                         TextField(value = fefa!!.observations,
                             onValueChange = {}, readOnly = true,
@@ -821,23 +822,12 @@ private fun VisitView(
 
                     var lastStep = false
                     visitState.showViewToGoToDerivationForm.value = false
-                    if (visitState.status.value == stringResource(R.string.normopeso) ||
-                        visitState.status.value == stringResource(R.string.objetive_weight)) {
+                    if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value) ||
+                        doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", visitState.status.value)) {
                         if (visitState.visits.value.size == 0) {
                             lastStep = true
                         }
                     }
-                    /*if (visitState.status.value == stringResource(R.string.aguda_severa) &&
-                        (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
-                        lastStep = true
-                        visitState.showViewToGoToDerivationForm.value = true
-                    }
-
-                    if (visitState.weight.value.isNotEmpty() && visitState.weight.value != "0" && visitState.checkWeightLowFivePercent()) {
-                        println("Aqui 5%")
-                        lastStep = true
-                        visitState.showViewToGoToDerivationForm.value = true
-                    }*/
 
                     AnimatedVisibility(visible = visitState.armCircunference.value <= 50 && !visitState.showViewToGoToDerivationForm.value) {
 
@@ -1095,11 +1085,11 @@ fun CurrenStatusView(
     modifier: Modifier = Modifier
 ) {
     var colorBackground : Color = Color.White
-    if (formatStatus(visitState.status.value)  == stringResource(R.string.normopeso)) {
+    if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", formatStatus(visitState.status.value))) {
         colorBackground = colorResource(R.color.colorAccent)
-    } else if (formatStatus(visitState.status.value)  == stringResource(R.string.objetive_weight)) {
+    } else if (doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", formatStatus(visitState.status.value))) {
         colorBackground = colorResource(R.color.colorPrimary)
-    } else if (formatStatus(visitState.status.value)  == stringResource(R.string.aguda_moderada)) {
+    } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", formatStatus(visitState.status.value))) {
         colorBackground = colorResource(R.color.orange)
     } else {
         colorBackground = colorResource(R.color.error)
@@ -1141,8 +1131,8 @@ fun NutritionalFEFAView(visitState: VisitState) {
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada)
-            || visitState.status.value == stringResource(R.string.aguda_severa))){
+            &&  (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+            || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))){
         Spacer(modifier = Modifier.height(16.dp))
         SteptTitle(R.mipmap.ic_step_three, stringResource(R.string.step4_title))
         Spacer(modifier = Modifier.height(32.dp))
@@ -1198,13 +1188,16 @@ fun NutritionalView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada) || visitState.status.value == stringResource(R.string.normopeso) )
-            )) {
+    AnimatedVisibility(
+        visible = (visitState.status.value.isNotEmpty()
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) ||
+                doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value)))
+    ) {
 
         var nutricionalText = stringResource(R.string.crenam_communitary_pam_nutritional)
         if (visitState.point.value.type == "Otro") {
-            nutricionalText = nutricionalText + " / " +  stringResource(R.string.crenam_communitary_csa_nutritional)
+            nutricionalText =
+                nutricionalText + " / " + stringResource(R.string.crenam_communitary_csa_nutritional)
         }
 
         Column(
@@ -1220,11 +1213,14 @@ fun NutritionalView(visitState: VisitState) {
                 textAlign = TextAlign.Left,
                 modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
                 style = MaterialTheme.typography.h5,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold
+            )
 
-            Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically) {
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Image(
                     modifier = Modifier.size(78.dp).weight(1f),
                     painter = painterResource(id = R.mipmap.ic_plumpy),
@@ -1236,7 +1232,8 @@ fun NutritionalView(visitState: VisitState) {
                     color = colorResource(R.color.colorPrimary),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.h5,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold
+                )
 
             }
 
@@ -1245,7 +1242,7 @@ fun NutritionalView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_severa)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
             )) {
 
         Column(
@@ -1356,8 +1353,8 @@ fun SistemicFEFAView(visitState: VisitState) {
     Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada)
-            || visitState.status.value == stringResource(R.string.aguda_severa))){
+            && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+            || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))){
         Spacer(modifier = Modifier.height(32.dp))
         SteptTitle(R.mipmap.ic_step_two, stringResource(R.string.step3_title))
         Spacer(modifier = Modifier.height(32.dp))
@@ -1367,10 +1364,10 @@ fun SistemicFEFAView(visitState: VisitState) {
 
     if (visitState.point.value.type != "Otro") {
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                || visitState.status.value == stringResource(R.string.aguda_severa))
-                && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))
+                && (doesStringMatchAnyLocale(LocalContext.current, "pregnant", visitState.womanStatus.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", visitState.womanStatus.value))
                 && visitState.pregnantWeeks.value >= 24
                 && visitState.visitsSize.value == 0) {
             Column {
@@ -1423,11 +1420,11 @@ fun SistemicFEFAView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                || visitState.status.value == stringResource(R.string.aguda_severa))
-                && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                || visitState.womanStatus.value == stringResource(R.string.infant)
-                || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))
+                && (doesStringMatchAnyLocale(LocalContext.current, "pregnant", visitState.womanStatus.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "infant", visitState.womanStatus.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", visitState.womanStatus.value))){
             Column {
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
                     Spacer(modifier = Modifier.width(16.dp))
@@ -1466,10 +1463,10 @@ fun SistemicFEFAView(visitState: VisitState) {
                                 color = colorResource(R.color.colorPrimary)
                             )
                             AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                    && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                                    || visitState.status.value == stringResource(R.string.aguda_severa))
-                                    && (visitState.womanStatus.value == stringResource(R.string.pregnant)
-                                    || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))){
+                                    && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                                    || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))
+                                    && (doesStringMatchAnyLocale(LocalContext.current, "pregnant", visitState.womanStatus.value)
+                                    || doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", visitState.womanStatus.value))){
 
                                 ExposedDropdownMenuBox(
                                     modifier = Modifier
@@ -1537,10 +1534,10 @@ fun SistemicFEFAView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                || visitState.status.value == stringResource(R.string.aguda_severa))
-                && (visitState.womanStatus.value == stringResource(R.string.infant)
-                || visitState.womanStatus.value == stringResource(R.string.pregnant_and_infant))
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))
+                && (doesStringMatchAnyLocale(LocalContext.current, "infant", visitState.womanStatus.value)
+                || doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", visitState.womanStatus.value))
                 && (visitState.womanChildWeeks.value <= 6)){
 
             Column {
@@ -1576,8 +1573,8 @@ fun SistemicView(visitState: VisitState) {
     Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && (visitState.status.value == stringResource(R.string.aguda_moderada)
-            || visitState.status.value == stringResource(R.string.aguda_severa))){
+            && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+            || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))){
         Spacer(modifier = Modifier.height(32.dp))
         SteptTitle(R.mipmap.ic_step_three, stringResource(R.string.step3_title))
         Spacer(modifier = Modifier.height(32.dp))
@@ -1586,7 +1583,7 @@ fun SistemicView(visitState: VisitState) {
     Spacer(modifier = Modifier.height(16.dp))
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
             && visitState.visitsSize.value == 0) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -1601,7 +1598,7 @@ fun SistemicView(visitState: VisitState) {
 
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
             && visitState.visitsSize.value == 0) {
         Card(
             modifier = Modifier
@@ -1703,14 +1700,14 @@ fun SistemicView(visitState: VisitState) {
     }
     if (visitState.point.value.type != "Otro") {
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                && visitState.visitsSize.value == 0) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                 && visitState.visitsSize.value == 1)) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && visitState.status.value == stringResource(R.string.aguda_moderada)
+                && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                 && visitState.visitsSize.value == 0) {
             if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -1724,8 +1721,8 @@ fun SistemicView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && (visitState.status.value == stringResource(R.string.aguda_moderada)
-                && visitState.visitsSize.value == 0) || (visitState.status.value == stringResource(R.string.aguda_severa)
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
+                && visitState.visitsSize.value == 0) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
                 && visitState.visitsSize.value == 1)) {
 
             if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
@@ -1779,12 +1776,12 @@ fun SistemicView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
                 Spacer(modifier = Modifier.width(16.dp))
@@ -1797,7 +1794,7 @@ fun SistemicView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                && visitState.status.value == stringResource(R.string.aguda_moderada)) {
+                && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -1898,7 +1895,7 @@ fun SistemicView(visitState: VisitState) {
 
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || (visitState.visits.value[0] != null && visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[2])) ) {
         Spacer(modifier = Modifier.height(16.dp))
@@ -1912,7 +1909,7 @@ fun SistemicView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1]) ) {
         Card(
@@ -1984,7 +1981,7 @@ fun SistemicView(visitState: VisitState) {
                     }
                 }
                 AnimatedVisibility(visitState.status.value.isNotEmpty()
-                        && visitState.status.value == stringResource(R.string.aguda_moderada)
+                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                         && monthsBetween >= 9
                         && (visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1] ||
                         visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[2])) {
@@ -2045,7 +2042,7 @@ fun SistemicView(visitState: VisitState) {
                 }
 
                 AnimatedVisibility(visitState.status.value.isNotEmpty()
-                        && visitState.status.value == stringResource(R.string.aguda_moderada)
+                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                         && monthsBetween >= 9
                         && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2]) {
                     Column(
@@ -2065,13 +2062,13 @@ fun SistemicView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_severa)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
             && visitState.visitsSize.value == 0) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_severa)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
             && visitState.visitsSize.value == 0) {
         Card(
             modifier = Modifier
@@ -2207,7 +2204,7 @@ fun SistemicView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && visitState.status.value == stringResource(R.string.aguda_severa)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
             && visitState.visits.value.size >= 3) {
 
         Column(
@@ -2456,7 +2453,7 @@ fun SistemicView(visitState: VisitState) {
                         }
 
                         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                 && monthsBetween >= 9
                                 && (visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[1] ||
                                 visitState.selectedCartilla.value == stringArrayResource(id = R.array.yesnooptions)[2]))) {
@@ -2517,7 +2514,7 @@ fun SistemicView(visitState: VisitState) {
                         }
 
                         AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                && (visitState.status.value == stringResource(R.string.aguda_moderada)
+                                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                 && monthsBetween >= 9
                                 && visitState.selectedRubeola.value == stringArrayResource(id = R.array.yesnooptions)[2])) {
                             Column(
@@ -2637,7 +2634,9 @@ fun SymtomsView(visitState: VisitState) {
     CurrenStatusView(visitState = visitState)
     Spacer(modifier = Modifier.height(16.dp))
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-            && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+            && (
+            doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) ||
+            doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
         Spacer(modifier = Modifier.height(32.dp))
         SteptTitle(R.mipmap.ic_step_two, stringResource(R.string.step2_title))
         Spacer(modifier = Modifier.height(32.dp))
@@ -2647,7 +2646,8 @@ fun SymtomsView(visitState: VisitState) {
 
     if (visitState.point.value.type == "Otro") {
         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) ||
+                doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
             Card(modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -2829,7 +2829,8 @@ fun SymtomsView(visitState: VisitState) {
         }
     } else {
         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
-                && visitState.status.value != stringResource(R.string.normopeso) && visitState.status.value != stringResource(R.string.objetive_weight))) {
+                && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) ||
+                doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
             Card(modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 0.dp),
@@ -2844,7 +2845,7 @@ fun SymtomsView(visitState: VisitState) {
                         .padding(16.dp)
                 ) {
 
-                    AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                    AnimatedVisibility(doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                         ExposedDropdownMenuBox(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -2902,7 +2903,7 @@ fun SymtomsView(visitState: VisitState) {
                     }
 
 
-                    AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                    AnimatedVisibility(doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                         ExposedDropdownMenuBox(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -3282,7 +3283,7 @@ fun SymtomsView(visitState: VisitState) {
                         }
                     }
 
-                    AnimatedVisibility(visitState.status.value == stringResource(R.string.aguda_severa)) {
+                    AnimatedVisibility(doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)) {
                         ExposedDropdownMenuBox(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -3489,7 +3490,7 @@ fun AntropometricosFEFAView(visitState: VisitState,
     Spacer(modifier = Modifier.height(16.dp))
 
     if (visitState.armCircunference.value < 18.0) {
-        visitState.status.value = stringResource(R.string.aguda_severa)
+        doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
         TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_severa),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.error),
@@ -3508,7 +3509,7 @@ fun AntropometricosFEFAView(visitState: VisitState,
                 Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.error),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
     }  else if (visitState.armCircunference.value >= 18.0 && visitState.armCircunference.value < 21.0) {
-        visitState.status.value = stringResource(R.string.aguda_moderada)
+        doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
         TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.aguda_moderada),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.orange),
@@ -3527,7 +3528,7 @@ fun AntropometricosFEFAView(visitState: VisitState,
                 Icon(Icons.Filled.MultipleStop, null, tint = colorResource(R.color.orange),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.arm_circunference), color = colorResource(R.color.disabled_color)) })
     } else {
-        visitState.status.value = stringResource(R.string.normopeso)
+        doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value)
         TextField(value = visitState.armCircunference.value.toString() + " " + stringResource(R.string.normopeso),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorAccent),
@@ -3993,11 +3994,11 @@ fun AntropometricosView(visitState: VisitState,
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty())) {
         var statusFormated = ""
-        if (visitState.status.value == "Normopeso" || visitState.status.value == stringResource(R.string.normopeso)) {
+        if (visitState.status.value == "Normopeso" || doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value)) {
             statusFormated = stringResource(R.string.normopeso)
-        } else if (visitState.status.value == "Peso Objetivo" || visitState.status.value == stringResource(R.string.objetive_weight)) {
+        } else if (visitState.status.value == "Peso Objetivo" || doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", visitState.status.value)) {
             statusFormated = stringResource(R.string.objetive_weight)
-        } else if (visitState.status.value == "Aguda Moderada" || visitState.status.value == stringResource(R.string.aguda_moderada)) {
+        } else if (visitState.status.value == "Aguda Moderada" || doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
             statusFormated = stringResource(R.string.aguda_moderada)
         } else {
             statusFormated = stringResource(R.string.aguda_severa)
@@ -4013,11 +4014,11 @@ fun AntropometricosView(visitState: VisitState,
         visitState.status.value = statusFormated
 
         var color = Color.White
-        if (visitState.status.value == stringResource(R.string.normopeso)) {
+        if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value)) {
             color = colorResource(R.color.colorAccent)
-        } else if (visitState.status.value == stringResource(R.string.objetive_weight)) {
+        } else if (doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", visitState.status.value)) {
             color = colorResource(R.color.colorPrimary)
-        } else if (visitState.status.value == stringResource(R.string.aguda_moderada)) {
+        } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
             color = colorResource(R.color.orange)
         } else {
             color = colorResource(R.color.error)

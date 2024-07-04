@@ -11,11 +11,13 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import java.text.SimpleDateFormat
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -42,7 +44,7 @@ fun NextItemBottomPreview(item: Cuadrant?) {
                     textStyle = MaterialTheme.typography.h5,
                     leadingIcon = {
                         Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
-                if (item.status == stringResource(R.string.open)) {
+                if (doesStringMatchAnyLocale(LocalContext.current, "open", item.status)) {
                     TextField(value = "${item.status}".toString().capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.colorAccent),

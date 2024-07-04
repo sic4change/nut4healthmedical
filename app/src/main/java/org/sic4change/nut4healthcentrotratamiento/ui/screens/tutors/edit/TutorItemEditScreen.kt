@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.CustomDatePickerDialog
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatDateToString
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import java.text.SimpleDateFormat
@@ -323,7 +325,7 @@ private fun Header(tutorState: TutorState,
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", tutorState.selectedOptionSex.value)) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -378,11 +380,11 @@ private fun Header(tutorState: TutorState,
             }
         }
 
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.male))) {
+        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", tutorState.selectedOptionSex.value)) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", tutorState.selectedOptionSex.value)) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -436,11 +438,11 @@ private fun Header(tutorState: TutorState,
                 }
             }
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", tutorState.selectedOptionSex.value)) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value) ||
+                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
             TextField(value = tutorState.weeks.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -477,11 +479,11 @@ private fun Header(tutorState: TutorState,
             )
 
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value) ||
+                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
+        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value)) {
             ExposedDropdownMenuBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -535,11 +537,11 @@ private fun Header(tutorState: TutorState,
                 }
             }
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
+        AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value)) {
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", tutorState.selectedOptionWomanStatus.value)  ||
+                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
             TextField(value = tutorState.babyAge.value.toString(),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = colorResource(R.color.colorPrimary),
@@ -570,8 +572,8 @@ private fun Header(tutorState: TutorState,
             )
 
         }
-        AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+        AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", tutorState.selectedOptionWomanStatus.value) ||
+                doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
             Spacer(modifier = Modifier.height(16.dp))
         }
 
@@ -613,17 +615,17 @@ private fun Header(tutorState: TutorState,
                 tutorState.surnames.value.isNotEmpty() &&
                 tutorState.phone.value.isNotEmpty() &&
                 tutorState.address.value.isNotEmpty())) {
-            if (tutorState.selectedOptionSex.value == stringResource(R.string.male)){
+            if (doesStringMatchAnyLocale(LocalContext.current, "male", tutorState.selectedOptionSex.value)){
                 tutorState.clearWomanValues()
             } else {
                 tutorState.clearManValues()
-                if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant)){
+                if (doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value)){
                     tutorState.clearWomanPregnantStatusValue()
-                } else if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant)) {
+                } else if (doesStringMatchAnyLocale(LocalContext.current, "infant", tutorState.selectedOptionWomanStatus.value)) {
                     tutorState.clearWomanInfantStatusValue()
-                } else if(tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant)) {
+                } else if (doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value)) {
                     tutorState.clearWomanPregnantAndInfantStatusValue()
-                } else if (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.nothing)) {
+                } else if (doesStringMatchAnyLocale(LocalContext.current, "nothing", tutorState.selectedOptionWomanStatus.value)) {
                     tutorState.clearWomanOtherStatusValue()
                 }
             }

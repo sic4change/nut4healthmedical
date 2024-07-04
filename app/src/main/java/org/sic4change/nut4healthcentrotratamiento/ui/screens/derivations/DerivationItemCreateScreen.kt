@@ -20,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -34,7 +35,6 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
@@ -45,6 +45,7 @@ import java.util.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Derivation
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.visits.detail.ItemViewIcon
@@ -920,11 +921,11 @@ fun CurrenStatusView(
     modifier: Modifier = Modifier
 ) {
     var colorBackground : Color = Color.White
-    if (formatStatus(derivationState.lastVisit.value!!.status)  == stringResource(R.string.normopeso)) {
+    if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", formatStatus(derivationState.lastVisit.value!!.status))) {
         colorBackground = colorResource(R.color.colorAccent)
-    } else if (formatStatus(derivationState.lastVisit.value!!.status)  == stringResource(R.string.objetive_weight)) {
+    } else if (doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", formatStatus(derivationState.lastVisit.value!!.status))) {
         colorBackground = colorResource(R.color.colorPrimary)
-    } else if (formatStatus(derivationState.lastVisit.value!!.status)  == stringResource(R.string.aguda_moderada)) {
+    } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", formatStatus(derivationState.lastVisit.value!!.status))) {
         colorBackground = colorResource(R.color.orange)
     } else {
         colorBackground = colorResource(R.color.error)
@@ -966,7 +967,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     val monthsBetween = getMonthsAgo(child.birthdate.time)
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status)
             && visitNumber == 1) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
@@ -976,7 +977,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status)
             && visitNumber == 0) {
         if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
@@ -987,8 +988,8 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && (visit.status == stringResource(R.string.aguda_moderada)
-            && visitNumber == 1) || (visit.status == stringResource(R.string.aguda_severa)
+            && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status)
+            && visitNumber == 1) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visit.status)
             && visitNumber == 2)) {
         Column(
             modifier = Modifier
@@ -1008,7 +1009,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)) {
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status) ) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
             Text(stringResource(R.string.ferro_title), color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
@@ -1017,7 +1018,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)) {
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status) ) {
         Column {
             Column(
                 modifier = Modifier
@@ -1035,7 +1036,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_severa)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visit.status)
             && visitNumber == 1) {
         Column(
         ) {

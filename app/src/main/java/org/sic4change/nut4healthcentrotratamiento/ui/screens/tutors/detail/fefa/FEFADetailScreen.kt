@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,6 +25,7 @@ import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Child
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseListItem
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.TutorState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.tutors.detail.TutorItemDetailScaffold
@@ -260,7 +262,7 @@ private fun FEFAView(
                     },
                     label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                 Spacer(modifier = Modifier.height(16.dp))
-                AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {
+                AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", tutorState.sex.value)) {
                     TextField(value = tutorState.maleRelation.value,
                         onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
@@ -279,10 +281,10 @@ private fun FEFAView(
                             Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                         label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
                 }
-                AnimatedVisibility(visible = (tutorState.sex.value == stringResource(R.string.male))) {
+                AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", tutorState.sex.value)) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+                AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", tutorState.selectedOptionSex.value) ) {
                     TextField(value = tutorState.womanStatus.value,
                         onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
@@ -301,11 +303,11 @@ private fun FEFAView(
                             Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                         label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionSex.value == stringResource(R.string.female))) {
+                AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", tutorState.selectedOptionSex.value)) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
-                        tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+                AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value) ||
+                        doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
                     TextField(value = tutorState.weeks.value,
                         onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
@@ -324,11 +326,11 @@ private fun FEFAView(
                             Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                         label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant) ||
-                        tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+                AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value) ||
+                        doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
+                AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value)) {
                     TextField(value = tutorState.childMinor.value,
                         onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
@@ -347,11 +349,11 @@ private fun FEFAView(
                             Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                         label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) })
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant))) {
+                AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", tutorState.selectedOptionWomanStatus.value)) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                        tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+                AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", tutorState.selectedOptionWomanStatus.value)  ||
+                        doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
                     TextField(value = tutorState.babyAge.value,
                         onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
@@ -370,8 +372,8 @@ private fun FEFAView(
                             Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
                         label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) })
                 }
-                AnimatedVisibility(visible = (tutorState.selectedOptionWomanStatus.value == stringResource(R.string.infant) ||
-                        tutorState.selectedOptionWomanStatus.value == stringResource(R.string.pregnant_and_infant))) {
+                AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", tutorState.selectedOptionWomanStatus.value) ||
+                        doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", tutorState.selectedOptionWomanStatus.value))) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 

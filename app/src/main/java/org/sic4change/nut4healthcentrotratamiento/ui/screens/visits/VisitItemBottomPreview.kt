@@ -11,12 +11,14 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import java.text.SimpleDateFormat
 
@@ -32,7 +34,7 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (formatStatus(item.status) == stringResource(R.string.normopeso)) {
+                if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", formatStatus(item.status))) {
                     TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.colorAccent),
@@ -45,7 +47,7 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                         textStyle = MaterialTheme.typography.h5,
                         leadingIcon = {
                             Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorAccent),  modifier = Modifier.clickable { /* .. */})})
-                } else if (formatStatus(item.status) == stringResource(R.string.objetive_weight)) {
+                } else if (doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", formatStatus(item.status))) {
                     TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.colorPrimary),
@@ -58,7 +60,7 @@ fun VisitItemBottomPreview(item: Visit?, onGoToDetail: (Visit) -> Unit) {
                         textStyle = MaterialTheme.typography.h5,
                         leadingIcon = {
                             Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})})
-                } else if (formatStatus(item.status) == stringResource(R.string.aguda_moderada)) {
+                } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", formatStatus(item.status))) {
                     TextField(value = "${formatStatus(item.status)}".capitalize(), onValueChange = {}, readOnly = true,
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = colorResource(R.color.orange),

@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Tutor
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.getMonthsAgo
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.cases.CaseState
 import org.sic4change.nut4healthcentrotratamiento.ui.screens.childs.detail.ChildSummaryItem
@@ -442,7 +444,7 @@ private fun DerivationView(
                                 },
                                 label = { Text(stringResource(R.string.sex), color = colorResource(R.color.disabled_color)) })
                             Spacer(modifier = Modifier.height(16.dp))
-                            AnimatedVisibility(visible = (fefa.sex== stringResource(R.string.male))) {
+                            AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa.sex) ) {
                                 TextField(value = fefa.maleRelation,
                                     onValueChange = {}, readOnly = true,
                                     colors = TextFieldDefaults.textFieldColors(
@@ -461,10 +463,10 @@ private fun DerivationView(
                                         Icon(painterResource(R.mipmap.ic_relation), null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                                     label = { Text(stringResource(R.string.relation), color = colorResource(R.color.disabled_color)) })
                             }
-                            AnimatedVisibility(visible = (fefa.sex == stringResource(R.string.male))) {
+                            AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "male", fefa.sex)) {
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
-                            AnimatedVisibility(visible = (fefa.sex == stringResource(R.string.female))) {
+                            AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa.sex)) {
                                 TextField(value = fefa.womanStatus,
                                     onValueChange = {}, readOnly = true,
                                     colors = TextFieldDefaults.textFieldColors(
@@ -483,11 +485,11 @@ private fun DerivationView(
                                         Icon(Icons.Filled.PregnantWoman, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                                     label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) })
                             }
-                            AnimatedVisibility(visible = (fefa.sex== stringResource(R.string.female))) {
+                            AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "female", fefa.sex)) {
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
-                            AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant) ||
-                                    fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                            AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)  ||
+                                    doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                                 TextField(value = fefa.weeks,
                                     onValueChange = {}, readOnly = true,
                                     colors = TextFieldDefaults.textFieldColors(
@@ -506,11 +508,11 @@ private fun DerivationView(
                                         Icon(Icons.Filled.ViewWeek, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                                     label = { Text(stringResource(R.string.weeks), color = colorResource(R.color.disabled_color)) })
                             }
-                            AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant) ||
-                                    fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                            AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)  ||
+                                    doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
-                            AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant))) {
+                            AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus))) {
                                 TextField(value = fefa.childMinor,
                                     onValueChange = {}, readOnly = true,
                                     colors = TextFieldDefaults.textFieldColors(
@@ -529,11 +531,11 @@ private fun DerivationView(
                                         Icon(Icons.Filled.ChildCare, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                                     label = { Text(stringResource(R.string.child_minor_six_month), color = colorResource(R.color.disabled_color)) })
                             }
-                            AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.pregnant))) {
+                            AnimatedVisibility(visible = doesStringMatchAnyLocale(LocalContext.current, "pregnant", fefa.womanStatus)) {
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
-                            AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.infant) ||
-                                    fefa.womanStatus == stringResource(R.string.pregnant_and_infant))) {
+                            AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", fefa.womanStatus) ||
+                                    doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                                 TextField(value = fefa.babyAge,
                                     onValueChange = {}, readOnly = true,
                                     colors = TextFieldDefaults.textFieldColors(
@@ -552,8 +554,8 @@ private fun DerivationView(
                                         Icon(Icons.Filled.ChildFriendly, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { })},
                                     label = { Text(stringResource(R.string.baby_age), color = colorResource(R.color.disabled_color)) })
                             }
-                            AnimatedVisibility(visible = (fefa.womanStatus == stringResource(R.string.infant) ||
-                                    fefa.womanStatus  == stringResource(R.string.pregnant_and_infant))) {
+                            AnimatedVisibility(visible = (doesStringMatchAnyLocale(LocalContext.current, "infant", fefa.womanStatus) ||
+                                    doesStringMatchAnyLocale(LocalContext.current, "pregnant_and_infant", fefa.womanStatus))) {
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
 
@@ -1069,7 +1071,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     val monthsBetween = getMonthsAgo(child.birthdate.time)
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status)
             && visitNumber == 1) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
@@ -1079,7 +1081,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status)
             && visitNumber == 0) {
         if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
@@ -1089,10 +1091,9 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
         }
     }
 
-    AnimatedVisibility(visit.status.isNotEmpty()
-            && (visit.status == stringResource(R.string.aguda_moderada)
-            && visitNumber == 1) || (visit.status == stringResource(R.string.aguda_severa)
-            && visitNumber == 2)) {
+    AnimatedVisibility(visit.status.isNotEmpty() &&
+            (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status) && visitNumber == 1) ||
+            (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visit.status) && visitNumber == 2)) {
         Column(
             modifier = Modifier
                 .wrapContentSize()
@@ -1111,7 +1112,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)) {
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status) ) {
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp, 0.dp)) {
             Text(stringResource(R.string.ferro_title), color = colorResource(R.color.colorPrimary), style = MaterialTheme.typography.h5)
@@ -1120,7 +1121,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_moderada)) {
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visit.status)) {
         Column {
             Column(
                 modifier = Modifier
@@ -1138,7 +1139,7 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
     }
 
     AnimatedVisibility(visit.status.isNotEmpty()
-            && visit.status == stringResource(R.string.aguda_severa)
+            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visit.status)
             && visitNumber == 1) {
         Column(
         ) {
@@ -1197,128 +1198,10 @@ fun SystemicTreatmentView(child: Child, visit: Visit, visitNumber: Int) {
 
 }
 
-/*@Composable
-fun HeaderImage(modifier: Modifier) {
-    Image(
-        painter = painterResource(R.mipmap.ic_ref_derivation_form),
-        contentDescription = null,
-        modifier =  modifier
-    )
-}*/
-
-/*@Composable
-fun SuccessDialog(
-    type: String,
-    code: String ="Code",
-    onDismiss: () -> Unit
-) {
-    Dialog(
-        onDismissRequest = onDismiss
-    ) {
-
-        Box(
-            modifier = Modifier
-                .height(370.dp)
-        ) {
-            Column(
-                modifier = Modifier
-            ) {
-                Spacer(modifier = Modifier.height(36.dp))
-                Box(
-                    modifier = Modifier
-                        .height(400.dp)
-                        .background(
-                            color = colorResource(R.color.white),
-                            shape = RoundedCornerShape(10.dp, 10.dp, 10.dp, 10.dp)
-                        )
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Text(
-                            if (type == "Referred") stringResource(R.string.reference_succesful) else stringResource(R.string.transference_succesful),
-                            color = colorResource(R.color.disabled_color),
-                            fontSize = MaterialTheme.typography.h5.fontSize,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Text(
-                            if (type == "Referred") stringResource(R.string.reference_code).uppercase(Locale.getDefault()) else stringResource(R.string.transference_code).uppercase(Locale.getDefault()),
-                            color = colorResource(R.color.black_gray),
-                            fontSize = MaterialTheme.typography.h6.fontSize,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center)
-
-                        Text(
-                            code.uppercase(Locale.getDefault()),
-                            color = colorResource(R.color.error),
-                            fontSize = MaterialTheme.typography.h6.fontSize,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center)
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.fillMaxWidth().clickable {
-                                onDismiss()
-                            }
-                        ) {
-                            Image(
-                                painter = painterResource(R.mipmap.ic_check_derivation_form),
-                                contentDescription = null,
-                                modifier =  Modifier.size(72.dp)
-                            )
-                            Text(
-                                stringResource(R.string.go_back),
-                                color = colorResource(R.color.black_gray),
-                                fontSize = MaterialTheme.typography.caption.fontSize,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center)
-                        }
-
-                        Spacer(modifier = Modifier.width(8.dp))
-                    }
-                }
-            }
-            HeaderImage(
-                modifier = Modifier
-                    .size(72.dp)
-                    .align(Alignment.TopCenter)
-            )
-        }
-    }
-}*/
 
 
-/*class ColorsTransformation() : VisualTransformation {
-    override fun filter(text: AnnotatedString): TransformedText {
-        return TransformedText(
-            buildAnnotatedStringWithColors(text.toString()),
-            OffsetMapping.Identity)
-    }
 
-    fun buildAnnotatedStringWithColors(text:String): AnnotatedString{
-        val words: List<String> = text.split("!")// splits by whitespace
-        val colors = listOf(Color(android.graphics.Color.parseColor("#379FF3")), Color(android.graphics.Color.parseColor("#9EC830")))
-        var count = 0
 
-        val builder = AnnotatedString.Builder()
-        for (word in words) {
-            builder.withStyle(style = SpanStyle(color = colors[count%2])) {
-                append("$word ")
-            }
-            count ++
-        }
-        return builder.toAnnotatedString()
-    }
-}*/
 
 
 

@@ -63,9 +63,6 @@ fun CaseItemEditScreen(caseState: CaseState, loading: Boolean = false,
 @Composable
 private fun Header(caseState: CaseState,  onEditCase: (String, String, String, String) -> Unit) {
 
-    val status = listOf(
-        stringResource(R.string.open), stringResource(R.string.close))
-
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -95,60 +92,6 @@ private fun Header(caseState: CaseState,  onEditCase: (String, String, String, S
                 Icon(Icons.Filled.Person, null, tint = colorResource(R.color.colorPrimary),  modifier = Modifier.clickable { /* .. */})},
             label = { Text(stringResource(R.string.name), color = colorResource(R.color.disabled_color)) })
         Spacer(modifier = Modifier.height(16.dp))
-
-/*        ExposedDropdownMenuBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp, 0.dp),
-            expanded = caseState.expandedStatus.value,
-            onExpandedChange = {
-                caseState.expandedStatus.value = !caseState.expandedStatus.value
-            }
-        ) {
-            TextField(
-                readOnly = true,
-                value = caseState.selectedOptionStatus.value,
-                onValueChange = { caseState.selectedOptionStatus.value = it
-                    caseState.status.value = it },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = caseState.expandedStatus.value
-                    )
-                },
-                textStyle = MaterialTheme.typography.h5,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = colorResource(R.color.colorPrimary),
-                    backgroundColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    cursorColor = colorResource(R.color.colorAccent),
-                    disabledLabelColor =  colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                    focusedIndicatorColor = colorResource(R.color.colorAccent),
-                    unfocusedIndicatorColor = colorResource(androidx.browser.R.color.browser_actions_bg_grey),
-                ),
-                modifier = Modifier
-                    .fillMaxWidth(),
-                leadingIcon = {
-                    Icon(Icons.Filled.Folder, null, tint = colorResource(R.color.colorPrimary),  )},
-                label = { Text(stringResource(R.string.status), color = colorResource(R.color.disabled_color)) }
-            )
-            ExposedDropdownMenu(
-                expanded = caseState.expandedStatus.value,
-                onDismissRequest = {
-                    caseState.expandedStatus.value = false
-                }
-            ) {
-                status.forEach { selectionOption2 ->
-                    DropdownMenuItem(
-                        onClick = {
-                            caseState.selectedOptionStatus.value = selectionOption2
-                            caseState.expandedStatus.value = false
-                        }
-                    ) {
-                        Text(text = selectionOption2, color = colorResource(R.color.colorPrimary))
-                    }
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))*/
 
         TextField(value = caseState.observations.value,
             colors = TextFieldDefaults.textFieldColors(

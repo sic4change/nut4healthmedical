@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -18,8 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import org.sic4change.nut4healthcentrotratamiento.R
-import org.sic4change.nut4healthcentrotratamiento.data.entitities.Case
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.Cuadrant
+import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil.Companion.doesStringMatchAnyLocale
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.circleLayout
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.formatStatus
 import java.text.SimpleDateFormat
@@ -112,11 +113,11 @@ fun NextListItem(
                             )
                             item.visitsCuadrant.forEach {
                                 var color = colorResource(R.color.colorPrimary)
-                                if (formatStatus(it.status) == stringResource(R.string.normopeso)) {
+                                if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", formatStatus(it.status))) {
                                     color = colorResource(R.color.colorPrimary)
-                                } else if (formatStatus(it.status) == stringResource(R.string.objetive_weight)) {
+                                } else if (doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", formatStatus(it.status))) {
                                     color = colorResource(R.color.colorPrimary)
-                                } else if (formatStatus(it.status) == stringResource(R.string.aguda_moderada)) {
+                                } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", formatStatus(it.status))) {
                                     color = colorResource(R.color.orange)
                                 } else {
                                     color = colorResource(R.color.error)
@@ -136,11 +137,11 @@ fun NextListItem(
                         if (item.visitsCuadrant.isNotEmpty()) {
                             val visit = item.visitsCuadrant[0]
                             var color = colorResource(R.color.colorPrimary)
-                            if (formatStatus(visit.status) == stringResource(R.string.normopeso)) {
+                            if (doesStringMatchAnyLocale(LocalContext.current, "normopeso", formatStatus(visit.status))) {
                                 color = colorResource(R.color.colorPrimary)
-                            } else if (formatStatus(visit.status) == stringResource(R.string.objetive_weight)) {
+                            } else if (doesStringMatchAnyLocale(LocalContext.current, "objetive_weight", formatStatus(visit.status))) {
                                 color = colorResource(R.color.colorPrimary)
-                            } else if (formatStatus(visit.status) == stringResource(R.string.aguda_moderada)) {
+                            } else if (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", formatStatus(visit.status))) {
                                 color = colorResource(R.color.orange)
                             } else {
                                 color = colorResource(R.color.error)
@@ -209,144 +210,6 @@ fun NextListItem(
 
             }
         }
-        /*Column(
-            modifier = modifier.padding(8.dp)
-        ) {
-            Card {
-                Column(
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                tint = colorResource(R.color.colorPrimary),
-                                imageVector = Icons.Default.Person,
-                                contentDescription = null
-                            )
-                        }
-                        Text(
-                            color = colorResource(R.color.colorPrimary),
-                            text = "${item.tutorName}",
-                            style = MaterialTheme.typography.h5,
-                            maxLines = 2,
-                            modifier = Modifier
-                                .padding(0.dp, 0.dp)
-                                .weight(1f)
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                tint = colorResource(R.color.colorPrimary),
-                                imageVector = Icons.Default.ChildCare,
-                                modifier = Modifier.size(24.dp),
-                                contentDescription = null
-                            )
-                        }
-                        Text(
-                            color = colorResource(R.color.colorPrimary),
-                            text = "${item.childName}",
-                            style = MaterialTheme.typography.h6,
-                            maxLines = 2,
-                            modifier = Modifier
-                                .padding(0.dp, 0.dp)
-                                .weight(1f)
-                        )
-                    }
-
-                    Divider(
-                        color = Color.LightGray,
-                        thickness = 2.dp,
-                        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 0.dp)
-                    )
-
-                    if (item.visitsCuadrant != null && item.visitsCuadrant.isNotEmpty()) {
-                        val days = if (item.pointType == "CRENAS") 7 else 14
-                        val nextVisit = item.visitsCuadrant[0].createdate.time + (days * 24 * 60 * 60 * 1000)
-                        val visit = item.visitsCuadrant[0]
-                        Row(
-                            modifier = Modifier.padding(vertical = 2.dp)
-                        ) {
-                            IconButton(onClick = {
-                                onCreateVisitClick(item.visitsCuadrant[0].caseId)
-                            }) {
-                                Icon(
-                                    tint = colorResource(R.color.frutorial_title),
-                                    imageVector = Icons.Default.Add,
-                                    modifier = Modifier.size(16.dp).weight(1f),
-                                    contentDescription = null
-                                )
-                            }
-                            Text(
-                                color = colorResource(R.color.colorPrimary),
-                                text = stringResource(R.string.next_visit).capitalize() + ": " + "${SimpleDateFormat("dd/MM/yyyy").format(nextVisit)}",
-                                style = MaterialTheme.typography.body2,
-                                maxLines = 1,
-                                modifier = Modifier
-                                    .padding(2.dp, 16.dp)
-                                    .weight(2f)
-                            )
-                            if (formatStatus(visit.status) == stringResource(R.string.normopeso)) {
-                                Text(
-                                    color = colorResource(R.color.colorAccent),
-                                    text = "${formatStatus(visit.status)}".toString().capitalize(),
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 1,
-                                    modifier = Modifier
-                                        .padding(2.dp, 16.dp)
-                                        .weight(1f)
-                                )
-                            } else if (formatStatus(visit.status) == stringResource(R.string.objetive_weight)) {
-                                Text(
-                                    color = colorResource(R.color.colorPrimary),
-                                    text = "${formatStatus(visit.status)}".toString().capitalize(),
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 1,
-                                    modifier = Modifier
-                                        .padding(2.dp, 16.dp)
-                                        .weight(1f)
-                                )
-                            } else if (formatStatus(visit.status) == stringResource(R.string.aguda_moderada)) {
-                                Text(
-                                    color = colorResource(R.color.orange),
-                                    text = "MAM".toString().capitalize(),
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 1,
-                                    modifier = Modifier
-                                        .padding(2.dp, 16.dp)
-                                        .weight(1f)
-                                )
-                            } else {
-                                Text(
-                                    color = colorResource(R.color.error),
-                                    text = "MAS".toString().capitalize(),
-                                    style = MaterialTheme.typography.body2,
-                                    maxLines = 1,
-                                    modifier = Modifier
-                                        .padding(2.dp, 16.dp)
-                                        .weight(1f)
-                                )
-
-                            }
-
-                            Text(
-                                color = colorResource(R.color.frutorial_title),
-                                text = stringResource(R.string.visitas).capitalize() + ": " +item.visitsCuadrant.size.toString(),
-                                style = MaterialTheme.typography.body2,
-                                modifier = Modifier
-                                    .padding(0.dp, 16.dp)
-                                    .weight(1f)
-                            )
-                        }
-
-                    }
-
-                }
-            }
-        }*/
     } else {
         Spacer(modifier = Modifier.height(0.dp))
     }
