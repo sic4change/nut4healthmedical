@@ -1326,5 +1326,21 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun getUser(): org.sic4change.nut4healthcentrotratamiento.data.entitities.User? = withContext(Dispatchers.IO) {
+        val userRef = firestore.collection("users")
+        if (firestoreAuth.currentUser != null) {
+            val queryUser = userRef.whereEqualTo("email", firestoreAuth.currentUser!!.email).limit(1)
+            val resultUser = queryUser.get(source).await()
+            val networkUserContainer = NetworkUsersContainer(resultUser.toObjects(User::class.java))
+            networkUserContainer.results[0].let { user ->
+                user.toDomainUser()
+            }
+        } else {
+            null
+        }
+
+
+    }
+
 }
 
