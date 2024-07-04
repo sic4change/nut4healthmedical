@@ -30,7 +30,8 @@ data class Point(
     @Exclude val fullName: String = "",
     @Exclude val type: String = "",
     @Exclude val phoneCode: String = "",
-    @Exclude val phoneLength: Int = 0)
+    @Exclude val phoneLength: Int = 0,
+    @Exclude val language: String = "")
 
 @JsonClass(generateAdapter = true)
 data class NetworkTutorsContainer(val results: List<Tutor>)

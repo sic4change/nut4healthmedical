@@ -12,4 +12,5 @@ data class Point(
     val phoneCode: String,
     val type: String,
     val phoneLength: Int,
+    val language: String,
     ) : Item, Serializable

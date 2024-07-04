@@ -36,7 +36,7 @@ fun rememberReferencesTransferencesState(
     visits: MutableState<List<Visit>> = rememberSaveable { mutableStateOf(emptyList()) },
     child: MutableState<Child> = rememberSaveable { mutableStateOf(Child("", "", "", "", "", "", Date(), 0, "", Date(), Date(), "", "")) },
     fefa: MutableState<Tutor> = rememberSaveable { mutableStateOf(Tutor("", "", "", "", "", Date(), "", "", Date(), Date(), "", "", "", "", "", "", false, "")) },
-    point: MutableState<Point> = rememberSaveable { mutableStateOf(Point("", "" , "", "", "", "", "", 0)) },
+    point: MutableState<Point> = rememberSaveable { mutableStateOf(Point("", "" , "", "", "", "", "", 0, "")) },
     caseCreated: MutableState<Case> = rememberSaveable { mutableStateOf(Case("", "", "", "", "", "", "", "", "", Date(), Date(), "", "", "")) },
     visitCreated: MutableState<Boolean> = rememberSaveable { mutableStateOf(false) },
 ) = remember{ ReferencesTransferencesState(referencesTransferences, tutors, childs, expanded,

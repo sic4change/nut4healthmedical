@@ -97,16 +97,16 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                 weight, imc, arm_circunference, status, edema, respiratonStatus, appetiteTest,infection,
                 eyesDeficiency, deshidratation, vomiting, diarrhea, fever, cough, temperature,
                 vitamineAVaccinated, acidfolicAndFerroVaccinated, vaccinationCard, rubeolaVaccinated,
-                amoxicilina, otherTratments, complications.toMutableList(), observations, "")
+                amoxicilina, otherTratments, complications.toMutableList(), observations, caseToUpdate.point)
             _state.value = _state.value.copy(loading = true, visit = visit)
             FirebaseDataSource.updateCase(caseToUpdate)
             FirebaseDataSource.createVisit(visit)
-
             if (derivation) {
                 _state.value = _state.value.copy(loading = true, visit = visit, derivation = true)
             } else {
                 checkCloseCase(caseId, visit)
             }
+            FirebaseDataSource.checkCaseRecoveredAfterCreateVisit(visit)
 
         }
     }

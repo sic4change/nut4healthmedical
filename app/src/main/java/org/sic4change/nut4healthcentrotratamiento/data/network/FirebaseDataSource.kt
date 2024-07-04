@@ -1182,7 +1182,94 @@ object FirebaseDataSource {
             }
         }
 
+    }
 
+    suspend fun checkCaseRecoveredAfterCreateVisit(visit: org.sic4change.nut4healthcentrotratamiento.data.entitities.Visit) {
+        val FEFA_MUAC = 23.0
+        val CHILD_MUAC = 12.5
+        var muacValue = 0.0
+        var toUpdate = false
+        withContext(Dispatchers.IO) {
+            val caseId = visit.caseId
+            val point = visit.point
+            val casesRef = firestore.collection("cases")
+            val tutorsRef = firestore.collection("tutors")
+            val pointsRef = firestore.collection("points")
+            val queryPoint = pointsRef.whereEqualTo("id", point)
+            val resultPoint = queryPoint.get(source).await()
+            val networkPointsContainer = NetworkPointsContainer(resultPoint.toObjects(Point::class.java))
+            val pointDomain = networkPointsContainer.results[0].toDomainPoint()
+            val pointType = pointDomain.type
+            val visitsRef = firestore.collection("visits")
+            val queryVisits = visitsRef.
+                whereEqualTo("caseId", caseId).
+                orderBy("createdate", Query.Direction.DESCENDING).
+                limit(2)
+            val resultVisits = queryVisits.get(source).await()
+            if (resultVisits.size() >= 2 ) {
+                val networkVisitsContainer = NetworkVisitContainer(resultVisits.toObjects(Visit::class.java))
+                networkVisitsContainer.results.map { visit ->
+                    val visitDomain =  visit.toDomainVisit()
+                    if (visitDomain.fefaId == null) {
+                        muacValue = CHILD_MUAC
+                    } else {
+                        muacValue= FEFA_MUAC
+                    }
+                    if (pointType == "Otro") {
+                        if (muacValue == CHILD_MUAC) {
+                            if (visitDomain.armCircunference >= muacValue) {
+                                toUpdate = true
+                            } else {
+                                toUpdate = false
+                            }
+                        } else {
+                            val queryTutor = tutorsRef.whereEqualTo("id", visitDomain.fefaId)
+                            val resultTutors = queryTutor.get(source).await()
+                            val networkTutorsContainer = NetworkTutorsContainer(resultTutors.toObjects(Tutor::class.java))
+                            val tutorDomain = networkTutorsContainer.results[0].toDomainTutor()
+                            if ((visitDomain.armCircunference >= muacValue) && (tutorDomain.babyAge.toInt() > 6)) {
+                                toUpdate = true
+                            } else {
+                                toUpdate = false
+                            }
+                        }
+                    } else if ((pointType == "CRENAM") || (pointType == "CRENAS")) {
+                        if (muacValue == CHILD_MUAC) {
+                            if (visitDomain.armCircunference >= muacValue && visitDomain.imc > -1.5) {
+                                toUpdate = true
+                            } else {
+                                toUpdate = false
+                            }
+                        } else {
+                            val queryTutor = tutorsRef.whereEqualTo("id", visitDomain.fefaId)
+                            val resultTutors = queryTutor.get(source).await()
+                            val networkTutorsContainer = NetworkTutorsContainer(resultTutors.toObjects(Tutor::class.java))
+                            val tutorDomain = networkTutorsContainer.results[0].toDomainTutor()
+                            if ((visitDomain.armCircunference >= muacValue) && (tutorDomain.babyAge.toInt() > 6)) {
+                                toUpdate = true
+                            } else {
+                                toUpdate = false
+                            }
+                        }
+                    }
+                }
+                if (toUpdate) {
+                    var statusToUpdate = ""
+                    if (pointDomain.language == "Español") {
+                        statusToUpdate = "Cerrado";
+                    } else if (pointDomain.language == "Arabe") {
+                        statusToUpdate = "اغلاق";
+                    } else {
+                        statusToUpdate = "Fermé";
+                    }
+                    val caseRef = casesRef.document(visit.caseId)
+                    caseRef.update(
+                        "closedReason", "Recovered",
+                        "status", statusToUpdate
+                    ).await()
+                }
+            }
+        }
     }
 
 }
