@@ -31,8 +31,8 @@ fun scheduleDailyCheck(context: Context) {
     val currentDate = Calendar.getInstance()
     val dueDate = Calendar.getInstance()
 
-    dueDate.set(Calendar.HOUR_OF_DAY, 17)
-    dueDate.set(Calendar.MINUTE, 24)
+    dueDate.set(Calendar.HOUR_OF_DAY, 0)
+    dueDate.set(Calendar.MINUTE, 1)
     dueDate.set(Calendar.SECOND, 0)
 
     if (dueDate.before(currentDate)) {
