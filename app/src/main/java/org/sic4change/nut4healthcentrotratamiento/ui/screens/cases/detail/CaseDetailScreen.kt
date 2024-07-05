@@ -632,7 +632,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
 @Composable
 fun getClosedReason(value: String) : String {
     if (value == "Referred") {
-        return stringArrayResource(R.array.addmisionTypeOptions)[3]
+        return stringArrayResource(R.array.closedReasosnsOptions)[3]
     } else if (value == "Transfered"){
         return stringArrayResource(R.array.closedReasosnsOptions)[4]
     } else if (value == "Abandonment"){
