@@ -532,7 +532,7 @@ private fun CaseView(caseItem: Case, caseState: CaseState, child: Child?, fefa: 
                         maxLines = 3
                     )
                     Text(
-                        text = caseItem.status,
+                        text = getStatusFormatted(caseItem.status),
                         color = colorResource(R.color.colorPrimary),
                         style = MaterialTheme.typography.body1,
                         textAlign = TextAlign.Start,
@@ -645,6 +645,16 @@ fun getClosedReason(value: String) : String {
         return stringArrayResource(R.array.closedReasosnsOptions)[6]
     } else {
         return "--"
+    }
+}
+
+@Composable
+fun getStatusFormatted(value: String) : String {
+    if (value == "Abierto" || value == "Ouvert" || value == "مفتوح") {
+        return stringResource(R.string.open)
+    } else {
+        return stringResource(R.string.close)
+
     }
 }
 
