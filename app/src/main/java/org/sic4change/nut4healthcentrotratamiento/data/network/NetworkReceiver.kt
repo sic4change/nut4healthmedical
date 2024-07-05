@@ -32,9 +32,6 @@ class NetworkReceiver : BroadcastReceiver(), NetworkUtils.NetworkChangeListener 
         if (context != null)  {
             val isConnected = NetworkUtils.isInternetAvailable(context!!)
             FirebaseDataSource.setFirestoreSource(isConnected)
-            /*if (FirebaseDataSource.getFirestoreSource() == Source.SERVER) {
-                FirebaseDataSource.checkFirebaseConnection()
-            }*/
         }
 
     }

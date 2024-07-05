@@ -31,7 +31,9 @@ object NetworkUtils {
 
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            networkChangeListener?.onNetworkChange(isInternetAvailable(context!!))
+            if (intent?.action == ConnectivityManager.CONNECTIVITY_ACTION) {
+                networkChangeListener?.onNetworkChange(isInternetAvailable(context!!))
+            }
         }
     }
 
@@ -67,4 +69,3 @@ object NetworkUtils {
         return false
     }
 }
-
