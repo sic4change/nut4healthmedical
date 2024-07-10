@@ -15,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
-        minSdk 26
-        targetSdk 33
-        versionCode 26
-        versionName "1.26"
+        minSdk 23
+        targetSdk 34
+        versionCode 27
+        versionName "1.27"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
