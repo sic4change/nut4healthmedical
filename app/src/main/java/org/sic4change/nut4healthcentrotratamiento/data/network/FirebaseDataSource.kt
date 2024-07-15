@@ -1189,7 +1189,7 @@ object FirebaseDataSource {
         val FEFA_MUAC = 23.0
         val CHILD_MUAC = 12.5
         var muacValue = 0.0
-        var toUpdate = false
+        var count = 0
         withContext(Dispatchers.IO) {
             val caseId = visit.caseId
             val point = visit.point
@@ -1209,7 +1209,7 @@ object FirebaseDataSource {
             val resultVisits = queryVisits.get(source).await()
             if (resultVisits.size() >= 2 ) {
                 val networkVisitsContainer = NetworkVisitContainer(resultVisits.toObjects(Visit::class.java))
-                networkVisitsContainer.results.map { visit ->
+                networkVisitsContainer.results.forEach { visit ->
                     val visitDomain =  visit.toDomainVisit()
                     if (visitDomain.fefaId == null) {
                         muacValue = CHILD_MUAC
@@ -1219,9 +1219,7 @@ object FirebaseDataSource {
                     if (pointType == "Otro") {
                         if (muacValue == CHILD_MUAC) {
                             if (visitDomain.armCircunference >= muacValue) {
-                                toUpdate = true
-                            } else {
-                                toUpdate = false
+                                count++
                             }
                         } else {
                             val queryTutor = tutorsRef.whereEqualTo("id", visitDomain.fefaId)
@@ -1229,17 +1227,13 @@ object FirebaseDataSource {
                             val networkTutorsContainer = NetworkTutorsContainer(resultTutors.toObjects(Tutor::class.java))
                             val tutorDomain = networkTutorsContainer.results[0].toDomainTutor()
                             if ((visitDomain.armCircunference >= muacValue) && (tutorDomain.babyAge.toInt() > 6)) {
-                                toUpdate = true
-                            } else {
-                                toUpdate = false
+                                count++
                             }
                         }
                     } else if ((pointType == "CRENAM") || (pointType == "CRENAS")) {
                         if (muacValue == CHILD_MUAC) {
                             if (visitDomain.armCircunference >= muacValue && visitDomain.imc > -1.5) {
-                                toUpdate = true
-                            } else {
-                                toUpdate = false
+                                count++
                             }
                         } else {
                             val queryTutor = tutorsRef.whereEqualTo("id", visitDomain.fefaId)
@@ -1247,14 +1241,12 @@ object FirebaseDataSource {
                             val networkTutorsContainer = NetworkTutorsContainer(resultTutors.toObjects(Tutor::class.java))
                             val tutorDomain = networkTutorsContainer.results[0].toDomainTutor()
                             if ((visitDomain.armCircunference >= muacValue) && (tutorDomain.babyAge.toInt() > 6)) {
-                                toUpdate = true
-                            } else {
-                                toUpdate = false
+                                count++
                             }
                         }
                     }
                 }
-                if (toUpdate) {
+                if (count == 2) {
                     var statusToUpdate = ""
                     if (pointDomain.language == "Español") {
                         statusToUpdate = "Cerrado";
