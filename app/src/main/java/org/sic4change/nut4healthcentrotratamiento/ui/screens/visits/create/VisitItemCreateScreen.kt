@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -77,6 +78,10 @@ fun VisitItemCreateScreen(
     onCancelCreateVisit: () -> Unit,
     onCreateVisitSucessfull: (String, Boolean, Boolean) -> Unit
 ) {
+
+    BackHandler {
+
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),

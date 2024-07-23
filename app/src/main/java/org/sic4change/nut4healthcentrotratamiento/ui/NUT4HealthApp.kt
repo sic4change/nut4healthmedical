@@ -55,6 +55,7 @@ fun NUT4HealthApp() {
                         Row(Modifier.fillMaxWidth()) {
                             Box(modifier = Modifier.weight(1f)) {
                                 if (!appState.currentRoute.contains("createderivation") &&
+                                    !appState.currentRoute.contains("createvisit") &&
                                     !appState.currentRoute.contains("login/detail") &&
                                     !appState.currentRoute.contains("settings/home") &&
                                     !appState.currentRoute.contains("nextvisits/home") ||
@@ -64,6 +65,8 @@ fun NUT4HealthApp() {
                                         imageVector = Icons.Default.ArrowBack,
                                         onClick = { appState.onUpClick() }
                                     )
+                                } else if (appState.currentRoute.contains("createvisit")) {
+                                    //not show back button
                                 } else {
                                     AppBarIcon(
                                         imageVector = Icons.Default.Menu,
