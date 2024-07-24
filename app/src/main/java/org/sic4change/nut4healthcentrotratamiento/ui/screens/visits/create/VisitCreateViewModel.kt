@@ -117,9 +117,8 @@ class VisitCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
             if (case?.status =="Abierto" || case?.status =="Ouvert" || case?.status =="مفتوح"){
                 _state.value = _state.value.copy(loading = false, caseClosed = false, created = false)
             } else {
-                //_state.value = _state.value.copy(loading = false, caseClosed = true, created = true)
                 FirebaseDataSource.createVisitWithoutDiagnosis(visit)
-                FirebaseDataSource.deleteCase(caseId) //this remove case (visits from case is removed in backend)
+                FirebaseDataSource.deleteCase(caseId)
                 _state.value = _state.value.copy(loading = false, createdVisitWithoutDiagnosis = true)
             }
         }

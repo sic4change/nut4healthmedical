@@ -2,7 +2,6 @@ package org.sic4change.nut4healthcentrotratamiento.data.network
 
 import android.net.Uri
 import android.util.Log
-import androidx.compose.ui.res.stringResource
 import com.google.firebase.firestore.Query
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -32,7 +31,6 @@ import java.util.Date
 
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Source
-import org.sic4change.nut4healthcentrotratamiento.R
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.STATUS
 import org.sic4change.nut4healthcentrotratamiento.data.entitities.VisitWithoutDiagnosis
 import org.sic4change.nut4healthcentrotratamiento.data.toDomainDerivation
@@ -304,13 +302,83 @@ object FirebaseDataSource {
 
     suspend fun deleteTutor(id: String) {
         withContext(Dispatchers.IO) {
-            Timber.d("try to delete tutor from firebase")
             try {
-                val tutorRef = firestore.collection("tutors")
-                tutorRef.document(id).delete().await()
+                deleteTutorDocument(id)
+                deleteChildsFromTutor(id)
+                deleteCasesFromTutor(id)
+                deleteVisitsFromTutor(id)
+            } catch (ex: Exception) {
+                Timber.d("Delete child operation failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteChildsFromTutor(tutorId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete childs from Firebase")
+            try {
+                val childsRef = firestore.collection("childs")
+                val query = childsRef.whereEqualTo("tutorId", tutorId)
+                val result = query.get(source).await()
+                val networkChildsContainer = NetworkChildsContainer(result.toObjects(Child::class.java))
+                networkChildsContainer.results.map { child ->
+                    val childDomain = child.toDomainChild()
+                    childsRef.document(childDomain.id).delete().await()
+                    Timber.d("Delete child result: ok")
+                }
+            } catch (ex: Exception) {
+                Timber.d("Delete childs failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteCasesFromTutor(tutorId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete cases from Firebase")
+            try {
+                val casesRef = firestore.collection("cases")
+                val query = casesRef.whereEqualTo("tutorId", tutorId)
+                val result = query.get(source).await()
+                val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+                networkCasesContainer.results.map { case ->
+                    val caseDomain = case.toDomainCase()
+                    casesRef.document(caseDomain.id).delete().await()
+                    Timber.d("Delete case result: ok")
+                }
+            } catch (ex: Exception) {
+                Timber.d("Delete cases failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteVisitsFromTutor(tutorId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete visits from Firebase")
+            try {
+                val visitsRef = firestore.collection("visits")
+                val query = visitsRef.whereEqualTo("tutorId", tutorId)
+                val result = query.get(source).await()
+                val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
+                networkVisitsContainer.results.map { visit ->
+                    val visitDomain = visit.toDomainVisit()
+                    visitsRef.document(visitDomain.id).delete().await()
+                    Timber.d("Delete visits result: ok")
+                }
+            } catch (ex: Exception) {
+                Timber.d("Delete visits failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteTutorDocument(tutorId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete tutor from Firebase")
+            try {
+                val caseRef = firestore.collection("tutors")
+                caseRef.document(tutorId).delete().await()
                 Timber.d("Delete tutor result: ok")
             } catch (ex: Exception) {
-                Timber.d("Delete tutor result: false ${ex.message}")
+                Timber.d("Delete tutor failed: ${ex.message}")
             }
         }
     }
@@ -386,13 +454,63 @@ object FirebaseDataSource {
 
     suspend fun deleteChild(id: String) {
         withContext(Dispatchers.IO) {
-            Timber.d("try to delete child from firebase")
             try {
-                val childRef = firestore.collection("childs")
-                childRef.document(id).delete().await()
+                deleteChildDocument(id)
+                deleteCasesFromChild(id)
+                deleteVisitsFromChild(id)
+            } catch (ex: Exception) {
+                Timber.d("Delete child operation failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteCasesFromChild(childId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete cases from Firebase")
+            try {
+                val casesRef = firestore.collection("cases")
+                val query = casesRef.whereEqualTo("childId", childId)
+                val result = query.get(source).await()
+                val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+                networkCasesContainer.results.map { case ->
+                    val caseDomain = case.toDomainCase()
+                    casesRef.document(caseDomain.id).delete().await()
+                    Timber.d("Delete case result: ok")
+                }
+            } catch (ex: Exception) {
+                Timber.d("Delete cases failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteVisitsFromChild(childId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete visits from Firebase")
+            try {
+                val visitsRef = firestore.collection("visits")
+                val query = visitsRef.whereEqualTo("childId", childId)
+                val result = query.get(source).await()
+                val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
+                networkVisitsContainer.results.map { visit ->
+                    val visitDomain = visit.toDomainVisit()
+                    visitsRef.document(visitDomain.id).delete().await()
+                    Timber.d("Delete visits result: ok")
+                }
+            } catch (ex: Exception) {
+                Timber.d("Delete visits failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteChildDocument(childId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete child from Firebase")
+            try {
+                val caseRef = firestore.collection("childs")
+                caseRef.document(childId).delete().await()
                 Timber.d("Delete child result: ok")
             } catch (ex: Exception) {
-                Timber.d("Delete tutor child: false ${ex.message}")
+                Timber.d("Delete child failed: ${ex.message}")
             }
         }
     }
@@ -510,13 +628,43 @@ object FirebaseDataSource {
 
     suspend fun deleteCase(id: String) {
         withContext(Dispatchers.IO) {
-            Timber.d("try to delete case from firebase")
+            try {
+                deleteCaseDocument(id)
+                deleteVisitsFromCase(id)
+            } catch (ex: Exception) {
+                Timber.d("Delete case operation failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteVisitsFromCase(caseId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete visits from Firebase")
+            try {
+                val visitsRef = firestore.collection("visits")
+                val query = visitsRef.whereEqualTo("caseId", caseId)
+                val result = query.get(source).await()
+                val networkVisitsContainer = NetworkVisitContainer(result.toObjects(Visit::class.java))
+                networkVisitsContainer.results.map { visit ->
+                    val visitDomain = visit.toDomainVisit()
+                    visitsRef.document(visitDomain.id).delete().await()
+                    Timber.d("Delete visits result: ok")
+                }
+            } catch (ex: Exception) {
+                Timber.d("Delete visits failed: ${ex.message}")
+            }
+        }
+    }
+
+    suspend fun deleteCaseDocument(caseId: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("Try to delete case from Firebase")
             try {
                 val caseRef = firestore.collection("cases")
-                caseRef.document(id).delete().await()
+                caseRef.document(caseId).delete().await()
                 Timber.d("Delete case result: ok")
             } catch (ex: Exception) {
-                Timber.d("Delete case: false ${ex.message}")
+                Timber.d("Delete case failed: ${ex.message}")
             }
         }
     }
@@ -1330,8 +1478,6 @@ object FirebaseDataSource {
         } else {
             null
         }
-
-
     }
 
 }
