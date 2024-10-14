@@ -61,14 +61,13 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
                 }
             } else {
                 pointType = when (_state.value.point?.type) {
-                    "CRENAM", "Otro" -> "CRENAM"
+                    "CRENAM"-> "CRENAM"
                     "Otro" -> "Otro"
                     "CRENAS" -> "CRENAS"
                     "CRENI" -> "CRENI"
                     else -> ""
                 }
             }
-
 
             _state.value = _state.value.copy(points = FirebaseDataSource.getPointsByType(pointType), loading = true)
             _state.value = _state.value.copy(points = _state.value.points.filter { it.id != _state.value.point?.id }, loading = true)
