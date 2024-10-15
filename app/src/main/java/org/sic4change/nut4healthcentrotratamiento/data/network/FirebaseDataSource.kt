@@ -876,7 +876,7 @@ object FirebaseDataSource {
                                 } else if (visits == 0 && (visit.status == "وزن طبيعي" || visit.status == "الوزن المستهدف")) {
                                     status = "اغلاق"
                                 }
-                                if (point.type == "Otro" || point.type == "CRENAM") {
+                                if (point.type == "Otro" || point.type == "CRENAM-C" || point.type == "CRENAM") {
                                     if (visit.status == "Desnutrición Aguda Severa") {
                                         status = "Cerrado"
                                     } else if (visit.status == "Malnutrition Aiguë Sévère") {
@@ -1364,7 +1364,7 @@ object FirebaseDataSource {
                     } else {
                         muacValue= FEFA_MUAC
                     }
-                    if (pointType == "Otro") {
+                    if (pointType == "Otro" || pointType == "CRENAM-C") {
                         if (muacValue == CHILD_MUAC) {
                             if (visitDomain.armCircunference >= muacValue) {
                                 count++
@@ -1427,7 +1427,7 @@ object FirebaseDataSource {
             val pointDomain = networkPointsContainer.results[0].toDomainPoint()
             val pointType = pointDomain.type
             val pointLanguage = pointDomain.language
-            if (pointType == "CRENAM" || pointType == "Otro") {
+            if (pointType == "CRENAM" || pointType == "Otro" || pointType == "CRENAM-C") {
                 days = CRENAM_DAYS_TO_CLOSE;
             } else if (pointType == "CRENAS") {
                 days = CRENAS_DAYS_TO_CLOSE;
@@ -1478,7 +1478,7 @@ object FirebaseDataSource {
             val pointDomain = networkPointsContainer.results[0].toDomainPoint()
             val pointType = pointDomain.type
             val pointLanguage = pointDomain.language
-            if (pointType == "CRENAM" || pointType == "Otro") {
+            if (pointType == "CRENAM" || pointType == "Otro" || pointType == "CRENAM-C") {
                 days = CRENAM_DAYS_TO_CLOSE
                 if (pointLanguage == "Español") {
                     statusToUpdate = "Cerrado";

@@ -610,7 +610,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                            }
                        }
                    } else if (child != null) {
-                       if (visitState.point.value.type == "Otro") {
+                       if (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C") {
                            Column {
                                Text(
                                    text = "${stringResource(R.string.visit)} ${visitState.visitNumber.value}",

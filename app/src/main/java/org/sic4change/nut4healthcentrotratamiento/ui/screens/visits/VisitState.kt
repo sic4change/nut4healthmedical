@@ -235,7 +235,7 @@ class VisitState(
         if (checkCanNotCreateVisit(createDate)) {
             showErrorMessageCreateVisitCRENAMComunitary.value = false
         } else {
-            if ((point.value != null) && (point.value!!.type == "Otro")) {
+            if ((point.value != null) && (point.value!!.type == "Otro" || point.value!!.type == "CRENAM-C")) {
                 val currentDate = LocalDate.now()
                 val daysBetween = ChronoUnit.DAYS.between(convertDateToLocalDate(createDate), currentDate)
                 showErrorMessageCreateVisitCRENAMComunitary.value = daysBetween < 8

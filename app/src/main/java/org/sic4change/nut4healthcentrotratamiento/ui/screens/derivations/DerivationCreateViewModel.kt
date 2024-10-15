@@ -55,7 +55,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
             var pointType = ""
             if (type == "Referred") {
                 pointType = when (_state.value.point?.type) {
-                    "CRENAM", "Otro" -> "CRENAS"
+                    "CRENAM", "Otro", "CRENAM-C" -> "CRENAS"
                     "CRENAS" -> "CRENI"
                     else -> ""
                 }
@@ -63,6 +63,7 @@ class DerivationCreateViewModel(savedStateHandle: SavedStateHandle) : ViewModel(
                 pointType = when (_state.value.point?.type) {
                     "CRENAM"-> "CRENAM"
                     "Otro" -> "Otro"
+                    "CRENAM-C"-> "CRENAM-C"
                     "CRENAS" -> "CRENAS"
                     "CRENI" -> "CRENI"
                     else -> ""

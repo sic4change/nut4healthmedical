@@ -327,7 +327,7 @@ private fun VisitView(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     visitState.showViewToGoToDerivationForm.value =
-                        (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value) && (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM"))
+                        (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value) && (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C" || visitState.point.value.type == "CRENAM"))
                                  || (visitState.point.value.type == "CRENAS" && (visitState.complications.value.any{it.selected} || visitState.selectedEdema.value.contains("(+++)")))
                                 || (visitState.weight.value.isNotEmpty() && visitState.weight.value != "0" &&
                                         (visitState.checkWeightLowFivePercent() || visitState.checkThreeTimesSameWeightInCRENAS()) ||
@@ -345,7 +345,7 @@ private fun VisitView(
                             }
                         }
                         if (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value) &&
-                            (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM")) {
+                            (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C" || visitState.point.value.type == "CRENAM")) {
                             lastStep = true
 
                         }
@@ -450,7 +450,7 @@ private fun VisitView(
 
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            if (visitState.point.value.type == "CRENAM" || visitState.point.value.type == "Otro") {
+                            if (visitState.point.value.type == "CRENAM" || visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C") {
                                 Text(modifier = Modifier.align(Alignment.CenterHorizontally), text = stringResource(R.string.child_refer_to_crenas),
                                     color = colorResource(R.color.error), style = MaterialTheme.typography.h5)
                             } else if (visitState.point.value.type == "CRENAS") {
@@ -1165,7 +1165,7 @@ fun NutritionalFEFAView(visitState: VisitState) {
             verticalAlignment = Alignment.CenterVertically) {
 
             var nutricionalText = stringResource(R.string.fefa_ration_pam)
-            if (visitState.point.value.type == "Otro") {
+            if (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C") {
                 nutricionalText = nutricionalText + " / " +  stringResource(R.string.fefa_ration_csa)
             }
 
@@ -1200,7 +1200,7 @@ fun NutritionalView(visitState: VisitState) {
     ) {
 
         var nutricionalText = stringResource(R.string.crenam_communitary_pam_nutritional)
-        if (visitState.point.value.type == "Otro") {
+        if (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C") {
             nutricionalText =
                 nutricionalText + " / " + stringResource(R.string.crenam_communitary_csa_nutritional)
         }
@@ -1367,7 +1367,7 @@ fun SistemicFEFAView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    if (visitState.point.value.type != "Otro") {
+    if (visitState.point.value.type != "Otro" || visitState.point.value.type == "CRENAM-C") {
         AnimatedVisibility(visitState.status.value.isNotEmpty()
                 && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                 || doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value))
@@ -1672,10 +1672,10 @@ fun SistemicView(visitState: VisitState) {
                         }
                     }
                 }
-                AnimatedVisibility((visitState.point.value.type != "Otro") && visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
+                AnimatedVisibility((visitState.point.value.type != "Otro"  || visitState.point.value.type == "CRENAM-C") && visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                AnimatedVisibility((visitState.point.value.type != "Otro") && visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
+                AnimatedVisibility((visitState.point.value.type != "Otro"  || visitState.point.value.type == "CRENAM-C") && visitState.selectedVitamineAVaccinated.value != stringArrayResource(id = R.array.yesnooptions)[1]){
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
@@ -1703,7 +1703,7 @@ fun SistemicView(visitState: VisitState) {
             }
         }
     }
-    if (visitState.point.value.type != "Otro") {
+    if (visitState.point.value.type != "Otro" || visitState.point.value.type == "CRENAM-C") {
         AnimatedVisibility(visitState.status.value.isNotEmpty()
                 && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                 && visitState.visitsSize.value == 0) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
@@ -2649,7 +2649,7 @@ fun SymtomsView(visitState: VisitState) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    if (visitState.point.value.type == "Otro") {
+    if (visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C") {
         AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
                 && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) ||
                 doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)))) {
@@ -3693,7 +3693,7 @@ fun AntropometricosView(visitState: VisitState,
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    if (visitState.point.value.type != "Otro") {
+    if (visitState.point.value.type != "Otro" || visitState.point.value.type == "CRENAM-C") {
         TextField(value = visitState.height.value,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = colorResource(R.color.colorPrimary),

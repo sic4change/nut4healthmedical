@@ -32,14 +32,14 @@ class ReferencesTransferencesViewModel(savedStateHandle: SavedStateHandle) : Vie
             _state.value = _state.value.copy(fefas = FirebaseDataSource.getAllTutors(), loading = true)
             var points = FirebaseDataSource.getAllPoints()
             if (_state.value.type == "Referred" && _state.value.currentPoint!!.type == "CRENAS") {
-                points = points.filter { it.type == "CRENAM" || it.type == "Otro" }
+                points = points.filter { it.type == "CRENAM" || it.type == "Otro" || it.type == "CRENAM-C" }
             } else if (_state.value.type == "Referred" && _state.value.currentPoint!!.type == "CRENI") {
                 points = points.filter { it.type == "CRENAS"}
             } else if (_state.value.type == "Transfered" && _state.value.currentPoint!!.type == "CRENAS") {
                 points = points.filter { it.type == "CRENAS"}
             } else if (_state.value.type == "Transfered" && (_state.value.currentPoint!!.type == "CRENAM"
-                        || _state.value.currentPoint!!.type == "Otro")) {
-                points = points.filter { it.type == "CRENAM" || it.type == "Otro" }
+                        || _state.value.currentPoint!!.type == "Otro" || _state.value.currentPoint!!.type == "CRENAM-C")) {
+                points = points.filter { it.type == "CRENAM" || it.type == "Otro" || it.type == "CRENAM-C" }
             } else if (_state.value.type == "Transfered" && _state.value.currentPoint!!.type == "CRENI") {
                 points = points.filter { it.type == "CRENI"}
             }
