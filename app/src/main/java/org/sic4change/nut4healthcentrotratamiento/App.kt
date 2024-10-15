@@ -8,7 +8,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.firebase.FirebaseApp
 import org.sic4change.nut4healthcentrotratamiento.data.network.NetworkReceiver
 import org.sic4change.nut4healthcentrotratamiento.data.network.NetworkCheckService
-import org.sic4change.nut4healthcentrotratamiento.data.network.scheduleDailyCheck
+import org.sic4change.nut4healthcentrotratamiento.data.network.scheduleDailyCheckAbandonment
+import org.sic4change.nut4healthcentrotratamiento.data.network.scheduleDailyCheckUnresponsive
 import org.sic4change.nut4healthcentrotratamiento.ui.commons.StringResourcesUtil
 import java.util.Locale
 
@@ -28,7 +29,8 @@ class App: Application() {
         )
 
         FirebaseApp.initializeApp(this)
-        scheduleDailyCheck(this)
+        scheduleDailyCheckAbandonment(this)
+        scheduleDailyCheckUnresponsive(this)
 
         // Initialize networkReceiver
         networkReceiver = NetworkReceiver()

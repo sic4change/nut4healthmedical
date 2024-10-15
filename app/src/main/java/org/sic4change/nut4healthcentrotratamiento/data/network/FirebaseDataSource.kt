@@ -1466,6 +1466,54 @@ object FirebaseDataSource {
         }
     }
 
+    suspend fun checkChildUnresponsive(pointId: String) {
+        val CRENAM_DAYS_TO_CLOSE = 93L
+        var days = 0L
+        var statusToUpdate = ""
+        withContext(Dispatchers.IO) {
+            val pointsRef = firestore.collection("points")
+            val queryPoint = pointsRef.whereEqualTo("id", pointId)
+            val resultPoint = queryPoint.get(source).await()
+            val networkPointsContainer = NetworkPointsContainer(resultPoint.toObjects(Point::class.java))
+            val pointDomain = networkPointsContainer.results[0].toDomainPoint()
+            val pointType = pointDomain.type
+            val pointLanguage = pointDomain.language
+            if (pointType == "CRENAM" || pointType == "Otro") {
+                days = CRENAM_DAYS_TO_CLOSE
+                if (pointLanguage == "Español") {
+                    statusToUpdate = "Cerrado";
+                } else if (pointLanguage == "Arabe") {
+                    statusToUpdate = "اغلاق";
+                } else {
+                    statusToUpdate = "Fermé";
+                }
+                val casesRef = firestore.collection("cases")
+                val query = casesRef.whereEqualTo("point", pointId)
+                val result = query.get(source).await()
+                val networkCasesContainer = NetworkCasesContainer(result.toObjects(Case::class.java))
+                networkCasesContainer.results.map { case ->
+                    val caseDomain = case.toDomainCase()
+                    var lastDate = caseDomain.lastdate
+                    val localDate = lastDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    val newLocalDate = localDate.plusDays(days)
+                    lastDate = Date.from(newLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                    val currentDate = Date()
+                    if (case.closedReason.isEmpty() && (lastDate < currentDate)) {
+                        Timber.d("Checking case ${caseDomain.id}")
+                        Timber.d("Checking case $lastDate")
+                        Timber.d("Checking case $currentDate")
+                        val caseRef = casesRef.document(caseDomain.id)
+                        caseRef.update(
+                            "closedReason", "Unresponsive",
+                            "status", statusToUpdate
+                        ).await()
+                    }
+                }
+            }
+
+        }
+    }
+
     suspend fun getUser(): org.sic4change.nut4healthcentrotratamiento.data.entitities.User? = withContext(Dispatchers.IO) {
         val userRef = firestore.collection("users")
         if (firestoreAuth.currentUser != null) {

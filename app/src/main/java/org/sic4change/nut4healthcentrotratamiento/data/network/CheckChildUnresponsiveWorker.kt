@@ -8,7 +8,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import java.util.Calendar
 
-class CheckChildAbandonmentWorker(
+class CheckChildUnresponsiveWorker(
     appContext: Context,
     workerParams: WorkerParameters
 ) : CoroutineWorker(appContext, workerParams) {
@@ -17,8 +17,8 @@ class CheckChildAbandonmentWorker(
         return try {
             val user = FirebaseDataSource.getUser()
             if (user != null) {
-                FirebaseDataSource.checkChildAbandoment(user.point!!)
-                Timber.d("Checking cases abandonment")
+                FirebaseDataSource.checkChildUnresponsive(user.point!!)
+                Timber.d("Checking cases unresponsive")
             }
             Result.success()
         } catch (e: Exception) {
@@ -27,7 +27,7 @@ class CheckChildAbandonmentWorker(
     }
 }
 
-fun scheduleDailyCheckAbandonment(context: Context) {
+fun scheduleDailyCheckUnresponsive(context: Context) {
     val currentDate = Calendar.getInstance()
     val dueDate = Calendar.getInstance()
 
@@ -41,7 +41,7 @@ fun scheduleDailyCheckAbandonment(context: Context) {
 
     val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
 
-    val dailyWorkRequest = OneTimeWorkRequestBuilder<CheckChildAbandonmentWorker>()
+    val dailyWorkRequest = OneTimeWorkRequestBuilder<CheckChildUnresponsiveWorker>()
         .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
         .addTag("DailyCheck")
         .build()

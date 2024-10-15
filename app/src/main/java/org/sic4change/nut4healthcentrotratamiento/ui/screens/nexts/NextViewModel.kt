@@ -26,6 +26,7 @@ class NextsViewModel : ViewModel() {
             _state.value = UiState(user = FirebaseDataSource.getLoggedUser())
             clearEmptyCases()
             _state.value.user!!.point?.let { checkChildAbandoment(it) }
+            _state.value.user!!.point?.let { checkChildUnresponsive(it) }
         }
     }
 
@@ -61,6 +62,12 @@ class NextsViewModel : ViewModel() {
     fun checkChildAbandoment(pointId: String) {
         viewModelScope.launch {
             FirebaseDataSource.checkChildAbandoment(pointId)
+        }
+    }
+
+    fun checkChildUnresponsive(pointId: String) {
+        viewModelScope.launch {
+            FirebaseDataSource.checkChildUnresponsive(pointId)
         }
     }
 
