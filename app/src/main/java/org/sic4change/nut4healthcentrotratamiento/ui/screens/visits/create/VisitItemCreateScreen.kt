@@ -1195,6 +1195,7 @@ fun NutritionalView(visitState: VisitState) {
 
     AnimatedVisibility(
         visible = (visitState.status.value.isNotEmpty()
+                && (visitState.point.value.type != "CRENAS")
                 && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value) ||
                 doesStringMatchAnyLocale(LocalContext.current, "normopeso", visitState.status.value)))
     ) {
@@ -1247,6 +1248,7 @@ fun NutritionalView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
+            && (visitState.point.value.type != "CRENAS")
             && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
             )) {
 
@@ -1273,7 +1275,174 @@ fun NutritionalView(visitState: VisitState) {
                     painter = painterResource(id = R.mipmap.ic_plumpy),
                     contentDescription = null,
                 )
+                if (visitState.point.value.type == "CRENAM" || visitState.point.value.type == "Otro" || visitState.point.value.type == "CRENAM-C") {
+                    if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_8),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_10),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_15),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_20),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_30),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_35),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_40),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_50),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_55),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    }
+                } else {
+                    if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_8),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 3.5 && visitState.weight.value.toDouble() < 5.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_10),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 5.0 && visitState.weight.value.toDouble() < 7.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_15),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 7.0 && visitState.weight.value.toDouble() < 10.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_20),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 10.0 && visitState.weight.value.toDouble() < 15.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_30),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 15.0 && visitState.weight.value.toDouble() < 20.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_35),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 20.0 && visitState.height.value.toDouble() < 30.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_40),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 30.0 && visitState.weight.value.toDouble() < 40.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_50),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    } else if (visitState.weight.value.toDouble() >= 40.0 && visitState.weight.value.toDouble() <= 60.0) {
+                        Text(
+                            text = stringResource(R.string.plumpy_mas_55),
+                            color = colorResource(R.color.colorPrimary),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.Bold)
+                    }
+                }
 
+
+
+            }
+
+
+        }
+
+    }
+
+    AnimatedVisibility(visible = (visitState.status.value.isNotEmpty()
+            && (visitState.point.value.type == "CRENAS")
+            )) {
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(0.dp, 16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.plumpy_two),
+                color = colorResource(R.color.black_gray),
+                textAlign = TextAlign.Left,
+                modifier = Modifier.padding(16.dp, 0.dp, 16.dp, 0.dp),
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold)
+
+            Row(modifier = Modifier.fillMaxWidth().padding(16.dp, 0.dp, 32.dp, 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    modifier = Modifier.size(78.dp).weight(1f),
+                    painter = painterResource(id = R.mipmap.ic_plumpy),
+                    contentDescription = null,
+                )
                 if (visitState.weight.value.toDouble() >= 3.0 && visitState.weight.value.toDouble() < 3.5) {
                     Text(
                         text = stringResource(R.string.plumpy_mas_8),
@@ -1338,6 +1507,8 @@ fun NutritionalView(visitState: VisitState) {
                         style = MaterialTheme.typography.h5,
                         fontWeight = FontWeight.Bold)
                 }
+
+
 
             }
 
