@@ -1874,6 +1874,7 @@ fun SistemicView(visitState: VisitState) {
             }
         }
     }
+
     if (visitState.point.value.type != "Otro" || visitState.point.value.type == "CRENAM-C") {
         AnimatedVisibility(visitState.status.value.isNotEmpty()
                 && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
@@ -1898,7 +1899,7 @@ fun SistemicView(visitState: VisitState) {
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
                 && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
-                && visitState.visitsSize.value == 0) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                && visitState.visitsSize.value == 0) || (visitState.point.value.type == "CRENAS"
                 && visitState.visitsSize.value == 1)) {
 
             if ((monthsBetween >= 12 && monthsBetween < 24) || (monthsBetween >= 24)) {
@@ -1957,6 +1958,7 @@ fun SistemicView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && (visitState.point.value.type != "CRENAS")
                 && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -1970,6 +1972,7 @@ fun SistemicView(visitState: VisitState) {
         }
 
         AnimatedVisibility(visitState.status.value.isNotEmpty()
+                && (visitState.point.value.type != "CRENAS")
                 && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
             Card(
                 modifier = Modifier
@@ -2068,9 +2071,8 @@ fun SistemicView(visitState: VisitState) {
         }
     }
 
-
-
     AnimatedVisibility(visitState.status.value.isNotEmpty()
+            && (visitState.point.value.type != "CRENAS")
             && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || (visitState.visits.value[0] != null && visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[2])) ) {
@@ -2085,6 +2087,7 @@ fun SistemicView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
+            && (visitState.point.value.type != "CRENAS")
             && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
             && monthsBetween >= 9
             && (visitState.visitsSize.value == 0 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[1]) ) {
@@ -2238,13 +2241,13 @@ fun SistemicView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+            && (visitState.point.value.type == "CRENAS")
             && visitState.visitsSize.value == 0) {
         Spacer(modifier = Modifier.height(16.dp))
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+            && (visitState.point.value.type == "CRENAS")
             && visitState.visitsSize.value == 0) {
         Card(
             modifier = Modifier
@@ -2380,7 +2383,7 @@ fun SistemicView(visitState: VisitState) {
     }
 
     AnimatedVisibility(visitState.status.value.isNotEmpty()
-            && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+            && (visitState.point.value.type == "CRENAS")
             && visitState.visits.value.size >= 3) {
 
         Column(

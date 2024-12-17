@@ -1065,6 +1065,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && (visitState.point.value.type != "CRENAS")
                                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
                                    Column{
                                        Divider(color = Color.Gray, thickness = 1.dp)
@@ -1104,7 +1105,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       &&  (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       &&  ((visitState.point.value.type == "CRENAS")
                                        && visitState.visitNumber.value == 2)) {
                                    Column{
                                        Divider(color = Color.Gray, thickness = 1.dp)
@@ -1131,7 +1132,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
                                        && (doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
-                                       && visitState.visitNumber.value == 1) || (doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       && visitState.visitNumber.value == 1) || ((visitState.point.value.type == "CRENAS")
                                        && visitState.visitNumber.value == 2)) {
                                    Column(
                                        modifier = Modifier
@@ -1165,11 +1166,13 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && (visitState.point.value.type != "CRENAS")
                                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
                                    Spacer(modifier = Modifier.height(16.dp))
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && (visitState.point.value.type != "CRENAS")
                                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
 
                                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(0.dp, 16.dp)) {
@@ -1182,6 +1185,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && (visitState.point.value.type != "CRENAS")
                                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)) {
                                    Column {
                                        ItemViewIcon(visitState.selectedCapsulesFerro.value, stringResource(R.string.capsules_hierro_folico_checked), Icons.Filled.Medication)
@@ -1202,6 +1206,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && (visitState.point.value.type != "CRENAS")
                                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && monthsBetween >= 9
                                        && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
@@ -1214,6 +1219,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
+                                       && (visitState.point.value.type != "CRENAS")
                                        && doesStringMatchAnyLocale(LocalContext.current, "aguda_moderada", visitState.status.value)
                                        && monthsBetween >= 9
                                        && (visitState.visitNumber.value == 1 || visitState.visits.value[0].rubeolaVaccinated != stringArrayResource(id = R.array.yesnooptions)[0]) ) {
@@ -1271,7 +1277,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       && (visitState.point.value.type == "CRENAS")
                                        && visitState.visitNumber.value == 1) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1284,7 +1290,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       && (visitState.point.value.type == "CRENAS")
                                        && visitState.visitNumber.value == 3) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1297,7 +1303,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       && (visitState.point.value.type == "CRENAS")
                                        && visitState.visitNumber.value == 1) {
                                    Column(
                                    ) {
@@ -1327,7 +1333,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       && (visitState.point.value.type == "CRENAS")
                                        && visitState.visits.value.size >= 3) {
                                    Column {
                                        Spacer(modifier = Modifier.height(16.dp))
@@ -1339,7 +1345,7 @@ private fun VisitView(loading: Boolean, visitState: VisitState, child: Child?, f
                                }
 
                                AnimatedVisibility(visitState.status.value.isNotEmpty()
-                                       && doesStringMatchAnyLocale(LocalContext.current, "aguda_severa", visitState.status.value)
+                                       && (visitState.point.value.type == "CRENAS")
                                        && visitState.visits.value.size >= 3) {
 
                                    Column(
