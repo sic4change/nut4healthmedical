@@ -34,6 +34,13 @@ import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Feature
 import org.sic4change.nut4healthcentrotratamiento.ui.navigation.Navigation
 import org.sic4change.nut4healthcentrotratamiento.ui.theme.NUT4HealthTheme
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.systemBars
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
@@ -46,6 +53,11 @@ fun NUT4HealthApp() {
     NUT4HealthScreen {
         if (navBackStackEntry?.destination?.route !=  NavCommand.ContentType(Feature.LOGIN).route) {
             Scaffold (
+                modifier = Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(
+                        WindowInsets.systemBars.only(WindowInsetsSides.Vertical)
+                    ),
                 topBar = {
                     TopAppBar(
                         backgroundColor = colorResource(R.color.colorPrimary),

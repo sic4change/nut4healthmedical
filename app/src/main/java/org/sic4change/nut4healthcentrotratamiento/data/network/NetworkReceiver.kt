@@ -16,7 +16,7 @@ class NetworkReceiver : BroadcastReceiver(), NetworkUtils.NetworkChangeListener 
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("NetworkReceiver", "onReceive called")
         this.context = context
-        NetworkUtils.registerNetworkChangeListener(context, this)
+        //NetworkUtils.registerNetworkChangeListener(context, this)
     }
 
     override fun onNetworkChange(isConnected: Boolean) {

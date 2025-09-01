@@ -17,12 +17,12 @@ object NetworkUtils {
 
     private var networkChangeListener: NetworkChangeListener? = null
 
-    fun registerNetworkChangeListener(context: Context, listener: NetworkChangeListener) {
+    /*fun registerNetworkChangeListener(context: Context, listener: NetworkChangeListener) {
         networkChangeListener = listener
         val filter = IntentFilter()
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         context.registerReceiver(networkChangeReceiver, filter)
-    }
+    }*/
 
     fun unregisterNetworkChangeListener(context: Context) {
         networkChangeListener = null
