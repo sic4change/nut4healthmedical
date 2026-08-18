@@ -10,6 +10,12 @@ plugins {
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
 android {
     compileSdk 36
 
@@ -17,8 +23,8 @@ android {
         applicationId "org.sic4change.nut4healthcentrotratamiento"
         minSdk 26
         targetSdk 36
-        versionCode 36
-        versionName "1.36"
+        versionCode 37
+        versionName "1.37"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -26,10 +32,20 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file(localProperties.getProperty('RELEASE_STORE_FILE', ''))
+            storePassword localProperties.getProperty('RELEASE_STORE_PASSWORD', '')
+            keyAlias localProperties.getProperty('RELEASE_KEY_ALIAS', '')
+            keyPassword localProperties.getProperty('RELEASE_KEY_PASSWORD', '')
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -88,6 +104,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.7.1'
     implementation 'com.google.firebase:firebase-analytics:21.2.2'
     implementation 'com.google.firebase:firebase-crashlytics:18.3.7'
+
+    // Forzada por encima de la version transitiva 18.1.2 que trae firebase-auth (deprecada por vulnerabilidad de seguridad)
+    implementation 'com.google.android.recaptcha:recaptcha:18.9.2'
 
 
     // Either

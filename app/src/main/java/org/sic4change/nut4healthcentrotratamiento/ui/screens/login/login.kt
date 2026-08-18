@@ -213,7 +213,7 @@ fun BottomView() {
                 style = MaterialTheme.typography.caption,
                 color = Color.White,
                 modifier = Modifier.clickable {
-                    uriHandler.openUri("https://www.sic4change.org/politica-de-privacidad")
+                    uriHandler.openUri("https://www.sic4change.org/politica-privacidad")
                 }
             )
             Text(
